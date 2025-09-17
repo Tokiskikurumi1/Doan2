@@ -80,3 +80,19 @@ body {
   font-size: 1.3rem; /* cho icon giỏ hàng to bằng chữ login */
   color: purple;
 }
+
+/*CONTAINER*/
+
+#container {
+  width: 100%;
+  text-align: center;
+  padding-top: 5rem; /* hoặc padding-top: 5rem */
+}
+
+.content {
+  padding: 50px 100px;
+}
+
+#container .imgage-home img {
+  width: 100%;
+}
