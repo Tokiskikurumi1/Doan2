@@ -7,7 +7,9 @@
   list-style: none;
   font-size: 1.1rem;
 }
-
+*:root {
+  --color-: grey;
+}
 body {
   width: 100%;
   font-family: "arial";
@@ -85,7 +87,7 @@ body {
 
 #container {
   width: 100%;
-  text-align: center;
+  /* text-align: center; */
   padding-top: 5rem; /* hoặc padding-top: 5rem */
 }
 
@@ -93,6 +95,26 @@ body {
   padding: 50px 100px;
 }
 
-#container .imgage-home img {
+#container .image-home img {
   width: 100%;
+}
+
+/*Course*/
+.courses-online {
+  width: 100%;
+}
+
+.courses-online .course-info {
+  width: 100%;
+  border-radius: 2rem;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  gap: 1.5rem;
+}
+
+.course-info .left-course-info {
+  width: 100%;
+  background-color: var(--color-);
+  border-radius: 2rem;
+  text-align: center;
 }
