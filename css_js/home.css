@@ -10,12 +10,14 @@
 }
 *:root {
   --color-: grey;
-  --color-box-: #000;
-  --color-text-: #fff;
-  --color-text-back_white-: black;
+  --color-box-black-: #000;
+  --color-box-white-: #fff;
+  --color-text-white-: #fff;
+  --color-text-black-: black;
   --color-background-: #fefefe;
   --color-home-text-: #feeadf;
   --color-var-bar-: #4e35a3;
+  --color-page-: #e2f6fc;
   --border-box--: 0.5rem;
   --border-: 1px solid grey;
   --padding-left-content-box--: 20px;
@@ -76,10 +78,10 @@ body {
   color: var(--color-var-bar-);
 }
 
-.nav-bar-title .ul-bar-title a:hover {
+/* .nav-bar-title .ul-bar-title a:hover {
   background-color: #073a3b;
   border-radius: var(--border-box--);
-}
+} */
 
 .ul-bar-info {
   display: flex;
@@ -155,7 +157,6 @@ body {
 
 .home img {
   width: 100%;
-  height: auto;
 }
 
 /*Introduction*/
@@ -187,11 +188,16 @@ body {
 .reason-introduct {
   width: 100%;
   display: grid;
-  grid-template-columns: 100%; /* Mỗi .coffee-blood-icon trên một hàng */
+  grid-template-columns: 100%; /* Mỗi .LMS-icon trên một hàng */
   gap: 1.5rem;
 }
 
-.coffee-blood-icon {
+.reason-introduct h1 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.LMS-icon {
   width: 100%;
   min-width: 200px;
   display: flex; /* Giữ flex để hình ảnh và văn bản nằm ngang */
@@ -199,25 +205,26 @@ body {
   gap: 1rem; /* Khoảng cách giữa hình ảnh và văn bản */
 }
 
-.coffee-blood-icon img {
+.LMS-icon img {
   width: 70px;
   height: 80px;
 }
 
-.coffee-blood-icon div {
+.LMS-icon div {
   display: flex;
   flex-direction: column; /* Các đoạn văn bản xếp theo cột (mỗi đoạn trên một dòng) */
   line-height: 1.5rem; /* Tăng line-height để chữ không bị đè */
   gap: 0.5rem; /* Khoảng cách giữa các đoạn văn bản */
 }
 
-.coffee-blood-icon div p {
+.LMS-icon div p {
   margin: 0; /* Bỏ margin mặc định của thẻ p để kiểm soát khoảng cách tốt hơn */
 }
 
 /**Try free learn*/
 .try-free-learn {
   width: 100%;
+  background-color: var(--color-page-);
 }
 
 .try-free-learn .title-try-free-learn {
@@ -236,7 +243,7 @@ body {
 
 .try-free-learn .English-for-newbie {
   width: 100%;
-  background-color: var(--color-box-);
+  background-color: var(--color-box-white-);
   border-radius: 0.8rem;
   margin-top: 1rem;
   padding: 1rem 0;
@@ -337,4 +344,114 @@ body {
   padding: 10px 40px;
   background-color: #bc9667;
   border-radius: 10px;
+}
+
+/*Popular courses*/
+.popular-courses {
+  width: 100%;
+  background-color: #fdfaf3;
+}
+
+.popular-courses h1 {
+  font-size: 2rem;
+}
+
+.popular-courses .popular-courses-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.popular-courses .box {
+  position: relative;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 0.5rem;
+  box-shadow: var(--box-shadow-);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.popular-courses img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0.5rem;
+  background-color: grey;
+}
+
+.popular-courses .box .info {
+  display: flex;
+  justify-content: space-around;
+}
+
+.popular-courses .box .info span {
+  padding: 0.5rem 1rem;
+  background-color: #bc9667;
+  border-radius: 10px;
+}
+
+.popular-courses .see-more {
+  text-align: center;
+  margin-top: 2rem;
+  color: orange;
+}
+
+.popular-courses .popular-courses-list .box:hover {
+  transform: translateY(-10px);
+}
+
+.popular-courses .popular-courses .see-more a:hover {
+  text-decoration: underline;
+}
+
+/* FOOTER  */
+#footer {
+  width: 100%;
+  background-color: #eeeae1;
+  padding: 30px;
+}
+
+#footer > h2 {
+  text-align: center;
+}
+
+.footer-contact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, auto));
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.footer-contact h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.content-footer .social-icon i {
+  font-size: 24px;
+  padding: 10px;
+  background-color: grey;
+  border-radius: 0.2rem;
+}
+
+.content-footer .social-icon i:hover {
+  background-color: orange;
+  cursor: pointer;
+}
+
+.content-footer a {
+  color: black;
+}
+
+.social-icon span {
+  color: black;
+}
+
+.social-icon.social-icon-last i {
+  background-color: transparent;
 }
