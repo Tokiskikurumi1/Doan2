@@ -6,15 +6,20 @@
   text-decoration: none;
   list-style: none;
   font-size: 1.1rem;
-  color: var(--color-text-);
+  color: var(--color-text-back_white-);
 }
 *:root {
   --color-: grey;
-  --color-box-: #121212;
+  --color-box-: #000;
   --color-text-: #fff;
-  --color-background-: #262626;
-  --border-box--: 0.8rem;
+  --color-text-back_white-: black;
+  --color-background-: #fefefe;
+  --color-home-text-: #feeadf;
+  --color-var-bar-: #4e35a3;
+  --border-box--: 0.5rem;
+  --border-: 1px solid grey;
   --padding-left-content-box--: 20px;
+  --box-shadow-: 5px 5px 10px black;
 }
 body {
   width: 100%;
@@ -29,8 +34,14 @@ body {
   display: flex;
   justify-content: center; /* căn giữa ngang */
   align-items: center;
-  background-color: #57d061;
+  background: linear-gradient(
+    to right,
+    #ffe5d4 0%,
+    /* cam nhạt bên trái */ #fbe3f0 40%,
+    /* hồng nhạt ở giữa */ #ffffff 100% /* trắng bên phải */
+  );
   position: fixed; /*cố định thẻ header*/
+  z-index: 100; /*đưa thẻ header lên trên cùng*/
 }
 
 /*Nav bar title*/
@@ -55,9 +66,14 @@ body {
   display: flex;
 }
 
+.nav-bar-title .ul-bar-title li {
+  list-style: none;
+}
+
 .nav-bar-title .ul-bar-title a {
   padding: 8px 17px;
   font-size: 1.3rem;
+  color: var(--color-var-bar-);
 }
 
 .nav-bar-title .ul-bar-title a:hover {
@@ -108,8 +124,95 @@ body {
   padding: 50px 100px;
 }
 
-#container .image-home img {
+#container .home {
   width: 100%;
+  min-height: 80vh;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, auto));
+  align-items: center;
+  gap: 1.5rem;
+  background: linear-gradient(
+    to right,
+    #ffe5d4 0%,
+    /* cam nhạt bên trái */ #fbe3f0 40%,
+    /* hồng nhạt ở giữa */ #ffffff 100% /* trắng bên phải */
+  );
+}
+
+.home .home-text h1 {
+  font-size: 3rem;
+  margin: 0;
+  background: linear-gradient(
+    to right,
+    #ff7c5c,
+    /* cam */ #b92bba,
+    /* tím hồng */ #4a3aff /* tím xanh */
+  );
+  -webkit-background-clip: text; /* Safari/Chrome */
+  background-clip: text; /* Các browser hỗ trợ */
+  color: transparent;
+}
+
+.home img {
+  width: 100%;
+  height: auto;
+}
+
+/*Introduction*/
+.introduct {
+  width: 100%;
+  min-height: 50vh;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.introduct .img-intro {
+  width: 100%;
+  flex: 1;
+  border-radius: 1rem;
+  height: auto;
+}
+
+.introduct .about-text {
+  width: 100%;
+  flex: 1;
+  /* background-color: var(--color-box-); */
+  border-radius: var(--border-box--);
+  padding: 2rem;
+  line-height: 30px;
+}
+
+.reason-introduct {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100%; /* Mỗi .coffee-blood-icon trên một hàng */
+  gap: 1.5rem;
+}
+
+.coffee-blood-icon {
+  width: 100%;
+  min-width: 200px;
+  display: flex; /* Giữ flex để hình ảnh và văn bản nằm ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  gap: 1rem; /* Khoảng cách giữa hình ảnh và văn bản */
+}
+
+.coffee-blood-icon img {
+  width: 70px;
+  height: 80px;
+}
+
+.coffee-blood-icon div {
+  display: flex;
+  flex-direction: column; /* Các đoạn văn bản xếp theo cột (mỗi đoạn trên một dòng) */
+  line-height: 1.5rem; /* Tăng line-height để chữ không bị đè */
+  gap: 0.5rem; /* Khoảng cách giữa các đoạn văn bản */
+}
+
+.coffee-blood-icon div p {
+  margin: 0; /* Bỏ margin mặc định của thẻ p để kiểm soát khoảng cách tốt hơn */
 }
 
 /**Try free learn*/
@@ -159,7 +262,7 @@ body {
 
 .courses-online .slogan {
   font-size: 2rem;
-  color: var(--color-text-);
+  color: var(--color-box-);
 }
 .courses-online .course-info {
   width: 100%;
@@ -173,9 +276,11 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-box-);
-  color: var(--color-text-);
+  background-color: var(--color-text-);
+  color: var(--color-box-);
   border-radius: var(--border-box--);
+  /* border: var(--border-); */
+  box-shadow: var(--box-shadow-);
 }
 .course-info .left-course-info .top {
   width: 100%;
