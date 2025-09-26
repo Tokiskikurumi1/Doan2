@@ -1,0 +1,59 @@
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background: linear-gradient(to right, #75fe4f, #00f2fe);
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-logo {
+  width: 120px;
+  height: 40px;
+  background-image: url('/assets/img/'); /*logo */
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-links,
+.nav-point,
+.nav-icons {
+  display: flex;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li,
+.nav-point li {
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links li:hover,
+.nav-point li:hover {
+  color: #ffe082;
+}
+
+.header-personal {
+  width: 40px;
+  height: 40px;
+  background-image: url('/assets/img/'); /* avatar */
+  background-size: cover;
+  border-radius: 50%;
+  cursor: pointer;
+}
+

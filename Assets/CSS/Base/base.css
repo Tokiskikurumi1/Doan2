@@ -1,0 +1,33 @@
+:root{
+    --primary-color: #ff4d4d;
+    --secondary-color: #333333;
+    --background-color: #f5f5f5;
+    --text-color: #666666;
+    --font-family: 'Arial', sans-serif;
+    --border-radius: 5px;
+    --transition-duration: 0.3s;
+}
+
+*{
+    box-sizing: inherit;
+}
+html{
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-size: 62.5%;
+    line-height: 1.6rem;
+}
+.grid {
+width: 1200px;
+max-width: 100%;
+margin: 0 auto;
+}
+
+.grid_full-width {
+width: 100%;
+}
+
+.grid_row { 
+display: flex;
+flex-wrap: wrap;
+}
