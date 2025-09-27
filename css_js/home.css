@@ -77,7 +77,12 @@ body {
   font-size: 1.3rem;
   color: var(--color-var-bar-);
 }
-
+#menu-icon {
+  font-size: 22px;
+  cursor: pointer;
+  color: white;
+  display: none;
+}
 /* .nav-bar-title .ul-bar-title a:hover {
   background-color: #073a3b;
   border-radius: var(--border-box--);
@@ -276,34 +281,39 @@ body {
   border-radius: 2rem;
   display: flex;
   gap: 1.5rem;
+
   /* padding: 1rem 1rem; */
 }
 
-.course-info .box {
+.course-info .left-course-info {
   width: 100%;
   display: flex;
   flex-direction: column;
   background-color: var(--color-text-);
   color: var(--color-box-);
   border-radius: var(--border-box--);
-  /* border: var(--border-); */
   box-shadow: var(--box-shadow-);
 }
-.course-info .left-course-info .top {
+.course-info .left-course-info .box-left-course-info {
+  width: 100%;
+}
+
+.course-info .left-course-info .box-left-course-info-top {
   width: 100%;
   display: flex;
   flex-direction: row;
 }
-/* .course-info .left-course-info .top .content-course {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-} */
+
 .course-info .left-course-info img {
   width: 296px;
+  margin: 0.5rem;
 }
 
-.course-info .left-course-info .bot {
+.box-left-course-info-top .content-course h2 {
+  font-size: 2rem;
+}
+
+.course-info .left-course-info .box-left-course-info-bottom {
   width: 100%;
   line-height: 20px;
   margin-top: 9rem;
@@ -311,36 +321,61 @@ body {
   text-align: center;
 }
 
-.course-info .left-course-info .bot a {
+.course-info .left-course-info .box-left-course-info-bottom a {
   padding: 10px 40px;
   background-color: #bc9667;
   border-radius: 10px;
 }
 
 /*Right course info*/
-.course-info .right-course-info .top {
+
+.right-course-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.right-course-info .right-course-info-box {
+  width: 100%;
+  background-color: var(--color-text-);
+  color: var(--color-box-);
+  border-radius: var(--border-box--);
+  box-shadow: var(--box-shadow-);
+  display: flex;
+  flex-direction: column;
+}
+/*thẻ div này để dùng khi reponsive 1 hàng thì set nó ăn 80% của thằng right-course-info-box*/
+.right-course-info-box > div {
+  width: 100%;
+}
+
+.right-course-info-box .online-plus-basic {
   width: 100%;
   display: flex;
   flex-direction: row;
-}
-/* .course-info .right-course-info .top .content-course {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-} */
-.course-info .right-course-info img {
-  width: 296px;
+  justify-content: space-between;
+  padding: 0 14px;
+  align-items: center;
 }
 
-.course-info .right-course-info .bot {
-  width: 100%;
-  line-height: 20px;
-  margin-top: 9rem;
-  margin-bottom: 2rem;
+.right-course-info-box .online-plus-basic h2 {
+  font-size: 2rem;
+}
+
+.right-course-info-box .div-content p {
+  padding: 0 14px;
+  margin: 0;
+}
+
+.right-course-info-box .div-content-see-more {
+  margin: 1rem 0;
   text-align: center;
+  margin-top: 3rem;
 }
 
-.course-info .right-course-info .bot a {
+.right-course-info-box .div-content-see-more a {
   padding: 10px 40px;
   background-color: #bc9667;
   border-radius: 10px;
@@ -410,6 +445,7 @@ body {
 }
 
 /* FOOTER  */
+/* FOOTER  */
 #footer {
   width: 100%;
   background-color: #eeeae1;
@@ -454,4 +490,84 @@ body {
 
 .social-icon.social-icon-last i {
   background-color: transparent;
+}
+
+/* MEDIA */
+
+@media (max-width: 1058px) {
+  header {
+    padding: 16px 60px;
+  }
+  .content {
+    padding: 50px 60px;
+  }
+  .home-text h1 {
+    font-size: 2.4rem;
+  }
+}
+
+@media (max-width: 991px) {
+  header {
+    padding: 16px 4%;
+  }
+  .content {
+    padding: 50px 4%;
+  }
+  .home-text h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 1058px) {
+  header {
+    padding: 12px 4%;
+  }
+  #menu-icon {
+    display: initial;
+  }
+  .ul-bar-title {
+    position: absolute;
+    top: -570px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: black;
+    row-gap: 1.4rem;
+    padding: 20px;
+    transition: 0.3s;
+    text-align: center;
+    margin: 0px;
+  }
+  .ul-bar-title a:hover {
+    background-color: red;
+  }
+  .ul-bar-title.active {
+    top: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  header {
+    padding: 11px 4%;
+  }
+  .login img {
+    width: 45px;
+  }
+  .home-text {
+    padding-top: 15px;
+  }
+  .home-text h1 {
+    font-size: 1.4rem;
+  }
+  .home-text p {
+    font-size: 0.8rem;
+    font-weight: 300;
+  }
+  .about-text h1 {
+    font-size: 1.4rem;
+    text-align: center;
+  }
 }
