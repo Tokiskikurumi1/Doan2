@@ -494,80 +494,103 @@ body {
 
 /* MEDIA */
 
+/* Laptop vừa và nhỏ */
 @media (max-width: 1058px) {
   header {
-    padding: 16px 60px;
+    padding: 16px 40px;
   }
-  .content {
-    padding: 50px 60px;
+  #container .content {
+    padding: 40px;
   }
   .home-text h1 {
-    font-size: 2.4rem;
+    font-size: 2.2rem;
+  }
+  .course-info {
+    flex-direction: column;
+  }
+  .left-course-info,
+  .right-course-info {
+    width: 100%;
   }
 }
 
+/* Tablet */
 @media (max-width: 991px) {
   header {
     padding: 16px 4%;
   }
-  .content {
-    padding: 50px 4%;
+  #container .content {
+    padding: 30px 4%;
   }
   .home-text h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+  .home-text p {
+    font-size: 0.9rem;
+  }
+
+  .ul-bar-info {
+    font-size: 0.9rem;
+  }
+  .ul-bar-title {
+    display: none; /* sẽ bật khi ấn menu-icon */
   }
 }
 
-@media (max-width: 1058px) {
-  header {
-    padding: 12px 4%;
-  }
+/* Mobile menu */
+@media (max-width: 768px) {
   #menu-icon {
-    display: initial;
+    display: block;
+    cursor: pointer;
   }
   .ul-bar-title {
     position: absolute;
-    top: -570px;
+    top: -500px;
     left: 0;
     right: 0;
     width: 100%;
-    display: flex;
     flex-direction: column;
-    text-align: center;
     background-color: black;
-    row-gap: 1.4rem;
     padding: 20px;
     transition: 0.3s;
-    text-align: center;
-    margin: 0px;
   }
-  .ul-bar-title a:hover {
-    background-color: red;
+  .ul-bar-title a {
+    color: white;
+    display: block;
+    padding: 10px 0;
   }
   .ul-bar-title.active {
     top: 100%;
   }
+  .ul-bar-info {
+    font-size: 0.8rem;
+  }
 }
 
+/* Mobile nhỏ */
 @media (max-width: 360px) {
   header {
-    padding: 11px 4%;
-  }
-  .login img {
-    width: 45px;
+    padding: 12px 4%;
   }
   .home-text {
-    padding-top: 15px;
+    padding-top: 10px;
+    text-align: center;
   }
   .home-text h1 {
     font-size: 1.4rem;
   }
   .home-text p {
     font-size: 0.8rem;
-    font-weight: 300;
+    line-height: 1.4;
   }
   .about-text h1 {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
+  }
+  .popular-courses-list {
+    grid-template-columns: 1fr;
+  }
+  .footer-contact {
+    grid-template-columns: 1fr;
     text-align: center;
   }
 }
