@@ -1,3 +1,105 @@
+/* Tổng thể header */
+.header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
+/* Phần trên: nav-bar-title */
+.nav-bar-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  position: relative;
+}
 
+/* Logo hình ảnh */
+.logo-img img {
+  height: 40px;
+}
 
+/* Logo chữ */
+.logo-text {
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 10px;
+  text-decoration: none;
+}
+
+/* Thanh tìm kiếm */
+.search-input {
+  flex: 1;
+  max-width: 400px;
+  padding: 8px 35px 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin: 0 20px;
+  position: relative;
+}
+.search-input::placeholder {
+  color: #999;
+}
+
+/* Thông báo */
+.notification {
+  position: relative;
+  margin-right: 20px;
+}
+.notification img {
+  height: 24px;
+}
+.notification-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+/* Theme switch */
+.theme-switch {
+  margin-right: 20px;
+}
+
+/* Khoảng trống bên trái của nav-bar-title */
+.nav-bar-title::before {
+    content: '';
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+}
+
+/* Phần dưới: header-nav */
+.header-nav {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+}
+
+/* Danh sách menu */
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Mỗi mục menu */
+.nav-item {
+    text-align: center;
+}
+.nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    font-size: 14px;
+}
+.nav-link img {
+    height: 30px;
+    margin-bottom: 5px;
+}
