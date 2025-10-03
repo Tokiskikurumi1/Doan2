@@ -82,16 +82,14 @@ body {
   font-size: 1.3rem;
   color: var(--color-var-bar-);
 }
-#menu-icon {
+
+#menu-icon,
+#close-icon {
   font-size: 22px;
   cursor: pointer;
   color: white;
   display: none;
 }
-/* .nav-bar-title .ul-bar-title a:hover {
-  background-color: #073a3b;
-  border-radius: var(--border-box--);
-} */
 
 .ul-bar-info {
   display: flex;
@@ -159,7 +157,8 @@ body {
     linear-gradient(to right, #fbe3f0 40%, #ffffff 100%);
   background-size: contain;
   z-index: 1;
-  border-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }
 
 .top-content .content-text {
@@ -175,6 +174,7 @@ body {
 }
 
 .home {
+  position: relative;
   width: 100%;
   min-height: 80vh;
   display: grid;
@@ -206,6 +206,50 @@ body {
 
 .home img {
   width: 100%;
+}
+
+/*Menu icon active*/
+
+.nav-bar-menu-icon-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  display: none;
+}
+/* Hiển thị khi có class active */
+.nav-bar-menu-icon-active.active {
+  transform: translateX(0);
+}
+.ul-bar-menu-icon-active {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+  margin: 0;
+}
+
+.ul-bar-menu-icon-active li {
+  width: 100%;
+  list-style: none;
+  padding: 10px 0px 10px 20px;
+  background: linear-gradient(to right, #ffe5d4 0%, #fbe3f0 100%) no-repeat;
+  background-size: 0 100%; /* Ban đầu không có màu nền */
+  transition: background-size 0.3s ease; /* Tạo hiệu ứng mượt mà */
+}
+
+.ul-bar-menu-icon-active a {
+  font-size: 1.5rem;
+}
+
+.ul-bar-menu-icon-active li:hover {
+  cursor: pointer;
+  background-size: 100% 100%; /* Khi hover, màu nền đổ từ trái qua phải */
 }
 
 /*BOTTOM*/
@@ -246,14 +290,6 @@ body {
 }
 
 .bottom-content .small-box {
-  /* width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  background-color: #ffe5d4;
-  border-radius: 1rem;
-  margin-top: auto;
-  height: 50vh; */
   width: 100%;
   /* min-height: 50vh; */
   display: flex;
@@ -316,7 +352,6 @@ body {
   background-color: #f0f0f0;
   overflow: hidden;
   position: relative;
-  border-radius: 1rem;
 }
 
 .slideshow-container {
@@ -702,6 +737,13 @@ body {
   #menu-icon:hover {
     cursor: pointer;
   }
+
+  .home .nav-bar-menu-icon-active {
+    display: block;
+  }
+  .cart {
+    display: none !important;
+  }
   .nav-bar-title {
     justify-content: space-between;
   }
@@ -772,7 +814,7 @@ body {
   }
 }
 
-@media (max-height: 647px) {
+@media (max-height: 668px) {
   .top-content::before {
     height: 420px;
   }
