@@ -23,13 +23,18 @@
   --padding-left-content-box--: 20px;
   --box-shadow-: 5px 5px 10px black;
 }
+
+.content {
+  padding: 50px 100px;
+}
 body {
   width: 100%;
   font-family: "arial";
   margin: 0;
   background-color: var(--color-background-);
+  overflow-x: hidden; /* Ngăn tràn ngang */
 }
-/*Header*/
+
 #header {
   width: 100%;
   /* height: 5rem; */
@@ -42,8 +47,8 @@ body {
     /* cam nhạt bên trái */ #fbe3f0 40%,
     /* hồng nhạt ở giữa */ #ffffff 100% /* trắng bên phải */
   );
-  position: fixed; /*cố định thẻ header*/
-  z-index: 100; /*đưa thẻ header lên trên cùng*/
+  /* position: fixed; 
+  z-index: 100;  */
 }
 
 /*Nav bar title*/
@@ -120,18 +125,56 @@ body {
   color: purple;
 }
 
-/*CONTAINER*/
-
-#container {
+/*container*/
+.container {
   width: 100%;
-  padding-top: 3.7rem;
 }
 
-.content {
-  padding: 50px 100px;
+.content-container {
+  width: 100%;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
 
-#container .home {
+.top-content {
+  width: 100%;
+  position: relative;
+  background-color: #ffe5d4;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  background: linear-gradient(to right, #ffe5d4 0%, #fbe3f0 40%);
+}
+
+.top-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 48vw;
+  height: 50vh;
+  background: url("./imagebackground-home.jpg") no-repeat center,
+    linear-gradient(to right, #fbe3f0 40%, #ffffff 100%);
+  background-size: contain;
+  z-index: 1;
+  border-radius: 1rem;
+}
+
+.top-content .content-text {
+  padding: 1rem;
+  line-height: 5rem;
+}
+
+.top-content .content-text h1 {
+  font-size: 2.5rem;
+  color: var(--color-var-bar-);
+  position: relative;
+  z-index: 2;
+}
+
+.home {
   width: 100%;
   min-height: 80vh;
   display: grid;
@@ -144,6 +187,7 @@ body {
     /* cam nhạt bên trái */ #fbe3f0 40%,
     /* hồng nhạt ở giữa */ #ffffff 100% /* trắng bên phải */
   );
+  display: none;
 }
 
 .home .home-text h1 {
@@ -164,222 +208,188 @@ body {
   width: 100%;
 }
 
-/*Introduction*/
-.introduct {
+/*BOTTOM*/
+.bottom-content {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  gap: 2rem;
   min-height: 50vh;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+  /* position: relative;
+  z-index: 2; */
 }
 
-.introduct .img-intro {
+.bottom-content .big-box {
   width: 100%;
-  flex: 1;
+  /* min-height: 50vh; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffe5d4;
   border-radius: 1rem;
-  height: auto;
+  padding: 1rem;
+  line-height: 3rem;
 }
 
-.introduct .about-text {
+.bagde-number-1 {
+  width: 20%;
+}
+
+.bagde-number-1 img {
   width: 100%;
-  flex: 1;
-  /* background-color: var(--color-box-); */
-  border-radius: var(--border-box--);
-  padding: 2rem;
-  line-height: 30px;
+  border-radius: 1rem;
 }
 
-.reason-introduct {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 100%; /* Mỗi .LMS-icon trên một hàng */
-  gap: 1.5rem;
-}
-
-.reason-introduct h1 {
+.big-box h1 {
   font-size: 2rem;
-  text-align: center;
 }
 
-.LMS-icon {
-  width: 100%;
-  min-width: 200px;
-  display: flex; /* Giữ flex để hình ảnh và văn bản nằm ngang */
-  align-items: center; /* Căn giữa theo chiều dọc */
-  gap: 1rem; /* Khoảng cách giữa hình ảnh và văn bản */
-}
-
-.LMS-icon img {
-  width: 70px;
-  height: 80px;
-}
-
-.LMS-icon div {
+.bottom-content .small-box {
+  /* width: 100%;
   display: flex;
-  flex-direction: column; /* Các đoạn văn bản xếp theo cột (mỗi đoạn trên một dòng) */
-  line-height: 1.5rem; /* Tăng line-height để chữ không bị đè */
-  gap: 0.5rem; /* Khoảng cách giữa các đoạn văn bản */
-}
-
-.LMS-icon div p {
-  margin: 0; /* Bỏ margin mặc định của thẻ p để kiểm soát khoảng cách tốt hơn */
-}
-
-/**Try free learn*/
-.try-free-learn {
+  flex-direction: column;
+  justify-content: flex-end;
+  background-color: #ffe5d4;
+  border-radius: 1rem;
+  margin-top: auto;
+  height: 50vh; */
   width: 100%;
-  background-color: var(--color-page-);
-}
-
-.try-free-learn .title-try-free-learn {
-  width: 300px;
-  padding: 8px 0;
-  background-color: #073a3b;
-  text-align: center;
-  border-radius: 0.8rem;
-}
-
-.try-free-learn .title-try-free-learn span {
-  color: var(--color-text-);
-  text-align: center;
-  font-size: 25px;
-}
-
-.try-free-learn .English-for-newbie {
-  width: 100%;
-  background-color: var(--color-box-white-);
-  border-radius: 0.8rem;
-  margin-top: 1rem;
-  padding: 1rem 0;
-  padding-bottom: 2rem;
-  padding-left: var(--padding-left-content-box--);
-}
-
-.try-free-learn .English-for-newbie h2 {
-  font-size: 2rem;
-  margin: 0;
-}
-
-.try-free-learn .English-for-newbie a {
-  padding: 10px 40px;
-  background-color: #bc9667;
-  border-radius: 10px;
-}
-
-/*Course*/
-.courses-online {
-  width: 100%;
-}
-
-.courses-online .slogan {
-  font-size: 2rem;
-  color: var(--color-box-);
-}
-.courses-online .course-info {
-  width: 100%;
-  border-radius: 2rem;
+  /* min-height: 50vh; */
   display: flex;
-  gap: 1.5rem;
-
-  /* padding: 1rem 1rem; */
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 1rem;
+  margin-top: auto;
+}
+.small-bottom {
+  gap: 1rem;
+  width: 100%;
+  height: 70%;
+  display: flex;
+  align-items: flex-end;
 }
 
-.course-info .left-course-info {
+.small-text-flex {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 1rem;
+}
+
+.small-bottom .text-bot-left,
+.small-bottom .text-bot-right {
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-text-);
-  color: var(--color-box-);
-  border-radius: var(--border-box--);
-  box-shadow: var(--box-shadow-);
-}
-.course-info .left-course-info .box-left-course-info {
-  width: 100%;
-}
-
-.course-info .left-course-info .box-left-course-info-top {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-}
-
-.course-info .left-course-info img {
-  width: 296px;
-  margin: 0.5rem;
-}
-
-.box-left-course-info-top .content-course h2 {
-  font-size: 2rem;
-}
-
-.course-info .left-course-info .box-left-course-info-bottom {
-  width: 100%;
-  line-height: 20px;
-  margin-top: 9rem;
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.course-info .left-course-info .box-left-course-info-bottom a {
-  padding: 10px 40px;
-  background-color: #bc9667;
-  border-radius: 10px;
-}
-
-/*Right course info*/
-
-.right-course-info {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 1.5rem;
-}
-
-.right-course-info .right-course-info-box {
-  width: 100%;
-  background-color: var(--color-text-);
-  color: var(--color-box-);
-  border-radius: var(--border-box--);
-  box-shadow: var(--box-shadow-);
-  display: flex;
-  flex-direction: column;
-}
-/*thẻ div này để dùng khi reponsive 1 hàng thì set nó ăn 80% của thằng right-course-info-box*/
-.right-course-info-box > div {
-  width: 100%;
-}
-
-.right-course-info-box .online-plus-basic {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 0 14px;
+  justify-content: center;
   align-items: center;
+  background-color: #ffe5d4;
+  border-radius: 1rem;
+  padding: 0.5rem;
 }
 
-.right-course-info-box .online-plus-basic h2 {
+.text-bot-left .img-90 {
+  width: 40%;
+}
+
+.img-90 img {
+  width: 100%;
+  border-radius: 1rem;
+}
+
+/* slide */
+
+.slide-course h1 {
   font-size: 2rem;
+  padding: 20px 50px;
+  margin: 0px;
 }
 
-.right-course-info-box .div-content p {
-  padding: 0 14px;
-  margin: 0;
+.slides {
+  /* margin: 50px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  /* width: 100vw; */
+  background-color: #f0f0f0;
+  overflow: hidden;
+  position: relative;
+  border-radius: 1rem;
 }
 
-.right-course-info-box .div-content-see-more {
-  margin: 1rem 0;
-  text-align: center;
-  margin-top: 3rem;
+.slideshow-container {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: #ffe5d4;
 }
 
-.right-course-info-box .div-content-see-more a {
-  padding: 10px 40px;
-  background-color: #bc9667;
+.slide {
+  width: 600px;
+  height: 300px;
+  margin: 0 10px;
   border-radius: 10px;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+  position: absolute;
+  opacity: 0.7;
+  background-color: grey;
+  padding: 20px;
 }
+.slide.left {
+  transform: translateX(-250px) scale(0.8);
+}
+.slide.center {
+  width: 600px;
+  height: 400px;
+  transform: translateX(0) scale(1);
+  z-index: 2;
+  opacity: 1;
+  background-color: #ff6b6b;
+}
+.slide.right {
+  transform: translateX(250px) scale(0.8);
+}
+/* .slide1 {
+  background-color: grey;
+}
+.slide2 {
+  background-color: grey;
+}
+.slide3 {
+  background-color: grey;
+} */
+
+.dots {
+  text-align: center;
+  padding: 10px;
+  padding-bottom: 0px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 3; /* Đảm bảo dots ở trên các slide */
+}
+.dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 5px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.dot.active {
+  background-color: #717171;
+}
+
+/*poppular course*/
 
 /*Popular courses*/
 .popular-courses {
@@ -431,7 +441,7 @@ body {
 }
 
 .popular-courses .see-more {
-  text-align: center;
+  text-align: right;
   margin-top: 2rem;
   color: orange;
 }
@@ -444,8 +454,139 @@ body {
   text-decoration: underline;
 }
 
-/* FOOTER  */
-/* FOOTER  */
+.image-center {
+  width: 100%;
+}
+
+.image-center .images {
+  width: 100%;
+  border-radius: 1rem;
+}
+
+.image-center .images img {
+  width: 100%;
+  border-radius: 1rem;
+}
+
+/*BOOK*/
+.book {
+  width: 100%;
+}
+
+.book h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.book-box {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 2rem;
+  border-radius: 1rem;
+  background-color: #fdfaf3;
+}
+
+.left-book {
+  width: 70%;
+  padding: 18px;
+}
+
+.left-book .left-book-text-top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  column-gap: 40px;
+}
+
+.left-book-text-top .name-title-book {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.left-book-text-top ul {
+  display: flex;
+  column-gap: 8px;
+  margin: 0;
+  padding: 0;
+  background-color: #ffe5d4;
+  border-radius: 1rem;
+}
+
+.left-book-text-top ul li {
+  list-style: none;
+  color: black;
+  font-size: 1.2rem;
+  padding: 8px 12px;
+}
+
+.right-book {
+  width: 30%;
+}
+
+.right-book img {
+  width: 100%;
+  height: auto;
+}
+.customer-feedback {
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 10;
+  padding-top: 150px;
+}
+
+.customer-feedback::before {
+  content: "";
+  width: 100%; /* Mở rộng để che toàn bộ phần trên */
+  height: 100%; /* Chiều cao cố định cho phần cong */
+  background-color: #ffe5d4;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%); /* Căn giữa theo chiều ngang */
+  z-index: -1;
+  opacity: 0.5;
+  clip-path: ellipse(
+    70% 100% at 50% 100%
+  ); /* Tâm ở đỉnh giữa, tạo cong lồi lên */
+  /* overflow: hidden; */
+}
+.customer-feedback h1 {
+  font-size: 2rem;
+  margin-bottom: 5rem;
+}
+
+.feed-back {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, auto));
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.feed-back .feed-back1 {
+  box-shadow: 5px 5px 10px black;
+  border-radius: 1rem;
+  line-height: 30px;
+}
+
+.feed-back1 i {
+  color: #bc9667;
+}
+
+.feed-back .feed-back1 img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.feed-back :hover {
+  background-color: #eeeae1;
+}
+
 #footer {
   width: 100%;
   background-color: #eeeae1;
@@ -492,105 +633,167 @@ body {
   background-color: transparent;
 }
 
-/* MEDIA */
-
-/* Laptop vừa và nhỏ */
 @media (max-width: 1058px) {
-  header {
-    padding: 16px 40px;
+  #header {
+    padding: 16px 20px; /* Giảm padding để phù hợp màn hình nhỏ */
   }
-  #container .content {
-    padding: 40px;
+  .container .content {
+    padding: 20px; /* Giảm padding cho content */
+  }
+  .home {
+    display: grid;
+  }
+  .content-text {
+    display: none;
+  }
+  .top-content::before {
+    display: none;
   }
   .home-text h1 {
     font-size: 2.2rem;
   }
-  .course-info {
+  .bottom-content {
     flex-direction: column;
+    padding: 20px; /* Giảm padding */
   }
-  .left-course-info,
-  .right-course-info {
-    width: 100%;
+
+  .slide {
+    width: 380px;
+    /* height: auto; */
   }
+
+  .book {
+    padding: 20px 50px; /* Điều chỉnh padding cho book */
+  }
+  .image-center {
+    padding: 20px 50px; /* Điều chỉnh padding cho image-center */
+  }
+  .customer-feedback {
+    padding-top: 100px; /* Giảm padding-top */
+  }
+  .top-content {
+    padding: 0; /* Xóa padding để tránh tràn */
+  }
+  /* .customer-feedback::before {
+    display: none;
+  } */
 }
 
-/* Tablet */
-@media (max-width: 991px) {
+@media (max-width: 990px) {
+  .customer-feedback::before {
+    clip-path: ellipse(100% 100% at 50% 100%);
+  }
+  .customer-feedback > h1 {
+    margin-bottom: 2rem;
+  }
+  .content {
+    padding: 50px 4%;
+  }
   header {
     padding: 16px 4%;
   }
-  #container .content {
-    padding: 30px 4%;
-  }
-  .home-text h1 {
-    font-size: 1.8rem;
-  }
-  .home-text p {
-    font-size: 0.9rem;
-  }
-
-  .ul-bar-info {
-    font-size: 0.9rem;
-  }
-  .ul-bar-title {
-    display: none; /* sẽ bật khi ấn menu-icon */
-  }
 }
 
-/* Mobile menu */
-@media (max-width: 768px) {
+@media (max-width: 928px) {
   #menu-icon {
     display: block;
     cursor: pointer;
   }
-  .ul-bar-title {
-    position: absolute;
-    top: -500px;
-    left: 0;
-    right: 0;
-    width: 100%;
+  #menu-icon:hover {
+    cursor: pointer;
+  }
+  .nav-bar-title {
+    justify-content: space-between;
+  }
+  .nav-bar-title .ul-bar-title {
+    display: none;
+  }
+  .book-box {
     flex-direction: column;
-    background-color: black;
+    align-items: center;
+  }
+  .left-book {
+    width: 100%;
+  }
+  .left-book-text-top {
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .left-book-text-top ul {
+    gap: 16px;
+  }
+
+  .image-center {
     padding: 20px;
-    transition: 0.3s;
   }
-  .ul-bar-title a {
-    color: white;
-    display: block;
-    padding: 10px 0;
-  }
-  .ul-bar-title.active {
-    top: 100%;
-  }
-  .ul-bar-info {
-    font-size: 0.8rem;
+
+  .dots {
+    padding-bottom: 0px;
   }
 }
 
-/* Mobile nhỏ */
+@media (max-width: 647px) {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+  .slides {
+    height: 80vh; /* Giữ nguyên */
+  }
+  .slide.center {
+    width: 80vw; /* Center rộng hơn một chút, nhưng vẫn responsive */
+    height: 70vh;
+    max-width: 400px; /* Cap cho center */
+  }
+
+  .slide.left {
+    transform: translateX(-40vw) scale(0.85); /* Điều chỉnh translate theo vw, scale hơi lớn hơn để fit */
+  }
+
+  .slide.right {
+    transform: translateX(40vw) scale(0.85);
+  }
+
+  /* Đảm bảo dots không bị che */
+  .dots {
+    padding-bottom: none;
+  }
+  .customer-feedback::before {
+    clip-path: none;
+  }
+  .customer-feedback::before {
+    border-radius: 1rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .big-box h1 {
+    line-height: 2rem;
+    font-size: 1.3rem !important;
+  }
+}
+
+@media (max-height: 647px) {
+  .top-content::before {
+    height: 420px;
+  }
+}
+
 @media (max-width: 360px) {
   header {
-    padding: 12px 4%;
+    padding: 11px 4%;
   }
   .home-text {
-    padding-top: 10px;
-    text-align: center;
+    padding-top: 15px;
   }
   .home-text h1 {
     font-size: 1.4rem;
   }
   .home-text p {
     font-size: 0.8rem;
-    line-height: 1.4;
+    font-weight: 300;
   }
   .about-text h1 {
-    font-size: 1.2rem;
-  }
-  .popular-courses-list {
-    grid-template-columns: 1fr;
-  }
-  .footer-contact {
-    grid-template-columns: 1fr;
+    font-size: 1.4rem;
     text-align: center;
   }
 }
