@@ -155,7 +155,7 @@ body {
   right: 0;
   width: 48vw;
   height: 50vh;
-  background: url("./imagebackground-home.jpg") no-repeat center,
+  background: url("../../images/imagebackground-home.jpg") no-repeat center,
     linear-gradient(to right, #fbe3f0 40%, #ffffff 100%);
   background-size: contain;
   z-index: 1;
