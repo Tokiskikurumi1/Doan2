@@ -1,42 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./assets/css/base/reset.css" />
+    <!-- <link rel="stylesheet" href="./assets/css/base/reset.css" /> -->
     <link rel="stylesheet" href="./assets/css/base/base.css" />
     <link rel="stylesheet" href="./assets/css/components/header.css" />
-</head>
-<body>
-  <header class="header">
-    <div class="nav-bar-title">
-      <a href="" class="logo-img"><img src="./assets/css/components/images/Logo.png" alt="logo-img"></a>
-      <a href="" class="logo-text">KURUMI SUPERLMS</a>
-      <input type="text" class="search-input" placeholder="Tìm kiếm..." />
-      <div class="notification">
-        <img src="" alt="notification">
-        <span class="notification-count">3</span>
+  </head>
+  <body>
+    <!--Header-->
+    <header id="header">
+      <!--Nav bar title-->
+      <nav class="nav-bar-title">
+        <!--LOGO-->
+        <a href="#" class="logo"
+          ><img src="./Assets/images/image_home/K_icon.png" alt=""
+        /></a>
+        <!--UL_BAR_CENTEr-->
+
+        <ul class="ul-bar-title">
+          <li><a href="">Về chúng tôi</a></li>
+          <li><a href="">Cộng đồng</a></li>
+          <li><a href="">Khóa học</a></li>
+          <li><a href="">Sách</a></li>
+        </ul>
+        <!--UL_BAR_LOGIN-->
+        <ul class="ul-bar-info">
+          <li class="cart">
+            <a href=""><i class="fa-solid fa-basket-shopping"></i></a>
+          </li>
+          <li class="login">
+            <a href=""><span>Đăng nhập</span></a>
+            <span>/</span>
+            <a href=""><span>Đăng ký</span></a>
+          </li>
+          <li class="menu-icon-hidden">
+            <i class="fa-solid fa-bars" id="menu-icon"></i>
+            <i class="fa-solid fa-x" id="close-icon"></i>
+          </li>
+        </ul>
+      </nav>
+      <!--Nav bar menu icon active-->
+      <div class="nav-bar-menu-icon-active">
+        <ul class="ul-bar-menu-icon-active">
+          <li><a href="">Về chúng tôi</a></li>
+          <li><a href="">Cộng đồng</a></li>
+          <li><a href="">Khóa học</a></li>
+          <li><a href="">Sách</a></li>
+          <li><a href="">Giỏ hàng</a></li>
+        </ul>
       </div>
-      <label class="theme-switch">
-        <input type="checkbox" id="toggleTheme">
-        <span class="slider"></span>
-      </label>
-    </div>
-    <nav class="header-nav">
-      <ul class="nav-links">
-        <li class="nav-item"><a href="./assets/css/components/images/Logo.png" class="nav-link"><img src="" alt="Trang Chủ">Trang Chủ</a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><img src="" alt="Học Hành">Học Hành</a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><img src="" alt="Bảng Xếp Hạng">Bảng Xếp Hạng</a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><img src="" alt="Cộng đồng">Cộng đồng</a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><img src="" alt="Cửa Hàng">Cửa Hàng</a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><img src="" alt="Trang cá nhân">Trang cá nhân</a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><img src="" alt="Đăng xuất">Đăng xuất</a></li> 
-      </ul> 
-    </nav>
-  </header>
-  <footer class="footer">
-    <p class="footer-text"></p>
-  </footer>
-</body>
+    </header>
+    <footer class="footer">
+      <p class="footer-text"></p>
+    </footer>
+    <script src="./Assets/JS/header.js"></script>
+  </body>
 </html>

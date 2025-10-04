@@ -1,5 +1,5 @@
-:root{
-    --color-: grey;
+:root {
+  --color-: grey;
   --color-box-black-: #000;
   --color-box-white-: #fff;
   --color-text-white-: #fff;
@@ -12,28 +12,44 @@
   --border-: 1px solid grey;
   --padding-left-content-box--: 20px;
   --box-shadow-: 5px 5px 10px black;
+  --h1-font-size: 2rem;
+  --a-font-size: 1.3rem;
 }
 
-*{
-    box-sizing: inherit;
+* {
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  text-decoration: none;
+  list-style: none;
+  font-size: 1.1rem;
 }
-html{
-    box-sizing: border-box;
-    scroll-behavior: smooth;
-    font-size: 62.5%;
-    line-height: 1.6rem;
+
+body {
+  width: 100%;
+  /* font-family: "arial"; */
+  margin: 0;
+  background-color: var(--color-background-);
+  /* overflow-x: hidden;  */
+}
+/* html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-size: 62.5%;
+  line-height: 1.6rem;
 }
 .grid {
-width: 1200px;
-max-width: 100%;
-margin: 0 auto;
+  width: 1200px;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 .grid_full-width {
-width: 100%;
+  width: 100%;
 }
 
-.grid_row { 
-display: flex;
-flex-wrap: wrap;
-}
+.grid_row {
+  display: flex;
+  flex-wrap: wrap;
+} */
