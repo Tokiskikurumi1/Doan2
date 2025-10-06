@@ -12,7 +12,7 @@
   --border-: 1px solid grey;
   --padding-left-content-box--: 20px;
   --box-shadow-: 5px 5px 10px black;
-  --h1-font-size: 2rem;
+  --h1-font-size-: 2rem;
   --a-font-size: 1.3rem;
 }
 
@@ -31,7 +31,14 @@ body {
   /* font-family: "arial"; */
   margin: 0;
   background-color: var(--color-background-);
-  /* overflow-x: hidden;  */
+}
+
+.content {
+  padding: 50px 100px;
+}
+
+h1 {
+  font-size: var(--h1-font-size-);
 }
 
 /* html {
@@ -54,3 +61,18 @@ body {
   display: flex;
   flex-wrap: wrap;
 } */
+@media (max-width: 360px) {
+  .home-text {
+    padding-top: 15px;
+  }
+  h1 {
+    font-size: 12px;
+  }
+  .home-text p {
+    font-size: 0.8rem;
+    font-weight: 300;
+  }
+  .about-text h1 {
+    text-align: center;
+  }
+}

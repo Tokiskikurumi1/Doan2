@@ -24,10 +24,6 @@
   --box-shadow-: 5px 5px 10px black;
 } */
 
-.content {
-  padding: 50px 100px;
-}
-
 /*container*/
 .container {
   width: 100%;
@@ -97,7 +93,7 @@
 }
 
 .home .home-text h1 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin: 0;
   background: linear-gradient(
     to right,
@@ -113,7 +109,6 @@
 .home img {
   width: 100%;
 }
-
 
 /*BOTTOM*/
 .bottom-content {
@@ -148,9 +143,9 @@
   border-radius: 1rem;
 }
 
-.big-box h1 {
-  font-size: 2rem;
-}
+/* .big-box h1 {
+  font-size: var(--h1-font-size-);
+} */
 
 .bottom-content .small-box {
   width: 100%;
@@ -200,7 +195,6 @@
 /* slide */
 
 .slide-course h1 {
-  font-size: 2rem;
   padding: 20px 50px;
   margin: 0px;
 }
@@ -295,10 +289,6 @@
   background-color: #fdfaf3;
 }
 
-.popular-courses h1 {
-  font-size: 2rem;
-}
-
 .popular-courses .popular-courses-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -372,7 +362,6 @@
 }
 
 .book h1 {
-  font-size: 2rem;
   margin-bottom: 2rem;
 }
 
@@ -453,7 +442,6 @@
   /* overflow: hidden; */
 }
 .customer-feedback h1 {
-  font-size: 2rem;
   margin-bottom: 5rem;
 }
 
@@ -485,52 +473,7 @@
   background-color: #eeeae1;
 }
 
-#footer {
-  width: 100%;
-  background-color: #eeeae1;
-  padding: 30px;
-}
 
-#footer > h2 {
-  text-align: center;
-}
-
-.footer-contact {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(17rem, auto));
-  justify-content: center;
-  gap: 1.5rem;
-}
-
-.footer-contact h2 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.content-footer .social-icon i {
-  font-size: 24px;
-  padding: 10px;
-  background-color: grey;
-  border-radius: 0.2rem;
-}
-
-.content-footer .social-icon i:hover {
-  background-color: orange;
-  cursor: pointer;
-}
-
-.content-footer a {
-  color: black;
-}
-
-.social-icon span {
-  color: black;
-}
-
-.social-icon.social-icon-last i {
-  background-color: transparent;
-}
 
 @media (max-width: 1058px) {
   .container .content {
@@ -591,7 +534,6 @@
 }
 
 @media (max-width: 928px) {
-  
   .book-box {
     flex-direction: column;
     align-items: center;
@@ -666,7 +608,7 @@
   .home-text {
     padding-top: 15px;
   }
-  .home-text h1 {
+  h1 {
     font-size: 1.4rem;
   }
   .home-text p {
@@ -674,7 +616,6 @@
     font-weight: 300;
   }
   .about-text h1 {
-    font-size: 1.4rem;
     text-align: center;
   }
 }

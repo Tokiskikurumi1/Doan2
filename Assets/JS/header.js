@@ -1,5 +1,8 @@
-fetch("header.html")
-  .then((response) => response.text())
+fetch("/Assets/html/header.html")
+  .then((response) => {
+    if (!response.ok) throw new Error("Không tìm thấy header_footer.html");
+    return response.text();
+  })
   .then((data) => {
     document.getElementById("main-header").innerHTML = data;
     /*toggle menu icon */
@@ -13,4 +16,5 @@ fetch("header.html")
       menuIcon.classList.toggle("fa-bars");
       menuIcon.classList.toggle("fa-x");
     });
-  });
+  })
+  .catch((error) => console.error("Lỗi fetch:", error));

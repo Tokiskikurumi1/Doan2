@@ -1,0 +1,46 @@
+#footer {
+  width: 100%;
+  background-color: #eeeae1;
+  padding: 30px;
+}
+
+#footer > h2 {
+  text-align: center;
+}
+
+.footer-contact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, auto));
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.footer-contact h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.content-footer .social-icon i {
+  font-size: 24px;
+  padding: 10px;
+  background-color: grey;
+  border-radius: 0.2rem;
+}
+
+.content-footer .social-icon i:hover {
+  background-color: orange;
+  cursor: pointer;
+}
+
+.content-footer a {
+  color: black;
+}
+
+.social-icon span {
+  color: black;
+}
+
+.social-icon.social-icon-last i {
+  background-color: transparent;
+}
