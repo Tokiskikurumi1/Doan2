@@ -1,4 +1,4 @@
-fetch("/Doan2/Assets/html/footer.html")
+fetch("./Assets/html/footer.html")
   .then((response) => {
     if (!response.ok) throw new Error("Không tìm thấy footer.html");
     return response.text();
