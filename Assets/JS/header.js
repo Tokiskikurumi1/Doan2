@@ -1,6 +1,6 @@
-fetch("./Assets/html/header.html")
+fetch("/Doan2/Assets/html/header.html")
   .then((response) => {
-    if (!response.ok) throw new Error("Không tìm thấy header_footer.html");
+    if (!response.ok) throw new Error("Không tìm thấy header.html");
     return response.text();
   })
   .then((data) => {
