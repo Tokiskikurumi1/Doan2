@@ -1,4 +1,3 @@
-
 /*container*/
 .container {
   width: 100%;
@@ -118,9 +117,9 @@
   border-radius: 1rem;
 }
 
-/* .big-box h1 {
+.big-box h1 {
   font-size: var(--h1-font-size-);
-} */
+}
 
 .bottom-content .small-box {
   width: 100%;
@@ -149,10 +148,6 @@
 .small-bottom .text-bot-left,
 .small-bottom .text-bot-right {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   background-color: #ffe5d4;
   border-radius: 1rem;
   padding: 0.5rem;
@@ -160,6 +155,7 @@
 
 .text-bot-left .img-90 {
   width: 40%;
+  margin: 0 auto;
 }
 
 .img-90 img {
@@ -167,9 +163,19 @@
   border-radius: 1rem;
 }
 
+.text-bot-right .img-like {
+  width: 40%;
+  margin: 0 auto;
+}
+.img-like img {
+  width: 100%;
+  border-radius: 1rem;
+}
+
 /* slide */
 
 .slide-course h1 {
+  font-size: var(--h1-font-size-);
   padding: 20px 50px;
   margin: 0px;
 }
@@ -206,9 +212,42 @@
   cursor: pointer;
   position: absolute;
   opacity: 0.7;
-  background-color: grey;
+  background-color: #4a2727;
   padding: 20px;
+  overflow: hidden;
 }
+
+.slide .top-slide {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-slide h1 {
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  text-align: center;
+}
+
+.top-slide .img-slide {
+  flex: 1;
+  width: 100%;
+}
+
+.top-slide .img-slide img {
+  width: 100%;
+  border-radius: 1rem;
+  object-fit: cover;
+}
+
+.slide .slide-see-more {
+  text-align: right;
+  margin-top: 10px;
+}
+
 .slide.left {
   transform: translateX(-250px) scale(0.8);
 }
@@ -218,7 +257,7 @@
   transform: translateX(0) scale(1);
   z-index: 2;
   opacity: 1;
-  background-color: #ff6b6b;
+  background-color: #b05e5e;
 }
 .slide.right {
   transform: translateX(250px) scale(0.8);
@@ -262,6 +301,10 @@
 .popular-courses {
   width: 100%;
   background-color: #fdfaf3;
+}
+
+.popular-courses h1 {
+  font-size: var(--h1-font-size-);
 }
 
 .popular-courses .popular-courses-list {
@@ -337,6 +380,7 @@
 }
 
 .book h1 {
+  font-size: var(--h1-font-size-);
   margin-bottom: 2rem;
 }
 
@@ -345,6 +389,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   gap: 2rem;
   border-radius: 1rem;
   background-color: #fdfaf3;
@@ -353,22 +398,29 @@
 .left-book {
   width: 70%;
   padding: 18px;
-}
-
-.left-book .left-book-text-top {
-  width: 100%;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  column-gap: 40px;
+  text-align: center;
+  gap: 20px;
 }
 
-.left-book-text-top .name-title-book {
-  font-size: 1.5rem;
+.left-book .name-title-book {
+  font-size: 2.5rem;
   font-weight: bold;
 }
 
-.left-book-text-top ul {
+.left-book p {
+  font-size: 1.2rem;
+  line-height: 2rem;
+  padding: 0px 10px;
+}
+
+.left-book .lever-book {
+  width: 80%;
   display: flex;
+  justify-content: space-around;
   column-gap: 8px;
   margin: 0;
   padding: 0;
@@ -376,11 +428,11 @@
   border-radius: 1rem;
 }
 
-.left-book-text-top ul li {
+.left-book .lever-book li {
   list-style: none;
   color: black;
   font-size: 1.2rem;
-  padding: 8px 12px;
+  padding: 10px 20px;
 }
 
 .right-book {
@@ -391,6 +443,8 @@
   width: 100%;
   height: auto;
 }
+
+/* customer feedback */
 .customer-feedback {
   width: 100%;
   text-align: center;
@@ -417,6 +471,7 @@
   /* overflow: hidden; */
 }
 .customer-feedback h1 {
+  font-size: var(--h1-font-size-);
   margin-bottom: 5rem;
 }
 
@@ -448,12 +503,19 @@
   background-color: #eeeae1;
 }
 
-
-
 @media (max-width: 1058px) {
   .container .content {
     padding: 20px; /* Giảm padding cho content */
   }
+
+  h1 {
+    font-size: 1.8rem !important;
+  }
+
+  .home-text h1 {
+    font-size: 2.2rem !important;
+  }
+
   .home {
     display: grid;
   }
@@ -463,9 +525,6 @@
   .top-content::before {
     display: none;
   }
-  .home-text h1 {
-    font-size: 2.2rem;
-  }
   .bottom-content {
     flex-direction: column;
     padding: 20px; /* Giảm padding */
@@ -474,6 +533,11 @@
   .slide {
     width: 380px;
     /* height: auto; */
+  }
+
+  .slide-course h1 {
+    padding: 20px;
+    font-size: 1.8rem;
   }
 
   .book {
@@ -516,12 +580,14 @@
   .left-book {
     width: 100%;
   }
-  .left-book-text-top {
-    flex-direction: column;
-    row-gap: 10px;
-  }
-  .left-book-text-top ul {
+
+  .left-book .lever-book {
     gap: 16px;
+    justify-content: space-around;
+  }
+
+  .left-book .lever-book li {
+    padding: 8px 12px;
   }
 
   .image-center {
@@ -530,6 +596,9 @@
 
   .dots {
     padding-bottom: 0px;
+  }
+  .bottom-content {
+    gap: 1rem;
   }
 }
 
@@ -540,6 +609,7 @@
   .slides {
     height: 80vh; /* Giữ nguyên */
   }
+
   .slide.center {
     width: 80vw; /* Center rộng hơn một chút, nhưng vẫn responsive */
     height: 70vh;
@@ -554,6 +624,28 @@
     transform: translateX(40vw) scale(0.85);
   }
 
+  .top-slide {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .top-slide h1 {
+    font-size: 1.2rem;
+    padding: 0;
+  }
+
+  .top-slide .img-slide {
+    flex: 1;
+    width: 70%;
+  }
+
+  .top-slide .img-slide img {
+    width: 100%;
+    border-radius: 1rem;
+    object-fit: cover;
+  }
+
   /* Đảm bảo dots không bị che */
   .dots {
     padding-bottom: none;
@@ -564,12 +656,20 @@
   .customer-feedback::before {
     border-radius: 1rem;
   }
+
+  .small-text-flex {
+    gap: 1rem;
+  }
 }
 
 @media (max-width: 500px) {
   .big-box h1 {
     line-height: 2rem;
     font-size: 1.3rem !important;
+  }
+  .left-book .lever-book {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 
@@ -584,7 +684,7 @@
     padding-top: 15px;
   }
   h1 {
-    font-size: 1.4rem;
+    font-size: 1rem !important;
   }
   .home-text p {
     font-size: 0.8rem;

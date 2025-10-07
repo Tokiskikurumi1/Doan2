@@ -37,10 +37,6 @@ body {
   padding: 50px 100px;
 }
 
-h1 {
-  font-size: var(--h1-font-size-);
-}
-
 /* html {
   box-sizing: border-box;
   scroll-behavior: smooth;
