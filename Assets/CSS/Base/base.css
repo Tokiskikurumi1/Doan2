@@ -30,7 +30,7 @@ body {
   width: 100%;
   /* font-family: "arial"; */
   margin: 0;
-  background-color: var(--color-background-);
+  background-color: var(--color-box-white-);
 }
 
 .content {
