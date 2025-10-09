@@ -4,12 +4,7 @@
   display: flex;
   justify-content: center; /* căn giữa ngang */
   align-items: center;
-  background: linear-gradient(
-    to right,
-    #ffe5d4 0%,
-    /* cam nhạt bên trái */ #fbe3f0 40%,
-    /* hồng nhạt ở giữa */ #ffffff 100% /* trắng bên phải */
-  );
+  background-color: var(--color-header-);
   position: relative;
   padding: 0;
 }
@@ -43,7 +38,7 @@
 .nav-bar-title .ul-bar-title a {
   padding: 8px 17px;
   font-size: 1.3rem;
-  color: var(--color-var-bar-);
+  color: var(--color-header-text-);
 }
 
 #menu-icon,
@@ -83,7 +78,7 @@
 
 .ul-bar-info .cart a {
   font-size: 1.3rem; /* cho icon giỏ hàng to bằng chữ login */
-  color: purple;
+  color: var(--color-header-text-);
 }
 
 /*Menu icon active*/

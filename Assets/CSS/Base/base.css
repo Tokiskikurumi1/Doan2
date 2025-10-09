@@ -1,13 +1,14 @@
 :root {
-  --color-: grey;
-  --color-box-black-: #000;
-  --color-box-white-: #fff;
+  /*color header*/
+  --color-header-: #545e75;
+  --color-header-text-: #fff;
+  /* --color-: grey; */
+  --color-black-: #000;
+  --color-white-: #fff;
   --color-text-white-: #fff;
-  --color-text-black-: black;
-  --color-background-: #fefefe;
-  --color-home-text-: #feeadf;
-  --color-var-bar-: #4e35a3;
-  --color-page-: #e2f6fc;
+  --color-text-black-: #000;
+  --color-background-: #f4f5fa;
+  --color-box-: #fcfff9;
   --border-box--: 0.5rem;
   --border-: 1px solid grey;
   --padding-left-content-box--: 20px;
