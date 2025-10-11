@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="content-header">
+      <h2>📈 Thống kê & Báo cáo</h2>
+      <div class="actions">
+        <select id="reportType">
+          <option value="users">Người dùng</option>
+          <option value="courses">Khóa học</option>
+          <option value="payments">Doanh thu</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="reportContainer" class="report-box"></div>
+
+    <script src="./assets/js/fakeData.js"></script>
+    <script src="./assets/js/report.js"></script>
+  </body>
+</html>
