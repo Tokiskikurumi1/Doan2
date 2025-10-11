@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./Assets/CSS/Base/reset.css"/>
     <link rel="stylesheet" href="./Assets/CSS/Base/base2.css"/>
     <link rel="stylesheet" href="./Assets/CSS/Components/GUI.css"/>
+    
 </head>
 <body>
     <header>
@@ -17,104 +18,54 @@
         </a>
         <div class="header-nav-center">
             <ul>
-                <li><a href="#">Trang Chủ</a></li>
-                <li><a href="#">Khóa Học</a></li>
-                <li><a href="#">Bài Tập</a></li>
-                <li><a href="#">Thảo Luận</a></li>
-                <li><a href="#">Cửa Hàng</a></li>
+                <li><a href="#">TRANG CHỦ</a></li>
+                <li><a href="#">KHÓA HỌC</a></li>
+                <li><a href="#">BÀI TẬP</a></li>
+                <li><a href="#">THẢO LUẬN</a></li>
+                <li><a href="#">CỬA HÀNG</a></li>
             </ul>
         </div>
         <div class="header-nav-right">
-            <div class="header-nav-search">
-                <input type="text" placeholder="Tìm kiếm..." />
-            </div>
+              <div class="header-search">
+                  <div class="header-search-box" id="searchBox">
+                      <input type="text" placeholder="Tìm kiếm..." />
+                  </div>
+                  <div class="header-search-icon" id="searchIcon" onclick="toggleSearch()">
+                    <img src="./Assets/images/img_GUI/search.svg" alt="">
+                  </div>
+                  <div class="header-search-results">
+                    <h2>Kết quả tìm kiếm</h2>
+                    <br>
+                    <div id="search-results-container"></div>
+                  </div>
+              </div>
             <div class="header-notification">
-                <img src="./Assets/images/img_GUI/bell.png" alt="notification">
-                <span class="header-notification-count">3</span>
+              <div class="header-notification-icon">
+                  <img src="./Assets/images/img_GUI/bell.svg" alt="notification">
+              </div>
+                <div class="header-notification-count"></div>
             </div>
             <div class="header-message">
-                <img src="./Assets/images/img_GUI/bell.png" alt="notification">
-                <span class="header-notification-count">3</span>
+              <div class="header-message-icon">
+                <img src="./Assets/images/img_GUI/message-circle-more.svg" alt="notification">
+              </div>
+                <div class="header-notification-count"></div>
             </div>
-            <div class="header-menu">
-                <label class="theme-switch">
-                <input type="checkbox" id="toggleTheme">
-                <span class="slider"></span>
-                </label>
+            <nav class="burger-menu">
+                <ul>
+                  <li><a href="#">Trang chủ</a></li>
+                  <li><a href="#">Khóa học</a></li>
+                  <li><a href="#">Bài tập</a></li>
+                  <li><a href="#">Thảo luận</a></li>
+                  <li><a href="#">Cửa hàng</a></li>
+                </ul>
+            </nav>
+            <div class="header-login">
+              <a href="login.html">Đăng nhập</a>
             </div>
         </div>
     </div>
-    
-    </header>
-    <main>
-        <div class="dashboard">
-            <h2 class="dashboard-name">dashboard-name</h2>
-            <a href="">
-                <ul class="dashboard-list">
-                    <li>
-                        list-1
-                    </li>
-                </ul>
-            </a>
-        </div>
-    </main>
-    <footer id="footer">
-      <h2>LIÊN HỆ</h2>
-      <div class="footer-contact">
-        <div class="content-footer">
-          <h2>Social media</h2>
-          <p>Các trang mạng xã hội.</p>
-          <div class="social-icon">
-            <i class="fa-brands fa-facebook"></i>
-            <i class="fa-brands fa-x-twitter"></i>
-            <i class="fa-brands fa-instagram"></i>
-            <i class="fa-brands fa-tiktok"></i>
-          </div>
-        </div>
-        <div class="content-footer">
-          <h2>Hỗ Trợ</h2>
-          <li>
-            <a href="">Sản phẩm</a>
-          </li>
-          <li>
-            <a href="">Giúp đỡ & Hỗ trợ</a>
-          </li>
-          <li>
-            <a href="">chính sách hoàn trả</a>
-          </li>
-          <li>
-            <a href="">điều khoản sử dụng</a>
-          </li>
-          <li>
-            <a href=""></a>
-          </li>
-        </div>
-        <div class="content-footer">
-          <h2>Hỗ Trợ</h2>
-          <li>
-            <a href="">Sản phẩm</a>
-          </li>
-          <li>
-            <a href="">Giúp đỡ & Hỗ trợ</a>
-          </li>
-          <li>
-            <a href="">chính sách hoàn trả</a>
-          </li>
-          <li>
-            <a href="">điều khoản sử dụng</a>
-          </li>
-          <li>
-            <a href=""></a>
-          </li>
-        </div>
-        <div class="content-footer">
-          <h2>Liên Hệ</h2>
-          <div class="social-icon social-icon-last">
-            <span><i class="fa-solid fa-location-dot"></i>Hòa Đam-Hòa Phong-Mỹ Hào-Hưng Yên </span><br/>
-            <span><i class="fa-solid fa-phone"></i>84+ 000000000</span><br />
-            <span><i class="fa-solid fa-envelope"></i>vuthanhminh2005@gmail.com</span>
-          </div>
-        </div>
-      </div>
-    </footer>
+</header>
 </body>
+<script src="./Assets/JS/GUI.js"></script>
+</html>
