@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="content">
+      <div class="content-header">
+        <h2>📝 Quản lý kiểm tra & đánh giá</h2>
+        <div class="actions">
+          <input
+            type="text"
+            id="searchTest"
+            placeholder="🔍 Tìm kiếm bài kiểm tra..."
+          />
+          <button id="addTestBtn">+ Tạo bài kiểm tra</button>
+        </div>
+      </div>
+
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tên bài kiểm tra</th>
+            <th>Khóa học</th>
+            <th>Ngày tạo</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody id="testTableBody"></tbody>
+      </table>
+
+      <!-- Modal thêm bài kiểm tra -->
+      <div id="addTestModal" class="modal">
+        <div class="modal-content">
+          <h3>Thêm bài kiểm tra</h3>
+          <label>Tên bài:</label>
+          <input type="text" id="testNameInput" />
+          <label>Khóa học:</label>
+          <input type="text" id="testCourseInput" />
+          <label>Trạng thái:</label>
+          <select id="testStatusInput">
+            <option value="Đang hoạt động">Đang hoạt động</option>
+            <option value="Ẩn">Ẩn</option>
+          </select>
+          <div class="modal-buttons">
+            <button id="saveTestBtn">Lưu</button>
+            <button id="closeTestModalBtn">Hủy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./assets/js/fakeData.js"></script>
+    <script src="./assets/js/test.js"></script>
+  </body>
+</html>

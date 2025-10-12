@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Quản lý khóa học</title>
+  </head>
+  <body>
+    <div class="content">
+      <div class="content-header">
+        <h1>📚 Quản lý khóa học</h1>
+        <div class="actions">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 Tìm kiếm tên khóa học"
+          /><select id="roleFilter">
+            <option value="all">Tất cả</option>
+            <option value="ielts">IELTS</option>
+            <option value="toeic">TOEIC</option>
+          </select>
+          <button id="addUserBtn">+ Thêm khóa học</button>
+        </div>
+      </div>
+      <div class="course-container">
+        <table id="courseTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Tên khóa học</th>
+              <th>Mô tả</th>
+              <th>Danh mục</th>
+              <th>Giảng viên</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Lập trình Web cơ bản</td>
+              <td>HTML, CSS và JavaScript cho người mới bắt đầu</td>
+              <td>IELTS</td>
+              <td>Nguyễn Văn A</td>
+              <td class="actions">
+                <button class="edit">Sửa</button>
+                <button class="delete">Xóa</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="form-modal">
+          <div class="form-container">
+            <h3>Thêm khóa học</h3>
+            <input type="hidden" id="editIndex" />
+            <input type="text" id="courseName" placeholder="Tên khóa học" />
+            <textarea id="courseDesc" placeholder="Mô tả khóa học"></textarea>
+            <input
+              type="text"
+              id="courseTeacher"
+              placeholder="Tên giảng viên"
+            />
+            <button class="add">Lưu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./assets/js/fakeData.js"></script>
+    <script src="./assets/js/course.js"></script>
+  </body>
+</html>

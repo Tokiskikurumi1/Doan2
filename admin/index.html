@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Quản lý học trực tuyến</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
+  <body>
+    <div class="admin-container">
+      <div class="sidebar">
+        <h2 class="logo">Hello Kurumi Admin</h2>
+        <ul>
+          <li>
+            <a href="./dashboard.html" target="content-frame">📊 Dashboard</a>
+          </li>
+          <li>
+            <p></p>
+            <ul class="li">
+              <a href="./manage_users.html" target="content-frame"
+                >👥 Quản lý người dùng</a
+              >
+            </ul>
+            <ul class="li"></ul>
+          </li>
+          <li>
+            <a href="./manage_courses.html" target="content-frame"
+              >📚 Quản lý khóa học</a
+            >
+          </li>
+          <li>
+            <a href="./manage_test.html" target="content-frame"
+              >Quản lý kiểm tra & đánh giá</a
+            >
+          </li>
+          <li>
+            <a href="./paying.html" target="content-frame"
+              >Quản lý thanh toán</a
+            >
+          </li>
+          <li>
+            <a href="./reports.html" target="content-frame"
+              >📈 Thống kê & báo cáo</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Main content -->
+      <div class="main-content">
+        <header class="navbar">
+          <h1>Trang quản trị</h1>
+          <div class="user-info">Xin chào, Admin 👋</div>
+        </header>
+
+        <iframe
+          name="content-frame"
+          src="dashboard.html"
+          frameborder="0"
+        ></iframe>
+      </div>
+    </div>
+
+    <script src="./assets/js/fakeData.js"></script>
+  </body>
+</html>

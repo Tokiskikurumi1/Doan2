@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="content manage-user">
+      <div class="content-header">
+        <h2>👥 Quản lý người dùng</h2>
+        <div class="actions">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 Tìm kiếm theo tên hoặc email..."
+          />
+          <select id="roleFilter">
+            <option value="all">Tất cả</option>
+            <option value="teacher">Giảng viên</option>
+            <option value="student">Học viên</option>
+          </select>
+          <button id="addUserBtn">+ Thêm người dùng</button>
+        </div>
+      </div>
+
+      <div class="userTable">
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Họ tên</th>
+              <th>Email</th>
+              <th>Vai trò</th>
+              <th>Ngày tạo</th>
+              <th>Trạng thái</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody id="userTableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Form thêm người dùng -->
+      <div id="addUserModal" class="modal">
+        <div class="modal-content">
+          <h3>Thêm người dùng mới</h3>
+          <label>Họ tên:</label>
+          <input type="text" id="nameInput" placeholder="Nhập họ tên..." />
+          <label>Email:</label>
+          <input type="email" id="emailInput" placeholder="Nhập email..." />
+          <label>Vai trò:</label>
+          <select id="roleInput">
+            <option value="teacher">Giảng viên</option>
+            <option value="student">Học viên</option>
+          </select>
+          <label>Trạng thái:</label>
+          <select id="statusInput">
+            <option value="active">Hoạt động</option>
+            <option value="locked">Khóa</option>
+          </select>
+          <div class="modal-buttons">
+            <button id="saveUserBtn">Lưu</button>
+            <button id="closeModalBtn">Hủy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./assets/js/fakeData.js"></script>
+    <script src="./assets/js/user_manage.js"></script>
+  </body>
+</html>
