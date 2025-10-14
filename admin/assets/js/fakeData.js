@@ -1,26 +1,3 @@
-const fakeData = {
-  adminStats: {
-    students: 1240,
-    courses: 52,
-    teachers: 15,
-    revenue: "120,000,000 VND",
-  },
-  teacherCourses: [
-    { name: "Lập trình C#", students: 40 },
-    { name: "SQL Cơ bản", students: 35 },
-    { name: "Flutter cho người mới", students: 25 },
-  ],
-  attendance: [
-    { date: "2025-10-10", present: 35, absent: 5 },
-    { date: "2025-10-09", present: 37, absent: 3 },
-  ],
-  grades: [
-    { name: "Nguyễn Văn A", grade: 9.0 },
-    { name: "Trần Thị B", grade: 8.5 },
-    { name: "Lê Văn C", grade: 7.8 },
-  ],
-};
-
 /*Fake dashborad */
 
 // Giả lập dữ liệu
@@ -38,7 +15,13 @@ const newUsers = [
   { name: "Phạm Thị D", email: "d@gmail.com", date: "2025-10-10" },
 ];
 
-const revenueData = [8, 10, 5, 15, 12, 20, 25, 22, 18, 30, 28, 35];
+const chartData = [
+  { month: "Tháng 1", value: 120 },
+  { month: "Đọc", value: 180 },
+  { month: "Viết", value: 90 },
+  { month: "Từ vựng", value: 220 },
+  { month: "Ngữ pháp", value: 160 },
+];
 
 /*fake user-manage */
 const users = [
@@ -71,22 +54,25 @@ const users = [
 /* fake course */
 const courses = [
   {
-    name: "HTML cơ bản",
+    id: 1,
+    namecourse: "HTML cơ bản",
+    desc: "Toeic 750+",
+    role: "TOEIC",
     teacher: "Nguyễn Minh",
-    students: 30,
-    status: "Hoạt động",
   },
   {
-    name: "C# nâng cao",
-    teacher: "Trần An",
-    students: 25,
-    status: "Hoạt động",
+    id: 2,
+    namecourse: "HTML cơ bản",
+    desc: "Toeic 750+",
+    role: "TOEIC",
+    teacher: "Nguyễn Minh",
   },
   {
-    name: "SQL Server",
-    teacher: "Lê Bình",
-    students: 20,
-    status: "Tạm dừng",
+    id: 3,
+    namecourse: "HTML cơ bản",
+    desc: "Toeic 750+",
+    role: "TOEIC",
+    teacher: "Nguyễn Minh",
   },
 ];
 
@@ -109,26 +95,6 @@ const tests = [
 ];
 
 /*fake paying */
-const payments = [
-  {
-    id: 1,
-    name: "Nguyễn Văn A",
-    course: "Java Cơ bản",
-    amount: "500,000đ",
-    method: "VNPay",
-    date: "2024-09-15",
-    status: "Hoàn tất",
-  },
-  {
-    id: 2,
-    name: "Trần Thị B",
-    course: "Python Nâng cao",
-    amount: "750,000đ",
-    method: "Momo",
-    date: "2024-10-02",
-    status: "Đang xử lý",
-  },
-];
 
 /*fake report */
 const reportData = {
@@ -136,6 +102,3 @@ const reportData = {
   courses: { total: 18, active: 14, upcoming: 3, closed: 1 },
   payments: { revenue: "18,250,000đ", pending: "2,500,000đ" },
 };
-
-const container = document.getElementById("reportContainer");
-const select = document.getElementById("reportType");

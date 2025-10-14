@@ -20,33 +20,3 @@ function new_user(newUsers) {
 }
 
 new_user(newUsers);
-// Vẽ biểu đồ doanh thu thuần JS
-const canvas = document.getElementById("revenueChart");
-const ctx = canvas.getContext("2d");
-const maxRevenue = Math.max(...revenueData);
-const barWidth = 25;
-const gap = 15;
-const startX = 40;
-const baseY = 180;
-
-revenueData.forEach((value, i) => {
-  const barHeight = (value / maxRevenue) * 150;
-  ctx.fillStyle = "#2b7bff";
-  ctx.fillRect(
-    startX + i * (barWidth + gap),
-    baseY - barHeight,
-    barWidth,
-    barHeight
-  );
-  ctx.fillStyle = "#333";
-  ctx.font = "12px Arial";
-  ctx.fillText(value, startX + i * (barWidth + gap), baseY - barHeight - 5);
-});
-
-// Vẽ trục
-ctx.strokeStyle = "#999";
-ctx.beginPath();
-ctx.moveTo(30, 10);
-ctx.lineTo(30, baseY);
-ctx.lineTo(420, baseY);
-ctx.stroke();

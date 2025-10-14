@@ -20,11 +20,11 @@
             <option value="ielts">IELTS</option>
             <option value="toeic">TOEIC</option>
           </select>
-          <button id="addUserBtn">+ Thêm khóa học</button>
+          <button id="addCourseBtn">+ Thêm khóa học</button>
         </div>
       </div>
-      <div class="course-container">
-        <table id="courseTable">
+      <div class="courseTable">
+        <table class="course-table">
           <thead>
             <tr>
               <th>ID</th>
@@ -35,8 +35,8 @@
               <th>Thao tác</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
+          <tbody id="courseTableBody">
+            <!-- <tr>
               <td>1</td>
               <td>Lập trình Web cơ bản</td>
               <td>HTML, CSS và JavaScript cho người mới bắt đầu</td>
@@ -46,27 +46,35 @@
                 <button class="edit">Sửa</button>
                 <button class="delete">Xóa</button>
               </td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
 
-        <div class="form-modal">
+        <div id="addCourseModal" class="modal">
           <div class="form-container">
             <h3>Thêm khóa học</h3>
             <input type="hidden" id="editIndex" />
-            <input type="text" id="courseName" placeholder="Tên khóa học" />
+            <input type="text" id="courseInput" placeholder="Tên khóa học" />
+            <select id="roleInput">
+              <option value="all">Tất cả</option>
+              <option value="IELTS">IELTS</option>
+              <option value="TOEIC">TOEIC</option>
+            </select>
             <textarea id="courseDesc" placeholder="Mô tả khóa học"></textarea>
             <input
               type="text"
               id="courseTeacher"
               placeholder="Tên giảng viên"
             />
-            <button class="add">Lưu</button>
+            <div class="modal-buttons">
+              <button id="saveCourseBtn">Lưu</button>
+              <button id="closeModalBtn">Hủy</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <script src="./assets/js/fakeData.js"></script>
+    <!-- <script src="./assets/js/fakeData.js"></script> -->
     <script src="./assets/js/course.js"></script>
   </body>
 </html>

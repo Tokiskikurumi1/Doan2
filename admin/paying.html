@@ -1,41 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./assets/css/style.css" />
-    <title>Document</title>
+    <title>Quản lý thanh toán</title>
   </head>
   <body>
     <div class="content">
       <div class="content-header">
-        <h2>💵 Quản lý thanh toán</h2>
+        <h2>Quản lý thanh toán</h2>
+
+        <div class="stats">
+          <div class="list-card">
+            <div class="card">
+              <h3>💰Tổng doanh thu hôm nay</h3>
+              <p id="Total">0</p>
+            </div>
+            <div class="card">
+              <h3>📅 Giao dịch hôm nay</h3>
+              <p id="totalTrade">0</p>
+            </div>
+            <div class="card">
+              <h3>✅ Đã thanh toán</h3>
+              <p id="tradeSuccsess">0</p>
+            </div>
+            <div class="card">
+              <h3>❌ Thất bại</h3>
+              <p id="tradeFaild">0</p>
+            </div>
+          </div>
+          <div class="chart-paying">
+            <h3>Biểu đồ doanh thu theo tháng</h3>
+            <div class="char-container"></div>
+          </div>
+        </div>
+
         <div class="actions">
           <input
             type="text"
             id="searchPayment"
-            placeholder="🔍 Tìm kiếm người thanh toán..."
+            placeholder="🔍 Tìm kiếm theo tên học viên/ mã giao dịch"
           />
+          <label>Trạng thái thanh toán</label>
+          <select id="roleFilter">
+            <option value="all">Tất cả</option>
+            <option value="paid">Đã thanh toán</option>
+            <option value="unpaid">Chưa thanh toán</option>
+            <option value="confirm">Chờ xác nhận</option>
+          </select>
+          <label>Khóa học</label>
+          <select id="roleFilterCourse">
+            <option value="all">Tất cả</option>
+            <option value="ielts">IELTS</option>
+            <option value="toeic">TOEIC</option>
+          </select>
+        </div>
+
+        <div class="date-actions">
+          <label>Từ ngày:</label>
+          <input type="date" id="fromDate" />
+          <label>Đến ngày:</label>
+          <input type="date" id="toDate" />
+          <button id="applyDate">Áp dụng</button>
         </div>
       </div>
 
-      <table class="user-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Người dùng</th>
-            <th>Khóa học</th>
-            <th>Số tiền</th>
-            <th>Phương thức</th>
-            <th>Ngày thanh toán</th>
-            <th>Trạng thái</th>
-          </tr>
-        </thead>
-        <tbody id="paymentTableBody"></tbody>
-      </table>
+      <div class="paymentTable">
+        <table class="payment-table">
+          <thead>
+            <tr>
+              <th>Mã giao dịch</th>
+              <th>Học viên</th>
+              <th>Khóa học</th>
+              <th>Số tiền</th>
+              <th>Phương thức thanh toán</th>
+              <th>Ngày thanh toán</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="paymentTableBody"></tbody>
+        </table>
+      </div>
+
+      <div id="paymentModal" class="modal"></div>
     </div>
 
-    <script src="./assets/js/fakeData.js"></script>
     <script src="./assets/js/paying.js"></script>
+    <script src="./assets/js/fakeData.js"></script>
+    <script src="./assets/js/char.js"></script>
   </body>
 </html>
