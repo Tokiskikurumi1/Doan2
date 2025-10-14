@@ -1,142 +1,214 @@
-
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to right, var(--green2-),var(--green1-), var(--blue-));
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(
+    to right,
+    var(--green2-),
+    var(--green1-),
+    var(--blue-)
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+h1 {
+  background-image: url("https://images.pexels.com/photos/6985001/pexels-photo-6985001.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260");
+  background-repeat: repeat;
+  -webkit-text-fill-color: transparent;
+  color: rgba(225, 225, 225, 0.01);
+  -webkit-background-clip: text;
+  animation: animate 15s ease-in-out infinite;
+  background-clip: text;
+  font-weight: 900;
+  font-size: 36px;
+  text-align: center;
+  text-transform: uppercase;
+}
+@keyframes animate {
+  0%,
+  100% {
+    background-position: left top;
+  }
+  25% {
+    background-position: right bottom;
+  }
+  50% {
+    background-position: left bottom;
+  }
+  75% {
+    background-position: right top;
+  }
 }
 
 .Auth {
-    display: flex;
-    gap: 30px;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 /* Card layout */
 .Auth-Login,
 .Auth-Signup,
 .Forgot-password {
-    background-color: #fff;
-    padding: 30px 25px;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    width: 320px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    transition: transform 0.3s ease;
+  background-color: #fff;
+  padding: 30px 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: transform 0.3s ease;
 }
 
 .Auth-Login:hover,
 .Auth-Signup:hover,
 .Forgot-password:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 h1 {
-    font-size: 26px;
-    color: #333;
-    margin-bottom: 5px;
-    text-align: center;
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 5px;
+  text-align: center;
 }
 
 h2 {
-    font-size: 14px;
-    color: #666;
-    text-align: center;
-    margin-bottom: 20px;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 input[type="username"],
 input[type="email"],
 input[type="password"] {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
 }
 
 input:focus {
-    border-color: var(--blue-);
-    outline: none;
+  border-color: var(--blue-);
+  outline: none;
 }
 label {
-    font-size: 13px;
-    color: #444;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  font-size: 13px;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 button {
-    padding: 10px;
-    background-color: var(--blue-);
-    color: var(--white-);
-    border: none;
-    border-radius: 6px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  padding: 10px;
+  background-color: var(--blue-);
+  color: var(--white-);
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 span {
-    font-size: 13px;
-    color: #007BFF;
-    cursor: pointer;
-    text-align: right;
-    transition: color 0.3s ease;
+  font-size: 13px;
+  color: #007bff;
+  cursor: pointer;
+  text-align: right;
+  transition: color 0.3s ease;
 }
 span:hover {
-    color: #0056b3;
+  color: #0056b3;
 }
 .form-group {
-    position: relative;
-    margin-bottom: 20px;
+  position: relative;
+  margin-bottom: 20px;
 }
 
 /* Input bên trong form-group */
 .form-group input {
-    width: 100%;
-    padding: 12px 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background: none;
-    outline: none;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 12px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: none;
+  outline: none;
+  box-sizing: border-box;
 }
 
 /* Label nổi */
 .form-group label {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    color: #999;
-    font-size: 14px;
-    pointer-events: none;
-    transition: transform 0.2s ease, font-size 0.2s ease, color 0.2s ease;
-    background-color: #fff;
-    padding: 0 4px;
-    transform-origin: left top;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: #000;
+  font-size: 14px;
+  pointer-events: none;
+  transition: transform 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+  background-color: #fff;
+  padding: 0 4px;
+  transform-origin: left top;
 }
 
 /* Khi input được focus hoặc có nội dung */
 .form-group input:focus + label,
 .form-group input:not(:placeholder-shown) + label {
-    transform: translateY(-20px) scale(0.85);
-    font-size: 12px;
-    color: #4A90E2;
+  transform: translateY(-20px) scale(0.85);
+  font-size: 12px;
+  color: #4a90e2;
 }
 
+.Auth > div {
+  display: none;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 0.3s ease;
+}
 
+.Auth > div.active {
+  display: flex;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.form-group select {
+  width: 100%;
+  padding: 12px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #000;
+  box-sizing: border-box;
+  appearance: none;
+  outline: none;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
