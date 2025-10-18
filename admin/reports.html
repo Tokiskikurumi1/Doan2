@@ -1,26 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./assets/css/style.css" />
-    <title>Document</title>
+
+    <title>Thống kê & Báo cáo - E-learning</title>
   </head>
   <body>
-    <div class="content-header">
-      <h2>📈 Thống kê & Báo cáo</h2>
-      <div class="actions">
-        <select id="reportType">
-          <option value="users">Người dùng</option>
-          <option value="courses">Khóa học</option>
-          <option value="payments">Doanh thu</option>
-        </select>
+    <div class="content">
+      <div class="content-header">
+        <h1>📊 Thống kê & Báo cáo</h1>
+
+        <!-- Bộ lọc -->
+        <div class="actions">
+          <label>Loại thống kê:</label>
+          <select>
+            <option>Người dùng</option>
+            <option>Khóa học</option>
+            <option>Doanh thu</option>
+            <option value="">Tài khoản vi phạm</option>
+          </select>
+
+          <label>Từ ngày:</label>
+          <input type="date" />
+          <label>Đến ngày:</label>
+          <input type="date" />
+
+          <button>Áp dụng</button>
+        </div>
+      </div>
+
+      <!-- Thẻ số liệu -->
+      <div class="stats"></div>
+
+      <div class="chart-container"></div>
+
+      <!-- Bảng -->
+      <div class="reportTable"></div>
+
+      <!-- Xuất file -->
+      <div class="export">
+        <button onclick="window.print()">🖨 Xuất báo cáo</button>
       </div>
     </div>
 
-    <div id="reportContainer" class="report-box"></div>
-
-    <script src="./assets/js/fakeData.js"></script>
     <script src="./assets/js/report.js"></script>
   </body>
 </html>
