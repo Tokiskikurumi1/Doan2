@@ -32,6 +32,8 @@ document.querySelector(".Auth-Login span:nth-of-type(2)").onclick = () =>
   showForm("Auth-Signup");
 document.querySelector(".Auth-Signup span").onclick = () =>
   showForm("Auth-Login");
+document.querySelector(".Forgot-password span").onclick = () =>
+  showForm("Auth-Login");
 
 // Dữ liệu kiểm tra
 const regex = {
