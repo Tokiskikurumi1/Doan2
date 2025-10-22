@@ -33,19 +33,43 @@
 
       <div class="layout">
         <section class="sidebar">
-          <h3>Danh mục</h3>
           <ul id="categories">
-            <li data-cat="Ngữ pháp" class="cat active">Ngữ pháp</li>
-            <li data-cat="Từ vựng" class="cat">Từ vựng</li>
-            <li data-cat="Luyện nói" class="cat">Luyện nói</li>
+            <li data-cat="Tổng hợp" class="cat active">Bài viết tổng hợp</li>
+            <li data-cat="Trang cá nhân" class="cat">Trang cá nhân</li>
+            <!-- <li data-cat="Luyện nói" class="cat">Luyện nói</li>
             <li data-cat="Luyện nghe" class="cat">Luyện nghe</li>
-            <li data-cat="Chia sẻ" class="cat">Chia sẻ kinh nghiệm</li>
+            <li data-cat="Chia sẻ" class="cat">Chia sẻ kinh nghiệm</li> -->
           </ul>
         </section>
 
         <section class="contents">
           <div class="panel">
-            <h2>Bài viết mới nhất</h2>
+            <h2 id="panelTitle">Bài viết mới nhất</h2>
+
+            <div
+              id="profileSection"
+              style="display: none; text-align: center; margin-bottom: 20px"
+            >
+              <div
+                class="c-avatar"
+                style="
+                  width: 80px;
+                  height: 80px;
+                  font-size: 30px;
+                  margin: 0 auto;
+                  background: #2563eb;
+                  color: white;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  border-radius: 50%;
+                "
+              >
+                B
+              </div>
+              <h3 style="margin-top: 10px">Bạn</h3>
+              <p style="color: gray">Bài viết của tôi</p>
+            </div>
             <div id="postList" class="post-list">
               <!-- <div class="post">
                 <div class="top-content">
@@ -81,7 +105,6 @@
           <button class="modal-close" id="closeModal">✕</button>
 
           <div class="content-scroll">
-            <h2 id="modalTitle">Tiêu đề bài viết</h2>
             <div class="meta" id="modalMeta">
               <div class="avt-name-title">
                 <div class="c-avatar">M</div>
@@ -107,20 +130,17 @@
       <!-- New Post Modal -->
       <div id="newPostModal" class="modal" aria-hidden="true">
         <div class="modal-dialog">
-          <button class="modal-close" id="closeNewPost">✕</button>
-          <h2>Đăng bài mới</h2>
-          <input id="postTitle" placeholder="Tiêu đề" />
-          <select id="postCategory">
-            <option>Ngữ pháp</option>
-            <option>Từ vựng</option>
-            <option>Luyện nói</option>
-            <option>Luyện nghe</option>
-            <option>Chia sẻ</option>
-          </select>
-          <textarea
-            id="postBody"
-            placeholder="Nội dung bài viết (có thể dán nhiều dòng)"
-          ></textarea>
+          <div class="content-scroll">
+            <button class="modal-close" id="closeNewPost">✕</button>
+            <h2>Tạo bài viết</h2>
+            <div class="avt-name-title">
+              <div class="c-avatar">M</div>
+              <div class="meta">Tao</div>
+            </div>
+            <textarea id="postBody" placeholder="Nội dung bài viết"></textarea>
+            <img id="imagePreview" />
+          </div>
+          <input type="file" id="postImage" accept="image/*" />
           <div class="row right">
             <button id="createPost" class="btn primary">Đăng bài</button>
           </div>

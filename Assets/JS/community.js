@@ -1,42 +1,41 @@
-// script.js - simple in-browser prototype (no backend)
+// ========================== DỮ LIỆU GIẢ ==========================
 const posts = [
   {
     id: 1,
-    title:
-      "Cách sử dụng thì Hiện tại đơn eassssssssssssssssssssssssssseassssssssssssssssssssssssssstrong bài nói",
     author: "Lan",
     time: "2 giờ trước",
     cat: "Ngữ pháp",
-    content:
-      "Giải thích + ví dụ: I eat, he easssssssssssssssssssssssssss sssssssssss sssssssssssssssssssssssssssssts...",
-    content:
-      "Giải thích + ví dụ: I eat, he easssssssssssssssssssssssssss sssssssssss sssssssssssssssssssssssssssssts...",
+    content: "Cách sử dụng thì Hiện tại đơn và ví dụ cụ thể: I eat, he eats...",
+    likes: 0,
+    comments: 0,
   },
   {
     id: 2,
-    title: "500 từ vựng cơ bản cho người mới bắt đầu",
     author: "Minh",
     time: "1 ngày trước",
-    cat: "Từ vựng",
-    content: "Danh sách 500 từ: ...",
+    cat: "Trang cá nhân",
+    content: "500 từ vựng cơ bản cho người mới bắt đầu: apple, book, chair...",
+    likes: 0,
+    comments: 0,
   },
   {
     id: 3,
-    title: "Mẹo luyện nghe mỗi ngày",
     author: "Hương",
     time: "3 ngày trước",
     cat: "Luyện nghe",
-    content: "Nghe podcast, chép chính tả...",
+    content: "Mẹo luyện nghe mỗi ngày: nghe podcast, chép chính tả...",
+    likes: 0,
+    comments: 0,
   },
 ];
 
+// ========================== BIẾN TOÀN CỤC ==========================
 const postList = document.getElementById("postList");
-const post = document.querySelector(".post");
 const postModal = document.getElementById("postModal");
-const modalTitle = document.getElementById("modalTitle");
 const modalMeta = document.getElementById("modalMeta");
 const modalContent = document.getElementById("modalContent");
 const commentsEl = document.getElementById("comments");
+const commentInput = document.getElementById("commentInput");
 const closeModal = document.getElementById("closeModal");
 const newPostBtn = document.getElementById("newPostBtn");
 const newPostModal = document.getElementById("newPostModal");
@@ -44,19 +43,30 @@ const closeNewPost = document.getElementById("closeNewPost");
 const createPost = document.getElementById("createPost");
 const categories = document.querySelectorAll(".cat");
 const searchInput = document.getElementById("searchInput");
+const postImageInput = document.getElementById("postImage");
+const imagePreview = document.getElementById("imagePreview");
 
-let currentFilter = "Ngữ pháp";
+let currentFilter = "Tổng hợp";
 let currentPost = null;
 let commentsMap = {}; // postId -> comments array
 
+// ========================== HÀM HIỂN THỊ DANH SÁCH ==========================
 function renderList() {
   postList.innerHTML = "";
   const q = (searchInput.value || "").toLowerCase();
-  const filtered = posts.filter(
-    (p) =>
-      p.cat === currentFilter &&
-      (p.title.toLowerCase().includes(q) || p.content.toLowerCase().includes(q))
-  );
+
+  const filtered = posts.filter((p) => {
+    // Nếu là "Tổng hợp" thì lấy hết
+    if (currentFilter === "Tổng hợp") {
+      return true;
+    }
+    // Còn nếu là danh mục khác thì lọc theo danh mục
+    else {
+      return (
+        p.cat === currentFilter && (p.content || "").toLowerCase().includes(q)
+      );
+    }
+  });
 
   if (filtered.length === 0) {
     postList.innerHTML =
@@ -68,84 +78,194 @@ function renderList() {
     const el = document.createElement("div");
     el.className = "post";
     el.innerHTML = `
-      <div class="top-content">
-        <div class="left">
-          <div class="avt-name-title">
-            <div class="c-avatar">${p.author[0] || "U"}</div>
-            <div class="meta">Bởi ${p.author} • ${p.time}</div>
-          </div>
-          <div class="title">${p.title}</div>
-        </div>
+  <div class="top-content">
+    <div class="left">
+      <div class="avt-name-title">
+        <div class="c-avatar">${(p.author && p.author[0]) || "U"}</div>
+        <div class="meta">Bởi ${p.author} • ${p.time}</div>
       </div>
-      <div class="icons-action">
-        <div class="icon-card">
-          <i class="fa-solid fa-heart"></i>
-          <p class="count-heart">0</p>
-        </div>
-        <div class="icon-card">
-          <i class="fa-solid fa-message"></i>
-          <p class="count-message">0</p>
-        </div>
-      </div>
-    `;
+      <div class="title">${p.content}</div>
+      <div class="PostImg">${
+        p.image ? `<img src="${p.image}" class="post-image" />` : ""
+      }</div>
+    </div>
+  </div>
+  <div class="icons-action">
+    <div class="icon-card heart-card">
+      <i class="fa-solid fa-heart"></i>
+      <p class="count-heart">${p.likes || 0}</p>
+    </div>
+    <div class="icon-card message-card">
+      <i class="fa-solid fa-message"></i>
+      <p class="count-message">${p.comments || 0}</p>
+    </div>
+  </div>
+`;
 
-    // Gắn sự kiện mở bài chi tiết cho từng bài
-    el.addEventListener("click", () => openPost(p.id));
+    // --- Click mở bài ---
+    el.addEventListener("click", (e) => {
+      if (e.target.closest(".icon-card")) return;
+      openPost(p.id);
+    });
 
-    // Thêm vào danh sách
+    // --- ❤️ Like ---
+    const heartCard = el.querySelector(".heart-card");
+    const heartIcon = heartCard.querySelector("i");
+    const heartCount = heartCard.querySelector(".count-heart");
+
+    if (typeof p._liked === "undefined") p._liked = false;
+    heartIcon.style.color = p._liked ? "red" : "";
+    heartCount.textContent = p.likes;
+
+    heartCard.addEventListener("click", (e) => {
+      e.stopPropagation();
+      p._liked = !p._liked;
+      if (p._liked) {
+        p.likes++;
+        heartIcon.style.color = "red";
+      } else {
+        p.likes = Math.max(0, p.likes - 1);
+        heartIcon.style.color = "";
+      }
+      heartCount.textContent = p.likes;
+    });
+
+    // --- 💬 Mở chi tiết khi click icon message ---
+    const msgCard = el.querySelector(".message-card");
+    msgCard.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openPost(p.id);
+    });
+
     postList.appendChild(el);
   });
 }
 
+// ========================== HÀM HIỂN THỊ BÀI CỦA TÔI ==========================
+function renderMyPosts() {
+  postList.innerHTML = "";
+  const myPosts = posts.filter((p) => p.cat === "Trang cá nhân");
+
+  if (myPosts.length === 0) {
+    postList.innerHTML =
+      '<div style="padding:20px;color:#6b7280;text-align:center;">Bạn chưa đăng bài nào.</div>';
+    return;
+  }
+
+  myPosts.forEach((p) => {
+    const el = document.createElement("div");
+    el.className = "post";
+    el.innerHTML = `
+      <div class="top-content">
+        <div class="left">
+          <div class="avt-name-title">
+            <div class="c-avatar">${(p.author && p.author[0]) || "U"}</div>
+            <div class="meta">${p.time}</div>
+          </div>
+          <div class="title">${p.content}</div>
+          ${p.image ? `<img src="${p.image}" class="post-image" />` : ""}
+        </div>
+      </div>
+      <div class="icons-action">
+        <div class="icon-card heart-card">
+          <i class="fa-solid fa-heart"></i>
+          <p class="count-heart">${p.likes || 0}</p>
+        </div>
+        <div class="icon-card message-card">
+          <i class="fa-solid fa-message"></i>
+          <p class="count-message">${p.comments || 0}</p>
+        </div>
+      </div>
+    `;
+
+    // Bắt sự kiện mở chi tiết bài viết
+    el.addEventListener("click", () => openPost(p.id));
+    postList.appendChild(el);
+  });
+}
+
+// ========================== HÀM MỞ BÀI CHI TIẾT ==========================
 function openPost(id) {
   const p = posts.find((x) => x.id === id);
+  if (!p) return;
   currentPost = p;
-  modalTitle.textContent = p.title;
-  modalMeta.innerHTML = `<div class="avt-name-title">
-              <div class="c-avatar">${p.author[0] || "U"}</div>
-              <div class="meta">Bởi ${p.author} • ${p.time}</div>
-            </div>`;
-  modalContent.textContent = p.content;
+
+  modalMeta.innerHTML = `
+    <div class="avt-name-title">
+      <div class="c-avatar">${(p.author && p.author[0]) || "U"}</div>
+      <div class="meta">Bởi ${p.author} • ${p.time}</div>
+    </div>`;
+
+  modalContent.innerHTML = `
+    <div class="text-content">${p.content}</div>
+    ${p.image ? `<img src="${p.image}" class="post-image" />` : ""}
+  `;
+
   renderComments();
   postModal.setAttribute("aria-hidden", "false");
 }
 
+// ========================== ĐÓNG MODAL ==========================
 function closeModalFn() {
   postModal.setAttribute("aria-hidden", "true");
 }
 
+// ========================== HIỂN THỊ BÌNH LUẬN ==========================
 function renderComments() {
   commentsEl.innerHTML = "";
   const arr = commentsMap[currentPost.id] || [];
-  if (arr.length === 0)
+  if (arr.length === 0) {
     commentsEl.innerHTML =
       '<div style="color:#6b7280;padding:8px 0">Chưa có bình luận</div>';
+    return;
+  }
   arr.forEach((c) => {
     const e = document.createElement("div");
     e.className = "comment";
-    e.innerHTML = `<div class="c-avatar">${
-      c.name[0] || "U"
-    }</div><div class="c-body"><strong>${c.name}</strong><div class="c-meta">${
-      c.time
-    }</div><div>${c.text}</div></div>`;
+    e.innerHTML = `
+      <div class="c-avatar">${(c.name && c.name[0]) || "U"}</div>
+      <div class="c-body">
+        <strong>${c.name}</strong>
+        <div class="c-meta">${c.time}</div>
+        <div>${c.text}</div>
+
+      </div>`;
     commentsEl.appendChild(e);
   });
 }
 
+// ========================== GỬI BÌNH LUẬN ==========================
 document.getElementById("sendComment").addEventListener("click", () => {
   const txt = document.getElementById("commentInput").value.trim();
-  if (!txt) return alert("Viết bình luận trước khi gửi");
+  if (!txt) {
+    return alert("Viết bình luận trước khi gửi");
+  }
+
+  // Lấy danh sách bình luận của bài hiện tại
   const arr = (commentsMap[currentPost.id] = commentsMap[currentPost.id] || []);
-  arr.push({ name: "Bạn", time: "vừa xong", text: txt });
-  document.getElementById("commentInput").value = "";
+  arr.push({ name: "You", time: "vừa xong", text: txt });
+
+  // Cập nhật số lượng bình luận của bài
+  currentPost.comments = arr.length;
+
+  // Xóa input, render lại phần bình luận
+  commentInput.value = "";
   renderComments();
+
+  // Render lại danh sách bài để cập nhật số bình luận trong icon 💬
+  renderList();
+
+  // Đóng modal
+  closeModalFn();
 });
 
+// ========================== SỰ KIỆN MODAL ==========================
 closeModal.addEventListener("click", closeModalFn);
 postModal.addEventListener("click", (e) => {
   if (e.target === postModal) closeModalFn();
 });
 
+// ========================== TẠO BÀI MỚI ==========================
 newPostBtn.addEventListener("click", () =>
   newPostModal.setAttribute("aria-hidden", "false")
 );
@@ -158,32 +278,49 @@ newPostModal.addEventListener("click", (e) => {
 });
 
 createPost.addEventListener("click", () => {
-  const title = document.getElementById("postTitle").value.trim();
   const body = document.getElementById("postBody").value.trim();
-  const cat = document.getElementById("postCategory").value;
-  if (!title || !body) return alert("Tiêu đề và nội dung không được để trống");
+  const imgInput = document.getElementById("postImage");
+  const file = imgInput.files[0];
+
+  if (!body && !file) return alert("Vui lòng viết nội dung hoặc chọn ảnh");
+
   const id = posts.length ? Math.max(...posts.map((p) => p.id)) + 1 : 1;
-  posts.unshift({
-    id,
-    title,
-    author: "Bạn",
-    time: "vừa xong",
-    cat,
-    content: body,
-  });
-  document.getElementById("postTitle").value = "";
-  document.getElementById("postBody").value = "";
-  newPostModal.setAttribute("aria-hidden", "true");
-  currentFilter = cat;
-  document
-    .querySelectorAll(".cat")
-    .forEach((c) => c.classList.remove("active"));
-  document
-    .querySelector('.cat[data-cat="' + cat + '"]')
-    .classList.add("active");
-  renderList();
+
+  // Hàm thêm bài
+  const addPost = (imageBase64 = null) => {
+    posts.unshift({
+      id,
+      author: "Bạn",
+      time: "vừa xong",
+      cat: "Trang cá nhân",
+      content: body || "",
+      image: imageBase64,
+      likes: 0,
+      comments: 0,
+    });
+
+    document.getElementById("postBody").value = "";
+    document.getElementById("postImage").value = "";
+    document.getElementById("imagePreview").src = "";
+    newPostModal.setAttribute("aria-hidden", "true");
+    // kiểm tra xem đang ở thẻ Cat nào
+    if (currentFilter === "Trang cá nhân") {
+      renderMyPosts();
+    }
+    renderList();
+  };
+
+  // Nếu có file ảnh thì đọc base64
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => addPost(e.target.result);
+    reader.readAsDataURL(file);
+  } else {
+    addPost();
+  }
 });
 
+// ========================== CHUYỂN DANH MỤC ==========================
 categories.forEach((c) => {
   c.addEventListener("click", () => {
     document
@@ -191,11 +328,40 @@ categories.forEach((c) => {
       .forEach((x) => x.classList.remove("active"));
     c.classList.add("active");
     currentFilter = c.getAttribute("data-cat");
-    renderList();
+
+    const panelTitle = document.getElementById("panelTitle");
+    const profileSection = document.getElementById("profileSection");
+
+    if (currentFilter === "Trang cá nhân") {
+      panelTitle.textContent = "Trang cá nhân";
+      profileSection.style.display = "block";
+      renderMyPosts();
+    } else {
+      panelTitle.textContent = "Bài viết mới nhất";
+      profileSection.style.display = "none";
+      renderList();
+    }
   });
 });
 
 searchInput.addEventListener("input", renderList);
 
-// initial render
+// ========================== XEM TRƯỚC ẢNH ==========================
+
+postImageInput.addEventListener("change", () => {
+  const file = postImageInput.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imagePreview.src = e.target.result;
+      imagePreview.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  } else {
+    imagePreview.src = "";
+    imagePreview.style.display = "none";
+  }
+});
+
+// ========================== KHỞI TẠO ==========================
 renderList();
