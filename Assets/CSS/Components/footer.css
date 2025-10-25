@@ -29,6 +29,10 @@
   font-size: 10px;
 }
 
+#main-footer {
+  width: 100%;
+}
+
 #footer {
   width: 100%;
   background-color: #eeeae1;

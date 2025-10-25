@@ -12,94 +12,82 @@
     <title>Community</title>
   </head>
   <body>
+    <!-- HEADER -->
     <div id="main-header"></div>
 
+    <!-- MAIN CONTENT -->
     <main class="main-content">
       <div class="topbar">
-        <div class="container">
-          <div class="logo">Diễn đàn <strong>Học Tiếng Anh</strong></div>
+        <!-- DESKTOP VIEW -->
+        <div class="container container-highter">
+          <div class="logo">Diễn đàn Học Tiếng Anh</div>
           <div class="searchbar">
             <input
               id="searchInput"
               placeholder="Tìm chủ đề, từ vựng, ngữ pháp..."
             />
+            <div class="img-search">
+              <img src="./Assets/images/img_community/search.png" alt="" />
+            </div>
           </div>
+
           <div class="actions">
             <button id="newPostBtn" class="btn">Đăng bài</button>
             <div class="avatar">M</div>
           </div>
         </div>
-      </div>
+        <!-- MOBILE VIEW -->
+        <div class="container container-768">
+          <div class="logo-searchIcon">
+            <div class="logo">Diễn đàn Học Tiếng Anh</div>
+            <div class="searchbar">
+              <input
+                id="searchInput"
+                placeholder="Tìm chủ đề, từ vựng, ngữ pháp..."
+              />
+              <div class="img-search">
+                <img src="./Assets/images/img_community/search.png" alt="" />
+              </div>
+            </div>
+          </div>
 
+          <div class="actions">
+            <button id="newPostBtn" class="btn">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+            <button id="generalBtn" class="btn">
+              <i class="fa-solid fa-layer-group"></i>
+            </button>
+            <div class="avatar">M</div>
+          </div>
+        </div>
+      </div>
+      <!-- LAYOUT CHÍNH -->
       <div class="layout">
         <section class="sidebar">
           <ul id="categories">
             <li data-cat="Tổng hợp" class="cat active">Bài viết tổng hợp</li>
             <li data-cat="Trang cá nhân" class="cat">Trang cá nhân</li>
-            <!-- <li data-cat="Luyện nói" class="cat">Luyện nói</li>
-            <li data-cat="Luyện nghe" class="cat">Luyện nghe</li>
-            <li data-cat="Chia sẻ" class="cat">Chia sẻ kinh nghiệm</li> -->
           </ul>
         </section>
 
+        <!-- BÀI ĐĂNG TỔNG HỢP -->
         <section class="contents">
           <div class="panel">
             <h2 id="panelTitle">Bài viết mới nhất</h2>
-
-            <div
-              id="profileSection"
-              style="display: none; text-align: center; margin-bottom: 20px"
-            >
-              <div
-                class="c-avatar"
-                style="
-                  width: 80px;
-                  height: 80px;
-                  font-size: 30px;
-                  margin: 0 auto;
-                  background: #2563eb;
-                  color: white;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  border-radius: 50%;
-                "
-              >
-                B
-              </div>
+            <!--TRANG CÁ NHÂN + BÀI VIẾT TỔNG HỢP-->
+            <div id="profileSection">
+              <div class="c-avatar">B</div>
               <h3 style="margin-top: 10px">Bạn</h3>
               <p style="color: gray">Bài viết của tôi</p>
             </div>
-            <div id="postList" class="post-list">
-              <!-- <div class="post">
-                <div class="top-content">
-                  <div class="left">
-                    <div class="avt-name-title">
-                      <div class="c-avatar">M</div>
-                      <div class="meta">Bởi tao • 2h trước</div>
-                    </div>
-                    <div class="title">
-                      NhwvvvddddddddddvsNhNhwvvvddddddddddvsNhwvvvddddddddddvssssssssssssssssssssssssssssswvvvddddddddddvsssssssssssssssssssssssssssss
-                    </div>
-                  </div>
-                </div>
-                <div class="icons-action">
-                  <div class="icon-card">
-                    <i class="fa-solid fa-heart"></i>
-                    <p class="count-heart">0</p>
-                  </div>
-                  <div class="icon-card">
-                    <i class="fa-solid fa-message"></i>
-                    <p class="count-message">0</p>
-                  </div>
-                </div>
-              </div> -->
-            </div>
+
+            <div id="postList" class="post-list"></div>
           </div>
         </section>
       </div>
 
-      <!-- Post Detail Modal -->
+      <!-- XEM CHI TIẾT BÀI VIẾT  -->
       <div id="postModal" class="modal" aria-hidden="true">
         <div class="modal-dialog">
           <button class="modal-close" id="closeModal">✕</button>
@@ -127,7 +115,8 @@
         </div>
       </div>
 
-      <!-- New Post Modal -->
+      <!-- ĐĂNG BÀI VIẾT  -->
+      <!--VỀ SỬA LẠI CÁI NÀY, LỖI KHI ĐĂNG BÀI HIỆN TÊN KHÔNG TRÙNG VỚI MÃ GIẢ-->
       <div id="newPostModal" class="modal" aria-hidden="true">
         <div class="modal-dialog">
           <div class="content-scroll">
@@ -135,12 +124,15 @@
             <h2>Tạo bài viết</h2>
             <div class="avt-name-title">
               <div class="c-avatar">M</div>
-              <div class="meta">Tao</div>
+              <div class="meta">Bạn</div>
             </div>
             <textarea id="postBody" placeholder="Nội dung bài viết"></textarea>
             <img id="imagePreview" />
           </div>
-          <input type="file" id="postImage" accept="image/*" />
+          <div class="btn-choose-img">
+            Thêm ảnh vào bài viết của bạn🖼️
+            <input type="file" id="postImage" accept="image/*" hidden />
+          </div>
           <div class="row right">
             <button id="createPost" class="btn primary">Đăng bài</button>
           </div>
