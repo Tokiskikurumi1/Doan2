@@ -37,10 +37,15 @@
 }
 
 .topbar .container {
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 12px 100px;
+}
+
+.topbar .container-768 {
+  display: none;
 }
 
 .topbar .logo {
@@ -50,6 +55,7 @@
 
 .topbar .searchbar {
   width: 60%;
+  text-align: center;
 }
 
 .searchbar input {
@@ -58,6 +64,18 @@
   border-radius: 4px;
   border: 1px solid #ccc;
   font-size: 1rem;
+}
+
+.searchbar .img-search {
+  width: 36px;
+  height: 36px;
+  display: none;
+}
+
+.searchbar .img-search img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .container .actions {
@@ -69,20 +87,45 @@
   border-radius: 10px;
   background-color: aqua;
   border: none;
-  padding: 8px 12px;
   cursor: pointer;
+  padding: 8px 12px;
 }
 
 .actions .avatar {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: gray;
+  background: blue;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
   color: white;
+  cursor: pointer;
+}
+
+/* =============GIAO DIỆN 768
+px TRỞ XUỐNG ============ */
+.container-768 {
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 100px;
+  gap: 10px;
+  display: none;
+}
+
+.logo-searchIcon {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: nowrap;
+  flex: 1; /* 👈 Cho phép chiếm hết không gian có thể */
+  min-width: 0; /* 👈 Quan trọng: cho phép co nhỏ hơn nội dung */
+}
+
+.logo-searchIcon .logo {
+  width: 100%;
+  font-size: 1rem;
 }
 
 /* =========================================
@@ -154,6 +197,26 @@
   overflow-wrap: break-word;
 }
 
+/* --- DANH SÁCH BÀI VIẾT CỦA TÔI--- */
+.panel #profileSection {
+  display: none;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#profileSection .c-avatar {
+  width: 80px;
+  height: 80px;
+  font-size: 30px;
+  margin: 0 auto;
+  background: #2563eb;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
 .post-list {
   display: flex;
   flex-direction: column;
@@ -189,7 +252,7 @@
 } */
 
 .avt-name-title {
-  width: 200px;
+  width: 500px;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -412,6 +475,27 @@
 .row.right button {
   width: 100%;
 }
+
+.btn-choose-img {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  background-color: transparent;
+  border-radius: var(--border-box--);
+  border: var(--border-);
+  text-align: center;
+  cursor: pointer;
+}
+
+#createPost {
+  width: 100%;
+  height: 50px;
+  margin-top: 1rem;
+  border: var(--border-);
+  border-radius: var(--border-box--);
+  background-color: var(--primary);
+  cursor: pointer;
+}
 /* =========================================
    7️⃣  FOOTER
 ========================================= */
@@ -420,4 +504,108 @@
   text-align: center;
   color: #6b7280;
   font-size: 14px;
+}
+
+/* =========================================
+   8️⃣  RESPONSIVE DESIGN
+========================================= */
+@media (max-width: 1200px) {
+  .layout {
+    padding: 20px 100px;
+  }
+}
+
+@media (max-width: 1170px) {
+  .searchbar {
+    width: 50% !important;
+  }
+  /* .searchbar #searchInput {
+    width: 60% !important;
+  } */
+}
+
+@media (max-width: 1110px) {
+  .topbar .container {
+    padding: 12px 50px;
+  }
+}
+
+@media (max-width: 992px) {
+  .layout {
+    padding: 20px 50px;
+  }
+
+  .sidebar {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .searchbar {
+    width: 400px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .topbar .container {
+    padding: 20px;
+  }
+
+  .container-highter {
+    display: none !important;
+  }
+
+  .container-768 {
+    display: flex !important;
+    padding: 12px 20px; /* 👈 giảm padding hai bên */
+    gap: 8px;
+  }
+
+  .topbar .container .logo {
+    font-size: 16px;
+  }
+
+  .topbar .searchbar {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .topbar .searchbar #searchInput {
+    display: none;
+  }
+
+  .topbar .searchbar .img-search {
+    display: block;
+    width: 36px;
+    height: 36px;
+  }
+
+  .actions .btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .actions .btn span {
+    display: none;
+  }
+
+  .actions .btn i {
+    display: inline-block;
+  }
+
+  .actions #generalBtn {
+    display: inline-block;
+  }
+
+  .layout {
+    padding: 20px 50px;
+    justify-content: center;
+  }
+
+  .sidebar {
+    display: none;
+  }
 }

@@ -13,7 +13,7 @@ const posts = [
     id: 2,
     author: "Minh",
     time: "1 ngày trước",
-    cat: "Trang cá nhân",
+    cat: "TT",
     content: "500 từ vựng cơ bản cho người mới bắt đầu: apple, book, chair...",
     likes: 0,
     comments: 0,
@@ -22,7 +22,7 @@ const posts = [
     id: 3,
     author: "Hương",
     time: "3 ngày trước",
-    cat: "Luyện nghe",
+    cat: "Trang cá nhân",
     content: "Mẹo luyện nghe mỗi ngày: nghe podcast, chép chính tả...",
     likes: 0,
     comments: 0,
@@ -45,10 +45,20 @@ const categories = document.querySelectorAll(".cat");
 const searchInput = document.getElementById("searchInput");
 const postImageInput = document.getElementById("postImage");
 const imagePreview = document.getElementById("imagePreview");
+const avatarElements = document.querySelector(".actions .avatar");
 
 let currentFilter = "Tổng hợp";
 let currentPost = null;
 let commentsMap = {}; // postId -> comments array
+
+// ========================== HÀM HIỂN THỊ TÊN ICON TRÊN CÙNG==========================
+function renderIconNames() {
+  posts.forEach((post) => {
+    if (post.cat === "Trang cá nhân") {
+      avatarElements.textContent = `${post.author[0]}`;
+    }
+  });
+}
 
 // ========================== HÀM HIỂN THỊ DANH SÁCH ==========================
 function renderList() {
@@ -56,16 +66,7 @@ function renderList() {
   const q = (searchInput.value || "").toLowerCase();
 
   const filtered = posts.filter((p) => {
-    // Nếu là "Tổng hợp" thì lấy hết
-    if (currentFilter === "Tổng hợp") {
-      return true;
-    }
-    // Còn nếu là danh mục khác thì lọc theo danh mục
-    else {
-      return (
-        p.cat === currentFilter && (p.content || "").toLowerCase().includes(q)
-      );
-    }
+    return (p.content || "").toLowerCase().includes(q);
   });
 
   if (filtered.length === 0) {
@@ -144,7 +145,32 @@ function renderList() {
 // ========================== HÀM HIỂN THỊ BÀI CỦA TÔI ==========================
 function renderMyPosts() {
   postList.innerHTML = "";
-  const myPosts = posts.filter((p) => p.cat === "Trang cá nhân");
+  const q = (searchInput.value || "").toLowerCase();
+  const myPosts = posts.filter(
+    (p) => p.cat === "Trang cá nhân" && p.content.toLowerCase().includes(q)
+  );
+
+  const profileSection = document.getElementById("profileSection");
+  if (myPosts.length > 0) {
+    profileSection.innerHTML = `
+      <div class="c-avatar"
+        style="
+          width: 80px;
+          height: 80px;
+          font-size: 30px;
+          margin: 0 auto;
+          background: #2563eb;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+        ">
+        ${(myPosts[0].author && myPosts[0].author[0]) || "U"}
+      </div>
+      <h3 style="margin-top: 10px">${myPosts[0].author}</h3>
+      <p style="color: gray">Bài viết của tôi</p>`;
+  }
 
   if (myPosts.length === 0) {
     postList.innerHTML =
@@ -152,6 +178,7 @@ function renderMyPosts() {
     return;
   }
 
+  // Tạo danh sách bài viết
   myPosts.forEach((p) => {
     const el = document.createElement("div");
     el.className = "post";
@@ -160,27 +187,51 @@ function renderMyPosts() {
         <div class="left">
           <div class="avt-name-title">
             <div class="c-avatar">${(p.author && p.author[0]) || "U"}</div>
-            <div class="meta">${p.time}</div>
+            <div class="meta">Bởi ${p.author} • ${p.time}</div>
           </div>
           <div class="title">${p.content}</div>
           ${p.image ? `<img src="${p.image}" class="post-image" />` : ""}
         </div>
       </div>
       <div class="icons-action">
-        <div class="icon-card heart-card">
-          <i class="fa-solid fa-heart"></i>
+        <div class="icon-card heart-card" data-id="${p.id}">
+          <i class="fa-solid fa-heart" style="color:${
+            p._liked ? "red" : ""
+          }"></i>
           <p class="count-heart">${p.likes || 0}</p>
         </div>
-        <div class="icon-card message-card">
+        <div class="icon-card message-card" data-id="${p.id}">
           <i class="fa-solid fa-message"></i>
           <p class="count-message">${p.comments || 0}</p>
         </div>
       </div>
     `;
-
-    // Bắt sự kiện mở chi tiết bài viết
     el.addEventListener("click", () => openPost(p.id));
     postList.appendChild(el);
+  });
+
+  // Gán sự kiện tim ❤️ (làm sau khi render hết)
+  const hearts = postList.querySelectorAll(".heart-card");
+  hearts.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const id = parseInt(btn.dataset.id);
+      const post = posts.find((p) => p.id === id);
+      if (!post) return;
+      post._liked = !post._liked;
+      post.likes += post._liked ? 1 : -1;
+      renderMyPosts(); // render lại để cập nhật giao diện
+    });
+  });
+
+  // Gán sự kiện mở chi tiết 💬
+  const msgs = postList.querySelectorAll(".message-card");
+  msgs.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const id = parseInt(btn.dataset.id);
+      openPost(id);
+    });
   });
 }
 
@@ -253,10 +304,12 @@ document.getElementById("sendComment").addEventListener("click", () => {
   renderComments();
 
   // Render lại danh sách bài để cập nhật số bình luận trong icon 💬
-  renderList();
-
-  // Đóng modal
-  closeModalFn();
+  // Render lại danh sách bài để cập nhật số bình luận trong icon 💬
+  if (currentFilter === "Trang cá nhân") {
+    renderMyPosts();
+  } else {
+    renderList();
+  }
 });
 
 // ========================== SỰ KIỆN MODAL ==========================
@@ -277,12 +330,20 @@ newPostModal.addEventListener("click", (e) => {
     newPostModal.setAttribute("aria-hidden", "true");
 });
 
+// ========================== NÚT CHỌN ẢNH ==========================
+const chooseImgBtn = document.querySelector(".btn-choose-img");
+chooseImgBtn.addEventListener("click", () => {
+  postImageInput.click(); // mở hộp thoại chọn ảnh
+});
+
 createPost.addEventListener("click", () => {
   const body = document.getElementById("postBody").value.trim();
   const imgInput = document.getElementById("postImage");
   const file = imgInput.files[0];
 
-  if (!body && !file) return alert("Vui lòng viết nội dung hoặc chọn ảnh");
+  if (!body && !file) {
+    return alert("Vui lòng viết nội dung hoặc chọn ảnh");
+  }
 
   const id = posts.length ? Math.max(...posts.map((p) => p.id)) + 1 : 1;
 
@@ -344,7 +405,34 @@ categories.forEach((c) => {
   });
 });
 
-searchInput.addEventListener("input", renderList);
+searchInput.addEventListener("input", () => {
+  if (currentFilter === "Trang cá nhân") {
+    renderMyPosts();
+  } else {
+    renderList();
+  }
+});
+
+// ========================== MỞ TRANG CÁ NHÂN KHI ẤN AVATAR ==========================
+const avatarBtn = document.querySelector(".avatar");
+
+if (avatarBtn) {
+  avatarBtn.addEventListener("click", () => {
+    document
+      .querySelectorAll(".cat")
+      .forEach((x) => x.classList.remove("active"));
+    const personalTab = document.querySelector('[data-cat="Trang cá nhân"]');
+    if (personalTab) personalTab.classList.add("active");
+
+    currentFilter = "Trang cá nhân";
+    const panelTitle = document.getElementById("panelTitle");
+    const profileSection = document.getElementById("profileSection");
+
+    panelTitle.textContent = "Trang cá nhân";
+    profileSection.style.display = "block";
+    renderMyPosts();
+  });
+}
 
 // ========================== XEM TRƯỚC ẢNH ==========================
 
@@ -364,4 +452,5 @@ postImageInput.addEventListener("change", () => {
 });
 
 // ========================== KHỞI TẠO ==========================
+renderIconNames();
 renderList();
