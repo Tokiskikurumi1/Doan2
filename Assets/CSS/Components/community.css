@@ -601,11 +601,20 @@ px TRỞ XUỐNG ============ */
   }
 
   .layout {
-    padding: 20px 50px;
+    padding: 20px 20px;
     justify-content: center;
+    flex-direction: column;
   }
 
   .sidebar {
     display: none;
+  }
+
+  .topbar .logo {
+    flex: 9;
+  }
+
+  .topbar .searchbar {
+    flex: 1;
   }
 }
