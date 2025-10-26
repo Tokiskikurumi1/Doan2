@@ -3,6 +3,7 @@ const posts = [
   {
     id: 1,
     author: "Lan",
+    avt: "L",
     time: "2 giờ trước",
     cat: "Ngữ pháp",
     content: "Cách sử dụng thì Hiện tại đơn và ví dụ cụ thể: I eat, he eats...",
@@ -12,6 +13,7 @@ const posts = [
   {
     id: 2,
     author: "Minh",
+    avt: "M",
     time: "1 ngày trước",
     cat: "TT",
     content: "500 từ vựng cơ bản cho người mới bắt đầu: apple, book, chair...",
@@ -21,6 +23,7 @@ const posts = [
   {
     id: 3,
     author: "Hương",
+    avt: "H",
     time: "3 ngày trước",
     cat: "Trang cá nhân",
     content: "Mẹo luyện nghe mỗi ngày: nghe podcast, chép chính tả...",
@@ -46,16 +49,26 @@ const searchInput = document.getElementById("searchInput");
 const postImageInput = document.getElementById("postImage");
 const imagePreview = document.getElementById("imagePreview");
 const avatarElements = document.querySelector(".actions .avatar");
+const generalBtn = document.getElementById("generalBtn");
+const imgSearch = document.querySelector(".img-search");
 
 let currentFilter = "Tổng hợp";
 let currentPost = null;
 let commentsMap = {}; // postId -> comments array
-
+let fullName = "";
 // ========================== HÀM HIỂN THỊ TÊN ICON TRÊN CÙNG==========================
 function renderIconNames() {
   posts.forEach((post) => {
     if (post.cat === "Trang cá nhân") {
       avatarElements.textContent = `${post.author[0]}`;
+    }
+  });
+}
+
+function getFullName() {
+  posts.forEach((post) => {
+    if (post.cat === "Trang cá nhân") {
+      fullName = post.author;
     }
   });
 }
@@ -82,7 +95,7 @@ function renderList() {
   <div class="top-content">
     <div class="left">
       <div class="avt-name-title">
-        <div class="c-avatar">${(p.author && p.author[0]) || "U"}</div>
+        <div class="c-avatar">${p.avt || "U"}</div>
         <div class="meta">Bởi ${p.author} • ${p.time}</div>
       </div>
       <div class="title">${p.content}</div>
@@ -142,7 +155,7 @@ function renderList() {
   });
 }
 
-// ========================== HÀM HIỂN THỊ BÀI CỦA TÔI ==========================
+// ========================== HÀM HIỂN THỊ TRANG CÁ NHÂN ==========================
 function renderMyPosts() {
   postList.innerHTML = "";
   const q = (searchInput.value || "").toLowerCase();
@@ -166,7 +179,7 @@ function renderMyPosts() {
           justify-content: center;
           border-radius: 50%;
         ">
-        ${(myPosts[0].author && myPosts[0].author[0]) || "U"}
+        ${myPosts[0].avt || "U"}
       </div>
       <h3 style="margin-top: 10px">${myPosts[0].author}</h3>
       <p style="color: gray">Bài viết của tôi</p>`;
@@ -304,7 +317,6 @@ document.getElementById("sendComment").addEventListener("click", () => {
   renderComments();
 
   // Render lại danh sách bài để cập nhật số bình luận trong icon 💬
-  // Render lại danh sách bài để cập nhật số bình luận trong icon 💬
   if (currentFilter === "Trang cá nhân") {
     renderMyPosts();
   } else {
@@ -331,6 +343,14 @@ newPostModal.addEventListener("click", (e) => {
 });
 
 // ========================== NÚT CHỌN ẢNH ==========================
+const setNamePost = document.querySelector(".avt_create");
+posts.forEach((post) => {
+  if (post.cat === "Trang cá nhân") {
+    setNamePost.querySelector(".c-avatar").textContent = post.avt || "U";
+    setNamePost.querySelector(".meta").textContent = post.author || "Bạn";
+  }
+});
+
 const chooseImgBtn = document.querySelector(".btn-choose-img");
 chooseImgBtn.addEventListener("click", () => {
   postImageInput.click(); // mở hộp thoại chọn ảnh
@@ -344,14 +364,15 @@ createPost.addEventListener("click", () => {
   if (!body && !file) {
     return alert("Vui lòng viết nội dung hoặc chọn ảnh");
   }
-
+  const avt = avatarElements.textContent.trim() || "Bạn";
   const id = posts.length ? Math.max(...posts.map((p) => p.id)) + 1 : 1;
 
   // Hàm thêm bài
   const addPost = (imageBase64 = null) => {
     posts.unshift({
       id,
-      author: "Bạn",
+      author: fullName,
+      avt: avt,
       time: "vừa xong",
       cat: "Trang cá nhân",
       content: body || "",
@@ -367,8 +388,9 @@ createPost.addEventListener("click", () => {
     // kiểm tra xem đang ở thẻ Cat nào
     if (currentFilter === "Trang cá nhân") {
       renderMyPosts();
+    } else {
+      renderList();
     }
-    renderList();
   };
 
   // Nếu có file ảnh thì đọc base64
@@ -380,7 +402,6 @@ createPost.addEventListener("click", () => {
     addPost();
   }
 });
-
 // ========================== CHUYỂN DANH MỤC ==========================
 categories.forEach((c) => {
   c.addEventListener("click", () => {
@@ -433,6 +454,30 @@ if (avatarBtn) {
     renderMyPosts();
   });
 }
+// ==========================MỞ TRANG TỔNG HỢP KHI ẤN ICON (GIAO DIỆN 768)  ==========================
+if (generalBtn) {
+  generalBtn.addEventListener("click", () => {
+    document
+      .querySelectorAll(".cat")
+      .forEach((x) => x.classList.remove("active"));
+    const generalTab = document.querySelector('[data-cat="Tổng hợp"]');
+    if (generalTab) generalTab.classList.add("active");
+    currentFilter = "Tổng hợp";
+    const panelTitle = document.getElementById("panelTitle");
+    const profileSection = document.getElementById("profileSection");
+    panelTitle.textContent = "Bài viết mới nhất";
+    profileSection.style.display = "none";
+    renderList();
+  });
+}
+
+// ========================== HIỂN THỊ INPUT KHI ẤN ICON TÌM KIẾM ==========================
+imgSearch.addEventListener("click", () => {
+  imgSearch.classList.toggle("active");
+  searchInput.style.top = imgSearch.classList.contains("active")
+    ? "100%"
+    : "-200%";
+});
 
 // ========================== XEM TRƯỚC ẢNH ==========================
 
@@ -453,4 +498,5 @@ postImageInput.addEventListener("change", () => {
 
 // ========================== KHỞI TẠO ==========================
 renderIconNames();
+getFullName();
 renderList();
