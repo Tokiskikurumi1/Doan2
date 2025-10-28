@@ -307,7 +307,7 @@ document.getElementById("sendComment").addEventListener("click", () => {
 
   // Lấy danh sách bình luận của bài hiện tại
   const arr = (commentsMap[currentPost.id] = commentsMap[currentPost.id] || []);
-  arr.push({ name: "You", time: "vừa xong", text: txt });
+  arr.push({ name: fullName, time: "vừa xong", text: txt });
 
   // Cập nhật số lượng bình luận của bài
   currentPost.comments = arr.length;
