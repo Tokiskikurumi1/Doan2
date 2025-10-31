@@ -14,7 +14,6 @@
 
 .content-course {
   display: flex;
-  /* gap: 1rem; */
 }
 
 .menu-slide-bar {
@@ -29,11 +28,13 @@
 }
 
 .menu-slide-bar #menu-icon {
+  width: 260px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
   padding: 12px 16px;
+  cursor: pointer;
 }
 
 #menu-icon .img-menu {
@@ -53,11 +54,17 @@
   color: wheat;
 }
 
-/* .menu-category .categorys {
-  height: 960px;
-  overflow: scroll;
-  padding-bottom: 100px;
-} */
+.menu-category .categorys {
+  max-height: 500px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+  /* display: block; */
+}
+
+.menu-category .categorys.active {
+  max-height: 0;
+  /* display: none; */
+}
 
 .menu-category .categorys ul {
   padding: 12px 16px;
@@ -67,8 +74,8 @@
 .menu-category .categorys ul li {
   padding: 8px 12px;
   border-radius: 2rem;
-
-  transition: 0.5s ease-in-out;
+  transition: 0.1s ease-in-out;
+  cursor: pointer;
 }
 
 .menu-category .categorys ul li:hover {
@@ -91,17 +98,25 @@
 
 .list-course {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, auto);
+  column-gap: 24px;
 }
 
 .list-course .item-course {
   padding-top: 24px;
-  padding-left: 24px;
-  flex: 1 1 calc(25% - 24px);
-  max-width: calc(25%);
-  overflow: hidden;
-  /* max-height: 375px; */
+  max-width: 100%;
+  transition: 0.3s ease-in-out;
+}
+
+.item-course:hover {
+  transform: translateY(-10px);
+}
+
+/* Ẩn các khóa học từ thứ 13 trở đi */
+.list-course .item-course:nth-child(n + 13) {
+  display: none;
 }
 
 .item-course .item-course-panel {
@@ -162,4 +177,37 @@
   width: 100%;
   display: flex;
   justify-content: flex-end;
+}
+
+@media (max-width: 1170px) {
+  .list-course {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, auto);
+  }
+}
+
+@media (max-width: 990px) {
+  .list-course {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, auto);
+  }
+}
+
+@media (max-width: 768px) {
+  .content-course {
+    flex-direction: column;
+  }
+  .menu-slide-bar #menu-icon {
+    width: 100%;
+  }
+}
+
+@media (max-width: 575px) {
+  .list-course {
+    column-gap: 16px;
+  }
+
+  .item-course {
+    padding-top: 16px !important;
+  }
 }
