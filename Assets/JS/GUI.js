@@ -55,6 +55,21 @@ document.addEventListener("click", function (e) {
   }
 });
 
+(function () {
+  const isLoggedIn = !!localStorage.getItem("auth");
+  document.body.classList.add(isLoggedIn ? "logged-in" : "logged-out");
+})();
+
+function toggleSearch() {
+  const searchWrapper = document.querySelector(".header-search");
+  const input = searchWrapper.querySelector("input");
+  if (!searchWrapper.classList.contains("active")) {
+    searchWrapper.classList.add("active");
+    input.focus();
+  } else {
+    window.location.href = "/search";
+  }
+}
 
 
 
