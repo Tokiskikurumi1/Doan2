@@ -93,9 +93,6 @@ h2{
     gap: 20px;
     flex:1;
 }
-.info-description{
-    
-}
 /* Mô tả khóa học */
 .info-description h3{
     font-size: 18px;
@@ -135,6 +132,13 @@ h2{
 }
 
 /* Bài giảng */
+.info-curriculum h3{
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #000000;
+    font-weight: bold;
+}
 .info-curriculum{
     display: flex;
     flex-direction: column;
@@ -153,7 +157,6 @@ h2{
     background-color: var(--gray-light-);
     padding: 10px;
     border-radius: 8px;
-
 }
 .info-curriculum-item .lesson {
   display: flex;                
