@@ -5,12 +5,13 @@ body {
   min-height: 100vh;
 }
 .header {
+  border: 1px solid #ddd;
   display: flex;
   position: fixed;
   top: 0;
   justify-content: space-between;
   z-index: 1;
-  background-color: var(--gray-);
+  background-color: var(--white-);
   width: 100%;
   height: 56px;
 }
@@ -68,7 +69,7 @@ body {
 }
 /* CSS cho text Home ... */
 .header-nav-center a {
-  color: #fefffe;
+  color: #000000;
   font-weight: bold;
   font-size: 16px;
   text-decoration: none;
@@ -97,19 +98,22 @@ body {
 .header-search-icon {
   width: 40px;
   height: 40px;
-  background-color: #67738e;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .header-notification-icon img,
 .header-message-icon img,
 .header-search-icon img {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
+}
+
+.header-search-icon img{
+  width: 32px;
+  height: 32px;
 }
 
 /* Thanh tìm kiếm */
@@ -126,10 +130,10 @@ body {
 
 /* Hiệu ứng mở rộng thanh tìm kiếm */
 .header-search.active {
+  border: 1px solid var(--gray-);
   width: 240px;
   background-color: #fff;
   border-radius: 50px;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
   padding-left: 12px;
 }
 
@@ -158,21 +162,14 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #67738e;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
   flex-shrink: 0;
   position: absolute;
   right: 0;
   top: 0;
   cursor: pointer;
-}
-
-.header-search-icon img {
-  width: 18px;
-  height: 18px;
 }
 
 /* Kết quả tìm kiếm */
@@ -225,7 +222,6 @@ body {
   height: 10px;
   background-color: #ff004f;
   border-radius: 50%;
-  border: 2px solid #67738e;
   text-align: center;
   line-height: 1;
 }
@@ -252,8 +248,37 @@ body {
   transform: scale(1.05);
 }
 
+.header-notification,
+.header-message,
+.burger-menu {
+  display: none;
+}
+
+body.logged-in .header-notification,
+body.logged-in .header-message,
+body.logged-in .burger-menu {
+  display: inline-block;
+}
+
+body.logged-in .header-login {
+  display: none;
+}
+
+body.logged-out .header-login {
+  display: block;
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
+  .header-nav-center {
+    display: flex !important;
+  }
+  .header-nav-center ul {
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 0 8px;
+  }
   .header-nav-center {
     display: none;
   }

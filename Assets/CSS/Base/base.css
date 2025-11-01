@@ -17,6 +17,13 @@
   --a-font-size: 1.3rem;
   --card: white;
 }
+:root {
+    --blue-: #324AB2;
+    --gray-: #C0C0C0;
+    --Blue1-: #5a3ed1;
+    --blue2-: #6a4de9;
+    --white-: #FEFFFE;
+}
 
 * {
   box-sizing: border-box;
