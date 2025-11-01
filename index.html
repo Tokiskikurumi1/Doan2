@@ -1,28 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    />
-    <link rel="stylesheet" href="./Assets/CSS/Components/reset.css" />
-    <link rel="stylesheet" href="./Assets/CSS/Base/base.css" />
-    <link rel="stylesheet" href="./Assets/CSS/Components/home.css" />
-    <title>Trang chủ</title>
-  </head>
-  <body>
-    <!--Header-->
-    <div id="main-header"></div>
-    <!--container-->
-    <div class="container">
-      <div class="title-container">
-        <h1 class="title">Diễn đàn Học Tiếng Anh</h1>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="./Assets/CSS/Components/reset.css" />
+  <link rel="stylesheet" href="./Assets/CSS/Base/base.css" />
+  <link rel="stylesheet" href="./Assets/CSS/Components/home.css" />
+  <title>Trang chủ</title>
+</head>
+
+<body>
+  <!--Header-->
+  <div id="main-header"></div>
+  <!--container-->
+  <div class="container">
+    <div class="content">
+      <h1><span>HỌC TIẾNG ANH</span> <strong>Ngay bây giờ</strong></h1>
+      <p>Các bài học tương tác, lộ trình học tập được cá nhân hóa và phản hồi theo thời gian thực giúp bạn đạt được sự trôi chảy nhanh hơn bao giờ hết.</p>
+      <div class="features">
+        <span>📘 50,000+ Học Viên</span>
+        <span>⭐ 4.9/5 Đánh Giá</span>
+        <span>🎓 Đã Chứng Nhận</span>
       </div>
-      <!--Content-->
-      <div class="content-container">
-      <div className="min-h-screen w-full bg-[#0a0a0a] relative">
+      <div class="buttons">
+        <button class="primary">Bắt đầu học miễn phí</button>
+        <button class="secondary">Xem thêm</button>
+      </div>
+    </div>
+    <div class="image-section">
+      <img src="./Assets/images/image_home/096dabbf-65c6-4096-bc72-ddc405f6b795.jpg" alt="Online Learning">
+      <div class="banner">
+        <h3>Học trực tuyến</h3>
+        <p>Tham gia cùng hàng ngàn sinh viên</p>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  <!--Content-->
+  <div class="content-container">
+    <div className="min-h-screen w-full bg-[#0a0a0a] relative">
 
       <!--Slide course-->
       <div class="slide-course">
@@ -33,48 +52,44 @@
           <div class="slideshow-container">
             <div class="slide slide1 left" onclick="moveToCenter(0)">
               <div class="top-slide">
-                <h1>ONLINE VIP</h1>
+                <h1>Online Plus</h1>
                 <div class="img-slide">
                   <img src="./Assets/images/image_home/vip.png" alt="" />
                 </div>
-              </div>
-              <p>Học trực tuyến với giáo viên qua zoom</p>
+              </div class="text-slide">
+              <span>Học trực tiếp với giáo viên qua Zoom.</span>
               <p>
-                Lộ trình khoa học bài bản, có giáo viên hướng dẫn trực tiếp và
-                trợ giảng hỗ trợ ngoài giờ. Khóa học cam kết cung cấp đầy đủ
-                kiến thức theo từng level khác nhau.
+                Khóa học cung cấp đầy đủ kiến thức từng level kết hợp luyện đề qua zoom cùng các giáo viên có nhiều năm kinh nghiệm.
               </p>
-              <div class="slide-see-more"><a href="">Xem thêm >>></a></div>
+              <div class="slide-see-more"><a href="">Xem thêm.</a></div>
             </div>
             <div class="slide slide2 center" onclick="moveToCenter(1)">
               <div class="top-slide">
-                <h1>ONLINE VIP</h1>
+                <h1>Online Basic</h1>
                 <div class="img-slide">
                   <img src="./Assets/images/image_home/vip.png" alt="" />
                 </div>
-              </div>
-              <p>Học trực tuyến với giáo viên qua zoom</p>
+              </div class="text-slide">
+              <span>Học trực tiếp với giáo viên qua Zoom.</span>
               <p>
-                Lộ trình khoa học bài bản, có giáo viên hướng dẫn trực tiếp và
-                trợ giảng hỗ trợ ngoài giờ. Khóa học cam kết cung cấp đầy đủ
-                kiến thức theo từng level khác nhau.
+Với lộ trình được cá nhân hóa và hệ thống bài giảng lên tới hàng nghìn video/bài test.
               </p>
-              <div class="slide-see-more"><a href="">Xem thêm >>></a></div>
+              <div class="slide-see-more"><a href="">Xem thêm.</a></div>
             </div>
             <div class="slide slide3 right" onclick="moveToCenter(2)">
               <div class="top-slide">
-                <h1>ONLINE VIP</h1>
+                <h1>Online VIP</h1>
                 <div class="img-slide">
                   <img src="./Assets/images/image_home/vip.png" alt="" />
                 </div>
-              </div>
-              <p>Học trực tuyến với giáo viên qua zoom</p>
+              </div class="text-slide">
+              <span>Học online qua video bài giảng, hệ thống bài test.</span>
               <p>
                 Lộ trình khoa học bài bản, có giáo viên hướng dẫn trực tiếp và
                 trợ giảng hỗ trợ ngoài giờ. Khóa học cam kết cung cấp đầy đủ
                 kiến thức theo từng level khác nhau.
               </p>
-              <div class="slide-see-more"><a href="">Xem thêm >>></a></div>
+              <div class="slide-see-more"><a href="">Xem thêm.</a></div>
             </div>
           </div>
           <div class="dots">
@@ -89,65 +104,45 @@
         <h1>KHÓA HỌC PHỔ BIẾN</h1>
         <div class="popular-courses-list">
           <div class="box">
-            <a href=""
-              ><img
-                src="./Assets/images/image_home/image-info-list.png"
-                alt=""
-              />
+            <a href=""><img src="./Assets/images/image_home/image-info-list.png" alt="" />
               <h3>Tieng anh co ban</h3>
               <div class="info">
                 <span>1.000.000VND</span>
-              </div></a
-            >
+              </div>
+            </a>
           </div>
           <div class="box">
-            <a href=""
-              ><img
-                src="./Assets/images/image_home/image-info-list.png"
-                alt=""
-              />
+            <a href=""><img src="./Assets/images/image_home/image-info-list.png" alt="" />
               <h3>Tieng anh co ban</h3>
 
               <div class="info">
                 <span>1.000.000VND</span>
-              </div></a
-            >
+              </div>
+            </a>
           </div>
           <div class="box">
-            <a href=""
-              ><img
-                src="./Assets/images/image_home/image-info-list.png"
-                alt=""
-              />
+            <a href=""><img src="./Assets/images/image_home/image-info-list.png" alt="" />
               <h3>Tieng anh co ban</h3>
               <div class="info">
                 <span>1.000.000VND</span>
-              </div></a
-            >
+              </div>
+            </a>
           </div>
           <div class="box">
-            <a href=""
-              ><img
-                src="./Assets/images/image_home/image-info-list.png"
-                alt=""
-              />
+            <a href=""><img src="./Assets/images/image_home/image-info-list.png" alt="" />
               <h3>Tieng anh co ban</h3>
               <div class="info">
                 <span>1.000.000VND</span>
-              </div></a
-            >
+              </div>
+            </a>
           </div>
           <div class="box">
-            <a href=""
-              ><img
-                src="./Assets/images/image_home/image-info-list.png"
-                alt=""
-              />
+            <a href=""><img src="./Assets/images/image_home/image-info-list.png" alt="" />
               <h3>Tieng anh co ban</h3>
               <div class="info">
                 <span>1.000.000VND</span>
-              </div></a
-            >
+              </div>
+            </a>
           </div>
         </div>
         <div class="see-more"><a href="">Xem thêm >>></a></div>
@@ -160,23 +155,22 @@
       </div>
       <!--BOOK-->
       <div class="content book">
-        <!-- <h1>Sách Cung cấp giáo trình luyện thi TOEIC</h1> -->
+        <h1>Sách Cung cấp giáo trình luyện thi TOEIC</h1>
         <div class="book-box">
           <div class="left-book">
             <div class="name-title-book">
-              Sách Cung cấp giáo trình luyện thi TOEIC
-            </div>
-
-            <p>
-              Học nhanh, nhớ lâu, hiểu sâu với các đầu sách do KURUMI superLMS
-              nghiên cứu phát triển. Giúp bạn tăng gấp 3 hiệu quả học tiếng Anh
-              trong ngắn hạn!
-            </p>
+            <span>Sách</span>
             <ul class="lever-book">
               <li><a href="">SƠ CẤP</a></li>
               <li><a href="">TRUNG CẤP</a></li>
               <li><a href="">CAO CẤP</a></li>
             </ul>
+            </div>
+            <p>
+              Học nhanh, nhớ lâu, hiểu sâu với các đầu sách do KURUMI superLMS
+              nghiên cứu phát triển. Giúp bạn tăng gấp 3 hiệu quả học tiếng Anh
+              trong ngắn hạn!
+            </p>
           </div>
           <div class="right-book">
             <img src="./Assets/images/image_home/book-img.png" alt="" />
@@ -190,9 +184,8 @@
         <div class="feed-back">
           <div class="feed-back1">
             <div class="star">
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i
-              ><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i
-              ><i class="fa-solid fa-star-half"></i>
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i>
             </div>
             <p>
               Rất hay, rất tuyệt, rất nhiệt tình.
@@ -202,9 +195,8 @@
           </div>
           <div class="feed-back1">
             <div class="star">
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i
-              ><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i
-              ><i class="fa-solid fa-star-half"></i>
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i>
             </div>
             <p>
               Rất hay, rất tuyệt, rất nhiệt tình.
@@ -214,9 +206,8 @@
           </div>
           <div class="feed-back1">
             <div class="star">
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i
-              ><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i
-              ><i class="fa-solid fa-star-half"></i>
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                class="fa-solid fa-star"></i><i class="fa-solid fa-star-half"></i>
             </div>
             <p>Rất hay, rất tuyệt, rất nhiệt tình.</p>
             <h2>Hải Nam</h2>
@@ -231,5 +222,6 @@
     <script src="./Assets/JS/home.js"></script>
     <script src="./Assets/JS/header.js"></script>
     <script src="./Assets/JS/footer.js"></script>
-  </body>
+</body>
+
 </html>
