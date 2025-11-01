@@ -42,10 +42,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px 100px;
-}
-
-.topbar .container-768 {
-  display: none;
+  gap: 20px;
+  position: relative;
 }
 
 .topbar .logo {
@@ -64,12 +62,14 @@
   border-radius: 4px;
   border: 1px solid #ccc;
   font-size: 1rem;
+  transition: 0.2s ease-in-out;
 }
 
 .searchbar .img-search {
   width: 36px;
   height: 36px;
   display: none;
+  cursor: pointer;
 }
 
 .searchbar .img-search img {
@@ -91,6 +91,10 @@
   padding: 8px 12px;
 }
 
+.actions #generalBtn {
+  display: none;
+}
+
 .actions .avatar {
   width: 36px;
   height: 36px;
@@ -104,16 +108,6 @@
   cursor: pointer;
 }
 
-/* =============GIAO DIỆN 768
-px TRỞ XUỐNG ============ */
-.container-768 {
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 100px;
-  gap: 10px;
-  display: none;
-}
-
 .logo-searchIcon {
   display: flex;
   align-items: center;
@@ -124,9 +118,22 @@ px TRỞ XUỐNG ============ */
 }
 
 .logo-searchIcon .logo {
-  width: 100%;
+  /* width: 100%; */
   font-size: 1rem;
 }
+
+.logo-searchIcon .searchbar {
+  flex: 1;
+}
+/* =============GIAO DIỆN 768
+px TRỞ XUỐNG ============ */
+/* .container-768 {
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 100px;
+  gap: 10px;
+  display: none;
+} */
 
 /* =========================================
    3️⃣  LAYOUT (SIDEBAR + NỘI DUNG CHÍNH)
@@ -472,8 +479,13 @@ px TRỞ XUỐNG ============ */
   border-radius: 8px;
 }
 
+.row.right #createPost {
+  margin-top: 0;
+}
+
 .row.right button {
   width: 100%;
+  margin-top: 0;
 }
 
 .btn-choose-img {
@@ -550,9 +562,9 @@ px TRỞ XUỐNG ============ */
     padding: 20px;
   }
 
-  .container-highter {
+  /* .container-highter {
     display: none !important;
-  }
+  } */
 
   .container-768 {
     display: flex !important;
@@ -570,7 +582,10 @@ px TRỞ XUỐNG ============ */
   }
 
   .topbar .searchbar #searchInput {
-    display: none;
+    position: absolute;
+    top: -200%;
+    right: 0;
+    width: 100%;
   }
 
   .topbar .searchbar .img-search {
@@ -601,11 +616,20 @@ px TRỞ XUỐNG ============ */
   }
 
   .layout {
-    padding: 20px 50px;
+    padding: 20px 20px;
     justify-content: center;
+    flex-direction: column;
   }
 
   .sidebar {
     display: none;
+  }
+
+  .topbar .logo {
+    flex: 9;
+  }
+
+  .topbar .searchbar {
+    flex: 1;
   }
 }
