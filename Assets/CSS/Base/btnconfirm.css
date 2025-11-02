@@ -1,5 +1,5 @@
-.btn {
-    background-color: var(--blue-);
+#btnconfirm {
+    background-color: #0BDA51;
     border: none;
     color: white;
     padding: 10px 20px;
@@ -9,5 +9,8 @@
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 6px;
+}
+#btnconfirm:hover {
+  background-color: #32CD32;
 }
