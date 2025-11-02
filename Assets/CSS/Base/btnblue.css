@@ -1,0 +1,16 @@
+#btnblue {
+    background-color: var(--blue-);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+#btnblue:hover {
+  background: linear-gradient(45deg, #6a4de9, #6a4de9);
+}
