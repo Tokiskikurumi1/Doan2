@@ -1,11 +1,22 @@
 let slides = document.getElementsByClassName("slide");
 let dots = document.getElementsByClassName("dot");
+const menuIcon = document.querySelector("#menu-icon");
+const navBarMenuIconActive = document.querySelector(
+  ".nav-bar-menu-icon-active"
+);
+
 let currentCenter = 1;
 
 const container = document.querySelector(".slideshow-container");
 let startX = 0;
 let currentX = 0;
 let isDragging = false;
+
+menuIcon.addEventListener("click", () => {
+  navBarMenuIconActive.classList.toggle("active");
+  menuIcon.classList.toggle("fa-bars");
+  menuIcon.classList.toggle("fa-x");
+});
 
 function startDrag(e) {
   isDragging = true;

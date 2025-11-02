@@ -47,7 +47,7 @@
 .item-card {
   display: flex;
   justify-content: space-around;
-  padding: 300px;
+  /* padding: 300px; */
 }
 
 .item-card .card {

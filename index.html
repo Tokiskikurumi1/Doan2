@@ -8,12 +8,57 @@
   <link rel="stylesheet" href="./Assets/CSS/Components/reset.css" />
   <link rel="stylesheet" href="./Assets/CSS/Base/base.css" />
   <link rel="stylesheet" href="./Assets/CSS/Components/home.css" />
+  <link rel="stylesheet" href="./User_header_footer/css/header.css">
+  <link rel="stylesheet" href="./User_header_footer/css/footer.css">
   <title>Trang chủ</title>
 </head>
 
 <body>
   <!--Header-->
-  <div id="main-header"></div>
+  <header id="header">
+      <!--Nav bar title-->
+      <nav class="nav-bar-title">
+        <!--LOGO-->
+        <a href="./index.html" class="logo"
+          ><!-- Sử dụng "/" để quay về trang chủ trên GitHub Pages -->
+          <h1>K-ENGLISH</h1>
+        </a>
+        <!--UL_BAR_CENTER-->
+        <ul class="ul-bar-title">
+          <li><a href="./User_header_footer/about.html">Về chúng tôi</a></li>
+          <li><a href="./User_header_footer/community.html">Cộng đồng</a></li>
+          <li><a href="./User_header_footer/courses.html">Khóa học</a></li>
+          <li><a href="./books.html">Sách</a></li>
+        </ul>
+        <!--UL_BAR_LOGIN-->
+        <ul class="ul-bar-info">
+          <!-- <li class="cart">
+            <a href="./cart.html">
+              <i class="fa-solid fa-basket-shopping"></i>
+            </a>
+          </li> -->
+          <li class="login">
+            <a href="./User_header_footer/login.html"><span>Đăng nhập</span></a>
+            <span>/</span>
+            <a href="./User_header_footer/login.html"><span>Đăng ký</span></a>
+          </li>
+          <li class="menu-icon-hidden">
+            <i class="fa-solid fa-bars" id="menu-icon"></i>
+            <i class="fa-solid fa-x" id="close-icon"></i>
+          </li>
+        </ul>
+      </nav>
+      <!--Nav bar menu icon active-->
+      <div class="nav-bar-menu-icon-active">
+        <ul class="ul-bar-menu-icon-active">
+          <li><a href="./User_header_footer/about.html">Về chúng tôi</a></li>
+          <li><a href="./User_header_footer/community.html">Cộng đồng</a></li>
+          <li><a href="./User_header_footer/courses.html">Khóa học</a></li>
+          <li><a href="./books.html">Sách</a></li>
+          <!-- <li><a href="./cart.html">Giỏ hàng</a></li> -->
+        </ul>
+      </div>
+    </header>
   <!--container-->
   <div class="container">
     <div class="content ">
@@ -217,11 +262,86 @@ Với lộ trình được cá nhân hóa và hệ thống bài giảng lên t�
       </div>
     </div>
     <!-- FOOTER -->
-    <div id="main-footer"></div>
+    <div id="main-footer"><div class="list-icon-fixed">
+      <!-- <a href="" class="icon-fixed"
+        ><i class="fa-solid fa-pen-to-square"></i><span>TEST</span></a
+      > -->
+      <a href="" class="icon-fixed"
+        ><i class="fa-solid fa-cart-shopping"></i><span>CỬA HÀNG</span></a
+      >
+      <a href="" class="icon-fixed"
+        ><i class="fa-solid fa-comment"></i><span>HỖ TRỢ</span></a
+      >
+    </div>
+    <footer id="footer">
+      <h1>LIÊN HỆ</h1>
+      <div class="footer-contact">
+        <div class="content-footer">
+          <h2>Social media</h2>
+          <p>Các trang mạng xã hội.</p>
+          <div class="social-icon">
+            <i class="fa-brands fa-facebook"></i>
+            <i class="fa-brands fa-x-twitter"></i>
+            <i class="fa-brands fa-instagram"></i>
+            <i class="fa-brands fa-tiktok"></i>
+          </div>
+        </div>
+        <div class="content-footer">
+          <h2>Hỗ Trợ</h2>
+          <li>
+            <a href="">Sản phẩm</a>
+          </li>
+          <li>
+            <a href="">Giúp đỡ & Hỗ trợ</a>
+          </li>
+          <li>
+            <a href="">chính sách hoàn trả</a>
+          </li>
+          <li>
+            <a href="">điều khoản sử dụng</a>
+          </li>
+          <li>
+            <a href=""></a>
+          </li>
+        </div>
+        <div class="content-footer">
+          <h2>Hỗ Trợ</h2>
+          <li>
+            <a href="">Sản phẩm</a>
+          </li>
+          <li>
+            <a href="">Giúp đỡ & Hỗ trợ</a>
+          </li>
+          <li>
+            <a href="">chính sách hoàn trả</a>
+          </li>
+          <li>
+            <a href="">điều khoản sử dụng</a>
+          </li>
+          <li>
+            <a href=""></a>
+          </li>
+        </div>
+        <div class="content-footer">
+          <h2>Liên Hệ</h2>
+          <div class="social-icon social-icon-last">
+            <span
+              ><i class="fa-solid fa-location-dot"></i>Hòa Đam-Hòa Phong-Mỹ
+              Hào-Hưng Yên </span
+            ><br />
+            <span><i class="fa-solid fa-phone"></i>84+ 000000000</span><br />
+            <span
+              ><i class="fa-solid fa-envelope"></i
+              >vuthanhminh2005@gmail.com</span
+            >
+          </div>
+        </div>
+      </div>
+    </footer></div>
 
     <script src="./Assets/JS/home.js"></script>
-    <script src="./Assets/JS/header.js"></script>
-    <script src="./Assets/JS/footer.js"></script>
+    <!-- <script src="./Assets/JS/header.js"></script>
+    <script src="./Assets/JS/footer.js"></script> -->
 </body>
 
 </html>
