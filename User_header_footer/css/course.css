@@ -25,6 +25,7 @@
 }
 
 .menu-slide-bar {
+  min-height: 500px;
   border-top-right-radius: 2rem;
   box-shadow: 0 8px 0 rgba(0, 0, 0, 0.078);
   background-color: var(--color-item);
@@ -62,6 +63,9 @@
   color: wheat;
 }
 
+#menu-icon span {
+  font-weight: 600;
+}
 .menu-category .categorys {
   max-height: 500px;
   overflow: hidden;
@@ -85,11 +89,11 @@
   font-size: 16px;
   font-weight: 600;
   color: var(--color-left-li-def);
-  transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out 1 forwards;
   cursor: pointer;
 }
 
-.menu-category .categorys ul li:first-child {
+.menu-category .categorys ul li.active {
   background-color: #fff;
   color: var(--color-li-active);
   border-radius: 1rem;
@@ -145,11 +149,6 @@
 .list-course .item-course {
   padding-top: 24px;
   max-width: 100%;
-  transition: 0.3s ease-in-out;
-}
-
-.item-course:hover {
-  transform: translateY(-10px);
 }
 
 /* Ẩn các khóa học từ thứ 13 trở đi */
@@ -167,6 +166,11 @@
   flex-direction: column;
   justify-content: space-between;
   box-shadow: var(--shadow-item);
+  transition: 0.3s ease-in-out;
+}
+
+.item-course .item-course-panel:hover {
+  transform: translateY(-10px);
 }
 
 .item-course-panel .image-course {
@@ -213,6 +217,10 @@
   background-color: var(--color-video);
 }
 
+.course-tag .course-tag-item.live {
+  background-color: var(--color-live);
+}
+
 .course-price {
   width: 100%;
   display: flex;
@@ -248,6 +256,9 @@
   }
   .menu-slide-bar #menu-icon {
     width: 100%;
+  }
+  .menu-slide-bar {
+    min-height: 0px;
   }
 }
 
