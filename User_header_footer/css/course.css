@@ -167,6 +167,7 @@
   justify-content: space-between;
   box-shadow: var(--shadow-item);
   transition: 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 .item-course .item-course-panel:hover {

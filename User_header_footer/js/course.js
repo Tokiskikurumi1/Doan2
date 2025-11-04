@@ -1,5 +1,4 @@
 //===============================DỮ LIỆU GIẢ =================================
-//===============================DỮ LIỆU GIẢ =================================
 const courses = [
   {
     id: 1,
@@ -109,19 +108,17 @@ const li_cate = document.querySelectorAll(".categorys ul li");
 const searchInput = document.querySelector(".search input");
 const listCourse = document.querySelector(".list-course");
 const btnSearch = document.querySelector(".search button");
-//=============== TOOGLE ĐỔ DANH MỤC =========================
+
+//=============== TOGGLE ĐỔ DANH MỤC =========================
 btnMenuIcon.addEventListener("click", () => {
   Categorys.classList.toggle("active");
 });
 
-//================= ĐỔI MÀU THẺ LI KHI CHỌN DANH MỤC + CẬP NHẬT HIỂN THỊ CÁC KHÓA HỌC=======================
+//================= ĐỔI MÀU LI + CẬP NHẬT KHÓA HỌC =======================
 li_cate.forEach((item) => {
   item.addEventListener("click", () => {
-    // Xóa class active khỏi tất cả li trước
     li_cate.forEach((el) => el.classList.remove("active"));
-    // Rồi thêm vào phần tử được click
     item.classList.add("active");
-    //cập nhật luôn khóa học tương ứng
     const type = item.getAttribute("data-type");
     if (type) {
       updateCourse(type);
@@ -130,17 +127,13 @@ li_cate.forEach((item) => {
 });
 
 //===================== LOAD SẢN PHẨM DỰA THEO DANH MỤC ==================
-
 function updateCourse(type) {
-  // Xóa nội dung cũ
   listCourse.innerHTML = "";
 
-  // Lọc khóa học theo category
   const filteredCourses =
     type === "ALL" ? courses : courses.filter((c) => c.category === type);
 
   if (filteredCourses.length === 0) {
-    // Khi không có khóa học → hiển thị block để căn giữa thông báo
     listCourse.style.display = "block";
     listCourse.innerHTML = "<p>Không có khóa học nào trong danh mục này.</p>";
     return;
@@ -164,28 +157,44 @@ function updateCourse(type) {
     }
 
     listCourse.innerHTML += `
-      <div class="item-course">
-        <div>
-          <div class="item-course-panel">
-            <div>
-              <div class="image-course">
-                <img src="${course.image_url}" alt="${course.name}" />
-              </div>
-              <div class="course-info">
-                <div class="name-course">${course.name}</div>
-                <div class="course-tag">
-                  ${courseTagHTML}
-                </div>
-                <hr />
-                <div class="course-price">
-                  <div class="price">${course.price.toLocaleString()} VND</div>
-                </div>
-              </div>
+      <div class="item-course" data-id="${course.id}">
+        <div class="item-course-panel">
+          <div class="image-course">
+            <img src="${course.image_url}" alt="${course.name}" />
+          </div>
+          <div class="course-info">
+            <div class="name-course">${course.name}</div>
+            <div class="course-tag">${courseTagHTML}</div>
+            <hr />
+            <div class="course-price">
+              <div class="price">${course.price.toLocaleString()} VND</div>
             </div>
           </div>
         </div>
       </div>
     `;
+  });
+
+  // 👉 Gắn sự kiện click sau khi render
+  addCourseClickEvents();
+}
+
+//==================== GẮN SỰ KIỆN CLICK CHI TIẾT ====================
+function addCourseClickEvents() {
+  const courseItems = document.querySelectorAll(".item-course");
+  courseItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      const id = parseInt(item.getAttribute("data-id"));
+      const selectedCourse = courses.find((c) => c.id === id);
+
+      if (selectedCourse) {
+        // ✅ Lưu toàn bộ thông tin khóa học vào localStorage
+        localStorage.setItem("selectedCourse", JSON.stringify(selectedCourse));
+
+        // Chuyển sang trang chi tiết
+        window.location.href = "course-detail.html";
+      }
+    });
   });
 }
 
@@ -193,16 +202,13 @@ function updateCourse(type) {
 btnSearch.addEventListener("click", () => {
   const searchText = searchInput.value.trim().toLowerCase();
 
-  // Lọc toàn bộ danh sách courses theo từ khóa
   const filtered = courses.filter((course) =>
     course.name.toLowerCase().includes(searchText)
   );
 
-  // Xóa nội dung cũ
   listCourse.innerHTML = "";
 
   if (filtered.length === 0) {
-    // Khi không có khóa học → hiển thị block để căn giữa thông báo
     listCourse.style.display = "block";
     listCourse.innerHTML = "<p>Không có khóa học nào phù hợp.</p>";
     return;
@@ -226,29 +232,26 @@ btnSearch.addEventListener("click", () => {
     }
 
     listCourse.innerHTML += `
-      <div class="item-course">
-        <div>
-          <div class="item-course-panel">
-            <div>
-              <div class="image-course">
-                <img src="${course.image_url}" alt="${course.name}" />
-              </div>
-              <div class="course-info">
-                <div class="name-course">${course.name}</div>
-                <div class="course-tag">
-                  ${courseTagHTML}
-                </div>
-                <hr />
-                <div class="course-price">
-                  <div class="price">${course.price.toLocaleString()} VND</div>
-                </div>
-              </div>
+      <div class="item-course" data-id="${course.id}">
+        <div class="item-course-panel">
+          <div class="image-course">
+            <img src="${course.image_url}" alt="${course.name}" />
+          </div>
+          <div class="course-info">
+            <div class="name-course">${course.name}</div>
+            <div class="course-tag">${courseTagHTML}</div>
+            <hr />
+            <div class="course-price">
+              <div class="price">${course.price.toLocaleString()} VND</div>
             </div>
           </div>
         </div>
       </div>
     `;
   });
+
+  // 👉 Gắn lại sự kiện click
+  addCourseClickEvents();
 });
 
 updateCourse("ALL");
