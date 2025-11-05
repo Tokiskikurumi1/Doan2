@@ -5,10 +5,12 @@
   transition: all 0.3s ease;
   border-radius: 6px;
   padding: 10px 20px;
+  cursor: pointer;
 }
 #btnwhite:hover {
   background: linear-gradient(45deg, #6a4de9, #6a4de9);
   color: white;
   transform: translateY(-2px);
 }
+
 

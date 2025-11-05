@@ -4,9 +4,17 @@ body {
     flex-direction: column;
     width: 100%;
 }
+h3 {
+    font-size: 24px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+h2{
+    font-size: 32px;
+    font-weight: bold;
+}
 /* thẻ chào mừng */
 .welcome{
-    background: linear-gradient(45deg, var(--blue1-) 80%,var(--blue2-) 100%);
     color: white;
     padding: 20px;
     border-radius: 8px;
@@ -45,9 +53,9 @@ body {
 .label{
     font-weight: bold;
 }
-/* Bài học */
-.lesson{
-    background-color: white;
+/* daily */
+.practice-progress{
+    background: linear-gradient(90deg, #FF4F00 0%, #FE5A1D 100%);
     border-radius: 8px;
     padding: 15px;
     margin: 10px;
@@ -55,7 +63,30 @@ body {
     flex-direction: row;
     gap: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    color: var(--white-);
+}
+.practice-progress progress{
+    width: 100%;
+    height: 20px;
+    appearance: none;
+    border-radius: 10px;
+}
+.practice-progress progress::-webkit-progress-bar {
+    background-color: #FFE6D5;
+    border-radius: 10px;
+}
+.practice-progress progress::-webkit-progress-value {
+    background-color: greenyellow;
+    border-radius: 10px;
+}
     
+/* Bài học */
+.lesson{
+    display: flex;
+    flex-direction: row;
+    gap: 10px; 
 }
 .lesson-current{
     display: flex;
@@ -128,6 +159,29 @@ body {
 }
 /* BAIF TAAPJ */
 .practice-item-content{
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    gap: 10px;
+}
+.practice-item-content img{
+    width: 50px;
+    height: 50px;
+    background-color: blue;
+    padding: 10px;
+    border-radius: 8px;
+}
+.practice-item-content span {
+  font-size: 14px;
+  color: #555;
+  flex-grow: 1; /* đẩy nút xuống nếu nội dung ngắn */
+}
+.practice-item-content h5{
+    margin: 0;
+    font-size: 20px;
+}
+/* bài tập ôn */
+.practice-item-content-2{
     background-color: white;
     border-radius: 8px;
     padding: 15px;
@@ -135,13 +189,16 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex:1;
     gap: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.practice-item-content img{
+.practice-item-content-2 img{
     width: 50px;
     height: 50px;
-
+    background-color: blue;
+    padding: 10px;
+    border-radius: 8px;
 }
 .practice-quick{
     display: flex;
@@ -154,4 +211,5 @@ body {
 }
 .practice-quick{
     background-color: var(--blue1-);
+    margin: 10px;
 }
