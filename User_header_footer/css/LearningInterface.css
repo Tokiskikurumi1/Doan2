@@ -1,0 +1,157 @@
+body {
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+/* thẻ chào mừng */
+.welcome{
+    background: linear-gradient(45deg, var(--blue1-) 80%,var(--blue2-) 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column; 
+    gap:10px;
+    margin: 10px;
+}
+.welcome h2{
+    font-size: 24px;
+}
+.welcome p{
+    font-size: 16px;
+}
+.welcome-progress{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    
+}
+.item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.value{
+    margin-top: 20px;
+    display: flex;
+    font-size: 20px;
+    gap: 20px;
+
+}
+.label{
+    font-weight: bold;
+}
+/* Bài học */
+.lesson{
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+}
+.lesson-current{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.lesson-current-video iframe{
+    border-radius: 8px;
+}
+.lesson-current-title{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.lesson-current-title h4{
+    margin: 0;
+    font-size: 20px;
+}
+.lesson-current-title span{
+    font-size: 16px;
+    color: #555;
+}
+.lesson-current-btn{
+    display: flex;
+    gap: 10px;
+}
+.btn-next, .btn-back, .btn-comfirm{
+    flex: 1;
+}
+/* Bài học danh sách */
+.lesson-list{
+    display: flex;
+    gap: 10px;
+    flex:1;
+    flex-direction: column;
+    
+}
+.lesson-item{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    gap: 10px;
+}
+.lesson-item-name{
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.lesson-item-name-number{
+    font-weight: bold;
+    color: white;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--blue1-);
+    border-radius: 8px;
+}
+.lesson-item-name-title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    height: 3rem;
+}
+/* BAIF TAAPJ */
+.practice-item-content{
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.practice-item-content img{
+    width: 50px;
+    height: 50px;
+
+}
+.practice-quick{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.practice-item{
+    display: flex;
+    flex-direction: row;
+}
+.practice-quick{
+    background-color: var(--blue1-);
+}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
+    <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
+    <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
+    <link rel="stylesheet" href="../Assets/CSS/Base/btnwhite.css">
+    <link rel="stylesheet" href="../Assets/CSS/Base/btnconfirm.css">
+    <link rel="stylesheet" href="../Assets/CSS/Base/btnblue.css">
+    <link rel="stylesheet" href="./css/LearningInterface.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="welcome">
+        <h2>Chào mừng quay trở lại,...</h2>
+        <span>Tiến trình của bạn đang được theo dõi. Hãy tiếp tục phát huy!</span>
+        <div class="welcome-progress">
+            <div class="item">
+                <span class="value" id="lessons">12</span>
+                <span class="label">Bài hoàn thành</span>
+            </div>
+            <div class="item">
+                <span class="value" id="score">85%</span>
+                <span class="label">Điểm trung bình</span>
+            </div>
+            <div class="item">
+                <span class="value" id="streak">7</span>
+                <span class="label">Chuỗi hoạt động</span>
+            </div>
+        </div>
+    </div>
+    <h3>Bài tập hàng ngày</h3>
+    <div class="practice-daily">
+        <span>Tiến độ</span>
+        <progress value="36" max="100"></progress>
+        <p>Hoàn thành thử thách để xây dựng chuỗi học tập của bạn!</p>
+
+        <div class="practice-progress">
+
+        </div>
+        <div class="practice-item">
+            <div class="practice-item-content">
+                <img src="./img/img/book-open-svgrepo-com.svg" alt="">
+                <h5>Học từ mới</h5>
+                <span>Nội dung bài học về từ vựng mới.</span>
+                <button>Thực hành ngay</button>
+            </div>
+            <div class="practice-item-content">
+                <img src="./img/img/document-text-svgrepo-com.svg" alt="">
+                <h5>Ngữ pháp</h5>
+                <span>Kiểm tra kiến ​​thức ngữ pháp của bạn bằng các câu hỏi nhanh</span>
+                <button>Thực hành ngay</button>
+            </div>
+            <div class="practice-item-content">
+                <img src="./img/img/headphone-svgrepo-com.svg" alt="">
+                <h5>Luyện Nghe</h5>
+                <span>Nghe các đoạn hội thoại ngắn và trả lời câu hỏi<span>
+                        <button>Thực hành ngay</button>
+            </div>
+            <div class="practice-item-content">
+                <img src="./img/img/micro-svgrepo-com.svg" alt="">
+                <h5>Luyện phát âm</h5>
+                <span>Lặp lại các cụm từ và nhận phản hồi về cách phát âm</span>
+                <button>Thực hành ngay</button>
+            </div>
+
+
+        </div>
+
+
+    </div>
+    <h3>Bài học hiện tại</h3>
+    <div class="lesson">
+        <div class="lesson-current">
+            <div class="lesson-current-video">
+                <iframe width="560" height="315" src="https://youtu.be/e0PkXP7hIMk?si=duuJLNChjDkvTjDS"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+
+            </div>
+            <div class="lesson-current-title">
+                <h4>Tên bài học</h4>
+                <span> Mô tả ngắn về bài học hiện tại để người học nắm được nội dung chính của bài học.</span>
+                <div class="lesson-current-btn">
+                    <button class="btn-next">Bài học tiếp theo</button>
+                    <button class="btn-back">Bài học trước</button>
+                    <button class="btn-confirm">Hoàn thành</button>
+                </div>
+            </div>
+        </div>
+        <div class="lesson-list">
+            <div class="lesson-item">
+                <div class="lesson-item-name">
+                    <div class="lesson-item-name-number">1</div>
+                    <div class="lesson-item-name-title">Giới thiệu về khóa học</div>
+                </div>
+                <div class="lesson-item-duration">5:30</div>
+            </div>
+        </div>
+        
+    </div>
+    <h3>Thực hành nhanh</h3>
+    <div class="practice-quick">
+        
+        <div class="practice-item-content">
+            <img src="./img/img/book-open-svgrepo-com.svg" alt="">
+            <span>FlashCards</span>
+        </div>
+        <div class="practice-item-content">
+            <img src="./img/img/document-text-svgrepo-com.svg" alt="">
+            <span>Quick QQuiz</span>
+        </div>
+        <div class="practice-item-content">
+            <img src="./img/img/micro-svgrepo-com.svg" alt="">
+            <span>Listen & Repeat<span>
+        </div>
+        <div class="practice-item-content">
+            <img src="./img/img/file-word-svgrepo-com.svg" alt="">
+            <span>Word Match</span>
+        </div>
+    </div>
+    
+    
+</body>
+
+</html>
