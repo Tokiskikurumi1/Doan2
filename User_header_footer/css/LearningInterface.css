@@ -1,0 +1,215 @@
+body {
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+h3 {
+    font-size: 24px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+h2{
+    font-size: 32px;
+    font-weight: bold;
+}
+/* thẻ chào mừng */
+.welcome{
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column; 
+    gap:10px;
+    margin: 10px;
+}
+.welcome h2{
+    font-size: 24px;
+}
+.welcome p{
+    font-size: 16px;
+}
+.welcome-progress{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    
+}
+.item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.value{
+    margin-top: 20px;
+    display: flex;
+    font-size: 20px;
+    gap: 20px;
+
+}
+.label{
+    font-weight: bold;
+}
+/* daily */
+.practice-progress{
+    background: linear-gradient(90deg, #FF4F00 0%, #FE5A1D 100%);
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    color: var(--white-);
+}
+.practice-progress progress{
+    width: 100%;
+    height: 20px;
+    appearance: none;
+    border-radius: 10px;
+}
+.practice-progress progress::-webkit-progress-bar {
+    background-color: #FFE6D5;
+    border-radius: 10px;
+}
+.practice-progress progress::-webkit-progress-value {
+    background-color: greenyellow;
+    border-radius: 10px;
+}
+    
+/* Bài học */
+.lesson{
+    display: flex;
+    flex-direction: row;
+    gap: 10px; 
+}
+.lesson-current{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.lesson-current-video iframe{
+    border-radius: 8px;
+}
+.lesson-current-title{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.lesson-current-title h4{
+    margin: 0;
+    font-size: 20px;
+}
+.lesson-current-title span{
+    font-size: 16px;
+    color: #555;
+}
+.lesson-current-btn{
+    display: flex;
+    gap: 10px;
+}
+.btn-next, .btn-back, .btn-comfirm{
+    flex: 1;
+}
+/* Bài học danh sách */
+.lesson-list{
+    display: flex;
+    gap: 10px;
+    flex:1;
+    flex-direction: column;
+    
+}
+.lesson-item{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    gap: 10px;
+}
+.lesson-item-name{
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+.lesson-item-name-number{
+    font-weight: bold;
+    color: white;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--blue1-);
+    border-radius: 8px;
+}
+.lesson-item-name-title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    height: 3rem;
+}
+/* BAIF TAAPJ */
+.practice-item-content{
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    gap: 10px;
+}
+.practice-item-content img{
+    width: 50px;
+    height: 50px;
+    background-color: blue;
+    padding: 10px;
+    border-radius: 8px;
+}
+.practice-item-content span {
+  font-size: 14px;
+  color: #555;
+  flex-grow: 1; /* đẩy nút xuống nếu nội dung ngắn */
+}
+.practice-item-content h5{
+    margin: 0;
+    font-size: 20px;
+}
+/* bài tập ôn */
+.practice-item-content-2{
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex:1;
+    gap: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.practice-item-content-2 img{
+    width: 50px;
+    height: 50px;
+    background-color: blue;
+    padding: 10px;
+    border-radius: 8px;
+}
+.practice-quick{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.practice-item{
+    display: flex;
+    flex-direction: row;
+}
+.practice-quick{
+    background-color: var(--blue1-);
+    margin: 10px;
+}
