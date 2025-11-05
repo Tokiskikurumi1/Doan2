@@ -18,12 +18,12 @@
   --card: white;
 }
 :root {
-    --blue-: #324AB2;
-    --gray-: #91A3B0;
-    --gray-light-: #F5F5F5;
-    --blue1-: #5a3ed1;
-    --blue2-: #6a4de9;
-    --white-: #FEFFFE;
+  --blue-: #324ab2;
+  --gray-: #91a3b0;
+  --gray-light-: #f5f5f5;
+  --blue1-: #5a3ed1;
+  --blue2-: #6a4de9;
+  --white-: #fefffe;
 }
 
 * {

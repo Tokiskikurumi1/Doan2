@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bảng điều khiển giảng viên</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        display: flex;
+        height: 100vh;
+        background-color: #f5f6fa;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 230px;
+        background-color: #2c3e50;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      .sidebar h2 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .sidebar a {
+        text-decoration: none;
+        color: white;
+        padding: 10px;
+        border-radius: 8px;
+        margin: 5px 0;
+        display: block;
+      }
+
+      .sidebar a:hover,
+      .active {
+        background-color: #1abc9c;
+      }
+
+      /* Content */
+      .content {
+        flex-grow: 1;
+        padding: 30px;
+      }
+
+      .dashboard-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+      }
+
+      .card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+      }
+
+      .card h3 {
+        margin: 10px 0;
+        color: #34495e;
+      }
+
+      .card p {
+        color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <h2>Giảng viên</h2>
+      <a href="#" class="active">🏠 Dashboard</a>
+      <a href="#">📚 Khóa học</a>
+      <a href="#">🧑‍🎓 Học viên</a>
+      <a href="#">📝 Bài tập</a>
+      <a href="#">📅 Lịch dạy</a>
+      <a href="#">⚙️ Cài đặt</a>
+    </div>
+
+    <div class="content">
+      <h1>Trang tổng quan</h1>
+      <div class="dashboard-cards">
+        <div class="card">
+          <h3>5</h3>
+          <p>Khóa học đang dạy</p>
+        </div>
+        <div class="card">
+          <h3>120</h3>
+          <p>Học viên</p>
+        </div>
+        <div class="card">
+          <h3>3</h3>
+          <p>Bài tập cần chấm</p>
+        </div>
+        <div class="card">
+          <h3>2</h3>
+          <p>Buổi học sắp tới</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

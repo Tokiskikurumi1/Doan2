@@ -141,3 +141,5 @@ document.querySelector(".Forgot-password button").onclick = () => {
   alert("Mật khẩu đã được gửi lại qua email!");
   showForm("Auth-Login");
 };
+
+//===================== XỬ LÝ GIAO DIỆN KHI LỰA CHỌN VAI TRÒ ============================
