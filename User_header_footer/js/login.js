@@ -75,12 +75,25 @@ document.querySelector(".Auth-Login button").onclick = () => {
     localStorage.removeItem("savedPassword");
     localStorage.removeItem("savedRole");
   }
-
-  alert("Đăng nhập thành công!");
+  // alert("Đăng nhập thành công!");
 
   // Chuyển hướng theo vai trò
   if (role === "student") {
-    window.location.href = "#";
+    let time = 3;
+    const countdownElement = document.getElementById("countdown");
+    countdownElement.textContent = `Đăng nhập thành công,...`;
+
+    const interval = setInterval(() => {
+      time--;
+      countdownElement.textContent = `Chuyển sang giao diện chính trong ${time}...`;
+      if (time === 0) {
+        clearInterval(interval);
+        countdownElement.textContent = "Đang chuyển sang giao diện chính...";
+        setTimeout(() => {
+          window.location.href = "../index.html"; // ← Giao diện chính
+        }, 500);
+      }
+    }, 1000);
   } else if (role === "teacher") {
     window.location.href = "#";
   }
