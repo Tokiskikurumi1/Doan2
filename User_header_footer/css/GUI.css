@@ -1,11 +1,11 @@
-/* Giá trị chung để tạm */
 body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
+
 .header {
-  border: 1px solid #ddd;
+  border: 0.0625rem solid #ddd;
   display: flex;
   position: fixed;
   top: 0;
@@ -13,17 +13,16 @@ body {
   z-index: 1;
   background-color: var(--white-);
   width: 100%;
-  height: 56px;
+  height: 3.5rem;
 }
 
-/* Logo */
 .header-logo {
   display: flex;
   align-items: center;
-  padding-left: 16px;
+  padding-left: 1rem;
   min-width: 30%;
 }
-/* Hiệu ứng cho logo */
+
 .header-logo h1 {
   background-image: url("https://images.pexels.com/photos/6985001/pexels-photo-6985001.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260");
   background-repeat: repeat;
@@ -33,71 +32,73 @@ body {
   animation: animate 15s ease-in-out infinite;
   background-clip: text;
   font-weight: 900;
-  font-size: 36px;
+  font-size: 2.25rem;
   text-align: center;
   text-transform: uppercase;
 }
+
 @keyframes animate {
+
   0%,
   100% {
     background-position: left top;
   }
+
   25% {
     background-position: right bottom;
   }
+
   50% {
     background-position: left bottom;
   }
+
   75% {
     background-position: right top;
   }
 }
 
-/* Cho thanh điều hướng ở giữa */
 .header-nav-center {
   display: flex;
   flex: 1;
   align-items: center;
 }
-/* Căn giữa Home ...*/
+
 .header-nav-center ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 1.875rem;
   height: 100%;
 }
-/* CSS cho text Home ... */
+
 .header-nav-center a {
   color: #000000;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 1rem;
   text-decoration: none;
 }
-/* Hiệu ứng khi di qua Home ... */
+
 .header-nav-center ul li:hover {
   transform: scale(1.2);
   transition: all 0.1s ease;
   cursor: pointer;
-  border-bottom: 2px solid var(--blue-);
+  border-bottom: 0.125rem solid var(--blue-);
   font-size: medium;
 }
 
-/* Thanh điều hướng ở bên phải */
 .header-nav-right {
   display: flex;
   justify-content: end;
   align-items: center;
-  gap: 10px;
+  gap: 0.625rem;
   min-width: 30%;
 }
 
-/* CSS chung điều hướng bên phải */
 .header-notification-icon,
 .header-message-icon,
 .header-search-icon {
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -107,37 +108,34 @@ body {
 .header-notification-icon img,
 .header-message-icon img,
 .header-search-icon img {
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
 }
 
-.header-search-icon img{
-  width: 32px;
-  height: 32px;
+.header-search-icon img {
+  width: 2rem;
+  height: 2rem;
 }
 
-/* Thanh tìm kiếm */
 .header-search {
   position: relative;
   display: flex;
   align-items: center;
-  height: 40px;
+  height: 2.5rem;
   background-color: transparent;
   transition: all 0.4s ease;
-  width: 40px;
+  width: 2.5rem;
   overflow: hidden;
 }
 
-/* Hiệu ứng mở rộng thanh tìm kiếm */
 .header-search.active {
-  border: 1px solid var(--gray-);
-  width: 240px;
+  border: 0.0625rem solid var(--gray-);
+  width: 15rem;
   background-color: #fff;
-  border-radius: 50px;
-  padding-left: 12px;
+  border-radius: 3.125rem;
+  padding-left: 0.75rem;
 }
 
-/* Css Hộp tìm kiếm */
 .header-search-box {
   flex: 1;
   opacity: 0;
@@ -152,15 +150,14 @@ body {
   width: 100%;
   border: none;
   outline: none;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #333;
   background: transparent;
 }
 
-/* Icon kính lúp */
 .header-search-icon {
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -172,16 +169,15 @@ body {
   cursor: pointer;
 }
 
-/* Kết quả tìm kiếm */
 .header-search-results {
   position: absolute;
   top: 110%;
   left: 0;
   background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 12px 16px;
-  max-height: 300px;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
+  padding: 0.75rem 1rem;
+  max-height: 18.75rem;
   width: 100%;
   overflow-y: auto;
   display: none;
@@ -191,10 +187,10 @@ body {
 .header-search-results-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px;
-  font-size: 16px;
-  border-bottom: 1px solid var(--gray-);
+  gap: 0.625rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-bottom: 0.0625rem solid var(--gray-);
   color: #222;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -204,89 +200,48 @@ body {
   background-color: #f0f4ff;
 }
 
-/* CSS . đỏ ở trên*/
 .header-notification,
 .header-message {
   position: relative;
   display: inline-block;
-  margin: 0 10px;
+  margin: 0 0.625rem;
   cursor: pointer;
 }
 
-/* Hiển thị khi có thông báo */
 .header-notification-count {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 10px;
-  height: 10px;
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 0.625rem;
+  height: 0.625rem;
   background-color: #ff004f;
   border-radius: 50%;
   text-align: center;
   line-height: 1;
 }
 
-/* Nút đăng nhập trong header */
-.header-login a {
-  display: inline-block;
-  padding: 8px 16px;
-  background-color: transparent;
-  color: #ffffff;
-  font-weight: bold;
-  font-size: 15px;
-  text-decoration: none;
-  border: 2px solid #ffffff;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-}
 
-/* Hiệu ứng hover */
-.header-login a:hover {
-  background-color: #3498db;
-  border-color: #3498db;
-  color: #fff;
-  transform: scale(1.05);
-}
-
-.header-notification,
-.header-message,
-.burger-menu {
-  display: none;
-}
-
-body.logged-in .header-notification,
-body.logged-in .header-message,
-body.logged-in .burger-menu {
-  display: inline-block;
-}
-
-body.logged-in .header-login {
-  display: none;
-}
-
-body.logged-out .header-login {
-  display: block;
-}
-
-
-/* Responsive */
 @media (max-width: 768px) {
   .header-nav-center {
     display: flex !important;
   }
+
   .header-nav-center ul {
-    gap: 12px;
+    gap: 0.75rem;
     flex-wrap: wrap;
-    padding: 0 8px;
+    padding: 0 0.5rem;
   }
+
   .header-nav-center {
     display: none;
   }
+
   .header-search-box input {
-    width: 100px;
+    width: 6.25rem;
   }
+
   .header-login a {
-    font-size: 14px;
-    padding: 6px 10px;
+    font-size: 0.875rem;
+    padding: 0.375rem 0.625rem;
   }
 }
