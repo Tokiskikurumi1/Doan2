@@ -12,6 +12,31 @@ let startX = 0;
 let currentX = 0;
 let isDragging = false;
 
+// Đợi DOM tải xong
+document.addEventListener("DOMContentLoaded", () => {
+  // Hàm kiểm tra và cập nhật trạng thái đăng nhập
+  function updateLoginStatus() {
+    const loginTable = document.querySelector(".login");
+    const currentUser = localStorage.getItem("savedUsername");
+    const currentPass = localStorage.getItem("savedPassword");
+
+    if (currentUser && currentPass) {
+      loginTable.innerHTML = `
+      <span>Chào mừng: ${currentUser} | <a href="#" id="logout">Đăng xuất</a></span>
+    `;
+      document.getElementById("logout").addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("savedUsername");
+        localStorage.removeItem("savedPassword");
+        localStorage.removeItem("savedRole");
+        window.location.reload();
+      });
+    }
+  }
+
+  updateLoginStatus();
+});
+
 menuIcon.addEventListener("click", () => {
   navBarMenuIconActive.classList.toggle("active");
   menuIcon.classList.toggle("fa-bars");

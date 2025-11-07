@@ -1,3 +1,10 @@
+const btnPay = document.querySelector(".info-price button");
+
+//================HÀM KIỂM TRA LOGIN=========================
+function isLoggedIn() {
+  const user = localStorage.getItem("savedUsername");
+  return !!user; // trả về true nếu có user
+}
 // Lấy dữ liệu khóa học đã được lưu trong localStorage
 const data = localStorage.getItem("selectedCourse");
 
@@ -34,3 +41,10 @@ if (data) {
 } else {
   console.warn("Không có dữ liệu khóa học trong localStorage!");
 }
+
+btnPay.addEventListener("click", () => {
+  if (!isLoggedIn()) {
+    alert("Bạn chưa đăng nhập!");
+  } else {
+  }
+});

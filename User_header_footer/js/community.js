@@ -56,6 +56,13 @@ let currentFilter = "Tổng hợp";
 let currentPost = null;
 let commentsMap = {}; // postId -> comments array
 let fullName = "";
+
+// ========================== KIỂM TRA ĐĂNG NHẬP ==========================
+function isLoggedIn() {
+  const user = localStorage.getItem("savedUsername");
+  return !!user; // trả về true nếu có user
+}
+
 // ========================== HÀM HIỂN THỊ TÊN ICON TRÊN CÙNG==========================
 function renderIconNames() {
   posts.forEach((post) => {
@@ -155,7 +162,19 @@ function renderList() {
   });
 }
 
+const currentUser = localStorage.getItem("savedUsername") || "Bạn";
+
+// ========================== HÀM HIỂN THỊ TÊN ICON TRÊN CÙNG ==========================
+function renderIconNames() {
+  avatarElements.textContent = currentUser[0].toUpperCase();
+}
+
+function getFullName() {
+  fullName = currentUser;
+}
+
 // ========================== HÀM HIỂN THỊ TRANG CÁ NHÂN ==========================
+
 function renderMyPosts() {
   postList.innerHTML = "";
   const q = (searchInput.value || "").toLowerCase();
@@ -179,9 +198,9 @@ function renderMyPosts() {
           justify-content: center;
           border-radius: 50%;
         ">
-        ${myPosts[0].avt || "U"}
+        ${currentUser[0] || "U"}
       </div>
-      <h3 style="margin-top: 10px">${myPosts[0].author}</h3>
+      <h3 style="margin-top: 10px">${currentUser}</h3>
       <p style="color: gray">Bài viết của tôi</p>`;
   }
 
@@ -331,9 +350,13 @@ postModal.addEventListener("click", (e) => {
 });
 
 // ========================== TẠO BÀI MỚI ==========================
-newPostBtn.addEventListener("click", () =>
-  newPostModal.setAttribute("aria-hidden", "false")
-);
+newPostBtn.addEventListener("click", () => {
+  if (!isLoggedIn()) {
+    alert("Bạn cần đăng nhập để đăng bài!");
+    return;
+  }
+  newPostModal.setAttribute("aria-hidden", "false");
+});
 closeNewPost.addEventListener("click", () =>
   newPostModal.setAttribute("aria-hidden", "true")
 );
@@ -439,6 +462,10 @@ const avatarBtn = document.querySelector(".avatar");
 
 if (avatarBtn) {
   avatarBtn.addEventListener("click", () => {
+    if (!isLoggedIn()) {
+      alert("Bạn chưa đăng nhập!");
+      return;
+    }
     document
       .querySelectorAll(".cat")
       .forEach((x) => x.classList.remove("active"));
@@ -457,6 +484,10 @@ if (avatarBtn) {
 // ==========================MỞ TRANG TỔNG HỢP KHI ẤN ICON (GIAO DIỆN 768)  ==========================
 if (generalBtn) {
   generalBtn.addEventListener("click", () => {
+    if (!isLoggedIn()) {
+      alert("Bạn chưa đăng nhập!");
+      return;
+    }
     document
       .querySelectorAll(".cat")
       .forEach((x) => x.classList.remove("active"));
@@ -497,6 +528,13 @@ postImageInput.addEventListener("change", () => {
 });
 
 // ========================== KHỞI TẠO ==========================
-renderIconNames();
-getFullName();
-renderList();
+if (isLoggedIn()) {
+  renderIconNames();
+  getFullName();
+  renderList();
+} else {
+  postList.innerHTML = `
+    <div style="padding:40px;text-align:center;color:#6b7280;font-size:18px;">
+      Vui lòng <a href="../login_register/login.html" style="color:#2563eb;">đăng nhập</a> để xem các bài viết.
+    </div>`;
+}

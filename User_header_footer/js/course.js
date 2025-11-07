@@ -9,6 +9,7 @@ const courses = [
     image_url: "./img/image_course/image-course.png",
     description:
       "Khóa học giúp luyện tập và phân tích các dạng đề TOEIC mới nhất, phù hợp cho người chuẩn bị thi năm 2025.",
+    time: "120h",
   },
   {
     id: 2,
@@ -109,6 +110,11 @@ const searchInput = document.querySelector(".search input");
 const listCourse = document.querySelector(".list-course");
 const btnSearch = document.querySelector(".search button");
 
+//===================KIỂM TRA ĐĂNG NHẬP ==========================
+function isLoggedIn() {
+  const user = localStorage.getItem("savedUsername");
+  return !!user; // trả về true nếu có user
+}
 //=============== TOGGLE ĐỔ DANH MỤC =========================
 btnMenuIcon.addEventListener("click", () => {
   Categorys.classList.toggle("active");
