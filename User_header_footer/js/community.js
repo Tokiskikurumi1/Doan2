@@ -51,11 +51,13 @@ const imagePreview = document.getElementById("imagePreview");
 const avatarElements = document.querySelector(".actions .avatar");
 const generalBtn = document.getElementById("generalBtn");
 const imgSearch = document.querySelector(".img-search");
+const profileSection = document.getElementById("profileSection");
 
 let currentFilter = "Tổng hợp";
 let currentPost = null;
 let commentsMap = {}; // postId -> comments array
 let fullName = "";
+const currentUser = localStorage.getItem("savedUsername") || "Bạn"; //LẤY TỪ LOCAL
 
 // ========================== KIỂM TRA ĐĂNG NHẬP ==========================
 function isLoggedIn() {
@@ -64,13 +66,18 @@ function isLoggedIn() {
 }
 
 // ========================== HÀM HIỂN THỊ TÊN ICON TRÊN CÙNG==========================
-function renderIconNames() {
-  posts.forEach((post) => {
-    if (post.cat === "Trang cá nhân") {
-      avatarElements.textContent = `${post.author[0]}`;
-    }
-  });
-}
+// function renderIconNames() {
+//   if (!isLoggedIn()) {
+//     avatarElements.textContent = "?";
+//   } else {
+//     avatarElements.textContent = `${currentUser[0]}`;
+//   }
+//   posts.forEach((post) => {
+//     if (post.cat === "Trang cá nhân") {
+//       avatarElements.textContent = `${post.author[0]}`;
+//     }
+//   });
+// }
 
 function getFullName() {
   posts.forEach((post) => {
@@ -82,6 +89,13 @@ function getFullName() {
 
 // ========================== HÀM HIỂN THỊ DANH SÁCH ==========================
 function renderList() {
+  if (!isLoggedIn()) {
+    postList.innerHTML = `
+    <div style="padding:40px;text-align:center;color:#6b7280;font-size:18px;">
+      Vui lòng <a href="../User_header_footer/login.html" style="color:#2563eb;">đăng nhập</a> để xem các bài viết.
+    </div>`;
+    return;
+  }
   postList.innerHTML = "";
   const q = (searchInput.value || "").toLowerCase();
 
@@ -162,10 +176,12 @@ function renderList() {
   });
 }
 
-const currentUser = localStorage.getItem("savedUsername") || "Bạn";
-
 // ========================== HÀM HIỂN THỊ TÊN ICON TRÊN CÙNG ==========================
 function renderIconNames() {
+  if (!isLoggedIn()) {
+    avatarElements.textContent = "?";
+    return;
+  }
   avatarElements.textContent = currentUser[0].toUpperCase();
 }
 
@@ -176,13 +192,34 @@ function getFullName() {
 // ========================== HÀM HIỂN THỊ TRANG CÁ NHÂN ==========================
 
 function renderMyPosts() {
+  if (!isLoggedIn()) {
+    profileSection.innerHTML = `
+      <div class="c-avatar"
+        style="
+          width: 80px;
+          height: 80px;
+          font-size: 30px;
+          margin: 0 auto;
+          background: #2563eb;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+        ">
+        ${"?"}
+      </div>
+      <h3 style="margin-top: 10px"></h3>
+      `;
+    return;
+  }
   postList.innerHTML = "";
   const q = (searchInput.value || "").toLowerCase();
   const myPosts = posts.filter(
     (p) => p.cat === "Trang cá nhân" && p.content.toLowerCase().includes(q)
   );
 
-  const profileSection = document.getElementById("profileSection");
+  // const profileSection = document.getElementById("profileSection");
   if (myPosts.length > 0) {
     profileSection.innerHTML = `
       <div class="c-avatar"
@@ -202,6 +239,7 @@ function renderMyPosts() {
       </div>
       <h3 style="margin-top: 10px">${currentUser}</h3>
       <p style="color: gray">Bài viết của tôi</p>`;
+    return;
   }
 
   if (myPosts.length === 0) {
@@ -365,12 +403,12 @@ newPostModal.addEventListener("click", (e) => {
     newPostModal.setAttribute("aria-hidden", "true");
 });
 
-// ========================== NÚT CHỌN ẢNH ==========================
+// ========================== NÚT ĐĂNG BÀI VIẾT  ==========================
 const setNamePost = document.querySelector(".avt_create");
 posts.forEach((post) => {
   if (post.cat === "Trang cá nhân") {
-    setNamePost.querySelector(".c-avatar").textContent = post.avt || "U";
-    setNamePost.querySelector(".meta").textContent = post.author || "Bạn";
+    setNamePost.querySelector(".c-avatar").textContent = currentUser[0] || "U";
+    setNamePost.querySelector(".meta").textContent = currentUser || "Bạn";
   }
 });
 
@@ -387,14 +425,14 @@ createPost.addEventListener("click", () => {
   if (!body && !file) {
     return alert("Vui lòng viết nội dung hoặc chọn ảnh");
   }
-  const avt = avatarElements.textContent.trim() || "Bạn";
+  const avt = currentUser[0] || "Bạn";
   const id = posts.length ? Math.max(...posts.map((p) => p.id)) + 1 : 1;
 
   // Hàm thêm bài
   const addPost = (imageBase64 = null) => {
     posts.unshift({
       id,
-      author: fullName,
+      author: currentUser,
       avt: avt,
       time: "vừa xong",
       cat: "Trang cá nhân",
@@ -528,13 +566,7 @@ postImageInput.addEventListener("change", () => {
 });
 
 // ========================== KHỞI TẠO ==========================
-if (isLoggedIn()) {
-  renderIconNames();
-  getFullName();
-  renderList();
-} else {
-  postList.innerHTML = `
-    <div style="padding:40px;text-align:center;color:#6b7280;font-size:18px;">
-      Vui lòng <a href="../login_register/login.html" style="color:#2563eb;">đăng nhập</a> để xem các bài viết.
-    </div>`;
-}
+
+renderIconNames();
+getFullName();
+renderList();

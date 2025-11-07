@@ -50,8 +50,10 @@ function displayCourse(list) {
         <td>${c.role}</td>
         <td>${c.teacher}</td>
         <td class="actions">
-          <button class="edit" onclick="editCourse(${c.id})">Sửa</button>
-          <button class="delete" onclick="deleteCourse(${c.id})">Xóa</button>
+          <button class="edit" onclick="editCourse(${c.id})">          <i class="fa-solid fa-pen"></i>
+</button>
+          <button class="delete" onclick="deleteCourse(${c.id})">                  <i class="fa-solid fa-trash"></i>
+</button>
         </td>
       </tr>
     `;
