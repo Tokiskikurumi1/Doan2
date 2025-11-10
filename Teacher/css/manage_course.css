@@ -1,0 +1,106 @@
+/*==================================RIGHT CONTENT ==============================================*/
+
+#right-content {
+  margin-left: 260px;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+/*==================================THẺ MAIN ==============================================*/
+
+main {
+  padding: 1.5rem;
+}
+
+.title h3 {
+  font-size: 1.6rem;
+  margin-top: 0;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.top-action {
+  display: flex;
+  /* justify-content: space-between; */
+  gap: 2rem;
+}
+
+.top-action .selectDate {
+  display: flex;
+  gap: 1rem;
+}
+
+.selectDate input {
+  width: 135px;
+}
+
+.actions .search-bar {
+  width: 500px;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+/*==================================THẺ LIST COURSES ==============================================*/
+.list-courses {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.item-course {
+  padding-top: 24px;
+  max-width: 100%;
+}
+
+.item-course .item-course-panel {
+  padding: 8px;
+  border-radius: 10px;
+  background-color: var(--white);
+  border: 1px solid var(--grey-border);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.item-course .item-course-panel:hover {
+  transform: translateY(-10px);
+}
+
+.item-course-panel .image-course {
+  width: 100%;
+}
+.image-course img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.course-info {
+  line-height: 24px;
+  font-size: 16px;
+}
+
+.course-info .name-course {
+  font-weight: 600;
+  margin-bottom: 8px;
+  height: 100px;
+}
+
+.course-info .number-of-student {
+  margin: 8px 0px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.course-price {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}

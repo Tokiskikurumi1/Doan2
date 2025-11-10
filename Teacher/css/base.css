@@ -1,0 +1,26 @@
+:root {
+  --white: #fff;
+  --black: black;
+  --grey: #4b5563;
+  --blue-black: #334155;
+  --blue-: #2563eb;
+  --grey-border: #e5e7eb;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  text-decoration: none;
+  list-style: none;
+  font-size: 1.1rem;
+}
+
+body {
+  width: 100%;
+  /* font-family: "arial"; */
+  margin: 0;
+  background-color: var(--white);
+  /* position: relative; */
+}
