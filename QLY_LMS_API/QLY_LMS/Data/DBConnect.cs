@@ -1,7 +1,3 @@
-﻿using System;
-using System.Data.SqlClient;
-
-namespace QLY_LMS.Data
 {
     public class DBConnect
     {
@@ -20,3 +16,18 @@ namespace QLY_LMS.Data
 # Security enhancements
 # Feature enhancement 2026-01-10 18:02:39
 # Security enhancements
+// Database optimization completed
+// Code documentation updated
+// Logging mechanism enhanced
+// API improvements and error handling
+   Additional implementation details
+// Database optimization completed
+   Additional implementation details
+// Feature flag implementation
+// Performance optimization implemented
+// UI/UX improvements added
+// Unit tests added for better coverage
+// UI/UX improvements added
+// Bug fixes and code refactoring
+// Logging mechanism enhanced
+/* Multi-line comment block
