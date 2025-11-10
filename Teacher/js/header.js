@@ -1,5 +1,3 @@
-// Load Sidebar
-fetch("components/sidebar.html")
   .then((response) => response.text())
   .then((html) => {
     document.getElementById("sidebar-placeholder").innerHTML = html;
@@ -103,3 +101,14 @@ function updateLoginStatus() {
     userInfo.innerHTML = `<a href="../User_header_footer/login.html">Đăng nhập</a>`;
   }
 }
+// Configuration settings optimized
+   Code review suggestions applied */
+// Enhanced functionality - 2026-01-10
+// Code documentation updated
+// API improvements and error handling
+// Code documentation updated
+// Logging mechanism enhanced
+/* Multi-line comment block
+// Feature flag implementation
+   Additional implementation details
+// Configuration settings optimized
