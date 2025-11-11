@@ -18,13 +18,34 @@
     <div id="sidebar-placeholder"></div>
     <div id="right-content">
       <div id="header-placeholder"></div>
+
       <main>
         <div class="title">
           <h3>Khóa học Video của tôi</h3>
+          <button class="new-course" id="new-course">
+            <i class="fa-solid fa-plus"></i>
+            <span>Thêm khóa học</span>
+          </button>
         </div>
-        <!--NÚT CHỨC NĂNG BÊN TRÊN VÀ THANH TÌM KIẾM -->
+        <!--NÚT CHỨC NĂNG BÊN TRÊN -->
         <div class="actions">
           <div class="top-action">
+            <div class="selectDate">
+              <div class="date-wrapper">
+                <label for="fromDate">Từ ngày</label>
+                <input type="date" id="fromDate" />
+              </div>
+              <div class="date-wrapper">
+                <label for="toDate">Đến ngày</label>
+                <input type="date" id="toDate" />
+              </div>
+            </div>
+            <button class="apply">Áp dụng</button>
+          </div>
+          <!-- THANH TÌM KIẾM VÀ THANH BỘ LỌC-->
+
+          <div class="search-select">
+            <input type="text" placeholder="Tìm kiếm..." class="search-bar" />
             <div class="selects">
               <select class="role_course">
                 <option value="all">Tất cả</option>
@@ -42,19 +63,7 @@
                 <option value="">Z-A</option>
               </select>
             </div>
-            <div class="selectDate">
-              <div class="date-wrapper">
-                <label for="fromDate">Từ ngày</label>
-                <input type="date" id="fromDate" />
-              </div>
-              <div class="date-wrapper">
-                <label for="toDate">Đến ngày</label>
-                <input type="date" id="toDate" />
-              </div>
-            </div>
-            <button>Áp dụng</button>
           </div>
-          <input type="text" placeholder="Tìm kiếm..." class="search-bar" />
         </div>
         <!--CÁC KHÓA HỌC HIỂN THỊ BÊN DƯỚI-->
         <div class="list-courses">
@@ -67,8 +76,8 @@
                 <div class="name-course">Khóa học mất gốc</div>
                 <div class="number-of-student">456 học viên</div>
                 <hr />
-                <div class="course-price">
-                  <div class="price">2.000.000 VND</div>
+                <div class="status-course">
+                  <div class="price">Đã hoàn thành</div>
                 </div>
               </div>
             </div>
@@ -82,8 +91,8 @@
                 <div class="name-course">Khóa học mất gốc</div>
                 <div class="number-of-student">456 học viên</div>
                 <hr />
-                <div class="course-price">
-                  <div class="price">2.000.000 VND</div>
+                <div class="status-course">
+                  <div class="price">Đã hoàn thành</div>
                 </div>
               </div>
             </div>
@@ -97,8 +106,8 @@
                 <div class="name-course">Khóa học mất gốc</div>
                 <div class="number-of-student">456 học viên</div>
                 <hr />
-                <div class="course-price">
-                  <div class="price">2.000.000 VND</div>
+                <div class="status-course">
+                  <div class="price">Đã hoàn thành</div>
                 </div>
               </div>
             </div>
@@ -112,8 +121,8 @@
                 <div class="name-course">Khóa học mất gốc</div>
                 <div class="number-of-student">456 học viên</div>
                 <hr />
-                <div class="course-price">
-                  <div class="price">2.000.000 VND</div>
+                <div class="status-course">
+                  <div class="price">Đã hoàn thành</div>
                 </div>
               </div>
             </div>

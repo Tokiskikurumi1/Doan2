@@ -5,6 +5,10 @@
   --blue-black: #334155;
   --blue-: #2563eb;
   --grey-border: #e5e7eb;
+  --green: #10b981;
+  --yellow: #facc15;
+  --red: #ef4444;
+  --orange: #f97316;
 }
 
 * {
@@ -23,4 +27,17 @@ body {
   margin: 0;
   background-color: var(--white);
   /* position: relative; */
+}
+
+/*==================================RIGHT CONTENT ==============================================*/
+
+#right-content {
+  margin-left: 260px;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+/*==================================THẺ MAIN ==============================================*/
+
+main {
+  padding: 1.5rem;
 }

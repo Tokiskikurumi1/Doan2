@@ -1,12 +1,13 @@
-const menuIcon = document.getElementById("menuIcon");
-const leftSlide = document.querySelector(".left-slide");
-const overlay = document.getElementById("overlay");
+// const menuIcon = document.getElementById("menuIcon");
+// const leftSlide = document.querySelector(".left-slide");
+// const overlay = document.getElementById("overlay");
 // Load Sidebar
 fetch("components/sidebar.html")
   .then((response) => response.text())
   .then((html) => {
     document.getElementById("sidebar-placeholder").innerHTML = html;
-    // highlightActiveNav();
+    sideBarActive();
+    restoreActiveMenu();
   });
 
 // Load Header
@@ -21,7 +22,7 @@ fetch("components/header.html")
 function MenuToggle() {
   const menuIcon = document.getElementById("menuIcon");
   const leftSlide = document.querySelector(".left-slide");
-  const overlay = document.getElementById("overlay");
+  const overlay = document.getElementById("overlay"); // PHẢI KHAI BÁO DO CHƯA LOAD
 
   if (menuIcon && leftSlide && overlay) {
     menuIcon.addEventListener("click", () => {
@@ -35,6 +36,27 @@ function MenuToggle() {
   }
 }
 
+function sideBarActive() {
+  const links = document.querySelectorAll(".nav-bar-title ul li a");
+
+  links.forEach((item, index) => {
+    item.addEventListener("click", () => {
+      localStorage.setItem("activeMenu", index); // Lưu vị trí
+    });
+  });
+}
+
+function restoreActiveMenu() {
+  const links = document.querySelectorAll(".nav-bar-title ul li a");
+  const activeIndex = localStorage.getItem("activeMenu");
+
+  if (activeIndex !== null) {
+    links.forEach((a) => a.classList.remove("active"));
+    links[activeIndex].classList.add("active");
+  }
+}
+
+/* HÀM KIỂM TRA ĐĂNG NHẬP*/
 function updateLoginStatus() {
   const loginTable = document.querySelector(".login");
   const currentUser = localStorage.getItem("savedUsername");

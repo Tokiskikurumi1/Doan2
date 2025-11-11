@@ -1,20 +1,39 @@
 /*==================================RIGHT CONTENT ==============================================*/
 
-#right-content {
+/* #right-content {
   margin-left: 260px;
   min-height: 100vh;
   transition: margin-left 0.3s ease;
-}
+} */
 /*==================================THẺ MAIN ==============================================*/
 
 main {
   padding: 1.5rem;
 }
+/*==================================THẺ TITLE ===*/
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 40px;
+}
 
 .title h3 {
   font-size: 1.6rem;
-  margin-top: 0;
+  margin: 0;
 }
+
+.title .new-course {
+  width: 200px;
+  padding: 8px 14px;
+  background-color: var(--blue-);
+  color: var(--white);
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+/*==================================THẺ ACTIONS ====*/
 
 .actions {
   display: flex;
@@ -35,13 +54,33 @@ main {
 
 .selectDate input {
   width: 135px;
+  border-radius: 10px;
 }
 
-.actions .search-bar {
+/*==================================THẺ SEARCH-SELECT COURSES ==============================================*/
+.search-select {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-bar {
   width: 500px;
   padding: 0.5rem 1rem;
   border: 1px solid #d1d5db;
   border-radius: 8px;
+}
+
+.search-select .role_course,
+.arrange {
+  padding: 8px 14px;
+  border-radius: 10px;
+  background-color: var(--grey);
+  color: var(--white);
+}
+
+.search-select .selects {
+  line-height: 3rem;
 }
 /*==================================THẺ LIST COURSES ==============================================*/
 .list-courses {
@@ -99,8 +138,59 @@ main {
   gap: 10px;
 }
 
-.course-price {
+.status-course {
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+}
+
+.top-action .apply {
+  padding: 4px 8px;
+  border-radius: 10px;
+  background-color: var(--blue-);
+  border: 1px solid var(--grey);
+  color: var(--white);
+  cursor: pointer;
+}
+
+@media (max-width: 1192px) {
+  .search-select {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 1170px) {
+  .list-courses {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, auto);
+  }
+}
+
+@media (max-width: 990px) {
+  .list-courses {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, auto);
+  }
+}
+
+@media (max-width: 891px) {
+  .selectDate {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 580px) {
+  main {
+    padding: 20px;
+  }
+  .top-action {
+    gap: 10px;
+  }
+  .title {
+    flex-direction: column;
+  }
+  .search-bar {
+    width: 100%;
+  }
 }
