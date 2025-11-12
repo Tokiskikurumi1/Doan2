@@ -1,3 +1,14 @@
+
+// Lưu đang nhập
+function savedUserdata() {
+  const isCheckbox = document.getElementById("checkbox").checked;
+  if (isCheckbox) {
+    localStorage.setItem("isLoggedIn", "true");
+  } else {
+    localStorage.removeItem("isLoggedIn");
+  }
+}
+
 // Mặc định hiển thị form đăng nhập và điền dữ liệu đã lưu
 window.onload = () => {
   showForm("Auth-Login");
@@ -13,6 +24,7 @@ window.onload = () => {
     document.querySelector(".Auth-Login input[type='checkbox']").checked = true;
   }
 };
+
 
 // Hiệu ứng chuyển đổi form
 function showForm(formClass) {
@@ -37,9 +49,10 @@ document.querySelector(".Forgot-password span").onclick = () =>
 
 // Dữ liệu kiểm tra
 const regex = {
-  username: /^[a-zA-Z0-9]{8,12}$/,
+  username: /^[a-zA-Z0-9]{0,12}$/,
   email: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
-  password: /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/,
+  password: /^[a-zA-Z0-9]{0,12}$/, // này mới chất
+  // password: /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/, đăng nhập quá mất thời gian
 };
 
 // Hàm hiển thị lỗi
@@ -77,6 +90,7 @@ document.querySelector(".Auth-Login button").onclick = () => {
   }
   // alert("Đăng nhập thành công!");
 
+
   // Chuyển hướng theo vai trò
   if (role === "student") {
     let time = 3;
@@ -98,6 +112,8 @@ document.querySelector(".Auth-Login button").onclick = () => {
     window.location.href = "../Teacher/teacher.html";
   }
 };
+
+
 
 // Xử lý đăng ký
 document.querySelector(".Auth-Signup button").onclick = () => {
