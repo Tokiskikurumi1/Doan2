@@ -109,7 +109,7 @@ document.querySelector(".Auth-Login button").onclick = () => {
       }
     }, 1000);
   } else if (role === "teacher") {
-    window.location.href = "#";
+    window.location.href = "../Teacher/teacher.html";
   }
 };
 

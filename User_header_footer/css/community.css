@@ -140,6 +140,7 @@ px TRỞ XUỐNG ============ */
    3️⃣  LAYOUT (SIDEBAR + NỘI DUNG CHÍNH)
 ========================================= */
 .layout {
+  min-height: 350px;
   display: flex;
   gap: 20px;
   padding: 20px 200px;

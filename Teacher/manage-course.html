@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/manage_course.css" />
+    <link rel="stylesheet" href="./components/header_sidebar.css" />
+
+    <title>Quản lý khóa học</title>
+  </head>
+  <body>
+    <div class="overlay" id="overlay"></div>
+    <div id="sidebar-placeholder"></div>
+    <div id="right-content">
+      <div id="header-placeholder"></div>
+
+      <main>
+        <div class="title">
+          <h3>Khóa học Video của tôi</h3>
+          <button class="new-course" id="new-course">
+            <i class="fa-solid fa-plus"></i>
+            <span>Thêm khóa học</span>
+          </button>
+        </div>
+        <!--NÚT CHỨC NĂNG BÊN TRÊN -->
+        <div class="actions">
+          <div class="top-action">
+            <div class="selectDate">
+              <div class="date-wrapper">
+                <label for="fromDate">Từ ngày</label>
+                <input type="date" id="fromDate" />
+              </div>
+              <div class="date-wrapper">
+                <label for="toDate">Đến ngày</label>
+                <input type="date" id="toDate" />
+              </div>
+            </div>
+            <button class="apply">Áp dụng</button>
+          </div>
+          <!-- THANH TÌM KIẾM VÀ THANH BỘ LỌC-->
+
+          <div class="search-select">
+            <input type="text" placeholder="Tìm kiếm..." class="search-bar" />
+            <div class="selects">
+              <select class="role_course">
+                <option value="all">Tất cả</option>
+                <option value="">Đã hoàn thành</option>
+                <option value="">Chưa hoàn thành</option>
+                <option value="">TOEIC</option>
+                <option value="">IELTS</option>
+                <option value="">Combo</option>
+              </select>
+              <select class="arrange">
+                <option value="">Sắp xếp theo</option>
+                <option value="">Mới nhất</option>
+                <option value="">Cũ nhất</option>
+                <option value="">A-Z</option>
+                <option value="">Z-A</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!--CÁC KHÓA HỌC HIỂN THỊ BÊN DƯỚI-->
+        <div class="list-courses">
+          <div class="item-course" data-id="1">
+            <div class="item-course-panel">
+              <div class="image-course">
+                <img src="./img/course.png" alt="Khóa học cơ bản" />
+              </div>
+              <div class="course-info">
+                <div class="name-course">Khóa học mất gốc</div>
+                <div class="number-of-student">456 học viên</div>
+                <hr />
+                <div class="status-course">
+                  <div class="price">Đã hoàn thành</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="item-course" data-id="1">
+            <div class="item-course-panel">
+              <div class="image-course">
+                <img src="./img/course.png" alt="Khóa học cơ bản" />
+              </div>
+              <div class="course-info">
+                <div class="name-course">Khóa học mất gốc</div>
+                <div class="number-of-student">456 học viên</div>
+                <hr />
+                <div class="status-course">
+                  <div class="price">Đã hoàn thành</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="item-course" data-id="1">
+            <div class="item-course-panel">
+              <div class="image-course">
+                <img src="./img/course.png" alt="Khóa học cơ bản" />
+              </div>
+              <div class="course-info">
+                <div class="name-course">Khóa học mất gốc</div>
+                <div class="number-of-student">456 học viên</div>
+                <hr />
+                <div class="status-course">
+                  <div class="price">Đã hoàn thành</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="item-course" data-id="1">
+            <div class="item-course-panel">
+              <div class="image-course">
+                <img src="./img/course.png" alt="Khóa học cơ bản" />
+              </div>
+              <div class="course-info">
+                <div class="name-course">Khóa học mất gốc</div>
+                <div class="number-of-student">456 học viên</div>
+                <hr />
+                <div class="status-course">
+                  <div class="price">Đã hoàn thành</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="./js/header.js"></script>
+  </body>
+</html>

@@ -487,4 +487,7 @@ tr:hover {
   .label {
     font-size: 12px;
   }
+  /* .sidebar {
+    display: none !important;
+  } */
 }

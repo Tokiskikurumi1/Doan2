@@ -1,0 +1,196 @@
+/*==================================RIGHT CONTENT ==============================================*/
+
+/* #right-content {
+  margin-left: 260px;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+} */
+/*==================================THẺ MAIN ==============================================*/
+
+main {
+  padding: 1.5rem;
+}
+/*==================================THẺ TITLE ===*/
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.title h3 {
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.title .new-course {
+  width: 200px;
+  padding: 8px 14px;
+  background-color: var(--blue-);
+  color: var(--white);
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+/*==================================THẺ ACTIONS ====*/
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.top-action {
+  display: flex;
+  /* justify-content: space-between; */
+  gap: 2rem;
+}
+
+.top-action .selectDate {
+  display: flex;
+  gap: 1rem;
+}
+
+.selectDate input {
+  width: 135px;
+  border-radius: 10px;
+}
+
+/*==================================THẺ SEARCH-SELECT COURSES ==============================================*/
+.search-select {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-bar {
+  width: 500px;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.search-select .role_course,
+.arrange {
+  padding: 8px 14px;
+  border-radius: 10px;
+  background-color: var(--grey);
+  color: var(--white);
+}
+
+.search-select .selects {
+  line-height: 3rem;
+}
+/*==================================THẺ LIST COURSES ==============================================*/
+.list-courses {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.item-course {
+  padding-top: 24px;
+  max-width: 100%;
+}
+
+.item-course .item-course-panel {
+  padding: 8px;
+  border-radius: 10px;
+  background-color: var(--white);
+  border: 1px solid var(--grey-border);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.item-course .item-course-panel:hover {
+  transform: translateY(-10px);
+}
+
+.item-course-panel .image-course {
+  width: 100%;
+}
+.image-course img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.course-info {
+  line-height: 24px;
+  font-size: 16px;
+}
+
+.course-info .name-course {
+  font-weight: 600;
+  margin-bottom: 8px;
+  height: 100px;
+}
+
+.course-info .number-of-student {
+  margin: 8px 0px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.status-course {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.top-action .apply {
+  padding: 4px 8px;
+  border-radius: 10px;
+  background-color: var(--blue-);
+  border: 1px solid var(--grey);
+  color: var(--white);
+  cursor: pointer;
+}
+
+@media (max-width: 1192px) {
+  .search-select {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 1170px) {
+  .list-courses {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, auto);
+  }
+}
+
+@media (max-width: 990px) {
+  .list-courses {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, auto);
+  }
+}
+
+@media (max-width: 891px) {
+  .selectDate {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 580px) {
+  main {
+    padding: 20px;
+  }
+  .top-action {
+    gap: 10px;
+  }
+  .title {
+    flex-direction: column;
+  }
+  .search-bar {
+    width: 100%;
+  }
+}

@@ -52,8 +52,12 @@ function displayUsers(usersToDisplay) {
       <td>${user.created}</td>
       <td>${user.status}</td>
       <td class="actions">
-        <button class="edit" onclick="Edit(${user.id})">Sửa</button>
-        <button class="delete" onclick="Delete(${user.id})">Xóa</button>
+        <button class="edit" onclick="Edit(${user.id})">
+          <i class="fa-solid fa-pen"></i>
+        </button>
+        <button class="delete" onclick="Delete(${user.id})">
+          <i class="fa-solid fa-trash"></i>
+        </button>
       </td>
     `;
     userTableBody.appendChild(row);

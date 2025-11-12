@@ -1,0 +1,179 @@
+/* === PAGE HEADER === */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.page-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--black);
+}
+.btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+.btn-primary {
+  background: var(--blue-);
+  color: white;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--grey-border);
+  color: var(--grey);
+}
+.btn-outline:hover {
+  background: #f3f4f6;
+}
+.btn-sm {
+  padding: 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* === TABLE === */
+.table-container {
+  background: white;
+  border: 1px solid var(--grey-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.student-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.student-table th {
+  background: #f9fafb;
+  text-align: left;
+  padding: 1rem;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 1px solid var(--grey-border);
+}
+.student-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+.student-table tr:hover {
+  background: #f8fafc;
+}
+.btn-icon {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #6b7280;
+}
+.btn-icon:hover {
+  color: var(--blue);
+}
+.text-red {
+  color: var(--red);
+}
+.text-red:hover {
+  color: #dc2626;
+}
+
+/* === BADGE === */
+.badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.badge-published {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* === PROGRESS === */
+.progress-bar {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+/* === PAGINATION === */
+.pagination {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pagination p {
+  color: #6b7280;
+}
+
+/* === OVERLAY === */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 90;
+  display: none;
+}
+.overlay.active {
+  display: block;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  .student-table th,
+  .student-table td {
+    font-size: 0.875rem;
+    padding: 0.75rem;
+  }
+}
+@media (max-width: 768px) {
+  .left-slide {
+    transform: translateX(-100%);
+  }
+  .left-slide.active {
+    transform: translateX(0);
+  }
+  #right-content {
+    margin-left: 0;
+  }
+  header .menu-toggle {
+    display: block;
+  }
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .page-header > div {
+    justify-content: stretch;
+  }
+  .page-header .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .table-container {
+    overflow-x: auto;
+  }
+  .student-table {
+    min-width: 800px;
+  }
+}
+@media (max-width: 640px) {
+  main {
+    padding: 1rem;
+  }
+}
