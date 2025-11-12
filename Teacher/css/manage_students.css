@@ -10,6 +10,12 @@
   font-weight: bold;
   color: var(--black);
 }
+
+.page-header .list-btn-top {
+  display: flex;
+  gap: 0.75rem;
+}
+
 .btn {
   padding: 0.6rem 1.2rem;
   border: none;
@@ -38,13 +44,31 @@
   padding: 0.5rem;
   font-size: 0.875rem;
 }
+/*======== SEARCH + SELECT======================*/
+.search-filter {
+  margin-bottom: 1.5rem;
+  line-height: 3rem;
+}
 
-/* === TABLE === */
+.search-filter .search-bar {
+  width: 100%;
+  max-width: 500px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--grey-border);
+}
+
+.search-filter .select-type-of-course {
+  padding: 8px 14px;
+  border: 1px solid var(--grey-border);
+  border-radius: 8px;
+}
+/* ================================== TABLE ====================================== */
 .table-container {
-  background: white;
+  background-color: var(--white);
   border: 1px solid var(--grey-border);
   border-radius: 12px;
-  overflow: hidden;
+  overflow: scroll;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 .student-table {
@@ -52,38 +76,22 @@
   border-collapse: collapse;
 }
 .student-table th {
-  background: #f9fafb;
+  background: var(--white);
   text-align: left;
   padding: 1rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--grey);
   border-bottom: 1px solid var(--grey-border);
 }
 .student-table td {
   padding: 1rem;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--white);
 }
 .student-table tr:hover {
-  background: #f8fafc;
-}
-.btn-icon {
-  background: none;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  color: #6b7280;
-}
-.btn-icon:hover {
-  color: var(--blue);
-}
-.text-red {
-  color: var(--red);
-}
-.text-red:hover {
-  color: #dc2626;
+  background-color: var(--white);
 }
 
-/* === BADGE === */
+/* ============================= BADGE ================================== */
 .badge {
   padding: 0.25rem 0.5rem;
   border-radius: 6px;
@@ -95,21 +103,50 @@
   color: #166534;
 }
 
-/* === PROGRESS === */
+/* =================== PROGRESS ================= */
 .progress-bar {
+  flex: 1;
   height: 6px;
-  background: #e5e7eb;
+  background: var(--grey-border);
   border-radius: 3px;
   overflow: hidden;
 }
 .progress-fill {
+  width: 85%;
   height: 100%;
   background: var(--green);
   border-radius: 3px;
   transition: width 0.4s ease;
 }
 
-/* === PAGINATION === */
+.progress-number {
+  font-size: 0.8rem;
+  color: #10b981;
+}
+/* ============================ ACTIONS ================ */
+
+.actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #6b7280;
+}
+.btn-icon:hover {
+  color: var(--blue);
+}
+.btn-icon.text-red {
+  color: var(--red);
+}
+.text-red:hover {
+  color: var(--red);
+}
+/* ============================ PAGINATION ================ */
 .pagination {
   margin-top: 1.5rem;
   display: flex;
@@ -117,63 +154,54 @@
   align-items: center;
 }
 .pagination p {
-  color: #6b7280;
-}
-
-/* === OVERLAY === */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 90;
-  display: none;
-}
-.overlay.active {
-  display: block;
+  color: var(--grey);
 }
 
 /* === RESPONSIVE === */
-@media (max-width: 1024px) {
+
+@media (max-width: 1160px) {
+  .table-container {
+    overflow-x: auto;
+  }
+  .student-table {
+    min-width: 1000px;
+  }
   .student-table th,
   .student-table td {
     font-size: 0.875rem;
     padding: 0.75rem;
   }
 }
+
 @media (max-width: 768px) {
-  .left-slide {
-    transform: translateX(-100%);
-  }
-  .left-slide.active {
-    transform: translateX(0);
-  }
-  #right-content {
-    margin-left: 0;
-  }
-  header .menu-toggle {
-    display: block;
-  }
   .page-header {
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
   }
-  .page-header > div {
+  .page-header .list-btn-top {
     justify-content: stretch;
   }
-  .page-header .btn {
+  .btn {
     width: 100%;
     justify-content: center;
   }
-  .table-container {
-    overflow-x: auto;
-  }
-  .student-table {
-    min-width: 800px;
-  }
 }
+
 @media (max-width: 640px) {
   main {
     padding: 1rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .pagination {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 440px) {
+  .btn {
+    font-size: 14px;
   }
 }

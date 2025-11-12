@@ -13,8 +13,7 @@
     <title></title>
   </head>
   <body>
-    <!--DÙNG ĐỂ KHI XUỐNG GIAO DIỆN ĐIỆN THOẠI THAO TÁC VỚI MENU-ICON-->
-    <div class="overlay" id="overlay"></div>
+    
     <!--LEFT SLIDE, LẤY TỪ SLIDEBA.HTML-->
     <div id="sidebar-placeholder"></div>
     <!--RIGHT CONTAINER-->
@@ -26,7 +25,7 @@
         <!-- === PAGE TITLE + ACTIONS === -->
         <div class="page-header">
           <h2 class="page-title">Quản lý học viên</h2>
-          <div style="display: flex; gap: 0.75rem">
+          <div class="list-btn-top">
             <button class="btn btn-outline">
               <i class="fas fa-filter"></i> Lọc
             </button>
@@ -37,24 +36,18 @@
         </div>
 
         <!-- === SEARCH + FILTER === -->
-        <div class="search-filter" style="margin-bottom: 1.5rem">
+        <div class="search-filter">
           <input
             type="text"
             placeholder="Tìm theo tên, email, khóa học..."
             class="search-bar"
-            style="width: 100%; max-width: 500px"
           />
-          <select
-            style="
-              margin-left: 1rem;
-              padding: 0.5rem 1rem;
-              border: 1px solid #d1d5db;
-              border-radius: 8px;
-            "
-          >
+          <select class="select-type-of-course">
             <option>Tất cả khóa học</option>
-            <option>Python A-Z</option>
-            <option>UI/UX Pro</option>
+            <option>IELTS</option>
+            <option>TOEIC</option>
+            <option value="">COMBO</option>
+            <option value="">KHÓA LẺ</option>
           </select>
         </div>
 
@@ -63,7 +56,7 @@
           <table class="student-table">
             <thead>
               <tr>
-                <th><input type="checkbox" /></th>
+                <th>STT</th>
                 <th>Họ tên</th>
                 <th>Email</th>
                 <th>Khóa học</th>
@@ -75,9 +68,9 @@
             </thead>
             <tbody>
               <tr>
-                <td><input type="checkbox" /></td>
+                <td>1</td>
                 <td>
-                  <div style="display: flex; align-items: center; gap: 0.5rem">
+                  <div>
                     <strong>Nguyễn Văn B</strong>
                   </div>
                 </td>
@@ -86,20 +79,17 @@
                   <span class="badge badge-published">Tiếng anh cơ bản</span>
                 </td>
                 <td>
-                  <div style="display: flex; align-items: center; gap: 0.5rem">
-                    <div class="progress-bar" style="flex: 1; height: 6px">
-                      <div
-                        class="progress-fill"
-                        style="width: 85%; background: #10b981"
-                      ></div>
+                  <div>
+                    <div class="progress-bar">
+                      <div class="progress-fill"></div>
                     </div>
-                    <span style="font-size: 0.8rem; color: #10b981">85%</span>
+                    <span class="progress-number">85%</span>
                   </div>
                 </td>
                 <td><strong>8.7</strong></td>
                 <td>15/10/2025</td>
                 <td>
-                  <div style="display: flex; gap: 0.25rem">
+                  <div class="actions">
                     <button class="btn-icon" title="Xem chi tiết">
                       <i class="fas fa-eye"></i>
                     </button>
@@ -113,17 +103,17 @@
                 </td>
               </tr>
 
-              <tr>
-                <td><input type="checkbox" /></td>
+              <!-- <tr>
+                <td>2</td>
                 <td>
-                  <div style="display: flex; align-items: center; gap: 0.5rem">
+                  <div>
                     <strong>Trần Thị C</strong>
                   </div>
                 </td>
                 <td>tranthic@gmail.com</td>
                 <td><span class="badge badge-published">Combo TOEIC</span></td>
                 <td>
-                  <div style="display: flex; align-items: center; gap: 0.5rem">
+                  <div>
                     <div class="progress-bar" style="flex: 1; height: 6px">
                       <div
                         class="progress-fill"
@@ -146,24 +136,14 @@
                     </button>
                   </div>
                 </td>
-              </tr>
-
-              <!-- Thêm học viên khác... -->
+              </tr> -->
             </tbody>
           </table>
         </div>
 
         <!-- === PAGINATION === -->
-        <div
-          class="pagination"
-          style="
-            margin-top: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          "
-        >
-          <p style="color: #6b7280">Hiển thị 1-10 của 48 học viên</p>
+        <div class="pagination">
+          <p>Hiển thị 1-10 của 48 học viên</p>
           <div style="display: flex; gap: 0.5rem">
             <button class="btn btn-outline btn-sm">Trước</button>
             <button class="btn btn-primary btn-sm">1</button>
@@ -174,6 +154,8 @@
         </div>
       </main>
     </div>
+    <!--DÙNG ĐỂ KHI XUỐNG GIAO DIỆN ĐIỆN THOẠI THAO TÁC VỚI MENU-ICON-->
+    <div class="overlay" id="overlay"></div>
     <script src="./js/header.js"></script>
   </body>
 </html>

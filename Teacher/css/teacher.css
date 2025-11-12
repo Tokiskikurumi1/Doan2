@@ -112,7 +112,7 @@ section {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-  background: white;
+  background: var(--white);
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -133,7 +133,7 @@ th {
     overflow-x: scroll;
   }
   .table-student table {
-    min-width: 1000px; /* ❗Để table có thể scroll */
+    min-width: 1000px;
   }
 }
 

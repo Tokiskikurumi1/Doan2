@@ -1,6 +1,3 @@
-// const menuIcon = document.getElementById("menuIcon");
-// const leftSlide = document.querySelector(".left-slide");
-// const overlay = document.getElementById("overlay");
 // Load Sidebar
 fetch("components/sidebar.html")
   .then((response) => response.text())
