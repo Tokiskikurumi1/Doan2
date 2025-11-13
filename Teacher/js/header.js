@@ -3,8 +3,8 @@ fetch("components/sidebar.html")
   .then((response) => response.text())
   .then((html) => {
     document.getElementById("sidebar-placeholder").innerHTML = html;
-    sideBarActive();
-    restoreActiveMenu();
+    // sideBarActive();
+    // restoreActiveMenu();
   });
 
 // Load Header
@@ -54,21 +54,21 @@ function restoreActiveMenu() {
 }
 
 /* HÀM KIỂM TRA ĐĂNG NHẬP*/
-function updateLoginStatus() {
-  const loginTable = document.querySelector(".login");
-  const currentUser = localStorage.getItem("savedUsername");
-  const currentPass = localStorage.getItem("savedPassword");
+// function updateLoginStatus() {
+//   const loginTable = document.querySelector(".login");
+//   const currentUser = localStorage.getItem("savedUsername");
+//   const currentPass = localStorage.getItem("savedPassword");
 
-  if (currentUser && currentPass) {
-    loginTable.innerHTML = `
-      <span>Chào mừng: ${currentUser} | <a href="../index.html" id="logout">Đăng xuất</a></span>
-    `;
-    document.getElementById("logout").addEventListener("click", (e) => {
-      e.preventDefault();
-      localStorage.removeItem("savedUsername");
-      localStorage.removeItem("savedPassword");
-      localStorage.removeItem("savedRole");
-      window.location.reload();
-    });
-  }
-}
+//   if (currentUser && currentPass) {
+//     loginTable.innerHTML = `
+//       <span>Chào mừng: ${currentUser} | <a href="../index.html" id="logout">Đăng xuất</a></span>
+//     `;
+//     document.getElementById("logout").addEventListener("click", (e) => {
+//       e.preventDefault();
+//       localStorage.removeItem("savedUsername");
+//       localStorage.removeItem("savedPassword");
+//       localStorage.removeItem("savedRole");
+//       window.location.reload();
+//     });
+//   }
+// }
