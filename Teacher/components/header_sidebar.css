@@ -60,7 +60,7 @@
 /*==================================THẺ HEADER TRÊN ĐẦU ========*/
 
 header {
-  position: sticky;
+  /* position: sticky; */
   top: 0;
   background: var(--white);
   z-index: 90;
