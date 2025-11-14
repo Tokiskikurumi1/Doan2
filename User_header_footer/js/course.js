@@ -142,7 +142,7 @@ function updateCourse(type) {
   if (filteredCourses.length === 0) {
     listCourse.style.display = "block";
     listCourse.innerHTML = "<p>Không có khóa học nào trong danh mục này.</p>";
-    return;
+    // return;
   } else {
     listCourse.style.display = "grid";
   }

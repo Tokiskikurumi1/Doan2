@@ -23,6 +23,7 @@ function loadAssignments(filter = "all") {
   });
 
   if (filtered.length === 0) {
+    grid.style.display = "block";
     grid.innerHTML = `
       <div style="
         background: white; padding: 2rem; border-radius: 12px;

@@ -49,24 +49,23 @@
             <div class="selects">
               <select class="role_course">
                 <option value="all">Tất cả</option>
-                <option value="">Đã hoàn thành</option>
-                <option value="">Chưa hoàn thành</option>
-                <option value="">TOEIC</option>
-                <option value="">IELTS</option>
-                <option value="">Combo</option>
+                <option value="published">Đã hoàn thành</option>
+                <option value="draft">Chưa hoàn thành</option>
+                <option value="TOEIC">TOEIC</option>
+                <option value="IELTS">IELTS</option>
+                <option value="Combo">Combo</option>
               </select>
               <select class="arrange">
-                <option value="">Sắp xếp theo</option>
-                <option value="">Mới nhất</option>
-                <option value="">Cũ nhất</option>
-                <option value="">A-Z</option>
-                <option value="">Z-A</option>
+                <option value="new">Mới nhất</option>
+                <option value="old">Cũ nhất</option>
+                <option value="AtoZ">A-Z</option>
+                <option value="ZtoA">Z-A</option>
               </select>
             </div>
           </div>
         </div>
         <!--CÁC KHÓA HỌC HIỂN THỊ BÊN DƯỚI-->
-        <div class="list-courses">
+        <div class="list-courses" id="course-list">
           <div class="item-course" data-id="1">
             <div class="item-course-panel">
               <div class="image-course">
@@ -74,55 +73,14 @@
               </div>
               <div class="course-info">
                 <div class="name-course">Khóa học mất gốc</div>
-                <div class="number-of-student">456 học viên</div>
-                <hr />
-                <div class="status-course">
-                  <div class="price">Đã hoàn thành</div>
+                <div class="date-and-number">
+                  <div class="date-make">Ngày tạo: 11/11/2020</div>
+                  <div class="number-of-student">456 học viên</div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="item-course" data-id="1">
-            <div class="item-course-panel">
-              <div class="image-course">
-                <img src="./img/course.png" alt="Khóa học cơ bản" />
-              </div>
-              <div class="course-info">
-                <div class="name-course">Khóa học mất gốc</div>
-                <div class="number-of-student">456 học viên</div>
                 <hr />
                 <div class="status-course">
                   <div class="price">Đã hoàn thành</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item-course" data-id="1">
-            <div class="item-course-panel">
-              <div class="image-course">
-                <img src="./img/course.png" alt="Khóa học cơ bản" />
-              </div>
-              <div class="course-info">
-                <div class="name-course">Khóa học mất gốc</div>
-                <div class="number-of-student">456 học viên</div>
-                <hr />
-                <div class="status-course">
-                  <div class="price">Đã hoàn thành</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item-course" data-id="1">
-            <div class="item-course-panel">
-              <div class="image-course">
-                <img src="./img/course.png" alt="Khóa học cơ bản" />
-              </div>
-              <div class="course-info">
-                <div class="name-course">Khóa học mất gốc</div>
-                <div class="number-of-student">456 học viên</div>
-                <hr />
-                <div class="status-course">
-                  <div class="price">Đã hoàn thành</div>
+                  <button class="delete-btn">Xóa</button>
                 </div>
               </div>
             </div>
@@ -131,7 +89,36 @@
       </main>
     </div>
 
+    <!-- Modal Tạo Khóa Học -->
+    <div class="modal" id="create-course-modal">
+      <div class="modal-content">
+        <h3>Tạo khóa học mới</h3>
+        <form id="create-course-form">
+          <label>Tên khóa học</label>
+          <input type="text" id="course-name" required />
+
+          <label>Loại khóa học</label>
+          <select id="course-type">
+            <option value="TOEIC">TOEIC</option>
+            <option value="IELTS">IELTS</option>
+            <option value="Combo">Combo</option>
+          </select>
+
+          <label>Trạng thái</label>
+          <select id="course-status">
+            <option value="incomplete">Chưa hoàn thành</option>
+            <option value="completed">Đã hoàn thành</option>
+          </select>
+
+          <div class="modal-actions">
+            <button type="button" class="cancel" id="cancel-create">Hủy</button>
+            <button type="submit" class="save">Tạo khóa học</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <script src="./js/header.js"></script>
-    <script src="./manage-course.html"></script>
+    <script src="./js/manage-course.js"></script>
   </body>
 </html>
