@@ -252,3 +252,7 @@ function savePostsToStorage() {
 
 // Chạy app
 init();
+# Security enhancements
+# Performance optimization
+# Code optimization and refactoring
+# Bug fixes and improvements
