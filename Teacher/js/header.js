@@ -12,6 +12,7 @@ fetch("components/header.html")
   .then((response) => response.text())
   .then((html) => {
     document.getElementById("header-placeholder").innerHTML = html;
+    updateLoginStatus();
     MenuToggle();
   });
 
@@ -54,21 +55,24 @@ function restoreActiveMenu() {
 }
 
 /* HÀM KIỂM TRA ĐĂNG NHẬP*/
-// function updateLoginStatus() {
-//   const loginTable = document.querySelector(".login");
-//   const currentUser = localStorage.getItem("savedUsername");
-//   const currentPass = localStorage.getItem("savedPassword");
+function updateLoginStatus() {
+  const userInfo = document.querySelector(".user-info");
+  const currentUser = localStorage.getItem("savedUsername");
+  const currentPass = localStorage.getItem("savedPassword");
 
-//   if (currentUser && currentPass) {
-//     loginTable.innerHTML = `
-//       <span>Chào mừng: ${currentUser} | <a href="../index.html" id="logout">Đăng xuất</a></span>
-//     `;
-//     document.getElementById("logout").addEventListener("click", (e) => {
-//       e.preventDefault();
-//       localStorage.removeItem("savedUsername");
-//       localStorage.removeItem("savedPassword");
-//       localStorage.removeItem("savedRole");
-//       window.location.reload();
-//     });
-//   }
-// }
+  if (currentUser && currentPass) {
+    userInfo.innerHTML = `
+      <div class="avatar">
+        <i class="fa-solid fa-user"></i>
+      </div>
+      <span style="font-weight: 500">GV. ${currentUser}</span>
+    `;
+    document.getElementById("logout").addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.removeItem("savedUsername");
+      localStorage.removeItem("savedPassword");
+      localStorage.removeItem("savedRole");
+      window.location.reload();
+    });
+  }
+}

@@ -25,6 +25,13 @@
         <div class="box-detail-course">
           <form class="course-form">
             <div class="form-group">
+              <div class="form-label">
+                Tên giảng viên:
+                <span class="name-teacher" style="color: var(--blue-)"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
               <label class="form-label">Tên khóa học</label>
               <input
                 id="course-title"
@@ -40,6 +47,9 @@
                 <option value="TOEIC">TOEIC</option>
                 <option value="IELTS">IELTS</option>
                 <option value="Combo">Combo</option>
+                <option value="BEGINNER">TIẾNG ANH CĂN BẢN</option>
+                <option value="COMBO-4">COMBO TOEIC 4 KỸ NĂNG</option>
+                <option value="COMBO-2">COMBO TOEIC 2 KỸ NĂNG</option>
               </select>
             </div>
 
@@ -49,8 +59,17 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label">Số học viên: </label>
-              <span>0</span>
+              <label class="form-label">Giá tiền</label>
+              <input
+                id="number-price"
+                type="number"
+                class="form-input"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label number-student">Số học viên: 0</label>
             </div>
 
             <hr />
@@ -93,6 +112,25 @@
             </div>
           </form>
         </div>
+      </div>
+
+      <!--MODAL sửa video-->
+      <div id="edit-video-modal" class="modal">
+        <form id="edit-video-form" class="modal-content">
+          <h3>Sửa video</h3>
+          <label>Tiêu đề</label>
+          <input type="text" id="edit-video-title" required />
+
+          <label>Link video</label>
+          <input type="text" id="edit-video-url" required />
+
+          <div class="modal-btns">
+            <button type="button" id="cancel-edit-video" class="cancel-btn">
+              Hủy
+            </button>
+            <button type="submit" class="save-btn">Lưu</button>
+          </div>
+        </form>
       </div>
     </div>
 

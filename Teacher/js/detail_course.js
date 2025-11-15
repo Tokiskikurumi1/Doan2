@@ -1,26 +1,33 @@
+// ========================== LOAD COURSE ==========================
 let courses = JSON.parse(localStorage.getItem("courses")) || [];
 const courseId = localStorage.getItem("selectedCourseId");
+const nameTeacher = localStorage.getItem("savedUsername");
 
 const course = courses.find((c) => String(c.id) === String(courseId));
 
 if (!course) {
   alert("Không tìm thấy khóa học!");
-  window.location.href = "manage_course.html";
+  window.location.href = "Teacher/manage-course.html";
 }
 
-// HTML elements
+// ========================== ELEMENTS ==========================
 const titleInput = document.getElementById("course-title");
 const typeSelect = document.getElementById("course-select");
 const dateInput = document.getElementById("date-input");
+const priceInput = document.getElementById("number-price");
 const videoListEl = document.getElementById("video-list");
+const nameInput = document.querySelector(".name-teacher");
 
-// HIỂN THỊ
+// ========================== HIỂN THỊ ==========================
+nameInput.innerHTML = nameTeacher;
 titleInput.value = course.name;
 typeSelect.value = course.type;
 dateInput.value = course.date;
+priceInput.value = course.price;
 
 renderVideos();
 
+// ========================== RENDER VIDEO ==========================
 function renderVideos() {
   videoListEl.innerHTML = "";
 
@@ -34,7 +41,16 @@ function renderVideos() {
       <button class="delete-video">Xóa</button>
     `;
 
-    div.querySelector(".delete-video").onclick = () => {
+    // 👉 Click vào video-item để mở modal sửa video
+    div.addEventListener("click", (e) => {
+      if (e.target.classList.contains("delete-video")) return;
+
+      openEditVideoModal(video);
+    });
+
+    // 👉 Nút xóa
+    div.querySelector(".delete-video").onclick = (e) => {
+      e.stopPropagation();
       course.videos = course.videos.filter((v) => v.id !== video.id);
       saveCourse();
       renderVideos();
@@ -44,6 +60,7 @@ function renderVideos() {
   });
 }
 
+// ========================== ADD VIDEO ==========================
 document.getElementById("add-video-btn").onclick = (e) => {
   e.preventDefault();
   document.getElementById("add-video-modal").style.display = "flex";
@@ -65,26 +82,80 @@ document.getElementById("add-video-form").onsubmit = function (e) {
     url,
   });
 
-  saveCourse();
+  saveVideo();
   renderVideos();
+
   this.reset();
   document.getElementById("add-video-modal").style.display = "none";
 };
 
+// ========================== LƯU VIDEO VÀ CHỈNH SỬA VIDEO ==========================
 document.getElementById("save-course").onclick = saveCourse;
 
 function saveCourse() {
   course.name = titleInput.value;
   course.type = typeSelect.value;
   course.date = dateInput.value;
+  course.price = priceInput.value;
 
   const index = courses.findIndex((c) => c.id === course.id);
   courses[index] = course;
 
   localStorage.setItem("courses", JSON.stringify(courses));
-  alert("Đã lưu!");
+
+  alert("Lưu thông tin thay đổi!");
+
+  setTimeout(() => {
+    window.location.href = "../Teacher/manage-course.html";
+  }, 10);
 }
 
+function saveVideo() {
+  course.name = titleInput.value;
+  course.type = typeSelect.value;
+  course.date = dateInput.value;
+  course.price = priceInput.value;
+
+  const index = courses.findIndex((c) => c.id === course.id);
+  courses[index] = course;
+
+  localStorage.setItem("courses", JSON.stringify(courses));
+
+  alert("Lưu thông tin thay đổi!");
+}
+
+// ========================== HỦY ==========================
 document.getElementById("cancel-course").onclick = () => {
-  window.location.href = "manage_course.html";
+  setTimeout(() => {
+    window.location.href = "../Teacher/manage-course.html";
+  }, 10);
+};
+
+// ========================== LÁY VIDEO ==========================
+
+let currentEditingVideo = null;
+
+function openEditVideoModal(video) {
+  currentEditingVideo = video;
+
+  document.getElementById("edit-video-title").value = video.title;
+  document.getElementById("edit-video-url").value = video.url;
+
+  document.getElementById("edit-video-modal").style.display = "flex";
+}
+
+document.getElementById("edit-video-form").onsubmit = function (e) {
+  e.preventDefault();
+
+  currentEditingVideo.title = document.getElementById("edit-video-title").value;
+  currentEditingVideo.url = document.getElementById("edit-video-url").value;
+
+  saveVideo();
+  renderVideos();
+
+  document.getElementById("edit-video-modal").style.display = "none";
+};
+
+document.getElementById("cancel-edit-video").onclick = () => {
+  document.getElementById("edit-video-modal").style.display = "none";
 };

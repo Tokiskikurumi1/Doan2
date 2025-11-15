@@ -54,6 +54,9 @@
                 <option value="TOEIC">TOEIC</option>
                 <option value="IELTS">IELTS</option>
                 <option value="Combo">Combo</option>
+                <option value="BEGINNER">TIẾNG ANH CĂN BẢN</option>
+                <option value="COMBO-4">COMBO TOEIC 4 KỸ NĂNG</option>
+                <option value="COMBO-2">COMBO TOEIC 2 KỸ NĂNG</option>
               </select>
               <select class="arrange">
                 <option value="new">Mới nhất</option>
@@ -79,7 +82,7 @@
                 </div>
                 <hr />
                 <div class="status-course">
-                  <div class="price">Đã hoàn thành</div>
+                  <div class="status">Đã hoàn thành</div>
                   <button class="delete-btn">Xóa</button>
                 </div>
               </div>
@@ -102,13 +105,22 @@
             <option value="TOEIC">TOEIC</option>
             <option value="IELTS">IELTS</option>
             <option value="Combo">Combo</option>
+            <option value="BEGINNER">TIẾNG ANH CĂN BẢN</option>
+            <option value="COMBO-4">COMBO TOEIC 4 KỸ NĂNG</option>
+            <option value="COMBO-2">COMBO TOEIC 2 KỸ NĂNG</option>
           </select>
+
+          <label>Giá tiền</label>
+          <input type="number" id="course-price" required />
 
           <label>Trạng thái</label>
           <select id="course-status">
             <option value="incomplete">Chưa hoàn thành</option>
             <option value="completed">Đã hoàn thành</option>
           </select>
+
+          <label>Thêm hình ảnh</label>
+          <input type="file" id="course-image" accept="image/*" />
 
           <div class="modal-actions">
             <button type="button" class="cancel" id="cancel-create">Hủy</button>
