@@ -61,7 +61,7 @@
   if (titleEl) titleEl.textContent = course.name || "Tên khóa học";
 
   // Image (use course.image, course.image_url, or a default)
-  const imgSrc = course.image || course.image_url || "./img/course.png";
+  const imgSrc = course.image_url || "../img/image_course/image-course.png";
   if (imgContainer) {
     imgContainer.innerHTML = `<img src="${imgSrc}" alt="${(
       course.name || "Khóa học"

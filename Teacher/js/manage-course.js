@@ -19,18 +19,15 @@ document.getElementById("cancel-create").onclick = () => {
   createModal.style.display = "none";
 };
 
-// ⭐ Lưu ảnh upload
-let uploadedImage = null;
+// ⭐ Lưu URL ảnh (NHẸ - KHÔNG BASE64)
+let uploadedImageURL = null;
 
 document.getElementById("course-image").onchange = function (e) {
   const file = e.target.files[0];
   if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = () => {
-    uploadedImage = reader.result; // base64
-  };
-  reader.readAsDataURL(file);
+  // Tạo URL ảnh thay vì Base64
+  uploadedImageURL = URL.createObjectURL(file);
 };
 
 document.getElementById("create-course-form").onsubmit = function (e) {
@@ -48,14 +45,14 @@ document.getElementById("create-course-form").onsubmit = function (e) {
     status,
     price,
     date: new Date().toISOString().split("T")[0],
-    image: uploadedImage || "./img/course.png", // ⭐ nếu không upload → dùng ảnh mặc định
+    image_url: uploadedImageURL || "./img/course.png", // ⭐ DÙNG URL ẢNH
     videos: [],
   };
 
   courses.push(course);
   localStorage.setItem("courses", JSON.stringify(courses));
 
-  uploadedImage = null; // reset
+  uploadedImageURL = null; // reset
   renderCourses();
   createModal.style.display = "none";
   this.reset();
@@ -124,7 +121,7 @@ function renderCourses() {
     div.innerHTML = `
       <div class="item-course-panel">
         <div class="image-course">
-          <img src="${course.image}" alt="Khóa học" />
+          <img src="${course.image_url}" alt="Khóa học" />
         </div>
         <div class="course-info">
             <div class="name-course">${course.name}</div>
