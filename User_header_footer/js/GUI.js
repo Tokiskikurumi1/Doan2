@@ -19,7 +19,6 @@ searchIcon.addEventListener("click", function () {
   }
 });
 
-
 searchInput.addEventListener("input", function () {
   const keyword = this.value.toLowerCase().trim();
   resultsContainer.innerHTML = "";
@@ -55,21 +54,28 @@ document.addEventListener("click", function (e) {
   }
 });
 
-(function () {
-  const isLoggedIn = !!localStorage.getItem("auth");
-  document.body.classList.add(isLoggedIn ? "logged-in" : "logged-out");
-})();
+function setupDropdownHover(containerId) {
+  const container = document.getElementById(containerId);
+  let timeout;
 
-function toggleSearch() {
-  const searchWrapper = document.querySelector(".header-search");
-  const input = searchWrapper.querySelector("input");
-  if (!searchWrapper.classList.contains("active")) {
-    searchWrapper.classList.add("active");
-    input.focus();
-  } else {
-    window.location.href = "/search";
-  }
+  container.addEventListener('mouseenter', () => {
+    clearTimeout(timeout);
+    container.classList.add('active');
+  });
+
+  container.addEventListener('mouseleave', () => {
+    timeout = setTimeout(() => {
+      container.classList.remove('active');
+    }, 150); // giữ menu mở thêm 300ms
+  });
 }
+
+// Kích hoạt cho cả user và notification
+setupDropdownHover('userContainer');
+setupDropdownHover('notificationContainer');
+
+
+
 
 
 

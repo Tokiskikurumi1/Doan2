@@ -70,6 +70,11 @@ body {
   gap: 1.875rem;
   height: 100%;
 }
+.header-nav-center ul li{
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
 
 .header-nav-center a {
   color: #000000;
@@ -79,11 +84,8 @@ body {
 }
 
 .header-nav-center ul li:hover {
-  transform: scale(1.2);
-  transition: all 0.1s ease;
   cursor: pointer;
   border-bottom: 0.125rem solid var(--blue-);
-  font-size: medium;
 }
 
 .header-nav-right {
@@ -96,7 +98,8 @@ body {
 
 .header-notification-icon,
 .header-message-icon,
-.header-search-icon {
+.header-search-icon 
+.header-user-icon{
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
@@ -107,11 +110,13 @@ body {
 
 .header-notification-icon img,
 .header-message-icon img,
-.header-search-icon img {
+.header-search-icon img,
+.header-user-icon img{
   width: 2rem;
   height: 2rem;
+  cursor: pointer;
 }
-
+/* Tìm kiếm */
 .header-search-icon img {
   width: 2rem;
   height: 2rem;
@@ -180,7 +185,7 @@ body {
   max-height: 18.75rem;
   width: 100%;
   overflow-y: auto;
-  display: none;
+  display: block;
   z-index: 10;
 }
 
@@ -199,7 +204,7 @@ body {
 .header-search-results-item:hover {
   background-color: #f0f4ff;
 }
-
+/* chấm thông báo */
 .header-notification,
 .header-message {
   position: relative;
@@ -219,6 +224,121 @@ body {
   text-align: center;
   line-height: 1;
 }
+/* user */
+.header-user-container {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Tên người dùng hiện ngang */
+.user-name-popup {
+  position: absolute;
+  top: 16%;
+  right: 36px;
+  transform: translateY(-50%) translateX(-10px);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: var(--white-);
+  padding: 6px 12px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Khi user mở menu */
+.header-user-container.active .user-menu,
+.header-user-container.active .user-name-popup {
+  opacity: 1;
+  transform: translateY(0) translateX(0);
+  pointer-events: auto;
+}
+
+
+.header-notification-container {
+  position: relative;
+  display: inline-block;
+}
+
+.notification-icon {
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
+/* Khi notification mở menu */
+.header-notification-container.active .notification-menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+
+
+.dropdown-menu {
+  position: absolute;
+  top: 44px;
+  right: 0;
+  min-width: 180px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 8px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.header-notification-container .notification-menu {
+  position: fixed;       
+  top: 56px;             
+  right: 0;              
+  min-width: 360px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 8px 0;
+  box-shadow: -4px 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-menu li {
+  padding: 0;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 16px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f2f2f2;
+  color: #000;
+}
+
 
 
 @media (max-width: 768px) {
