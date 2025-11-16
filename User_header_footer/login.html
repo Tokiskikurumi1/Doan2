@@ -9,19 +9,6 @@
   </head>
   <body>
     <div class="Auth">
-      <p
-        id="countdown"
-        style="
-          color: green;
-          font-weight: bold;
-          text-align: center;
-          margin-top: 10px;
-          position: absolute;
-          top: 0;
-          left: 40%;
-          padding: 14px 30px;
-        "
-      ></p>
       <div class="Auth-Login">
         <h1>K-ENGLISH</h1>
         <h2>Website học tiếng anh trực tuyến</h2>
@@ -40,14 +27,18 @@
             <option value="teacher">Giảng viên</option>
           </select>
         </div>
-        <span>Quên mật khẩu?</span>
-        <span>Bạn chưa có tài khoản?</span>
+        <span class="link-forgot">Quên mật khẩu?</span>
+        <span class="link-signup">Bạn chưa có tài khoản?</span>
         <label><input type="checkbox" id="checkbox"/> Ghi nhớ đăng nhập</label>
-        <button>Đăng nhập</button>
+        <button id="login-button">Đăng nhập</button>
       </div>
       <div class="Auth-Signup">
         <h1>K-ENGLISH</h1>
         <h2>Website học tiếng anh trực tuyến</h2>
+        <div class="form-group">
+          <input type="text" id="signup-yourname" placeholder=" " required />
+          <label for="signup-yourname">Họ và tên</label>
+        </div>
         <div class="form-group">
           <input type="text" id="signup-username" placeholder=" " required />
           <label for="signup-username">Tên tài khoản</label>
@@ -74,16 +65,9 @@
           />
           <label for="signup-password-confirm">Nhập lại mật khẩu</label>
         </div>
-        <div class="form-group">
-          <select id="signup-role" required>
-            <option value="" disabled selected>Chọn vai trò</option>
-            <option value="student">Học viên</option>
-            <option value="teacher">Giảng viên</option>
-          </select>
-        </div>
         <label><input type="checkbox" /> Tôi đồng ý với điều khoản</label>
-        <span>Bạn đã có tài khoản?</span>
-        <button>Đăng kí</button>
+        <span class="link-login">Bạn đã có tài khoản?</span>
+        <button id="signup-button">Đăng kí</button>
       </div>
       <div class="Forgot-password">
         <h1>K-ENGLISH</h1>
@@ -92,9 +76,9 @@
           <input type="email" id="forgot-email" placeholder=" " required />
           <label for="forgot-email">Email</label>
         </div>
-        <span>Bạn đã có tài khoản?</span>
+        <span class="link-login">Bạn đã có tài khoản?</span>
         <label><input type="checkbox" /> Tôi đồng ý với điều khoản</label>
-        <button>Gửi lại mật khẩu</button>
+        <button id="reset-button">Gửi lại mật khẩu</button>
       </div>
     </div>
   </body>
