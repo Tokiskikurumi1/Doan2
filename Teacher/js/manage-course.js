@@ -45,7 +45,7 @@ document.getElementById("create-course-form").onsubmit = function (e) {
     status,
     price,
     date: new Date().toISOString().split("T")[0],
-    image_url: uploadedImageURL || "./img/course.png", // ⭐ DÙNG URL ẢNH
+    image_url: uploadedImageURL || "./img/course.png",
     videos: [],
   };
 
