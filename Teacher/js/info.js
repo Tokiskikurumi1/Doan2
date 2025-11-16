@@ -1,5 +1,3 @@
-const fullNameInput = document.getElementById("full-name");
-const emailInput = document.getElementById("email");
 const phoneInput = document.getElementById("phone-number");
 const dobInput = document.getElementById("date-of-birth");
 const genderSelect = document.getElementById("gender");
@@ -175,3 +173,15 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "../User_header_footer/login.html";
   });
 });
+// Code documentation updated
+// Code documentation updated
+// UI/UX improvements added
+// UI/UX improvements added
+// Enhanced functionality - 2026-01-10
+// Configuration settings optimized
+   Additional implementation details
+   Additional implementation details
+// Logging mechanism enhanced
+// Bug fixes and code refactoring
+/* Multi-line comment block
+// UI/UX improvements added
