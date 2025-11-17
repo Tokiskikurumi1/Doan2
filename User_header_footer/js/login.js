@@ -122,6 +122,7 @@ function loginUser() {
 
   alert("Tên tài khoản hoặc mật khẩu không đúng.");
 }
+document.getElementById("login-button").onclick = loginUser;
 
 // Hàm đặt lại mật khẩu
 function resetPassword() {
@@ -136,6 +137,8 @@ function resetPassword() {
   }
   alert("Email không tồn tại trong hệ thống.");
 }
-
 // gọi đăng nhập
 document.getElementById("login-button").onclick = loginUser;
+
+// gọi đặt lại mật khẩu
+document.getElementById("forgot-button").onclick = resetPassword;
