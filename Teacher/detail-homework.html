@@ -3,531 +3,78 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chi tiết bài tập - EduPro LMS</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
       rel="stylesheet"
     />
-    <style>
-      :root {
-        --white: #fff;
-        --black: #000;
-        --grey: #4b5563;
-        --blue: #2563eb;
-        --grey-border: #e5e7eb;
-        --green: #10b981;
-        --yellow: #facc15;
-        --red: #ef4444;
-        --orange: #f97316;
-        --purple: #8b5cf6;
-      }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: "Segoe UI", Tahoma, sans-serif;
-        background: #f9fafb;
-        color: #1f2937;
-      }
-      a {
-        text-decoration: none;
-        color: inherit;
-      }
-
-      /* === SIDEBAR === */
-      .left-slide {
-        position: fixed;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 260px;
-        background: var(--white);
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-        z-index: 100;
-        transition: transform 0.3s ease;
-        overflow-y: auto;
-      }
-      .left-slide .logo {
-        padding: 1rem;
-        border-bottom: 1px solid var(--grey-border);
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        font-weight: bold;
-      }
-      .logo-icon {
-        width: 40px;
-        height: 40px;
-        background: var(--blue);
-        color: white;
-        border-radius: 8px;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .nav-item {
-        padding: 0.75rem 1.25rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        color: var(--grey);
-        transition: all 0.2s;
-      }
-      .nav-item:hover {
-        background: #f3f4f6;
-      }
-      .nav-item.active {
-        background: #eff6ff;
-        color: var(--blue);
-        font-weight: 500;
-      }
-
-      /* === MAIN CONTENT === */
-      #right-content {
-        margin-left: 260px;
-        min-height: 100vh;
-        transition: margin-left 0.3s ease;
-      }
-
-      /* === HEADER === */
-      header {
-        position: sticky;
-        top: 0;
-        background: var(--white);
-        z-index: 90;
-        padding: 1rem 1.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        border-bottom: 1px solid var(--grey-border);
-      }
-      header .menu-toggle {
-        display: none;
-        font-size: 1.25rem;
-        cursor: pointer;
-      }
-      header .search-bar {
-        flex: 1;
-        max-width: 400px;
-        padding: 0.5rem 1rem;
-        border: 1px solid #d1d5db;
-        border-radius: 8px;
-        margin: 0 1rem;
-      }
-      .user-info {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-      .avatar {
-        width: 36px;
-        height: 36px;
-        background: var(--blue);
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-      }
-
-      /* === MAIN === */
-      main {
-        padding: 1.5rem;
-      }
-
-      /* === PAGE HEADER === */
-      .page-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1.5rem;
-      }
-      .page-title {
-        font-size: 1.5rem;
-        font-weight: bold;
-      }
-      .btn {
-        padding: 0.6rem 1.2rem;
-        border: none;
-        border-radius: 8px;
-        font-weight: 500;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        transition: all 0.2s;
-      }
-      .btn-primary {
-        background: var(--blue);
-        color: white;
-      }
-      .btn-primary:hover {
-        background: #1d4ed8;
-      }
-      .btn-outline {
-        background: transparent;
-        border: 1px solid var(--grey-border);
-        color: var(--grey);
-      }
-      .btn-outline:hover {
-        background: #f3f4f6;
-      }
-      .btn-sm {
-        padding: 0.5rem;
-        font-size: 0.875rem;
-      }
-
-      /* === ASSIGNMENT CARD === */
-      .assignment-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 1.25rem;
-      }
-      .assignment-card {
-        background: white;
-        border: 1px solid var(--grey-border);
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        transition: all 0.2s;
-        cursor: pointer;
-      }
-      .assignment-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      }
-      .assignment-card-header {
-        padding: 1rem;
-        border-bottom: 1px solid #f3f4f6;
-      }
-      .assignment-title {
-        font-weight: 600;
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
-      }
-      .assignment-meta {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.875rem;
-        color: var(--grey);
-      }
-      .assignment-body {
-        padding: 1rem;
-      }
-      .stats-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.75rem;
-        margin-bottom: 1rem;
-      }
-      .stat-item {
-        text-align: center;
-      }
-      .stat-value {
-        font-weight: bold;
-        font-size: 1.1rem;
-      }
-      .stat-label {
-        font-size: 0.8rem;
-        color: var(--grey);
-      }
-      .progress-container {
-        margin: 0.75rem 0;
-      }
-      .progress-label {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.8rem;
-        margin-bottom: 0.25rem;
-      }
-      .progress-bar {
-        height: 6px;
-        background: #e5e7eb;
-        border-radius: 3px;
-        overflow: hidden;
-      }
-      .progress-fill {
-        height: 100%;
-        background: var(--blue);
-        border-radius: 3px;
-        transition: width 0.4s ease;
-      }
-      .assignment-actions {
-        display: flex;
-        gap: 0.5rem;
-      }
-
-      /* === BADGE === */
-      .badge {
-        padding: 0.25rem 0.5rem;
-        border-radius: 6px;
-        font-size: 0.75rem;
-        font-weight: 500;
-      }
-      .badge-published {
-        background: #dcfce7;
-        color: #166534;
-      }
-      .badge-draft {
-        background: #fef9c3;
-        color: #854d0e;
-      }
-
-      /* === MODAL === */
-      .modal {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 200;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-      }
-      .modal.active {
-        display: flex;
-      }
-      .modal-content {
-        background: white;
-        border-radius: 16px;
-        width: 100%;
-        max-width: 900px;
-        max-height: 90vh;
-        overflow-y: auto;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-      }
-      .modal-header {
-        padding: 1.5rem;
-        border-bottom: 1px solid var(--grey-border);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .modal-title {
-        font-size: 1.5rem;
-        font-weight: bold;
-      }
-      .modal-close {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        cursor: pointer;
-        color: var(--grey);
-      }
-      .modal-close:hover {
-        color: var(--black);
-      }
-      .modal-body {
-        padding: 1.5rem;
-      }
-      .detail-section {
-        margin-bottom: 1.5rem;
-      }
-      .detail-title {
-        font-weight: 600;
-        margin-bottom: 0.75rem;
-        color: #1f2937;
-      }
-      .detail-info {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
-        margin-bottom: 1rem;
-      }
-      .info-item {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.9rem;
-      }
-      .info-item i {
-        color: var(--blue);
-      }
-      .description {
-        line-height: 1.6;
-        color: #4b5563;
-      }
-
-      /* === SUBMISSION TABLE === */
-      .submission-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 1rem;
-      }
-      .submission-table th {
-        background: #f9fafb;
-        text-align: left;
-        padding: 0.75rem;
-        font-weight: 600;
-        color: #374151;
-        border-bottom: 1px solid var(--grey-border);
-      }
-      .submission-table td {
-        padding: 0.75rem;
-        border-bottom: 1px solid #f3f4f6;
-      }
-      .submission-table tr:hover {
-        background: #f8fafc;
-      }
-      .btn-icon {
-        background: none;
-        border: none;
-        font-size: 1rem;
-        cursor: pointer;
-        color: #6b7280;
-      }
-      .btn-icon:hover {
-        color: var(--blue);
-      }
-      .text-red {
-        color: var(--red);
-      }
-      .text-red:hover {
-        color: #dc2626;
-      }
-
-      /* === PAGINATION === */
-      .pagination {
-        margin-top: 1.5rem;
-        display: flex;
-        justify-content: center;
-        gap: 0.5rem;
-      }
-
-      /* === OVERLAY === */
-      .overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 90;
-        display: none;
-      }
-      .overlay.active {
-        display: block;
-      }
-
-      /* === RESPONSIVE === */
-      @media (max-width: 768px) {
-        .left-slide {
-          transform: translateX(-100%);
-        }
-        .left-slide.active {
-          transform: translateX(0);
-        }
-        #right-content {
-          margin-left: 0;
-        }
-        header .menu-toggle {
-          display: block;
-        }
-        .page-header {
-          flex-direction: column;
-          align-items: stretch;
-          gap: 1rem;
-        }
-        .assignment-grid {
-          grid-template-columns: 1fr;
-        }
-        .modal-content {
-          max-height: 95vh;
-        }
-        .detail-info {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./components/header_sidebar.css" />
+    <link rel="stylesheet" href="./css/detail-homeword.css" />
+    <title>Chi tiết bài tập</title>
   </head>
   <body>
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
     <!-- Sidebar -->
-    <aside class="left-slide">
-      <div class="logo">
-        <div class="logo-icon">EP</div>
-        <h1>EduPro LMS</h1>
-      </div>
-      <nav class="nav-bar-title">
-        <ul style="list-style: none">
-          <li>
-            <a href="#" class="nav-item"
-              ><i class="fas fa-home"></i> Tổng quan</a
-            >
-          </li>
-          <li>
-            <a href="#" class="nav-item"
-              ><i class="fas fa-video"></i> Khóa học</a
-            >
-          </li>
-          <li>
-            <a href="#" class="nav-item"
-              ><i class="fas fa-users"></i> Học viên</a
-            >
-          </li>
-          <li>
-            <a href="#" class="nav-item active"
-              ><i class="fas fa-clipboard-list"></i> Bài tập</a
-            >
-          </li>
-          <li>
-            <a href="#" class="nav-item"
-              ><i class="fas fa-chart-bar"></i> Báo cáo</a
-            >
-          </li>
-          <li>
-            <a href="#" class="nav-item"><i class="fas fa-cog"></i> Cài đặt</a>
-          </li>
-        </ul>
-      </nav>
-    </aside>
+    <div id="sidebar-placeholder"></div>
 
     <!-- Main Content -->
     <div id="right-content">
       <!-- Header -->
-      <header>
-        <i class="fas fa-bars menu-toggle" id="menuIcon"></i>
-        <input type="text" placeholder="Tìm bài tập..." class="search-bar" />
-        <div class="user-info">
-          <div class="avatar">A</div>
-          <span>GV. Nguyễn Văn A</span>
-        </div>
-      </header>
+      <div id="header-placeholder"></div>
 
       <!-- Main Content -->
       <main>
         <div class="page-header">
-          <h2 class="page-title">Bài tập của tôi</h2>
-          <button class="btn btn-primary">
-            <i class="fas fa-plus"></i> Tạo bài tập mới
-          </button>
+          <h3 class="title">Tên bài tập:</h3>
+          <h3 class="title" id="nameAss">Thì hiện tại đơn</h3>
         </div>
 
-        <!-- Assignment Grid -->
-        <div class="assignment-grid">
-          <!-- Bài tập 1 -->
-          <div class="assignment-card" onclick="openModal('assignment1')">
-            <div class="assignment-card-header">
-              <div
-                style="
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                "
-              >
-                <h3 class="assignment-title">Thì hiện tại đơn</h3>
-                <span class="badge badge-published">Đã xuất bản</span>
+        <hr />
+
+        <!-- Chi tiết bài tập -->
+        <div id="detailHomework">
+          <!-- <div class="content-header">
+            <h2 class="name-HomeWork">Tên bài tập: Thì hiện tại đơn</h2>
+          </div> -->
+          <div class="info-HomeWork">
+            <!-- Thông tin chung -->
+            <section class="detail-section">
+              <h3 class="detail-title">Thông tin bài tập</h3>
+              <div class="detail-info">
+                <div class="info-item">
+                  <i class="fas fa-book"></i> <strong>Khóa học:</strong>
+                  <span id="nameCourse">Tiếng Anh Cơ Bản</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-calendar"></i>
+                  <strong>Hạn nộp:</strong>
+                  <span id="deadLine">08/11/2025 23:59</span>
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-clock"></i>
+                  <strong>Thời gian làm:</strong>
+                  <span id="timeWork">60 </span>phút
+                </div>
+                <div class="info-item">
+                  <i class="fas fa-file-alt"></i> <strong>Loại:</strong>
+                  <span id="type">Bài tập viết</span>
+                </div>
               </div>
-              <div class="assignment-meta">
-                <span><i class="fas fa-book"></i> Tiếng Anh Cơ Bản</span>
-                <span><i class="fas fa-calendar"></i> Hạn: 08/11/2025</span>
-              </div>
-            </div>
-            <div class="assignment-body">
+              <p class="description">
+                <strong>Mô tả:</strong>
+                <span id="description"
+                  >Học viên cần hoàn thành bài tập về thì hiện tại đơn, bao gồm
+                  điền vào chỗ trống, viết câu và dịch câu. Bài tập được thiết
+                  kế để củng cố ngữ pháp cơ bản.</span
+                >
+              </p>
+            </section>
+
+            <!-- Thống kê nộp bài -->
+            <section class="detail-section">
+              <h3 class="detail-title">Thống kê nộp bài</h3>
               <div class="stats-grid">
                 <div class="stat-item">
                   <div class="stat-value" style="color: var(--green)">42</div>
@@ -537,172 +84,59 @@
                   <div class="stat-value" style="color: var(--orange)">8</div>
                   <div class="stat-label">Chưa nộp</div>
                 </div>
-              </div>
-              <div class="progress-container">
-                <div class="progress-label">
-                  <span>Tỷ lệ nộp</span>
-                  <span>84%</span>
+                <div class="stat-item">
+                  <div class="stat-value" style="color: var(--blue-)">5</div>
+                  <div class="stat-label">Đạt</div>
                 </div>
-                <div class="progress-bar">
-                  <div class="progress-fill" style="width: 84%"></div>
+                <div class="stat-item">
+                  <div class="stat-value" style="color: var(--green)">37</div>
+                  <div class="stat-label">Không đạt</div>
                 </div>
               </div>
-              <div class="assignment-actions">
-                <button
-                  class="btn btn-primary btn-sm"
-                  onclick="event.stopPropagation(); openModal('assignment1')"
-                >
-                  Xem chi tiết
-                </button>
-                <button
-                  class="btn btn-outline btn-sm"
-                  onclick="event.stopPropagation()"
-                >
-                  Chỉnh sửa
-                </button>
-                <button
-                  class="btn btn-outline btn-sm text-red"
-                  onclick="event.stopPropagation()"
-                >
-                  Xóa
-                </button>
+            </section>
+
+            <!-- Danh sách học viên nộp -->
+            <section class="detail-section">
+              <h3 class="detail-title">Danh sách nộp bài</h3>
+              <div class="table-submissions">
+                <table class="submission-table">
+                  <thead>
+                    <tr>
+                      <th>STT</th>
+                      <th>Học viên</th>
+                      <th>Thời gian nộp</th>
+                      <th>Điểm</th>
+                      <th>Trạng thái</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>01</td>
+                      <td><strong>Nguyễn Văn B</strong></td>
+                      <td>07/11/2025 21:30</td>
+                      <td><strong style="color: var(--green)">9.5</strong></td>
+                      <td>Đạt</td>
+                    </tr>
+                    <tr>
+                      <td>02</td>
+                      <td><strong>Trần Thị C</strong></td>
+                      <td>07/11/2025 22:15</td>
+                      <td>
+                        <span style="color: var(--orange)">4.5</span>
+                      </td>
+                      <td>Không đạt</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-            </div>
+            </section>
           </div>
         </div>
       </main>
     </div>
 
-    <!-- MODAL: Chi tiết bài tập -->
-    <div class="modal" id="detailModal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title">Thì hiện tại đơn</h2>
-          <button class="modal-close" onclick="closeModal()">x</button>
-        </div>
-        <div class="modal-body">
-          <!-- Thông tin chung -->
-          <div class="detail-section">
-            <h3 class="detail-title">Thông tin bài tập</h3>
-            <div class="detail-info">
-              <div class="info-item">
-                <i class="fas fa-book"></i> <strong>Khóa học:</strong> Tiếng Anh
-                Cơ Bản
-              </div>
-              <div class="info-item">
-                <i class="fas fa-calendar"></i>
-                <strong>Hạn nộp:</strong> 08/11/2025 23:59
-              </div>
-              <div class="info-item">
-                <i class="fas fa-clock"></i> <strong>Thời gian làm:</strong> 60
-                phút
-              </div>
-              <div class="info-item">
-                <i class="fas fa-file-alt"></i> <strong>Loại:</strong> Bài tập
-                viết
-              </div>
-            </div>
-            <p class="description">
-              <strong>Mô tả:</strong> Học viên cần hoàn thành bài tập về thì
-              hiện tại đơn, bao gồm điền vào chỗ trống, viết câu và dịch câu.
-              Bài tập được thiết kế để củng cố ngữ pháp cơ bản.
-            </p>
-          </div>
-
-          <!-- Thống kê nộp bài -->
-          <div class="detail-section">
-            <h3 class="detail-title">Thống kê nộp bài</h3>
-            <div
-              class="stats-grid"
-              style="grid-template-columns: repeat(4, 1fr)"
-            >
-              <div class="stat-item">
-                <div class="stat-value" style="color: var(--green)">42</div>
-                <div class="stat-label">Đã nộp</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-value" style="color: var(--orange)">8</div>
-                <div class="stat-label">Chưa nộp</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-value" style="color: var(--blue)">5</div>
-                <div class="stat-label">Đang chấm</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-value" style="color: var(--green)">37</div>
-                <div class="stat-label">Đã chấm</div>
-                TOEIC cấp tốc
-              </div>
-            </div>
-          </div>
-
-          <!-- Danh sách học viên nộp -->
-          <div class="detail-section">
-            <h3 class="detail-title">Danh sách nộp bài</h3>
-            <table class="submission-table">
-              <thead>
-                <tr>
-                  <th>Học viên</th>
-                  <th>Thời gian nộp</th>
-                  <th>Điểm</th>
-                  <th>Hành động</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>Nguyễn Văn B</strong></td>
-                  <td>07/11/2025 21:30</td>
-                  <td><strong style="color: var(--green)">9.5</strong></td>
-                  <td>
-                    <button class="btn-icon" title="Xem bài">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="btn-icon" title="Tải file">
-                      <i class="fas fa-download"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td><strong>Trần Thị C</strong></td>
-                  <td>07/11/2025 22:15</td>
-                  <td><span style="color: var(--orange)">Chưa chấm</span></td>
-                  <td>
-                    <button class="btn-icon" title="Chấm bài">
-                      <i class="fas fa-edit"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- JS -->
-    <script>
-      // Menu toggle
-      const menuIcon = document.getElementById("menuIcon");
-      const sidebar = document.querySelector(".left-slide");
-      const overlay = document.getElementById("overlay");
-      menuIcon.onclick = () => {
-        sidebar.classList.toggle("active");
-        overlay.classList.toggle("active");
-      };
-      overlay.onclick = () => {
-        sidebar.classList.remove("active");
-        overlay.classList.remove("active");
-      };
-
-      // Modal
-      function openModal(id) {
-        document.getElementById("detailModal").classList.add("active");
-        overlay.classList.add("active");
-      }
-      function closeModal() {
-        document.getElementById("detailModal").classList.remove("active");
-        overlay.classList.remove("active");
-      }
-    </script>
+    <script src="./js/header.js"></script>
+    <script src="./js/detail-homework.js"></script>
   </body>
 </html>

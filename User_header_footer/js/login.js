@@ -1,6 +1,6 @@
 // Hàm hiển thị form
 function showForm(formClass) {
-  document.querySelectorAll(".Auth > div").forEach(div => {
+  document.querySelectorAll(".Auth > div").forEach((div) => {
     div.classList.remove("active");
   });
   document.querySelector(`.${formClass}`).classList.add("active");
@@ -8,20 +8,25 @@ function showForm(formClass) {
 //đăng nhập mặc định sẽ hiển thị
 showForm("Auth-Login");
 
-// Gắn sự kiện click 
-document.querySelector(".Auth-Login span:nth-of-type(1)").onclick = () => showForm("Forgot-password");
+// Gắn sự kiện click
+document.querySelector(".Auth-Login span:nth-of-type(1)").onclick = () =>
+  showForm("Forgot-password");
 
-document.querySelector(".Auth-Login span:nth-of-type(2)").onclick = () => showForm("Auth-Signup");
+document.querySelector(".Auth-Login span:nth-of-type(2)").onclick = () =>
+  showForm("Auth-Signup");
 
-document.querySelector(".Auth-Signup span").onclick = () => showForm("Auth-Login");
+document.querySelector(".Auth-Signup span").onclick = () =>
+  showForm("Auth-Login");
 
-document.querySelector(".Forgot-password span").onclick = () => showForm("Auth-Login");
+document.querySelector(".Forgot-password span").onclick = () =>
+  showForm("Auth-Login");
 
 // Regex kiểm tra dữ liệu
 const usernameRegex = /^[a-zA-Z0-9]{4,12}$/; // Chỉ cho phép chữ cái và số, độ dài từ 4–12 ký tự
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/; // Mật khẩu ít nhất 8 ký tự, có chữ và số
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Định dạng email chuẩn
-const phoneRegex = /^(0|\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-4|6-9])[0-9]{7}$/; // Số điện thoại Việt Nam
+const phoneRegex =
+  /^(0|\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-4|6-9])[0-9]{7}$/; // Số điện thoại Việt Nam
 
 // Hàm đăng ký
 function registerUser() {
@@ -30,7 +35,9 @@ function registerUser() {
   let email = document.getElementById("signup-email").value.trim();
   let phone = "";
   let password = document.getElementById("signup-password").value.trim();
-  let confirmPassword = document.getElementById("signup-password-confirm").value.trim();
+  let confirmPassword = document
+    .getElementById("signup-password-confirm")
+    .value.trim();
   let role = "Học viên";
   let bob = "";
   let province = "";
@@ -42,7 +49,9 @@ function registerUser() {
     return;
   }
   if (!passwordRegex.test(password)) {
-    alert("Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái và số.");
+    alert(
+      "Mật khẩu không hợp lệ. Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái và số."
+    );
     return;
   }
   if (password !== confirmPassword) {
@@ -78,7 +87,7 @@ function registerUser() {
     password: password,
     province: province,
     district: district,
-    role: role
+    role: role,
   };
 
   localStorage.setItem("listusers", JSON.stringify(listusers));
@@ -87,7 +96,6 @@ function registerUser() {
 }
 document.getElementById("signup-button").onclick = registerUser;
 
-
 // Hàm đăng nhập
 function loginUser() {
   //lấy thông tin người dùng từ localstorage
@@ -95,6 +103,14 @@ function loginUser() {
   let username = document.getElementById("login-username").value;
   let password = document.getElementById("login-password").value;
 
+  // hàm test đăng nhập giao diện giảng viên (có thể xóa )
+  if (username === "a" && password === "a") {
+    localStorage.setItem("currentUser", username);
+    window.location.href = "../../Teacher/teacher.html";
+    return;
+  }
+
+  // đây là hàm của m code đăng nhập cho học viên
   for (let key in listusers) {
     if (key === username && listusers[key].password === password) {
       alert("Đăng nhập thành công!");
@@ -103,6 +119,7 @@ function loginUser() {
       return;
     }
   }
+
   alert("Tên tài khoản hoặc mật khẩu không đúng.");
 }
 
@@ -119,3 +136,6 @@ function resetPassword() {
   }
   alert("Email không tồn tại trong hệ thống.");
 }
+
+// gọi đăng nhập
+document.getElementById("login-button").onclick = loginUser;

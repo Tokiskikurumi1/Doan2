@@ -14,15 +14,18 @@ if (!course) {
 const titleInput = document.getElementById("course-title");
 const typeSelect = document.getElementById("course-select");
 const dateInput = document.getElementById("date-input");
+const courseDetail = document.getElementById("course-detail");
 const priceInput = document.getElementById("number-price");
 const videoListEl = document.getElementById("video-list");
 const nameInput = document.querySelector(".name-teacher");
-
+const statusSelect = document.getElementById("course-status");
 // ========================== HIỂN THỊ ==========================
 nameInput.innerHTML = nameTeacher;
+dateInput.value = course.date;
 titleInput.value = course.name;
 typeSelect.value = course.type;
-dateInput.value = course.date;
+statusSelect.value = course.status;
+courseDetail.value = course.detail;
 priceInput.value = course.price;
 
 renderVideos();
@@ -97,7 +100,8 @@ function saveCourse() {
   course.type = typeSelect.value;
   course.date = dateInput.value;
   course.price = priceInput.value;
-
+  course.detail = courseDetail.value;
+  course.status = statusSelect.value;
   const index = courses.findIndex((c) => c.id === course.id);
   courses[index] = course;
 

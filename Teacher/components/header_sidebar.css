@@ -53,10 +53,10 @@
   color: var(--white);
 }
 
-.nav-bar-title ul li a.active {
+/* .nav-bar-title ul li a.active {
   background: var(--blue-black);
   color: var(--white);
-}
+} */
 /*==================================THẺ HEADER TRÊN ĐẦU ========*/
 
 header {
