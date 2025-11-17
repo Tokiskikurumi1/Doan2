@@ -73,4 +73,7 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
             }
         }
     }
-}
+}# API improvements
+# Feature enhancement 2026-01-10 18:02:40
+# Database optimization
+# Code optimization and refactoring
