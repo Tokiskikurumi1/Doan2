@@ -106,7 +106,7 @@ function loginUser() {
   // hàm test đăng nhập giao diện giảng viên (có thể xóa )
   if (username === "a" && password === "a") {
     localStorage.setItem("currentUser", username);
-    window.location.href = "../../Teacher/teacher.html";
+    window.location.href = "Teacher/teacher.html";
     return;
   }
 
