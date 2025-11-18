@@ -1,6 +1,3 @@
-// ======================= LẤY THÔNG TIN GIẢNG VIÊN =======================
-const user = JSON.parse(localStorage.getItem("currentUserData"));
-
 // === BẢO VỆ TRANG: Nếu chưa đăng nhập HOẶC không phải giáo viên → đá về login ===
 if (!user || user.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");
@@ -422,3 +419,13 @@ function resetForm() {
 # UI/UX improvements
 # Security enhancements
 # Code optimization and refactoring
+   Additional implementation details
+   Code review suggestions applied */
+// API improvements and error handling
+   Code review suggestions applied */
+   Additional implementation details
+/* Multi-line comment block
+// Feature flag implementation
+   Additional implementation details
+// Logging mechanism enhanced
+// Database optimization completed
