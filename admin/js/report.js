@@ -321,3 +321,7 @@ applyButton?.addEventListener("click", () => {
 
 // ======================= INIT =======================
 renderContent("user");
+# Database optimization
+# UI/UX improvements
+# Database optimization
+# API improvements
