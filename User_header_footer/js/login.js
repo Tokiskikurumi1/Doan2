@@ -104,9 +104,9 @@ function loginUser() {
   let password = document.getElementById("login-password").value;
 
   // hàm test đăng nhập giao diện giảng viên (có thể xóa )
-  if (username === "a" && password === "a") {
+  if (username === "Kurumi12" && password === "Kurumi12") {
     localStorage.setItem("currentUser", username);
-    window.location.href = "Teacher/teacher.html";
+    window.location.href = "../../Teacher/teacher.html";
     return;
   }
 
@@ -115,7 +115,7 @@ function loginUser() {
     if (key === username && listusers[key].password === password) {
       alert("Đăng nhập thành công!");
       localStorage.setItem("currentUser", username);
-      window.location.href = "index.html"; // Chuyển hướng đến trang chủ
+      window.location.href = "../../index.html"; // Chuyển hướng đến trang chủ
       return;
     }
   }
