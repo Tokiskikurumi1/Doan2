@@ -228,6 +228,20 @@ h2{
   flex: 0 0 calc(50% - 0.5rem);
   box-sizing: border-box;
 }
+.lesson-current-video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.lesson-current-video iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: inherit;
+}
+
 
 
 @media (min-width: 768px) {

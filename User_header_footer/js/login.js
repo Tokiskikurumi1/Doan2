@@ -1,3 +1,12 @@
+// Kiểm tra người dùng tồn tại
+currentUser = localStorage.getItem("currentUser");
+window.addEventListener("DOMContentLoaded", () => {
+    let currentUser = localStorage.getItem("currentUser");
+    if (currentUser && listusers[currentUser]) {
+      window.location.href = "index.html";
+    }
+  });
+
 // Hàm hiển thị form
 function showForm(formClass) {
   document.querySelectorAll(".Auth > div").forEach(div => {
@@ -85,7 +94,14 @@ function registerUser() {
   alert("Đăng ký thành công!");
   showForm("Auth-Login");
 }
-document.getElementById("signup-button").onclick = registerUser;
+const checkbox1 = document.getElementById("checkbox1");
+checkbox1.addEventListener("change", function () {
+  if (this.checked) {
+    document.getElementById("signup-button").onclick = registerUser;
+  } else {
+    alert("Người dùng chưa đồng ý với điều khoản.");
+  }
+});
 
 
 // Hàm đăng nhập
@@ -105,7 +121,16 @@ function loginUser() {
   }
   alert("Tên tài khoản hoặc mật khẩu không đúng.");
 }
-document.getElementById("login-button").onclick = loginUser;
+// Lưu thông tin người dùng hiện tại
+const checkbox = document.getElementById("checkbox");
+checkbox.addEventListener("change", function () {
+  if (this.checked) {
+    localStorage.setItem("currentUser", username);
+    let currentUser = localStorage.getItem("currentUser");
+    document.getElementById("login-button").onclick = loginUser;
+  }
+});
+
 
 // Hàm đặt lại mật khẩu
 function resetPassword() {
@@ -120,4 +145,13 @@ function resetPassword() {
   }
   alert("Email không tồn tại trong hệ thống.");
 }
-document.getElementById("forgot-button").onclick = resetPassword;
+
+checkbox1.addEventListener("change", function () {
+  if (this.checked) {
+    document.getElementById("reset-button").onclick = resetPassword;
+  } else {
+    alert("Người dùng chưa đồng ý với điều khoản.");
+  }
+});
+
+
