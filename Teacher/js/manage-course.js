@@ -3,13 +3,11 @@ let courses = JSON.parse(localStorage.getItem("courses")) || [];
 
 const courseListEl = document.getElementById("course-list");
 const createModal = document.getElementById("create-course-modal");
-
 const searchBar = document.querySelector(".search-bar");
 const fromDateEl = document.getElementById("fromDate");
 const toDateEl = document.getElementById("toDate");
 const roleFilter = document.querySelector(".role_course");
 const arrangeFilter = document.querySelector(".arrange");
-
 // ========================== CREATE COURSE ==========================
 document.getElementById("new-course").onclick = () => {
   createModal.style.display = "flex";
@@ -19,14 +17,14 @@ document.getElementById("cancel-create").onclick = () => {
   createModal.style.display = "none";
 };
 
-// ⭐ Lưu URL ảnh (NHẸ - KHÔNG BASE64)
+// Lưu URL ảnh
 let uploadedImageURL = null;
 
 document.getElementById("course-image").onchange = function (e) {
   const file = e.target.files[0];
   if (!file) return;
 
-  // Tạo URL ảnh thay vì Base64
+  // Tạo URL ảnh
   uploadedImageURL = URL.createObjectURL(file);
 };
 
@@ -37,6 +35,7 @@ document.getElementById("create-course-form").onsubmit = function (e) {
   const type = document.getElementById("course-type").value;
   const status = document.getElementById("course-status").value;
   const price = document.getElementById("course-price").value;
+  const detail = document.getElementById("course-detail").value;
 
   const course = {
     id: Date.now(),
@@ -44,9 +43,11 @@ document.getElementById("create-course-form").onsubmit = function (e) {
     type,
     status,
     price,
+    detail,
     date: new Date().toISOString().split("T")[0],
     image_url: uploadedImageURL || "./img/course.png",
     videos: [],
+    comment: [],
   };
 
   courses.push(course);

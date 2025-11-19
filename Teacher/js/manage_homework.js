@@ -27,13 +27,15 @@ function loadAssignments(filter = "all") {
     grid.innerHTML = `
       <div style="
         background: white; padding: 2rem; border-radius: 12px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; color: #6b7280;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; color: var(--grey);
       ">
-        <i class="fas fa-clipboard-list" style="font-size: 2.5rem; color: #d1d5db; margin-bottom: 0.5rem;"></i>
+        <i class="fas fa-clipboard-list" style="font-size: 2.5rem; color: var(--white); margin-bottom: 0.5rem;"></i>
         <p>Chưa có bài tập nào. Nhấn "Tạo bài tập mới" để bắt đầu!</p>
       </div>`;
     return;
   }
+
+  grid.style.display = "grid";
 
   filtered.forEach((a) => {
     const card = createAssignmentCard(a);
@@ -202,9 +204,10 @@ function editDraft(id) {
   window.location.href = "create-homework.html";
 }
 
-// function viewDetail(id) {
-//   alert("Chức năng xem chi tiết chưa triển khai. ID: " + id);
-// }
+function viewDetail(id) {
+  localStorage.setItem("detailAssignmentId", id);
+  window.location.href = "./detail-homework.html";
+}
 
 // === THÊM VÀO CUỐI manage_homework.js ===
 document

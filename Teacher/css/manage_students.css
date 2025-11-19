@@ -99,7 +99,7 @@
   font-weight: 500;
 }
 .badge-published {
-  background: #dcfce7;
+  background: var(--white);
   color: #166534;
 }
 
