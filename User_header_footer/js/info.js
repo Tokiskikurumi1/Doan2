@@ -1,4 +1,5 @@
 let listusers = JSON.parse(localStorage.getItem("listusers")) || {};
+let username = localStorage.getItem("currentUser");
 
 // khai báo biến để lấy thông tin người dùng hiện tại
 let inputYourname = document.querySelector(".input-yourname");

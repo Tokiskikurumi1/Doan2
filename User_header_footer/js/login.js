@@ -77,7 +77,6 @@ function registerUser() {
       return;
     }
   }
-
   // Nếu mọi thứ hợp lệ, tiến hành lưu
   listusers[username] = {
     yourname: yourname,

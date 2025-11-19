@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -9,6 +8,7 @@
     <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
     <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
     <link rel="stylesheet" href="./css/LearningInterface.css">
+    <link rel="stylesheet" href="./css/shop.css">
     <title>Document</title>
 </head>
 
@@ -73,37 +73,169 @@
     <div class="lesson" id="cardbasic">
         <div class="lesson-current">
             <div class="lesson-current-video">
-                <iframe src="https://www.youtube.com/embed/nrfMku3IdQI?start=30&autoplay=1" title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
-                <div class="lesson-current-title">
-                <h4>Tên bài học</h4>
-                <span> Mô tả ngắn về bài học hiện tại để người học nắm được nội dung chính của bài học.</span>
-                <div class="lesson-current-btn">
-                    <button class="btn-next" id="btnwhite">Bài học tiếp theo</button>
-                    <button class="btn-back" id="btnwhite">Bài học trước</button>
-                    <button class="btn-confirm" id="btnconfirm">Hoàn thành</button>
+                <div class="video">
+                    <iframe src="https://www.youtube.com/embed/?start=30&autoplay=1" title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                    <div class="lesson-current-info">
+                        <div class="lesson-current-info-nav">
+                            <button class="info-nav-btn active" data-target="overview">Tổng quan</button>
+                            <button class="info-nav-btn" data-target="vocabulary">Từ vựng</button>
+                            <button class="info-nav-btn" data-target="exercise">Bài tập</button>
+                        </div>
+
+
+                        <div class="lesson-current-title tab-content active" id="overview">
+
+                        </div>
+
+
+                        <div class="lesson-current-vocabulary tab-content" id="vocabulary">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Từ vựng</th>
+                                        <th>Loại từ</th>
+                                        <th>Nghĩa</th>
+                                        <th>Ví dụ</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vocab-body">
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div class="lesson-current-exercise tab-content" id="exercise">
+                            <div id="exercise-list">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson-list">
+                    <h3>Danh sách bài học</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-name">
+                            <div class="lesson-item-name-number">1</div>
+                            <div class="lesson-item-name-title">Giới thiệu về khóa học</div>
+                        </div>
+                        <div class="lesson-item-duration">5:30</div>
+                    </div>
+                    <div class="lesson-current-btn">
+                        <button class="btn-next" id="btnwhite">Bài học tiếp theo</button>
+                        <button class="btn-back" id="btnwhite">Bài học trước</button>
+                        <button class="btn-confirm" id="btnconfirm">Hoàn thành</button>
+                    </div>
                 </div>
             </div>
-            </div>
-
-            
-        </div>
-        <div class="lesson-list">
-            <h3>Danh sách bài học</h3>
-            <div class="lesson-item">
-                <div class="lesson-item-name">
-                    <div class="lesson-item-name-number">1</div>
-                    <div class="lesson-item-name-title">Giới thiệu về khóa học</div>
+            <h3>Sản phẩm nổi bật</h3>
+            <div class="product-card">
+                <div class="product-card-item" id="cardhover">
+                    <div class="product-card-item-img">
+                    </div>
+                    <h3>Tên sản phẩm</h3>
+                    <span class="product-card-item-rating">Tên tác giả</span>
+                    <span class="product-card-item-duration">Thời lượng- Số trang</span>
+                    <span class="product-card-item-rating">Sao</span>
+                    <div class="product-card-item-price">
+                        <span class="price">250.000 VND</span>
+                        <button id="btnblue">Xem chi tiết</button>
+                    </div>
                 </div>
-                <div class="lesson-item-duration">5:30</div>
+                <div class="product-card-item" id="cardhover">
+                    <div class="product-card-item-img">
+                    </div>
+                    <h3>Tên sản phẩm</h3>
+                    <span class="product-card-item-rating">Tên tác giả</span>
+                    <span class="product-card-item-duration">Thời lượng- Số trang</span>
+                    <span class="product-card-item-rating">Sao</span>
+                    <div class="product-card-item-price">
+                        <span class="price">250.000 VND</span>
+                        <button id="btnblue">Xem chi tiết</button>
+                    </div>
+                </div>
+                <div class="product-card-item" id="cardhover">
+                    <div class="product-card-item-img">
+                    </div>
+                    <h3>Tên sản phẩm</h3>
+                    <span class="product-card-item-rating">Tên tác giả</span>
+                    <span class="product-card-item-duration">Thời lượng- Số trang</span>
+                    <span class="product-card-item-rating">Sao</span>
+                    <div class="product-card-item-price">
+                        <span class="price">250.000 VND</span>
+                        <button id="btnblue">Xem chi tiết</button>
+                    </div>
+                </div>
+                <div class="product-card-item" id="cardhover">
+                    <div class="product-card-item-img">
+                    </div>
+                    <h3>Tên sản phẩm</h3>
+                    <span class="product-card-item-rating">Tên tác giả</span>
+                    <span class="product-card-item-duration">Thời lượng- Số trang</span>
+                    <span class="product-card-item-rating">Sao</span>
+                    <div class="product-card-item-price">
+                        <span class="price">250.000 VND</span>
+                        <button id="btnblue">Xem chi tiết</button>
+                    </div>
+                </div>
+                <div class="product-card-item" id="cardhover">
+                    <div class="product-card-item-img">
+                    </div>
+                    <h3>Tên sản phẩm</h3>
+                    <span class="product-card-item-rating">Tên tác giả</span>
+                    <span class="product-card-item-duration">Thời lượng- Số trang</span>
+                    <span class="product-card-item-rating">Sao</span>
+                    <div class="product-card-item-price">
+                        <span class="price">250.000 VND</span>
+                        <button id="btnblue">Xem chi tiết</button>
+                    </div>
+                </div>
+                <div class="product-card-item" id="cardhover">
+                    <div class="product-card-item-img">
+                    </div>
+                    <h3>Tên sản phẩm</h3>
+                    <span class="product-card-item-rating">Tên tác giả</span>
+                    <span class="product-card-item-duration">Thời lượng- Số trang</span>
+                    <span class="product-card-item-rating">Sao</span>
+                    <div class="product-card-item-price">
+                        <span class="price">250.000 VND</span>
+                        <button id="btnblue">Xem chi tiết</button>
+                    </div>
+                </div>
+                <div class="product-card-item" id="cardhover">
+                    <div class="product-card-item-img">
+                    </div>
+                    <h3>Tên sản phẩm</h3>
+                    <span class="product-card-item-rating">Tên tác giả</span>
+                    <span class="product-card-item-duration">Thời lượng- Số trang</span>
+                    <span class="product-card-item-rating">Sao</span>
+                    <div class="product-card-item-price">
+                        <span class="price">250.000 VND</span>
+                        <button id="btnblue">Xem chi tiết</button>
+                    </div>
+                </div>
+                <div class="product-card-item" id="cardhover">
+                    <div class="product-card-item-img">
+                    </div>
+                    <h3>Tên sản phẩm</h3>
+                    <span class="product-card-item-rating">Tên tác giả</span>
+                    <span class="product-card-item-duration">Thời lượng- Số trang</span>
+                    <span class="product-card-item-rating">Sao</span>
+                    <div class="product-card-item-price">
+                        <span class="price">250.000 VND</span>
+                        <button id="btnblue">Xem chi tiết</button>
+                    </div>
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
-
 </body>
+<script src="./js/LearningInterface.js"></script>
 
 </html>

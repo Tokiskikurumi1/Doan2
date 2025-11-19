@@ -20,6 +20,7 @@ h2 {
 h3 {
     font-size: 18px;
     font-weight: bold;
+    margin: 0PX;
 }
 
 /* Bộ lọc */
@@ -55,12 +56,12 @@ h3 {
     border-radius: 6px;
     box-sizing: border-box;
 
-    flex: 1 1 calc(33.333% - 20px);
-    /* 3 item mỗi hàng, trừ khoảng cách */
-    min-width: 280px;
-    max-width: calc(33.333% - 20px);
+    flex: 1 1 calc(25% - 20px); /* 5 item mỗi hàng */
+    min-width: 200px;           /* tuỳ chỉnh để không quá nhỏ */
+    max-width: calc(25% - 20px);
     justify-content: flex-start;
 }
+
 
 .product-card-item-img {
     height: 180px;
