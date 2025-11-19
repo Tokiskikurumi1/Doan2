@@ -1,3 +1,12 @@
+// Kiểm tra người dùng tồn tại
+currentUser = localStorage.getItem("currentUser");
+window.addEventListener("DOMContentLoaded", () => {
+    let currentUser = localStorage.getItem("currentUser");
+    if (currentUser && listusers[currentUser]) {
+      window.location.href = "index.html";
+    }
+  });
+
 // Hàm hiển thị form
 function showForm(formClass) {
   document.querySelectorAll(".Auth > div").forEach((div) => {
@@ -77,7 +86,6 @@ function registerUser() {
       return;
     }
   }
-
   // Nếu mọi thứ hợp lệ, tiến hành lưu
   listusers[username] = {
     yourname: yourname,
@@ -95,6 +103,7 @@ function registerUser() {
   showForm("Auth-Login");
 }
 document.getElementById("signup-button").onclick = registerUser;
+
 
 // Hàm đăng nhập
 function loginUser() {
@@ -122,7 +131,16 @@ function loginUser() {
 
   alert("Tên tài khoản hoặc mật khẩu không đúng.");
 }
-document.getElementById("login-button").onclick = loginUser;
+// Lưu thông tin người dùng hiện tại
+const checkbox = document.getElementById("checkbox");
+checkbox.addEventListener("change", function () {
+  if (this.checked) {
+    localStorage.setItem("currentUser", username);
+    let currentUser = localStorage.getItem("currentUser");
+    document.getElementById("login-button").onclick = loginUser;
+  }
+});
+
 
 // Hàm đặt lại mật khẩu
 function resetPassword() {
@@ -137,8 +155,4 @@ function resetPassword() {
   }
   alert("Email không tồn tại trong hệ thống.");
 }
-// gọi đăng nhập
-document.getElementById("login-button").onclick = loginUser;
-
-// gọi đặt lại mật khẩu
 document.getElementById("forgot-button").onclick = resetPassword;
