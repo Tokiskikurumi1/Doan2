@@ -47,6 +47,13 @@ const dateFrom = document.getElementById("fromDate");
 const dateTo = document.getElementById("toDate");
 const applyDate = document.getElementById("applyDate");
 const paymentModal = document.getElementById("paymentModal");
+const payId = document.getElementById("payId");
+const payName = document.getElementById("payName");
+const payCourse = document.getElementById("payCourse");
+const payAmount = document.getElementById("payAmount");
+const payMethod = document.getElementById("payMethod");
+const payDate = document.getElementById("payDate");
+const payStatus = document.getElementById("payStatus");
 
 //==========HIỂN THỊ DỮ LIỆU HEADER===============
 const Total = document.getElementById("Total");
@@ -96,23 +103,23 @@ function displayPayment(list_payment) {
         <td>${p.method}</td>
         <td>${p.date}</td>
         <td>${p.status}</td>
-        <td class="actions">
+        <td class="actionsTable">
           <button class="view-btn" onclick="View('${
             p.id
-          }')">Xem chi tiết</button>
+          }')"><i class="fas fa-eye"></i></button>
           ${
             p.status === "Chờ xác nhận"
-              ? `<button class="confirm-btn" onclick="confirmPayment('${p.id}')">Xác nhận thủ công</button>`
+              ? `<button class="confirm-btn" onclick="confirmPayment('${p.id}')"><i class="fas fa-check-circle"></i></button>`
               : ""
           }
           ${
             p.status === "Đã thanh toán"
-              ? `<button class="refund-btn" onclick="refundPayment('${p.id}')">Hoàn tiền</button>`
+              ? `<button class="refund-btn" onclick="refundPayment('${p.id}')"><i class="fas fa-rotate-left"></i></button>`
               : ""
           }
           <button class="delete-btn" onclick="deletePayment('${
             p.id
-          }')">Xóa</button>
+          }')"> <i class="fa-solid fa-trash"></i></button>
         </td>
       </tr>
     `;
@@ -157,19 +164,13 @@ function View(id) {
   if (!pay) return alert("Không tìm thấy giao dịch này!");
 
   paymentModal.style.display = "flex";
-  paymentModal.innerHTML = `
-    <div class="modal-content">
-      <h3>Thông tin hóa đơn</h3>
-      <p><b>Mã giao dịch:</b> ${pay.id}</p>
-      <p><b>Học viên:</b> ${pay.student}</p>
-      <p><b>Khóa học:</b> ${pay.course}</p>
-      <p><b>Số tiền:</b> ${pay.amount.toLocaleString()}đ</p>
-      <p><b>Phương thức:</b> ${pay.method}</p>
-      <p><b>Ngày:</b> ${pay.date}</p>
-      <p><b>Trạng thái:</b> ${pay.status}</p>
-      <button id="closeModalBtn">Đóng</button>
-    </div>
-  `;
+  payId.textContent = pay.id;
+  payName.textContent = pay.student;
+  payCourse.textContent = pay.course;
+  payAmount.textContent = pay.amount.toLocaleString() + "đ";
+  payMethod.textContent = pay.method;
+  payDate.textContent = pay.date;
+  payStatus.textContent = pay.status;
 
   document.getElementById("closeModalBtn").addEventListener("click", () => {
     paymentModal.style.display = "none";

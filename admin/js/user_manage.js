@@ -3,14 +3,17 @@ const searchInput = document.getElementById("searchInput");
 const roleFilter = document.getElementById("roleFilter");
 const addUserBtn = document.getElementById("addUserBtn");
 const addUserModal = document.getElementById("addUserModal");
+
+//========================= ĐÂY LÀ DỮ LIỆU ĐỂ LƯU VÀO LOCAL  ======================= //
 const nameInput = document.getElementById("nameInput");
 const emailInput = document.getElementById("emailInput");
 const roleInput = document.getElementById("roleInput");
 const statusInput = document.getElementById("statusInput");
 const saveUserBtn = document.getElementById("saveUserBtn");
 const closeModalBtn = document.getElementById("closeModalBtn");
-
-let editingUserId = null; // Biến lưu ID của người dùng đang chỉnh sửa
+const usernameInput = document.getElementById("usernameInput");
+const passwordInput = document.getElementById("passwordInput");
+let editingUserId = null;
 
 const users = [
   {
@@ -89,6 +92,8 @@ function openModal(user = null) {
     nameInput.value = user.name;
     emailInput.value = user.email;
     roleInput.value = user.role;
+    usernameInput.value = user.username;
+    passwordInput.value = user.password;
     statusInput.value = user.status === "Online" ? "active" : "locked";
   } else {
     // Chế độ thêm mới
@@ -96,6 +101,8 @@ function openModal(user = null) {
     nameInput.value = "";
     emailInput.value = "";
     roleInput.value = "teacher";
+    usernameInput.value = "";
+    passwordInput.value = "";
     statusInput.value = "active";
   }
 }
@@ -107,6 +114,8 @@ function saveUser() {
     name: nameInput.value,
     email: emailInput.value,
     role: roleInput.value,
+    username: usernameInput.value,
+    password: passwordInput.value,
     createdDate: new Date().toLocaleDateString("vi-VN"),
     status: statusInput.value === "active" ? "Online" : "Offline",
   };
