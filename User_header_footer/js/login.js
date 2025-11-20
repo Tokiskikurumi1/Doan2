@@ -103,3 +103,5 @@ async function loginUser() {
     alert("Có lỗi xảy ra khi đăng nhập. Vui lòng thử lại.");
   }
 }
+# Feature enhancement 2026-01-10 18:02:42
+# UI/UX improvements
