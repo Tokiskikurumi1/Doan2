@@ -158,20 +158,17 @@
 // ==================== KIỂM TRA ĐÃ ĐĂNG NHẬP CHƯA (dán ở đầu các trang cần bảo vệ) ====================
 // let currentUser = localStorage.getItem("currentUser");
 
-// ==================== AUTH SYSTEM - PHIÊN BẢN CHUẨN ADMIN (ID tự tăng) ====================
+// ====================  ====================
 
-const USERS_KEY = "users";
-const CURRENT_USER_KEY = "currentUser";
-
-// Lấy danh sách users (mảng)
+// Lấy danh sách users
 function getUsers() {
-  const data = localStorage.getItem(USERS_KEY);
+  const data = localStorage.getItem("users");
   return data ? JSON.parse(data) : [];
 }
 
 // Lưu danh sách users
 function saveUsers(users) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  localStorage.setItem("users", JSON.stringify(users));
 }
 
 // Tạo ID tự động
@@ -179,20 +176,6 @@ function generateId() {
   const users = getUsers();
   return users.length > 0 ? Math.max(...users.map((u) => u.id)) + 1 : 1;
 }
-
-// ==================== KIỂM TRA ĐĂNG NHẬP (dùng ở mọi trang) ====================
-// function checkLogin() {
-//   const current = localStorage.getItem(CURRENT_USER_KEY);
-//   if (current) {
-//     const user = JSON.parse(current);
-//     if (user.role === "teacher") {
-//       window.location.href = "../../Teacher/teacher.html";
-//     } else {
-//       window.location.href = "../../index.html";
-//     }
-//   }
-// }
-// window.addEventListener("DOMContentLoaded", checkLogin);
 
 // ==================== CHUYỂN FORM ====================
 function showForm(cls) {
@@ -222,7 +205,7 @@ const usernameRegex = /^[a-zA-Z0-9]{4,12}$/;
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// ==================== ĐĂNG KÝ (tự tạo ID) ====================
+// ==================== ĐĂNG KÝ ====================
 function registerUser() {
   const name = document.getElementById("signup-yourname").value.trim();
   const username = document.getElementById("signup-username").value.trim();
@@ -245,20 +228,18 @@ function registerUser() {
 
   const users = getUsers();
 
-  // Kiểm tra trùng username hoặc email
   if (users.some((u) => u.username === username))
     return alert("Tên tài khoản đã tồn tại!");
   if (users.some((u) => u.email === email))
     return alert("Email đã được sử dụng!");
 
-  // Tạo user mới với ID tự tăng
   const newUser = {
     id: generateId(),
-    name: name,
-    username: username,
-    email: email,
-    password: password,
-    role: "student", // mặc định là học viên
+    name,
+    username,
+    email,
+    password,
+    role: "student",
     createdAt: new Date().toISOString(),
   };
 
@@ -269,11 +250,12 @@ function registerUser() {
   showForm("Auth-Login");
   document.getElementById("signup-form")?.reset();
 }
+
 document
   .getElementById("signup-button")
   ?.addEventListener("click", registerUser);
 
-// ==================== ĐĂNG NHẬP ====================
+// ==================== ĐĂNG NHẬP (ĐÃ SỬA HOÀN HẢO) ====================
 function loginUser() {
   const username = document.getElementById("login-username").value.trim();
   const password = document.getElementById("login-password").value;
@@ -289,7 +271,7 @@ function loginUser() {
     return alert("Tài khoản hoặc mật khẩu không đúng!");
   }
 
-  // Lưu thông tin đăng nhập
+  // CHỈ LƯU NHỮNG THỨ CẦN THIẾT (KHÔNG LƯU PASSWORD NỮA)
   const userInfo = {
     id: user.id,
     username: user.username,
@@ -298,22 +280,25 @@ function loginUser() {
     role: user.role,
   };
 
-  localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(userInfo));
+  // LƯU ĐÚNG KEY
+  localStorage.setItem("currentUser", JSON.stringify(userInfo));
+
   alert(`Đăng nhập thành công! Chào ${user.name}`);
 
-  // Chuyển hướng theo role
+  // CHUYỂN HƯỚNG THEO ROLE
   if (user.role === "teacher") {
     window.location.href = "../Teacher/teacher.html";
   } else {
     window.location.href = "../index.html";
   }
 }
+
 document.getElementById("login-button")?.addEventListener("click", loginUser);
 
 // ==================== QUÊN MẬT KHẨU ====================
 function resetPassword() {
   const email = document.getElementById("forgot-email").value.trim();
-  if (!email) return alert("Nhập email!");
+  if (!email) return alert("Vui lòng nhập email!");
 
   const users = getUsers();
   const user = users.find((u) => u.email === email);
@@ -324,9 +309,7 @@ function resetPassword() {
     alert("Không tìm thấy tài khoản với email này!");
   }
 }
+
 document
   .getElementById("forgot-button")
   ?.addEventListener("click", resetPassword);
-
-// ==================== TẠO TÀI KHOẢN GIẢNG VIÊN MẪU (chỉ chạy 1 lần) ====================
-// Bỏ comment đoạn dưới → reload trang 1 lần → xong thì comment lại

@@ -13,35 +13,31 @@ let currentX = 0;
 let isDragging = false;
 
 // Đợi DOM tải xong
-document.addEventListener("DOMContentLoaded", () => {
-  // Hàm kiểm tra và cập nhật trạng thái đăng nhập
-  function updateLoginStatus() {
-    const loginTable = document.querySelector(".login");
-    const currentUser = localStorage.getItem("savedUsername");
-    const currentPass = localStorage.getItem("savedPassword");
 
-    if (currentUser && currentPass) {
-      loginTable.innerHTML = `
-      <span>Chào mừng: ${currentUser} | <a href="#" id="logout">Đăng xuất</a></span>
-    `;
-      document.getElementById("logout").addEventListener("click", (e) => {
-        e.preventDefault();
-        localStorage.removeItem("savedUsername");
-        localStorage.removeItem("savedPassword");
-        localStorage.removeItem("savedRole");
-        window.location.reload();
-      });
+// GỌI SAU KHI HEADER ĐÃ LOAD XONG (bắt buộc)
+fetch("header.html")
+  .then((r) => (r.ok ? r.text() : Promise.reject("Không tìm thấy header")))
+  .then((data) => {
+    document.getElementById("main-header").innerHTML = data;
+
+    // Menu toggle
+    const menuIcon = document.querySelector("#menu-icon");
+    const nav = document.querySelector(".nav-bar-menu-icon-active");
+    if (menuIcon && nav) {
+      menuIcon.onclick = () => {
+        nav.classList.toggle("active");
+        menuIcon.classList.toggle("fa-bars");
+        menuIcon.classList.toggle("fa-x");
+      };
     }
-  }
 
-  updateLoginStatus();
-});
+    // GỌI NGAY KHI HEADER ĐÃ CHÈN XONG → CHẮC CHẮN HIỂN THỊ ĐÚNG
+    updateLoginStatus();
+  })
+  .catch((err) => console.error(err));
 
-menuIcon.addEventListener("click", () => {
-  navBarMenuIconActive.classList.toggle("active");
-  menuIcon.classList.toggle("fa-bars");
-  menuIcon.classList.toggle("fa-x");
-});
+// Dự phòng nếu header load chậm
+window.addEventListener("load", () => setTimeout(updateLoginStatus, 500));
 
 function startDrag(e) {
   isDragging = true;
