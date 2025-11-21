@@ -1,3 +1,12 @@
+// ======================= LẤY THÔNG TIN GIẢNG VIÊN ĐANG ĐĂNG NHẬP =======================
+const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+
+// Bảo vệ trang: nếu không phải giảng viên → đá về login
+if (!currentUser || currentUser.role !== "teacher") {
+  alert("Bạn không có quyền truy cập trang này!");
+  window.location.href = "../../Auth/login.html";
+}
+
 // ======================= CREATE HOMEWORK =======================
 const quizForm = document.querySelector(".quizForm");
 const title = document.getElementById("homework-title");
@@ -38,8 +47,6 @@ function handleTypeChange() {
   }
 }
 
-// ====================== HÀM THÊM CÂU HỎI, KIỂM TRA DẠNG BÀI TẬP  =========================
-
 function addNewQuestion() {
   if (typeSelect.value === "Rewrite") {
     addRewriteQuestion();
@@ -67,7 +74,7 @@ function addRewriteQuestion() {
   questionsContainer.appendChild(qDiv);
 }
 
-// ====================== RENDER QUESTIONS =========================
+// ====================== RENDER QUESTIONS (giữ nguyên) =========================
 function renderQuestion(qIdx) {
   return `
     <div class="question-header">
@@ -113,7 +120,7 @@ function renderRewrite(idx) {
   `;
 }
 
-// ====================== ANSWER MANAGEMENT =========================
+// ====================== ANSWER MANAGEMENT (giữ nguyên) =========================
 function renderAnswer(idx, qIdx, value = "", correct = false) {
   const letters = ["A", "B", "C", "D", "E", "F"];
   const canRemove = idx >= 4;
@@ -166,7 +173,6 @@ function updateAnswerIndices(list) {
   });
 }
 
-// ====================== REMOVE QUESTION =========================
 function removeQuestion(btn) {
   btn.closest(".question-builder").remove();
   updateQuestionNumbers();
@@ -177,7 +183,7 @@ function updateQuestionNumbers() {
   qs.forEach((q, i) => {
     q.dataset.qid = i + 1;
     q.querySelector(".question-title").textContent =
-      typeSelect.value === "Rewrite" ? `Rewrite ${i + 1}` : `Câu hỏi ${i + 1}`;
+      typeSelect.value === "Rewrite" ? `Câu ${i + 1}` : `Câu hỏi ${i + 1}`;
     q.querySelectorAll("input[type='radio']").forEach(
       (r) => (r.name = `correct-${i + 1}`)
     );
@@ -185,23 +191,25 @@ function updateQuestionNumbers() {
   questionIndex = qs.length;
 }
 
-// ====================== SUBMIT =========================
+// ====================== SUBMIT – ĐÃ THÊM teacherId & teacherName ======================
 function handleSubmit(e) {
   e.preventDefault();
 
   const questions = document.querySelectorAll(".question-builder");
-  if (questions.length === 0) return alert("Vui lòng thêm câu hỏi!");
+  if (questions.length === 0) return alert("Vui lòng thêm ít nhất 1 câu hỏi!");
 
   if (typeSelect.value !== "Rewrite") {
     for (let q of questions) {
       if (!q.querySelector("input[type='radio']:checked"))
-        return alert("Mỗi câu hỏi phải có đáp án đúng!");
+        return alert("Mỗi câu hỏi phải chọn ít nhất 1 đáp án đúng!");
     }
   }
 
   const editingId = localStorage.getItem("editingAssignmentId");
+
   const assignment = {
     id: editingId || Date.now().toString(),
+    teacherId: currentUser.id, // ← THÊM ID GIẢNG VIÊN
     title: title.value.trim(),
     course: course.value,
     deadline: deadline.value,
@@ -231,18 +239,21 @@ function handleSubmit(e) {
   });
 
   let list = JSON.parse(localStorage.getItem("assignments") || "[]");
+
   if (editingId) {
     const idx = list.findIndex((x) => x.id === editingId);
     if (idx !== -1) list[idx] = assignment;
     localStorage.removeItem("editingAssignmentId");
-  } else list.push(assignment);
+  } else {
+    list.push(assignment);
+  }
 
   localStorage.setItem("assignments", JSON.stringify(list));
-  alert("Lưu thành công!");
+  alert("Lưu bài tập thành công!");
   window.location.href = "manage-homework.html";
 }
 
-// ====================== LOAD DRAFT =========================
+// ====================== LOAD DRAFT (giữ nguyên) =========================
 function loadDraft(id) {
   const list = JSON.parse(localStorage.getItem("assignments") || "[]");
   const draft = list.find((x) => x.id === id);

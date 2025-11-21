@@ -4,43 +4,77 @@ const roleFilter = document.getElementById("roleFilter");
 const addUserBtn = document.getElementById("addUserBtn");
 const addUserModal = document.getElementById("addUserModal");
 
-//========================= ĐÂY LÀ DỮ LIỆU ĐỂ LƯU VÀO LOCAL  ======================= //
 const nameInput = document.getElementById("nameInput");
 const emailInput = document.getElementById("emailInput");
 const roleInput = document.getElementById("roleInput");
 const statusInput = document.getElementById("statusInput");
-const saveUserBtn = document.getElementById("saveUserBtn");
-const closeModalBtn = document.getElementById("closeModalBtn");
 const usernameInput = document.getElementById("usernameInput");
 const passwordInput = document.getElementById("passwordInput");
+const saveUserBtn = document.getElementById("saveUserBtn");
+const closeModalBtn = document.getElementById("closeModalBtn");
+
 let editingUserId = null;
 
-const users = [
-  {
-    id: 1,
-    name: "Nguyễn Văn A",
-    email: "a@gmail.com",
-    role: "teacher",
-    created: "2024-10-01",
-    status: "Hoạt động",
-  },
-  {
-    id: 2,
-    name: "Trần Thị B",
-    email: "b@gmail.com",
-    role: "student",
-    created: "2024-10-03",
-    status: "Khóa",
-  },
-  {
-    id: 3,
-    name: "Lê Văn C",
-    email: "c@gmail.com",
-    role: "student",
-    created: "2024-10-05",
-    status: "Hoạt động",
-  },
-];
+// Hàm lấy dữ liệu từ localStorage (nếu chưa có thì dùng dữ liệu mẫu)
+function getUsersFromLocalStorage() {
+  const data = localStorage.getItem("users");
+  if (data) {
+    const users = JSON.parse(data);
+
+    // Lưu lại để lần sau không cần thêm nữa
+    saveUsersToLocalStorage(users);
+    return users;
+  } else {
+    // Dữ liệu mẫu lần đầu chạy
+    const defaultUsers = [
+      {
+        id: 1,
+        name: "Nguyễn Văn A",
+        email: "a@gmail.com",
+        role: "teacher",
+        phone: "0901234567",
+        address: "Quận 1, TP.HCM",
+        created: "2024-10-01",
+        username: "admin",
+        password: "123456",
+      },
+      {
+        id: 2,
+        name: "Trần Thị B",
+        email: "b@gmail.com",
+        username: "student1",
+        password: "123456",
+        role: "student",
+        phone: "",
+        address: "",
+        created: "2024-10-03",
+        status: "Khóa",
+      },
+      {
+        id: 3,
+        name: "Lê Văn C",
+        email: "c@gmail.com",
+        username: "student2",
+        password: "123456",
+        role: "student",
+        phone: "",
+        address: "",
+        created: "2024-10-05",
+        status: "Hoạt động",
+      },
+    ];
+    saveUsersToLocalStorage(defaultUsers);
+    return defaultUsers;
+  }
+}
+
+// Hàm lưu mảng users vào localStorage
+function saveUsersToLocalStorage(users) {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+// Load dữ liệu từ localStorage khi trang tải
+let users = getUsersFromLocalStorage();
 
 // Hàm hiển thị danh sách người dùng
 function displayUsers(usersToDisplay) {
@@ -51,9 +85,11 @@ function displayUsers(usersToDisplay) {
       <td>${user.id}</td>
       <td>${user.name}</td>
       <td>${user.email}</td>
-      <td>${user.role}</td>
+      <td>${user.role === "teacher" ? "Giáo viên" : "Học sinh"}</td>
       <td>${user.created}</td>
-      <td>${user.status}</td>
+      <td><span class="status ${
+        user.status === "Hoạt động" ? "active" : "locked"
+      }">${user.status}</span></td>
       <td class="actions">
         <button class="edit" onclick="Edit(${user.id})">
           <i class="fa-solid fa-pen"></i>
@@ -67,7 +103,7 @@ function displayUsers(usersToDisplay) {
   });
 }
 
-// Hàm lọc người dùng theo tìm kiếm và vai trò
+// Hàm lọc người dùng
 function filterUsers() {
   const searchText = searchInput.value.toLowerCase();
   const selectedRole = roleFilter.value;
@@ -75,7 +111,9 @@ function filterUsers() {
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
       user.name.toLowerCase().includes(searchText) ||
-      user.email.toLowerCase().includes(searchText);
+      user.email.toLowerCase().includes(searchText) ||
+      (user.username && user.username.toLowerCase().includes(searchText));
+
     const matchesRole = selectedRole === "all" || user.role === selectedRole;
     return matchesSearch && matchesRole;
   });
@@ -83,94 +121,114 @@ function filterUsers() {
   displayUsers(filteredUsers);
 }
 
-// Hàm mở modal để thêm hoặc sửa người dùng
+// Mở modal thêm/sửa
 function openModal(user = null) {
   addUserModal.style.display = "flex";
   if (user) {
-    // Chế độ chỉnh sửa
     editingUserId = user.id;
     nameInput.value = user.name;
     emailInput.value = user.email;
+    usernameInput.value = user.username || "";
+    passwordInput.value = user.password || "";
     roleInput.value = user.role;
-    usernameInput.value = user.username;
-    passwordInput.value = user.password;
-    statusInput.value = user.status === "Online" ? "active" : "locked";
+    statusInput.value = user.status === "Hoạt động" ? "active" : "locked";
   } else {
-    // Chế độ thêm mới
     editingUserId = null;
     nameInput.value = "";
     emailInput.value = "";
-    roleInput.value = "teacher";
     usernameInput.value = "";
     passwordInput.value = "";
+    roleInput.value = "student";
     statusInput.value = "active";
   }
 }
 
-// Hàm lưu người dùng
+// Lưu người dùng (thêm mới hoặc cập nhật)
 function saveUser() {
-  const newUser = {
-    id: editingUserId || users.length + 1,
-    name: nameInput.value,
-    email: emailInput.value,
-    role: roleInput.value,
-    username: usernameInput.value,
-    password: passwordInput.value,
-    createdDate: new Date().toLocaleDateString("vi-VN"),
-    status: statusInput.value === "active" ? "Online" : "Offline",
-  };
+  const name = nameInput.value.trim();
+  const email = emailInput.value.trim();
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value.trim();
 
-  if (!newUser.name || !newUser.email) {
-    alert("Vui lòng nhập đầy đủ họ tên và email!");
+  if (!name || !email) {
+    alert("Vui lòng nhập đầy đủ Họ tên và Email!");
     return;
   }
 
-  if (editingUserId) {
-    // Cập nhật người dùng hiện có
-    const index = users.findIndex((user) => user.id === editingUserId);
-    users[index] = newUser;
-  } else {
-    // Thêm người dùng mới
-    users.push(newUser);
+  if (!editingUserId && (!username || !password)) {
+    alert("Vui lòng nhập Tên đăng nhập và Mật khẩu cho tài khoản mới!");
+    return;
   }
 
+  const newUserData = {
+    id: editingUserId || Date.now(),
+    name,
+    email,
+    username: editingUserId
+      ? username || users.find((u) => u.id === editingUserId).username
+      : username,
+    password: editingUserId
+      ? password || users.find((u) => u.id === editingUserId).password
+      : password,
+    role: roleInput.value,
+    created: editingUserId
+      ? users.find((u) => u.id === editingUserId).created
+      : new Date().toLocaleDateString("vi-VN"),
+
+    // Giữ nguyên phone và address nếu đang sửa (không bị mất)
+    phone: editingUserId ? users.find((u) => u.id === editingUserId).phone : "",
+    address: editingUserId
+      ? users.find((u) => u.id === editingUserId).address
+      : "",
+  };
+
+  if (editingUserId) {
+    // Cập nhật user cũ
+    const index = users.findIndex((u) => u.id === editingUserId);
+    users[index] = { ...users[index], ...newUserData };
+  } else {
+    // Thêm user mới
+    users.push(newUserData);
+  }
+
+  // Lưu vào localStorage
+  saveUsersToLocalStorage(users);
+
+  // Cập nhật lại giao diện
   filterUsers();
   addUserModal.style.display = "none";
 }
 
-// Hàm chỉnh sửa người dùng
+// Sửa người dùng
 function Edit(id) {
-  const user = users.find((user) => user.id === id);
-  if (user) {
-    openModal(user);
-  }
+  const user = users.find((u) => u.id === id);
+  if (user) openModal(user);
 }
 
-// Hàm xóa người dùng
+// Xóa người dùng
 function Delete(id) {
-  if (confirm("Bạn có chắc muốn xóa người dùng này?")) {
-    const index = users.findIndex((user) => user.id === id);
-    users.splice(index, 1);
+  if (confirm("Bạn có chắc chắn muốn xóa người dùng này không?")) {
+    users = users.filter((u) => u.id !== id);
+    saveUsersToLocalStorage(users);
     filterUsers();
   }
 }
 
-// Sự kiện tìm kiếm
+// ==================== Sự kiện ====================
 searchInput.addEventListener("input", filterUsers);
-
-// Sự kiện lọc theo vai trò
 roleFilter.addEventListener("change", filterUsers);
-
-// Sự kiện mở modal thêm người dùng
 addUserBtn.addEventListener("click", () => openModal());
-
-// Sự kiện lưu người dùng
 saveUserBtn.addEventListener("click", saveUser);
-
-// Sự kiện đóng modal
 closeModalBtn.addEventListener("click", () => {
   addUserModal.style.display = "none";
 });
 
-// Hiển thị danh sách người dùng ban đầu
+// Click ngoài modal để đóng
+addUserModal.addEventListener("click", (e) => {
+  if (e.target === addUserModal) {
+    addUserModal.style.display = "none";
+  }
+});
+
+// Hiển thị danh sách ban đầu
 displayUsers(users);
