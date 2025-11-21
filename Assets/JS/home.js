@@ -15,26 +15,46 @@ let isDragging = false;
 // Đợi DOM tải xong
 
 // GỌI SAU KHI HEADER ĐÃ LOAD XONG (bắt buộc)
-fetch("header.html")
-  .then((r) => (r.ok ? r.text() : Promise.reject("Không tìm thấy header")))
-  .then((data) => {
-    document.getElementById("main-header").innerHTML = data;
+function updateLoginStatus() {
+  const loginArea = document.querySelector(".login");
+  if (!loginArea) {
+    // Nếu header chưa load xong → thử lại sau 100ms
+    setTimeout(updateLoginStatus, 100);
+    return;
+  }
 
-    // Menu toggle
-    const menuIcon = document.querySelector("#menu-icon");
-    const nav = document.querySelector(".nav-bar-menu-icon-active");
-    if (menuIcon && nav) {
-      menuIcon.onclick = () => {
-        nav.classList.toggle("active");
-        menuIcon.classList.toggle("fa-bars");
-        menuIcon.classList.toggle("fa-x");
-      };
-    }
+  const currentUser = JSON.parse(localStorage.getItem("currentUser")); // ← KEY PHẢI ĐÚNG
 
-    // GỌI NGAY KHI HEADER ĐÃ CHÈN XONG → CHẮC CHẮN HIỂN THỊ ĐÚNG
-    updateLoginStatus();
-  })
-  .catch((err) => console.error(err));
+  if (currentUser && currentUser.username) {
+    loginArea.innerHTML = `
+      <span>Chào mừng: ${currentUser.name} | <a href="#" id="logout">Đăng xuất</a></span>
+    `;
+
+    // Đăng xuất đúng cách
+    document.getElementById("logout")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.removeItem("currentUser"); // chỉ xóa currentUser
+      location.reload();
+    });
+  } else {
+    loginArea.innerHTML = `
+      <span><a href="${
+        location.pathname.includes("web_children")
+          ? "./User_header_footer/login.html"
+          : "./User_header_footer/login.html"
+      }">Đăng nhập/Đăng ký</a></span>
+    `;
+  }
+}
+// Menu toggle
+const nav = document.querySelector(".nav-bar-menu-icon-active");
+if (menuIcon && nav) {
+  menuIcon.onclick = () => {
+    nav.classList.toggle("active");
+    menuIcon.classList.toggle("fa-bars");
+    menuIcon.classList.toggle("fa-x");
+  };
+}
 
 // Dự phòng nếu header load chậm
 window.addEventListener("load", () => setTimeout(updateLoginStatus, 500));
@@ -105,3 +125,5 @@ function moveToCenter(index) {
   // slides[index].classList.add("active"); // Removed as it's not used in CSS
   currentCenter = index;
 }
+
+updateLoginStatus();
