@@ -15,7 +15,7 @@ const closeModalBtn = document.getElementById("closeModalBtn");
 
 let editingUserId = null;
 
-// Hàm lấy dữ liệu từ localStorage (nếu chưa có thì dùng dữ liệu mẫu)
+// Hàm lấy dữ liệu từ localStorage
 function getUsersFromLocalStorage() {
   const data = localStorage.getItem("users");
   if (data) {
@@ -48,7 +48,6 @@ function getUsersFromLocalStorage() {
         phone: "",
         address: "",
         created: "2024-10-03",
-        status: "Khóa",
       },
       {
         id: 3,
@@ -60,7 +59,6 @@ function getUsersFromLocalStorage() {
         phone: "",
         address: "",
         created: "2024-10-05",
-        status: "Hoạt động",
       },
     ];
     saveUsersToLocalStorage(defaultUsers);
@@ -87,9 +85,6 @@ function displayUsers(usersToDisplay) {
       <td>${user.email}</td>
       <td>${user.role === "teacher" ? "Giáo viên" : "Học sinh"}</td>
       <td>${user.created}</td>
-      <td><span class="status ${
-        user.status === "Hoạt động" ? "active" : "locked"
-      }">${user.status}</span></td>
       <td class="actions">
         <button class="edit" onclick="Edit(${user.id})">
           <i class="fa-solid fa-pen"></i>
@@ -131,7 +126,6 @@ function openModal(user = null) {
     usernameInput.value = user.username || "";
     passwordInput.value = user.password || "";
     roleInput.value = user.role;
-    statusInput.value = user.status === "Hoạt động" ? "active" : "locked";
   } else {
     editingUserId = null;
     nameInput.value = "";
@@ -139,7 +133,6 @@ function openModal(user = null) {
     usernameInput.value = "";
     passwordInput.value = "";
     roleInput.value = "student";
-    statusInput.value = "active";
   }
 }
 
@@ -177,8 +170,11 @@ function saveUser() {
 
     // Giữ nguyên phone và address nếu đang sửa (không bị mất)
     phone: editingUserId ? users.find((u) => u.id === editingUserId).phone : "",
-    address: editingUserId
-      ? users.find((u) => u.id === editingUserId).address
+    district: editingUserId
+      ? users.find((u) => u.id === editingUserId).district
+      : "",
+    province: editingUserId
+      ? users.find((u) => u.id === editingUserId).province
       : "",
   };
 

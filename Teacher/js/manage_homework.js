@@ -1,5 +1,3 @@
-// manage_homework.js – CHỈ HIỆN BÀI TẬP CỦA GIẢNG VIÊN ĐANG ĐĂNG NHẬP
-
 // ======================= LẤY THÔNG TIN GIẢNG VIÊN ĐANG ĐĂNG NHẬP =======================
 const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
 
@@ -16,9 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
   updateTabCounts();
 });
 
-let allAssignments = []; // toàn bộ bài tập (để tính tab)
+let allAssignments = []; // toàn bộ bài tập
 
-// ======================= LOAD ASSIGNMENTS – CHỈ LẤY CỦA currentUser.id =======================
+// ======================= LOAD ASSIGNMENTS =======================
 function loadAssignments(filter = "all") {
   console.log("loadAssignments called with filter:", filter);
   const grid = document.querySelector(".assignment-grid");
@@ -62,7 +60,7 @@ function loadAssignments(filter = "all") {
   });
 }
 
-// ======================= TẠO CARD (giữ nguyên 100% HTML cũ) =======================
+// ======================= TẠO CARD  =======================
 function createAssignmentCard(a) {
   const card = document.createElement("div");
   card.className = "assignment-card";

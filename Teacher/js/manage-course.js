@@ -18,7 +18,7 @@ const toDateEl = document.getElementById("toDate");
 const roleFilter = document.querySelector(".role_course");
 const arrangeFilter = document.querySelector(".arrange");
 
-// ========================== CREATE COURSE ==========================
+// ========================== TẠO KHÓA HỌC ==========================
 document.getElementById("new-course").onclick = () => {
   createModal.style.display = "flex";
 };
@@ -158,14 +158,14 @@ function renderCourses() {
             </div>
         `;
 
-    // Mở chi tiết (giữ nguyên)
+    // Mở chi tiết
     div.querySelector(".item-course-panel").onclick = (e) => {
       if (e.target.classList.contains("delete-btn")) return;
       localStorage.setItem("selectedCourseId", course.id);
       window.location.href = "detail-course.html";
     };
 
-    // XÓA (giữ nguyên)
+    // XÓA
     div.querySelector(".delete-btn").onclick = () => {
       if (!confirm("Bạn có chắc muốn xóa khóa học này?")) return;
       courses = courses.filter((c) => c.id !== course.id);
@@ -177,7 +177,7 @@ function renderCourses() {
   });
 }
 
-// ========================== LISTENERS (giữ nguyên) ==========================
+// ========================== LISTENERS  ==========================
 searchBar.oninput = renderCourses;
 document.querySelector(".apply").onclick = renderCourses;
 roleFilter.onchange = renderCourses;
