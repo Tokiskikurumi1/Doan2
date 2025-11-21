@@ -303,9 +303,9 @@ function loginUser() {
 
   // Chuyển hướng theo role
   if (user.role === "teacher") {
-    window.location.href = "Teacher/teacher.html";
+    window.location.href = "../Teacher/teacher.html";
   } else {
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   }
 }
 document.getElementById("login-button")?.addEventListener("click", loginUser);
