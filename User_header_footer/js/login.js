@@ -1,12 +1,3 @@
-// Kiểm tra người dùng tồn tại
-currentUser = localStorage.getItem("currentUser");
-window.addEventListener("DOMContentLoaded", () => {
-  let currentUser = localStorage.getItem("currentUser");
-  if (currentUser && listusers[currentUser]) {
-    window.location.href = "index.html";
-  }
-});
-// login.js
 import { User, UserManager } from "./object.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -45,6 +36,11 @@ function registerUser() {
   const confirmPassword = document
     .getElementById("signup-password-confirm")
     .value.trim();
+  const agreeTerms = document.getElementById("checkbox1").checked;
+
+  if (!agreeTerms) {
+    return alert("Bạn phải đồng ý với điều khoản trước khi đăng ký.");
+  }
 
   if (!usernameRegex.test(username))
     return alert("Tên tài khoản không hợp lệ.");
@@ -58,7 +54,6 @@ function registerUser() {
   if (exists) return alert("Tên tài khoản đã tồn tại.");
   if (UserManager.isEmailTaken(email)) return alert("Email đã được sử dụng.");
 
-  // mặc định role là student khi đăng ký
   try {
     const newUser = new User({
       username,
@@ -74,13 +69,12 @@ function registerUser() {
     alert(err.message);
   }
 }
-document.getElementById("signup-button").onclick = registerUser;
-// Hàm đăng nhập
 
 function loginUser() {
   const username = document.getElementById("login-username").value.trim();
   const password = document.getElementById("login-password").value.trim();
   const role = document.getElementById("login-role").value;
+  const rememberMe = document.getElementById("checkbox").checked;
 
   if (!username || !password || !role) {
     alert("Vui lòng nhập đầy đủ thông tin và chọn vai trò.");
@@ -108,19 +102,25 @@ function loginUser() {
   // lưu id của user hiện tại
   UserManager.setCurrentUser(user.id);
 
-  alert("Đăng nhập thành công!");
+  // nếu tick "Ghi nhớ đăng nhập" thì lưu thêm flag
+  if (rememberMe) {
+    localStorage.setItem("rememberLogin", "true");
+  } else {
+    localStorage.removeItem("rememberLogin");
+  }
 
-  // điều hướng theo role
+  alert("Đăng nhập thành công!");
+  localStorage.setItem("currentUser", JSON.stringify(user));
+
   if (user.role === "teacher") {
-    window.location.href = "Teacher/teacher.html";
+    window.location.href = "../Teacher/teacher.html";
   } else if (user.role === "student") {
-    window.location.href = "info.html";
+    window.location.href = "./info.html";
   } else {
     alert("Vai trò không hợp lệ.");
   }
 }
 
-// Hàm đặt lại mật khẩu
 function resetPassword() {
   const email = document.getElementById("forgot-email").value.trim();
   const password = UserManager.getPasswordByEmail(email);

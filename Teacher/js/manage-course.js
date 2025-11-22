@@ -49,7 +49,7 @@ document.getElementById("create-course-form").onsubmit = function (e) {
   const course = {
     id: Date.now(),
     teacherId: currentUser.id,
-    teacherName: currentUser.name,
+    teacherName: currentUser.yourname,
     name,
     type,
     status,

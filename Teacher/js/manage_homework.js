@@ -1,10 +1,10 @@
 // ======================= LẤY THÔNG TIN GIẢNG VIÊN ĐANG ĐĂNG NHẬP =======================
-const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
 // Bảo vệ trang
 if (!currentUser || currentUser.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");
-  window.location.href = "../../Auth/login.html";
+  window.location.href = "../User_header_footer/login.html";
 }
 
 document.addEventListener("DOMContentLoaded", () => {

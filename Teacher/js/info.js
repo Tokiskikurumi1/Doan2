@@ -10,7 +10,7 @@ const district = document.getElementById("district");
 // Bảo vệ trang: chưa đăng nhập hoặc không phải giảng viên → đá về login
 if (!currentUser || currentUser.role !== "teacher") {
   alert("Vui lòng đăng nhập với tài khoản giảng viên!");
-  window.location.href = "../../Auth/login.html";
+  window.location.href = "../User_header_footer/login.html";
 }
 
 // ======================= HIỂN THỊ + ĐIỀN THÔNG TIN CÁ NHÂN =======================
@@ -21,7 +21,7 @@ function loadUserInfo() {
 
   if (!fullUserInfo) {
     alert("Không tìm thấy thông tin người dùng!");
-    window.location.href = "../../Auth/login.html";
+    window.location.href = "../User_header_footer/login.html";
     return;
   }
 
