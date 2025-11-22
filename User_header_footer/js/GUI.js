@@ -74,8 +74,11 @@ function setupDropdownHover(containerId) {
 setupDropdownHover('userContainer');
 setupDropdownHover('notificationContainer');
 
-
-
+document.getElementById("burgerToggle").addEventListener("click", function () {
+  const menu = document.getElementById("burgerMenu");
+  menu.classList.toggle("active");
+});
+  
 
 
 
