@@ -1,12 +1,11 @@
-const nameTeacher = localStorage.getItem("savedUsername");
-
+const user = JSON.parse(localStorage.getItem("currentUser"));
 const titleComback = document.querySelector(".title-comback");
 
 function render() {
   if (titleComback) {
     titleComback.innerHTML = `<h2>
             Chào mừng trở lại,
-            <span style="color: var(--blue-)">GV. ${nameTeacher}!</span> 👋
+            <span style="color: var(--blue-)">GV. ${user.name}!</span> 👋
           </h2>
           <p style="color: var(--grey)">Hôm nay: Thứ Bảy, 08/11/2025</p>
         `;
