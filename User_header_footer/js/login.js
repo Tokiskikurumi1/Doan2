@@ -65,7 +65,7 @@ function registerUser() {
       yourname,
       email,
       password,
-      role: "student",
+      role: "Học viên",
     });
     newUser.save();
     alert("Đăng ký thành công!");
@@ -111,9 +111,9 @@ function loginUser() {
   alert("Đăng nhập thành công!");
 
   // điều hướng theo role
-  if (user.role === "teacher") {
+  if (user.role === "Giảng viên") {
     window.location.href = "Teacher/teacher.html";
-  } else if (user.role === "student") {
+  } else if (user.role === "Học viên") {
     window.location.href = "info.html";
   } else {
     alert("Vai trò không hợp lệ.");
