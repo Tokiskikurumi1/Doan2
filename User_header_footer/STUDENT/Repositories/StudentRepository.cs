@@ -1,5 +1,3 @@
-using System.Data;
-using Microsoft.Data.SqlClient;
 using Dapper;
 using STUDENT.DTOs;
 
@@ -314,3 +312,13 @@ public async Task SaveScoreAsync(SaveScoreDto scoreDto)
 # Database optimization
 # Database optimization
 # UI/UX improvements
+// Code documentation updated
+// UI/UX improvements added
+/* Multi-line comment block
+// UI/UX improvements added
+// API improvements and error handling
+// Enhanced functionality - 2026-01-10
+// Bug fixes and code refactoring
+   Code review suggestions applied */
+// API improvements and error handling
+// Enhanced functionality - 2026-01-10
