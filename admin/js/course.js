@@ -3,7 +3,7 @@ const courseTableBody = document.getElementById("courseTableBody");
 const searchInput = document.getElementById("searchInput");
 const roleFilter = document.getElementById("roleFilter");
 
-// Modal (dùng lại modal bạn đặt tên là addUserModal)
+// Modal
 const modal = document.getElementById("editCourseModal");
 const saveBtn = document.getElementById("saveCourseBtn");
 const closeBtn = document.getElementById("closeModalBtn");
@@ -16,45 +16,7 @@ const teacherInput = document.getElementById("teacherInput");
 
 // Biến lưu ID khóa học đang sửa
 let editingCourseId = null;
-
-// ======================= DỮ LIỆU GIẢ =======================
-let courses = [
-  {
-    id: 1,
-    namecourse: "T750+",
-    desc: "Khóa học TOEIC 750+",
-    role: "toeic",
-    teacher: "Nguyễn Minh",
-  },
-  {
-    id: 2,
-    namecourse: "IELTS Master 8.0+",
-    desc: "Chiến lược đạt band 8.0+",
-    role: "ielts",
-    teacher: "Trần Anh",
-  },
-  {
-    id: 3,
-    namecourse: "TOEIC Foundation",
-    desc: "Dành cho người mới bắt đầu",
-    role: "toeic",
-    teacher: "Lê Hằng",
-  },
-  {
-    id: 4,
-    namecourse: "IELTS Writing Expert",
-    desc: "Task 2 đạt 7.0+",
-    role: "ielts",
-    teacher: "Phạm Linh",
-  },
-  {
-    id: 5,
-    namecourse: "TOEIC 900+",
-    desc: "Luyện đề chuyên sâu",
-    role: "toeic",
-    teacher: "Hoàng Nam",
-  },
-];
+let courses = JSON.parse(localStorage.getItem("courses") || "[]");
 
 // ======================= HIỂN THỊ BẢNG =======================
 function displayCourses(list) {
@@ -76,14 +38,14 @@ function displayCourses(list) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${course.id}</td>
-      <td><strong>${course.namecourse}</strong></td>
-      <td>${course.desc}</td>
+      <td><strong>${course.name}</strong></td>
+      <td>${course.detail}</td>
       <td>
-        <span class="badge ${course.role}">
-          ${course.role.toUpperCase()}
+        <span class="badge ${course.type}">
+          ${course.type.toUpperCase()}
         </span>
       </td>
-      <td>${course.teacher}</td>
+      <td>${course.teacherName}</td>
       <td class="actions">
         <button class="edit-btn" onclick="openEditModal(${
           course.id
@@ -108,11 +70,11 @@ function filterCourses() {
 
   const filtered = courses.filter((c) => {
     const matchesSearch =
-      c.namecourse.toLowerCase().includes(query) ||
-      c.desc.toLowerCase().includes(query) ||
-      c.teacher.toLowerCase().includes(query);
+      c.name.toLowerCase().includes(query) ||
+      c.detail.toLowerCase().includes(query) ||
+      c.teacherName.toLowerCase().includes(query);
 
-    const matchesCategory = category === "all" || c.role === category;
+    const matchesCategory = category === "all" || c.type === category;
 
     return matchesSearch && matchesCategory;
   });
@@ -127,42 +89,46 @@ function openEditModal(id) {
 
   editingCourseId = id;
 
-  // Đưa dữ liệu vào form
-  nameInput.value = course.namecourse;
-  descInput.value = course.desc;
-  roleInput.value = course.role;
-  teacherInput.value = course.teacher;
+  // Set data vào modal
+  nameInput.value = course.name;
+  descInput.value = course.detail;
+  roleInput.value = course.type;
+  teacherInput.value = course.teacherName;
 
-  // Hiện modal
-  modal.classList.add("show"); // hoặc dùng style.display = 'flex' nếu bạn dùng display
+  modal.classList.add("show");
 }
 
 // ======================= LƯU THAY ĐỔI =======================
 saveBtn.onclick = function () {
   if (!editingCourseId) return;
 
+  // Tìm vị trí khóa học cần sửa
+  const index = courses.findIndex((c) => c.id === editingCourseId);
+  if (index === -1) return alert("Không tìm thấy khóa học để cập nhật!");
+
+  const oldCourse = courses[index];
+
   const updatedCourse = {
-    id: editingCourseId,
-    namecourse: nameInput.value.trim(),
-    desc: descInput.value.trim(),
-    role: roleInput.value,
-    teacher: teacherInput.value.trim(),
+    ...oldCourse, // GIỮ TẤT CẢ CÁC FIELD KHÁC
+    name: nameInput.value.trim(),
+    detail: descInput.value.trim(),
+    type: roleInput.value,
+    teacherName: teacherInput.value.trim(),
   };
 
-  if (!updatedCourse.namecourse || !updatedCourse.teacher) {
+  if (!updatedCourse.name || !updatedCourse.teacherName) {
     alert("Vui lòng nhập đầy đủ tên khóa học và giảng viên!");
     return;
   }
 
-  // Cập nhật trong mảng
-  const index = courses.findIndex((c) => c.id === editingCourseId);
-  if (index !== -1) {
-    courses[index] = updatedCourse;
-  }
+  // Cập nhật mảng
+  courses[index] = updatedCourse;
+
+  // Lưu lại localStorage
+  localStorage.setItem("courses", JSON.stringify(courses));
 
   alert("Cập nhật khóa học thành công!");
 
-  // Đóng modal + cập nhật bảng
   modal.classList.remove("show");
   filterCourses();
 };
@@ -171,6 +137,7 @@ saveBtn.onclick = function () {
 function deleteCourse(id) {
   if (confirm("Bạn có chắc chắn muốn xóa khóa học này không?")) {
     courses = courses.filter((c) => c.id !== id);
+    localStorage.setItem("courses", JSON.stringify(courses));
     filterCourses();
   }
 }
@@ -181,17 +148,12 @@ closeBtn.onclick = function () {
   editingCourseId = null;
 };
 
-// Đóng khi click ngoài modal
 window.onclick = function (e) {
   if (e.target === modal) {
-    modal.classList.remove("active");
+    modal.classList.remove("show");
     editingCourseId = null;
   }
 };
-
-// ======================= SỰ KIỆN =======================
-searchInput.addEventListener("input", filterCourses);
-roleFilter.addEventListener("change", filterCourses);
 
 // ======================= KHỞI TẠO =======================
 displayCourses(courses);

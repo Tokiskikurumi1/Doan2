@@ -1,11 +1,4 @@
-// report.js (CẬP NHẬT) -------------------------
-/*
-  Tính năng:
-  - renderContent(type, from, to)
-  - lock(username) / unlock(username) cập nhật data.violations và render lại
-  - lọc theo ngày (from, to) cho users và revenue
-  - vẽ biểu đồ doanh thu trên canvas động
-*/
+
 
 const data = {
   users: {

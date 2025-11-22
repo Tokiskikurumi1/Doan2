@@ -4,7 +4,7 @@ const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
 // Nếu chưa đăng nhập hoặc không phải giảng viên → đá về login (bảo vệ trang)
 if (!currentUser || currentUser.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");
-  window.location.href = "../../Auth/login.html";
+  window.location.href = "../../User_header_footer/login.html";
 }
 
 // ========================== LOAD DATA ==========================
@@ -49,6 +49,7 @@ document.getElementById("create-course-form").onsubmit = function (e) {
   const course = {
     id: Date.now(),
     teacherId: currentUser.id,
+    teacherName: currentUser.name,
     name,
     type,
     status,
