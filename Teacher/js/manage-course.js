@@ -36,7 +36,7 @@ document.getElementById("course-image").onchange = function (e) {
   uploadedImageURL = URL.createObjectURL(file);
 };
 
-// ======================== CHỈ SỬA PHẦN NÀY THÊM teacherId ========================
+// ======================== THÊM teacherId ========================
 document.getElementById("create-course-form").onsubmit = function (e) {
   e.preventDefault();
 
@@ -48,7 +48,7 @@ document.getElementById("create-course-form").onsubmit = function (e) {
 
   const course = {
     id: Date.now(),
-    teacherId: currentUser.id, // ← THÊM DÒNG NÀY (ID giảng viên)
+    teacherId: currentUser.id,
     name,
     type,
     status,

@@ -168,7 +168,6 @@ function saveUser() {
       ? users.find((u) => u.id === editingUserId).created
       : new Date().toLocaleDateString("vi-VN"),
 
-    // Giữ nguyên phone và address nếu đang sửa (không bị mất)
     phone: editingUserId ? users.find((u) => u.id === editingUserId).phone : "",
     district: editingUserId
       ? users.find((u) => u.id === editingUserId).district

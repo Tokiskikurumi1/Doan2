@@ -3,43 +3,52 @@ fetch("components/sidebar.html")
   .then((response) => response.text())
   .then((html) => {
     document.getElementById("sidebar-placeholder").innerHTML = html;
-    // sideBarActive();
     restoreActiveMenu();
-  });
+    sideBarActive();
+  })
+  .catch((err) => console.error("Lỗi load sidebar:", err));
 
 // Load Header
 fetch("components/header.html")
   .then((response) => response.text())
   .then((html) => {
     document.getElementById("header-placeholder").innerHTML = html;
-    updateLoginStatus();
-    MenuToggle();
-  });
 
-// Menu toggle
+    // GỌI SAU KHI HEADER ĐÃ ĐƯỢC CHÈN VÀO DOM
+    updateLoginStatus();
+    MenuToggle(); // phải gọi ở đây, không gọi sớm quá!
+  })
+  .catch((err) => console.error("Lỗi load header:", err));
+
+// ==================== MENU TOGGLE ====================
 function MenuToggle() {
   const menuIcon = document.getElementById("menuIcon");
   const leftSlide = document.querySelector(".left-slide");
-  const overlay = document.getElementById("overlay"); // PHẢI KHAI BÁO DO CHƯA LOAD
+  const overlay = document.getElementById("overlay");
 
-  if (menuIcon && leftSlide && overlay) {
-    menuIcon.addEventListener("click", () => {
-      leftSlide.classList.toggle("active");
-      overlay.classList.toggle("active");
-    });
-    overlay.addEventListener("click", () => {
-      leftSlide.classList.remove("active");
-      overlay.classList.remove("active");
-    });
+  // Phải kiểm tra tồn tại (vì có thể đang ở trang không có header)
+  if (!menuIcon || !leftSlide || !overlay) {
+    return; // thoát nếu không có phần tử (trang login chẳng hạn)
   }
+
+  menuIcon.onclick = () => {
+    leftSlide.classList.toggle("active");
+    overlay.classList.toggle("active");
+  };
+
+  overlay.onclick = () => {
+    leftSlide.classList.remove("active");
+    overlay.classList.remove("active");
+  };
 }
 
+// ==================== ACTIVE MENU ====================
 function sideBarActive() {
   const links = document.querySelectorAll(".nav-bar-title ul li a");
 
   links.forEach((item, index) => {
     item.addEventListener("click", () => {
-      localStorage.setItem("activeMenu", index); // Lưu vị trí
+      localStorage.setItem("activeMenu", index);
     });
   });
 }
@@ -48,31 +57,50 @@ function restoreActiveMenu() {
   const links = document.querySelectorAll(".nav-bar-title ul li a");
   const activeIndex = localStorage.getItem("activeMenu");
 
-  if (activeIndex !== null) {
-    links.forEach((a) => a.classList.remove("active"));
+  if (!links.length) return; // nếu chưa load sidebar thì thôi
+
+  links.forEach((a) => a.classList.remove("active"));
+  if (activeIndex !== null && links[activeIndex]) {
     links[activeIndex].classList.add("active");
   }
 }
 
-/* HÀM KIỂM TRA ĐĂNG NHẬP*/
+// ==================== HIỂN THỊ THÔNG TIN NGƯỜI DÙNG ====================
 function updateLoginStatus() {
   const userInfo = document.querySelector(".user-info");
-  const currentUser = localStorage.getItem("savedUsername");
-  const currentPass = localStorage.getItem("savedPassword");
+  if (!userInfo) return;
 
-  if (currentUser && currentPass) {
+  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+
+  if (currentUser) {
     userInfo.innerHTML = `
       <div class="avatar">
         <i class="fa-solid fa-user"></i>
       </div>
-      <span style="font-weight: 500">GV. ${currentUser}</span>
+      <span style="font-weight: 500">
+        ${currentUser.role === "teacher" ? "GV. " : ""}${currentUser.name}
+      </span>
     `;
-    document.getElementById("logout").addEventListener("click", (e) => {
-      e.preventDefault();
-      localStorage.removeItem("savedUsername");
-      localStorage.removeItem("savedPassword");
-      localStorage.removeItem("savedRole");
-      window.location.reload();
-    });
+
+    // ĐĂNG XUẤT BẰNG LI – CHẠY 100%, KHÔNG BỊ ĐÈ SỰ KIỆN
+    const logoutItem = document.getElementById("logout");
+    if (logoutItem) {
+      // Xóa hết sự kiện cũ (nếu có) bằng cách clone
+      const newItem = logoutItem.cloneNode(true);
+      logoutItem.parentNode.replaceChild(newItem, logoutItem);
+
+      // Gắn sự kiện vào thẻ <li> mới
+      newItem.addEventListener("click", (e) => {
+        // Nếu bấm vào <a> bên trong thì vẫn chặn href
+        e.preventDefault();
+        if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+          localStorage.removeItem("currentUser");
+          localStorage.removeItem("activeMenu");
+          window.location.href = "../index.html";
+        }
+      });
+    }
+  } else {
+    userInfo.innerHTML = `<a href="../User_header_footer/login.html">Đăng nhập</a>`;
   }
 }

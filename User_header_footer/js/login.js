@@ -240,7 +240,12 @@ function registerUser() {
     email,
     password,
     role: "student",
-    createdAt: new Date().toISOString(),
+    created: new Date().toLocaleDateString("vi-VN"),
+    dob: "",
+    gender: "",
+    phone: "",
+    province: "",
+    district: "",
   };
 
   users.push(newUser);
@@ -271,13 +276,17 @@ function loginUser() {
     return alert("Tài khoản hoặc mật khẩu không đúng!");
   }
 
-  // CHỈ LƯU NHỮNG THỨ CẦN THIẾT (KHÔNG LƯU PASSWORD NỮA)
   const userInfo = {
     id: user.id,
-    username: user.username,
     name: user.name,
+    username: user.username,
     email: user.email,
     role: user.role,
+    dob: user.dob || "",
+    gender: user.gender || "",
+    phone: user.phone || "",
+    province: user.province || "",
+    district: user.district || "",
   };
 
   // LƯU ĐÚNG KEY

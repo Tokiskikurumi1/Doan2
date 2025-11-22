@@ -75,16 +75,33 @@
   background-color: var(--white);
 }
 
-.form-input:focus,
+/* .form-input:focus,
 #district:focus,
 #province:focus,
 #gender:focus {
   border-color: var(--blue-);
   background-color: var(--white);
-  box-shadow: 0 0 3px rgba(0, 123, 255, 0.35);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   outline: none;
+} */
+
+.action-btn-change-password {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+.submit-btn {
+  background-color: var(--blue-);
+  color: white;
 }
 
+#current-password:focus,
+#new-password:focus,
+#confirm-password:focus {
+  background-color: var(--white);
+  outline: none;
+}
 /* ========= MODAL  ========= */
 /* Nền mờ khi mở modal */
 .modal-change-password {
@@ -101,6 +118,13 @@
 /* Hiển thị modal khi thêm class "show" */
 .modal-change-password.show {
   display: flex;
+}
+
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--grey-border);
+  border-radius: 8px;
 }
 
 /* Khung nội dung modal */
@@ -153,11 +177,10 @@
 }
 
 /* Hiệu ứng focus */
-.form-input:focus {
+/* .form-input:focus {
   outline: none;
   border-color: var(--grey-border);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-}
+} */
 
 /* Nút hành động */
 .modal-btns {
