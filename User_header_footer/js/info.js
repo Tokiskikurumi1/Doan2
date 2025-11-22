@@ -1,25 +1,23 @@
-let listusers = JSON.parse(localStorage.getItem("listusers")) || {};
-let username = localStorage.getItem("currentUser");
+import { User } from './object.js';
 
-// khai báo biến để lấy thông tin người dùng hiện tại
-let inputYourname = document.querySelector(".input-yourname");
-let inputUsername = document.querySelector(".input-username");
-let inputEmail = document.querySelector(".input-email");
-let inputPhone = document.querySelector(".input-phone");
-let inputBob = document.querySelector(".input-bob");
-let inputProvince = document.querySelector(".input-province");
-let inputDistrict = document.querySelector(".input-district");
+const inputYourname = document.querySelector(".input-yourname");
+const inputUsername = document.querySelector(".input-username");
+const inputEmail = document.querySelector(".input-email");
+const inputPhone = document.querySelector(".input-phone");
+const inputBob = document.querySelector(".input-bob");
+const inputProvince = document.querySelector(".input-province");
+const inputDistrict = document.querySelector(".input-district");
 
-// Lấy tên người dùng hiện tại từ localStorage
-if (username && listusers[username]) {
-    let currentUserInfo = listusers[username];
-    inputYourname.textContent = currentUserInfo.yourname;
-    inputUsername.textContent = username;
-    inputEmail.textContent = currentUserInfo.email;
-    inputPhone.textContent = currentUserInfo.phone;
-    inputBob.textContent = currentUserInfo.bob;
-    inputProvince.textContent = currentUserInfo.province;
-    inputDistrict.textContent = currentUserInfo.district;
+const currentUser = User.loadCurrent();
+
+if (currentUser) {
+  inputYourname.textContent = currentUser.yourname;
+  inputUsername.textContent = currentUser.username;
+  inputEmail.textContent = currentUser.email;
+  inputPhone.textContent = currentUser.phone || "Chưa cập nhật";
+  inputBob.textContent = currentUser.bob || "Chưa cập nhật";
+  inputProvince.textContent = currentUser.province || "Chưa cập nhật";
+  inputDistrict.textContent = currentUser.district || "Chưa cập nhật";
 } else {
-    console.error("Người dùng hiện tại không tồn tại trong danh sách người dùng.");
+  console.error("Không tìm thấy thông tin người dùng hiện tại.");
 }
