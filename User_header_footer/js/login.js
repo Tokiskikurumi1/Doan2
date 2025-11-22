@@ -1,11 +1,11 @@
 // Kiểm tra người dùng tồn tại
 currentUser = localStorage.getItem("currentUser");
 window.addEventListener("DOMContentLoaded", () => {
-    let currentUser = localStorage.getItem("currentUser");
-    if (currentUser && listusers[currentUser]) {
-      window.location.href = "index.html";
-    }
-  });
+  let currentUser = localStorage.getItem("currentUser");
+  if (currentUser && listusers[currentUser]) {
+    window.location.href = "index.html";
+  }
+});
 
 // Hàm hiển thị form
 function showForm(formClass) {
@@ -103,8 +103,6 @@ function registerUser() {
   showForm("Auth-Login");
 }
 document.getElementById("signup-button").onclick = registerUser;
-
-
 // Hàm đăng nhập
 function loginUser() {
   //lấy thông tin người dùng từ localstorage
@@ -140,7 +138,6 @@ checkbox.addEventListener("change", function () {
     document.getElementById("login-button").onclick = loginUser;
   }
 });
-
 
 // Hàm đặt lại mật khẩu
 function resetPassword() {
