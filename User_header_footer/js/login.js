@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // Kiểm tra người dùng tồn tại
 currentUser = localStorage.getItem("currentUser");
 window.addEventListener("DOMContentLoaded", () => {
@@ -7,19 +6,19 @@ window.addEventListener("DOMContentLoaded", () => {
     window.location.href = "index.html";
   }
 });
-=======
 // login.js
-import { User, UserManager } from './object.js';
+import { User, UserManager } from "./object.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   showForm("Auth-Login");
 
-  document.querySelector(".link-forgot").onclick = () => showForm("Forgot-password");
-  document.querySelector(".link-signup").onclick = () => showForm("Auth-Signup");
+  document.querySelector(".link-forgot").onclick = () =>
+    showForm("Forgot-password");
+  document.querySelector(".link-signup").onclick = () =>
+    showForm("Auth-Signup");
   document.querySelectorAll(".link-login").forEach((el) => {
     el.onclick = () => showForm("Auth-Login");
   });
->>>>>>> a37cacc7f49e0a01e1a982f2c649c2c5cbb9ab6b
 
   document.getElementById("signup-button").onclick = registerUser;
   document.getElementById("login-button").onclick = loginUser;
@@ -43,11 +42,15 @@ function registerUser() {
   const username = document.getElementById("signup-username").value.trim();
   const email = document.getElementById("signup-email").value.trim();
   const password = document.getElementById("signup-password").value.trim();
-  const confirmPassword = document.getElementById("signup-password-confirm").value.trim();
+  const confirmPassword = document
+    .getElementById("signup-password-confirm")
+    .value.trim();
 
-  if (!usernameRegex.test(username)) return alert("Tên tài khoản không hợp lệ.");
+  if (!usernameRegex.test(username))
+    return alert("Tên tài khoản không hợp lệ.");
   if (!passwordRegex.test(password)) return alert("Mật khẩu không hợp lệ.");
-  if (password !== confirmPassword) return alert("Mật khẩu xác nhận không khớp.");
+  if (password !== confirmPassword)
+    return alert("Mật khẩu xác nhận không khớp.");
   if (!emailRegex.test(email)) return alert("Email không hợp lệ.");
 
   const users = UserManager.getAllUsers();
@@ -57,7 +60,13 @@ function registerUser() {
 
   // mặc định role là student khi đăng ký
   try {
-    const newUser = new User({ username, yourname, email, password, role: "student" });
+    const newUser = new User({
+      username,
+      yourname,
+      email,
+      password,
+      role: "student",
+    });
     newUser.save();
     alert("Đăng ký thành công!");
     showForm("Auth-Login");
@@ -65,12 +74,9 @@ function registerUser() {
     alert(err.message);
   }
 }
-<<<<<<< HEAD
 document.getElementById("signup-button").onclick = registerUser;
 // Hàm đăng nhập
-=======
 
->>>>>>> a37cacc7f49e0a01e1a982f2c649c2c5cbb9ab6b
 function loginUser() {
   const username = document.getElementById("login-username").value.trim();
   const password = document.getElementById("login-password").value.trim();
@@ -114,10 +120,7 @@ function loginUser() {
   }
 }
 
-<<<<<<< HEAD
 // Hàm đặt lại mật khẩu
-=======
->>>>>>> a37cacc7f49e0a01e1a982f2c649c2c5cbb9ab6b
 function resetPassword() {
   const email = document.getElementById("forgot-email").value.trim();
   const password = UserManager.getPasswordByEmail(email);
