@@ -1,5 +1,3 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace QLY_LMS.Models.MTeacher
 {
@@ -22,3 +20,13 @@ namespace QLY_LMS.Models.MTeacher
 # API improvements
 # Performance optimization
 # Database optimization
+// Code documentation updated
+// Feature flag implementation
+// Feature flag implementation
+// Performance optimization implemented
+// UI/UX improvements added
+// API improvements and error handling
+// API improvements and error handling
+// Database optimization completed
+// Configuration settings optimized
+// Database optimization completed

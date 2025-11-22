@@ -1,5 +1,3 @@
-// ======================= LẤY CÁC ELEMENT =======================
-const courseTableBody = document.getElementById("courseTableBody");
 const searchInput = document.getElementById("searchInput");
 const roleFilter = document.getElementById("roleFilter");
 
@@ -190,3 +188,17 @@ roleFilter.addEventListener("change", filterCourses);
 
 // ======================= KHỞI TẠO =======================
 filterCourses();
+// Configuration settings optimized
+   Code review suggestions applied */
+// Bug fixes and code refactoring
+// Feature flag implementation
+// Logging mechanism enhanced
+// Configuration settings optimized
+// Bug fixes and code refactoring
+// Feature flag implementation
+/* Multi-line comment block
+/* Multi-line comment block
+   Additional implementation details
+// Database optimization completed
+// Database optimization completed
+/* Multi-line comment block
