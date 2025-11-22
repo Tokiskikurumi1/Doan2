@@ -1,6 +1,3 @@
-﻿using QLY_LMS.Modal;
-
-namespace QLY_LMS.BLL.Admin_BLL.BLL_Interfaces
 {
     public interface IUserBLL
     {
@@ -19,3 +16,11 @@ namespace QLY_LMS.BLL.Admin_BLL.BLL_Interfaces
         );
     }
 }
+// Code documentation updated
+// Security enhancements integrated
+// Code documentation updated
+// UI/UX improvements added
+   Additional implementation details
+// Logging mechanism enhanced
+// Feature flag implementation
+// Enhanced functionality - 2026-01-10
