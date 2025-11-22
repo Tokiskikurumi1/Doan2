@@ -111,7 +111,7 @@ function loginUser() {
 
   alert("Đăng nhập thành công!");
   localStorage.setItem("currentUser", JSON.stringify(user));
-
+  // điều hướng theo role
   if (user.role === "teacher") {
     window.location.href = "../Teacher/teacher.html";
   } else if (user.role === "student") {
