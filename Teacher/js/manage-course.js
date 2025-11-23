@@ -1,12 +1,13 @@
 // ========================== LẤY THÔNG TIN GIẢNG VIÊN ĐANG ĐĂNG NHẬP ==========================
-const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+const currentUserId = localStorage.getItem("currentUser"); // chỉ là ID (chuỗi số)
+const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
+const currentUser = currentUserId ? allUsersData[currentUserId] : null;
 
-// Nếu chưa đăng nhập hoặc không phải giảng viên → đá về login (bảo vệ trang)
+// === BẢO VỆ TRANG: Nếu chưa đăng nhập HOẶC không phải giáo viên → đá về login ===
 if (!currentUser || currentUser.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");
   window.location.href = "../../User_header_footer/login.html";
 }
-
 // ========================== LOAD DATA ==========================
 let courses = JSON.parse(localStorage.getItem("courses")) || [];
 

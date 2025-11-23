@@ -1,14 +1,15 @@
-const user = JSON.parse(localStorage.getItem("currentUser"));
+// SỬA TẠI ĐÂY – lấy user từ ID
+const currentUserId = localStorage.getItem("currentUser");
+const usersObject = JSON.parse(localStorage.getItem("listusers")) || {};
+const user = currentUserId ? usersObject[currentUserId] : null;
 
 const titleComback = document.querySelector(".title-comback");
 
 function render() {
-  // BẮT BUỘC PHẢI KIỂM TRA USER CÓ TỒN TẠI KHÔNG
   if (!user) {
     titleComback.innerHTML = "<h2>Đang tải...</h2>";
-    // Nếu không có user → quay lại login sau 1 giây
     setTimeout(() => {
-      window.location.href = "../Auth/login.html";
+      window.location.href = "../User_header_footer/login.html";
     }, 1000);
     return;
   }

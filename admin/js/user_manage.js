@@ -29,7 +29,7 @@ function getUsersFromLocalStorage() {
       name: user.yourname || user.name || "Chưa đặt tên",
       yourname: user.yourname || user.name || "Chưa đặt tên",
       email: user.email || "",
-      role: user.role || "student", // chỉ chấp nhận "student" hoặc "teacher"
+      role: user.role || "student",
       username: user.username || "",
       password: user.password || "",
       phone: user.phone || "",

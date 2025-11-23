@@ -1,8 +1,16 @@
-const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+let currentUserId = localStorage.getItem("currentUser");
 
-// Bảo vệ trang
+if (currentUserId && currentUserId.startsWith("{")) {
+  const tempUser = JSON.parse(currentUserId);
+  currentUserId = tempUser.id;
+}
+
+const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
+const currentUser = currentUserId ? allUsersData[currentUserId] : null;
+
+// BẢO VỆ TRANG
 if (!currentUser || currentUser.role !== "teacher") {
-  alert("Vui lòng đăng nhập với tài khoản giảng viên!");
+  alert("Bạn không có quyền truy cập trang này!");
   window.location.href = "../User_header_footer/login.html";
 }
 
@@ -26,10 +34,7 @@ function loadUserInfo() {
   const usersObject = JSON.parse(rawData); // { "123": {user}, "456": {user} }
   const usersArray = Object.values(usersObject); // ← thành mảng
 
-  // SỬA 2: ÉP KIỂU ID VỀ STRING ĐỂ SO SÁNH AN TOÀN
-  const fullUserInfo = usersArray.find(
-    (u) => String(u.id) === String(currentUser.id)
-  );
+  const fullUserInfo = currentUser;
 
   if (!fullUserInfo) {
     console.error("Không tìm thấy user với id:", currentUser.id);
