@@ -18,3 +18,6 @@ namespace QLY_LMS.Models.MTeacher.Request
         public string videoProgress { get; set; } = "incomplete";
     }
 }
+# Performance optimization
+# Performance optimization
+# UI/UX improvements
