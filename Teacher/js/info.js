@@ -1,109 +1,114 @@
-let currentUserId = localStorage.getItem("currentUser");
+const fullNameInput = document.getElementById("full-name");
+const emailInput = document.getElementById("email");
+const phoneInput = document.getElementById("phone-number");
+const dobInput = document.getElementById("date-of-birth");
+const genderSelect = document.getElementById("gender");
+const provinceInput = document.getElementById("province");
+const districtInput = document.getElementById("district");
+const oldPasswordInput = document.getElementById("current-password");
+const newPasswordInput = document.getElementById("new-password");
+const confirmPasswordInput = document.getElementById("confirm-password");
+// HÀM LẤY USER
+function getCurrentUser() {
+  const raw = localStorage.getItem("currentUser");
+  if (!raw) return null;
 
-if (currentUserId && currentUserId.startsWith("{")) {
-  const tempUser = JSON.parse(currentUserId);
-  currentUserId = tempUser.id;
+  let userId = null;
+  if (/^\d+$/.test(raw.trim())) {
+    userId = raw.trim();
+  } else {
+    try {
+      const obj = JSON.parse(raw);
+      if (obj?.id) userId = obj.id;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  const allUsers = JSON.parse(localStorage.getItem("listusers") || "{}");
+  return allUsers[userId] || null;
 }
 
-const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
-const currentUser = currentUserId ? allUsersData[currentUserId] : null;
+const currentUser = getCurrentUser();
 
-// BẢO VỆ TRANG
 if (!currentUser || currentUser.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");
   window.location.href = "../User_header_footer/login.html";
 }
 
-const fullName = document.getElementById("full-name");
-const email = document.getElementById("email");
-const phoneNumber = document.getElementById("phone-number");
-const dateOfBirth = document.getElementById("date-of-birth");
-const gender = document.getElementById("gender");
-const province = document.getElementById("province");
-const district = document.getElementById("district");
-
-// ======================= LOAD THÔNG TIN =======================
+// Load thông tin
 function loadUserInfo() {
-  // SỬA 1: LẤY DỮ LIỆU TỪ "listusers" VÀ CHUYỂN THÀNH MẢNG
-  const rawData = localStorage.getItem("listusers");
-  if (!rawData) {
-    alert("Không có dữ liệu người dùng!");
+  if (!currentUser) {
     return;
   }
-
-  const usersObject = JSON.parse(rawData); // { "123": {user}, "456": {user} }
-  const usersArray = Object.values(usersObject); // ← thành mảng
-
-  const fullUserInfo = currentUser;
-
-  if (!fullUserInfo) {
-    console.error("Không tìm thấy user với id:", currentUser.id);
-    console.log("Danh sách user:", usersArray);
-    alert("Không tải được thông tin cá nhân! Vui lòng đăng nhập lại.");
-    window.location.href = "../User_header_footer/login.html";
-    return;
-  }
-
-  // Điền thông tin
-  fullName.value = fullUserInfo.yourname || "";
-  email.value = fullUserInfo.email || "";
-  phoneNumber.value = fullUserInfo.phone || "";
-  dateOfBirth.value = fullUserInfo.dob || "";
-  gender.value = fullUserInfo.gender || "";
-  province.value = fullUserInfo.province || "";
-  district.value = fullUserInfo.district || "";
-
-  // Cập nhật lại currentUser để chắc chắn
-  localStorage.setItem("currentUser", JSON.stringify(fullUserInfo));
+  fullNameInput.value = currentUser.yourname || "";
+  emailInput.value = currentUser.email || "";
+  phoneInput.value = currentUser.phone || "";
+  dobInput.value = currentUser.dob || "";
+  genderSelect.value = currentUser.gender || "";
+  provinceInput.value = currentUser.province || "";
+  districtInput.value = currentUser.district || "";
 }
 
 document.addEventListener("DOMContentLoaded", loadUserInfo);
 
-// ======================= LƯU THÔNG TIN =======================
-document.getElementById("save-btn")?.addEventListener("click", function () {
+// Lưu thông tin
+document.getElementById("save-btn")?.addEventListener("click", () => {
+  if (!fullNameInput.value.trim()) {
+    alert("Họ và tên không được để trống!");
+    return;
+  }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailInput.value.trim() || !emailRegex.test(emailInput.value.trim())) {
+    alert(
+      "Email không hợp lệ! Vui lòng nhập đúng định dạng (ví dụ: abc@gmail.com)"
+    );
+    return;
+  }
+
+  let phoneToSave = ""; // mặc định để trống
+  if (phoneInput.value.trim() !== "") {
+    if (/[^0-9\s\-\+\(\)]/.test(phoneInput.value)) {
+      return alert(
+        "Số điện thoại không được chứa chữ cái hoặc ký tự đặc biệt!"
+      );
+    }
+
+    const phoneDigits = phoneInput.value.replace(/\D/g, "");
+    if (phoneDigits.length !== 10) {
+      return alert("Số điện thoại phải đúng 10 chữ số!");
+    }
+
+    phoneToSave = phoneDigits;
+  }
+
   const updatedData = {
-    yourname: fullName.value.trim(),
-    email: email.value.trim(),
-    phone: phoneNumber.value.trim(),
-    dob: dateOfBirth.value,
-    gender: gender.value,
-    province: province.value.trim(),
-    district: district.value.trim(),
+    yourname: fullNameInput.value.trim(),
+    email: emailInput.value.trim(),
+    phone: phoneToSave,
+    dob: dobInput.value,
+    gender: genderSelect.value,
+    province: provinceInput.value.trim(),
+    district: districtInput.value.trim(),
   };
 
-  // LẤY DỮ LIỆU TỪ listusers ĐÚNG CÁCH
-  const rawData = localStorage.getItem("listusers");
-  const usersObject = rawData ? JSON.parse(rawData) : {};
-
-  if (usersObject[currentUser.id]) {
-    // Cập nhật user trong danh sách
-    usersObject[currentUser.id] = {
-      ...usersObject[currentUser.id],
-      ...updatedData,
-    };
-    localStorage.setItem("listusers", JSON.stringify(usersObject));
-
-    // Cập nhật currentUser
-    localStorage.setItem(
-      "currentUser",
-      JSON.stringify({ ...currentUser, ...updatedData })
-    );
-
-    alert("Cập nhật thông tin thành công!");
-  } else {
-    alert("Lỗi: Không tìm thấy tài khoản!");
+  const allUsers = JSON.parse(localStorage.getItem("listusers") || "{}");
+  if (allUsers[currentUser.id]) {
+    allUsers[currentUser.id] = { ...allUsers[currentUser.id], ...updatedData };
+    localStorage.setItem("listusers", JSON.stringify(allUsers));
+    localStorage.setItem("currentUser", currentUser.id); // CHỈ LƯU ID!
+    alert("Cập nhật thành công!");
   }
 });
 
-// ======================= ĐỔI MẬT KHẨU =======================
+// ======================= ĐỔI MẬT KHẨU  =======================
 document
   .getElementById("change-password-btn")
   ?.addEventListener("click", () => {
-    const modal = document.getElementById("modal-change-password");
-    if (modal) modal.classList.add("show");
+    document.getElementById("modal-change-password")?.classList.add("show");
   });
 
-// ======================= ĐÓNG MODAL =======================
+// Đóng modal
 function closeModal() {
   const modal = document.getElementById("modal-change-password");
   if (modal) {
@@ -112,52 +117,60 @@ function closeModal() {
   }
 }
 
-// Đóng khi click nền hoặc nút Hủy
 document
   .getElementById("modal-change-password")
-  ?.addEventListener("click", function (e) {
-    if (e.target === this || e.target.classList.contains("cancel-btn")) {
+  ?.addEventListener("click", (e) => {
+    if (
+      e.target === e.currentTarget ||
+      e.target.classList.contains("cancel-btn")
+    ) {
       closeModal();
     }
   });
 
-// ======================= XỬ LÝ ĐỔI MẬT KHẨU =======================
+// XỬ LÝ ĐỔI MẬT KHẨU
 document.addEventListener("DOMContentLoaded", () => {
-  const changePassForm = document.querySelector("#modal-change-password form");
-  if (!changePassForm) return;
+  const form = document.querySelector("#modal-change-password form");
+  if (!form) return;
 
-  changePassForm.addEventListener("submit", function (e) {
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const oldPass = document.getElementById("current-password").value;
-    const newPass = document.getElementById("new-password").value;
-    const confirmPass = document.getElementById("confirm-password").value;
+    const oldPass = oldPasswordInput.value.trim();
+    const newPass = newPasswordInput.value;
+    const confirmPass = confirmPasswordInput.value;
 
-    if (!oldPass || !newPass || !confirmPass)
-      return alert("Vui lòng nhập đầy đủ thông tin!");
-
-    if (newPass !== confirmPass) return alert("Mật khẩu xác nhận không khớp!");
-
-    if (newPass.length < 8)
+    // Validate
+    if (!oldPass || !newPass || !confirmPass) {
+      return alert("Vui lòng nhập đầy đủ các trường!");
+    }
+    if (newPass !== confirmPass) {
+      return alert("Mật khẩu xác nhận không khớp!");
+    }
+    if (newPass.length < 8) {
       return alert("Mật khẩu mới phải có ít nhất 8 ký tự!");
+    }
 
-    // Lấy dữ liệu listusers
-    const rawData = localStorage.getItem("listusers");
-    if (!rawData) return alert("Lỗi hệ thống!");
+    // Lấy dữ liệu thật từ listusers
+    const allUsers = JSON.parse(localStorage.getItem("listusers") || "{}");
+    const user = allUsers[currentUser.id]; // currentUser lấy từ hàm getCurrentUser() ở trên
 
-    const usersObject = JSON.parse(rawData);
-    const user = usersObject[currentUser.id];
-
-    if (!user) return alert("Không tìm thấy tài khoản!");
-
-    if (user.password !== oldPass)
+    if (!user) {
+      return alert("Lỗi hệ thống: Không tìm thấy tài khoản!");
+    }
+    if (user.password !== oldPass) {
       return alert("Mật khẩu hiện tại không đúng!");
+    }
 
     // Cập nhật mật khẩu mới
     user.password = newPass;
-    localStorage.setItem("listusers", JSON.stringify(usersObject));
+    allUsers[currentUser.id] = user;
+
+    localStorage.setItem("listusers", JSON.stringify(allUsers));
 
     alert("Đổi mật khẩu thành công! Vui lòng đăng nhập lại.");
+
+    // Đăng xuất
     localStorage.removeItem("currentUser");
     window.location.href = "../User_header_footer/login.html";
   });
