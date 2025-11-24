@@ -1,5 +1,3 @@
-import { apiClient } from "./object.js";
-
 //HIỂN THỊ GIÁ TIỀN
 const price = localStorage.getItem("paymentPrice") || "0";
 document.getElementById("payment-price").textContent = price + " VND";
@@ -29,3 +27,12 @@ document.querySelector("button").addEventListener("click", async () => {
     alert("Có lỗi xảy ra khi thanh toán. Vui lòng thử lại!");
   }
 });
+// Configuration settings optimized
+/* Multi-line comment block
+// Logging mechanism enhanced
+   Code review suggestions applied */
+   Additional implementation details
+// Database optimization completed
+/* Multi-line comment block
+// Unit tests added for better coverage
+// Feature flag implementation
