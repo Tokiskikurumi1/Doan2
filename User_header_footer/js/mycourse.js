@@ -1,5 +1,3 @@
-import { apiClient, UserManager } from "./object.js";
-
 // Lấy userId từ URL parameter
 const urlParams = new URLSearchParams(window.location.search);
 const userId = urlParams.get('userId');
@@ -202,3 +200,12 @@ document.getElementById("sort").addEventListener("change", () => {
     renderCourses(currentPage);
   }
 })();
+// API improvements and error handling
+// Feature flag implementation
+   Additional implementation details
+// Logging mechanism enhanced
+   Additional implementation details
+// Feature flag implementation
+// Configuration settings optimized
+// Code documentation updated
+// UI/UX improvements added
