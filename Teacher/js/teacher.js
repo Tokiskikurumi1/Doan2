@@ -1,10 +1,17 @@
-// SỬA TẠI ĐÂY – lấy user từ ID
+// lấy user từ ID
 const currentUserId = localStorage.getItem("currentUser");
 const usersObject = JSON.parse(localStorage.getItem("listusers")) || {};
 const user = currentUserId ? usersObject[currentUserId] : null;
 
+// lấy số liệu
+const courses = JSON.parse(localStorage.getItem("courses")) || [];
+const assignments = JSON.parse(localStorage.getItem("assignments")) || [];
+const totalCourses = document.getElementById("total-courses");
+const totalExercises = document.getElementById("total-exercises");
 const titleComback = document.querySelector(".title-comback");
 
+totalCourses.textContent = courses.length;
+totalExercises.textContent = assignments.length;
 function render() {
   if (!user) {
     titleComback.innerHTML = "<h2>Đang tải...</h2>";
