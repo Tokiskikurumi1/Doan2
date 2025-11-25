@@ -188,6 +188,7 @@ function Delete(id) {
     users = users.filter((u) => u.id !== id);
     saveUsersToLocalStorage(users);
     filterUsers();
+    displayUsers(users);
   }
 }
 
