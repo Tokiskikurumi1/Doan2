@@ -147,3 +147,92 @@ export class UserManager {
     return Object.values(this.getAllUsers()).find((u) => u.username === username) || null;
   }
 }
+export class CourseReader {
+  /**
+   * options:
+   *  - coursesKey: key lưu courses trong localStorage (mặc định "courses")
+   *  - selectedCourseIdKey: key lưu selectedCourseId (mặc định "selectedCourseId")
+   *  - teacherNameKey: key lưu tên giáo viên (mặc định "savedUsername")
+   */
+  constructor(options = {}) {
+    this.coursesKey = options.coursesKey || "courses";
+    this.selectedCourseIdKey = options.selectedCourseIdKey || "selectedCourseId";
+    this.teacherNameKey = options.teacherNameKey || "savedUsername";
+
+    this._rawCourses = this._loadRawCourses();
+    this.selectedCourseId = localStorage.getItem(this.selectedCourseIdKey) || null;
+    this.teacherName = localStorage.getItem(this.teacherNameKey) || "";
+  }
+
+  // ----- Nội bộ: đọc courses từ localStorage, trả về mảng (bảo toàn cấu trúc lưu trữ) -----
+  _loadRawCourses() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(this.coursesKey));
+      if (!raw) return [];
+      // nếu lưu dưới dạng object keyed-by-id, chuyển về mảng
+      if (!Array.isArray(raw) && typeof raw === "object") {
+        return Object.values(raw);
+      }
+      return raw;
+    } catch (e) {
+      console.error("CourseReader: lỗi đọc courses từ localStorage", e);
+      return [];
+    }
+  }
+
+  // ----- Lấy tất cả courses (mảng) -----
+  getAllCourses() {
+    // trả về clone để tránh sửa nhầm dữ liệu gốc
+    return JSON.parse(JSON.stringify(this._rawCourses));
+  }
+
+  // ----- Lấy course theo id (trả về null nếu không tìm thấy) -----
+  getCourseById(id) {
+    if (!id) return null;
+    const found = this._rawCourses.find(c => String(c.id) === String(id));
+    return found ? JSON.parse(JSON.stringify(found)) : null;
+  }
+
+  // ----- Lấy course đang được chọn (theo selectedCourseId) -----
+  getSelectedCourse() {
+    if (!this.selectedCourseId) return null;
+    return this.getCourseById(this.selectedCourseId);
+  }
+
+  // ----- Lấy chi tiết course (object chuẩn) cho id hoặc selected -----
+  getCourseDetails(id = null) {
+    const course = id ? this.getCourseById(id) : this.getSelectedCourse();
+    if (!course) return null;
+
+    // chuẩn hóa các trường thường dùng
+    return {
+      id: course.id,
+      name: course.name || "",
+      type: course.type || "",
+      date: course.date || "",
+      price: typeof course.price === "number" ? course.price : (Number(course.price) || 0),
+      detail: course.detail || "",
+      status: course.status || "",
+      teacher: course.teacher || this.teacherName || "",
+      videos: Array.isArray(course.videos) ? course.videos.map(v => ({
+        id: v.id,
+        title: v.title,
+        url: v.url
+      })) : []
+    };
+  }
+
+  // ----- Lấy danh sách video của course (theo id hoặc selected) -----
+  getVideos(id = null) {
+    const course = id ? this.getCourseById(id) : this.getSelectedCourse();
+    if (!course) return [];
+    return Array.isArray(course.videos) ? JSON.parse(JSON.stringify(course.videos)) : [];
+  }
+
+  // ----- Tải lại dữ liệu từ localStorage (nếu cần refresh) -----
+  reload() {
+    this._rawCourses = this._loadRawCourses();
+    this.selectedCourseId = localStorage.getItem(this.selectedCourseIdKey) || null;
+    this.teacherName = localStorage.getItem(this.teacherNameKey) || "";
+  }
+}
