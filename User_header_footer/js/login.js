@@ -80,8 +80,7 @@ function loginUser() {
     alert("Vui lòng nhập đầy đủ thông tin và chọn vai trò.");
     return;
   }
-
-  const users = UserManager.getAllUsers();
+const users = UserManager.getAllUsers();
   const user = Object.values(users).find((u) => u.username === username);
 
   if (!user) {
