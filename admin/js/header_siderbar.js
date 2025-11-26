@@ -1,5 +1,5 @@
 // Load Sidebar
-fetch("components/sidebar.html")
+fetch("Components/sidebar.html")
   .then((response) => response.text())
   .then((html) => {
     document.getElementById("sidebar-placeholder").innerHTML = html;
@@ -9,7 +9,7 @@ fetch("components/sidebar.html")
   .catch((err) => console.error("Lỗi load sidebar:", err));
 
 // Load Header
-fetch("components/header.html")
+fetch("Components/header.html")
   .then((response) => response.text())
   .then((html) => {
     document.getElementById("header-placeholder").innerHTML = html;
