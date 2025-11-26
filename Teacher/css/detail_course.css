@@ -342,16 +342,19 @@
 }
 
 .create-homework-btn:hover {
-  background-color: #218838;
+  background-color: var(--green);
 }
 
 .edit-video-btn {
-  background-color: #007bff;
+  display: none;
+  background-color: var(--blue-);
   color: white;
 }
 
 .delete-video {
-  background-color: #dc3545;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--red);
   color: white;
 }
 /* ======================================= ANIMATIONS ======================================= */
