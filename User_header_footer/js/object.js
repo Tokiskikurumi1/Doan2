@@ -1,184 +1,149 @@
-// object.js
-// Course model + CourseManager để chuẩn hóa thao tác với localStorage
-
-export class Course {
+export class User {
   constructor({
     id = null,
-    name = "",
-    type = "",       // ví dụ: "course" hoặc "book"
-    date = "",
-    detail = "",
-    price = 0,
-    status = "draft", // ví dụ: draft, published
-    videos = [],     // mảng {id, title, url}
-    teacher = "",    // username hoặc tên giáo viên
-    rating = 0,
-    level = ""       // easy, medium, hard
-  } = {}) {
+    username,
+    yourname,
+    email,
+    phone = "",
+    dob = "", // ngày sinh
+    province = "",
+    district = "",
+    password = "",
+    role = ""
+  }) {
+    //username
+    const usernameRegex = /^[a-zA-Z0-9]{4,12}$/;
+    if (!username || !usernameRegex.test(username)) {
+      throw new Error("Tên tài khoản phải từ 4-12 ký tự, chỉ gồm chữ và số");
+    }
+
+    //họ tên
+    const nameRegex = /^[\p{L}\s]+$/u;
+    if (!yourname || !nameRegex.test(yourname)) {
+      throw new Error("Họ và tên chỉ được chứa chữ cái và khoảng trắng");
+    }
+
+    //email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+      throw new Error("Email không hợp lệ");
+    }
+
+    //số điện thoại
+    const phoneRegex = /^\+84\d{9,10}$/;
+    if (phone && !phoneRegex.test(phone)) {
+      throw new Error("Số điện thoại phải có định dạng +84xxxxxxxxx");
+    }
+
+    //mật khẩu
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!password || !passwordRegex.test(password)) {
+      throw new Error("Mật khẩu phải ít nhất 8 ký tự, gồm chữ và số");
+    }
+
+    //role
+    if (!["student", "teacher"].includes(role)) {
+      throw new Error("Vai trò phải là 'student' hoặc 'teacher'");
+    }
+
+    //ngày sinh
+    if (dob && isNaN(Date.parse(dob))) {
+      throw new Error("Ngày sinh không hợp lệ");
+    }
+
     this.id = id || Date.now().toString();
-    this.name = name;
-    this.type = type;
-    this.date = date;
-    this.detail = detail;
-    this.price = price;
-    this.status = status;
-    this.videos = Array.isArray(videos) ? videos : [];
-    this.teacher = teacher;
-    this.rating = rating;
-    this.level = level;
+    this.username = username;
+    this.yourname = yourname;
+    this.email = email;
+    this.phone = phone;
+    this.dob = dob;
+    this.province = province;
+    this.district = district;
+    this.password = password;
+    this.role = role;
+  }
+
+  save() {
+    const users = UserManager.getAllUsers();
+
+    // kiểm tra trùng username
+    const exists = Object.values(users).some((u) => u.username === this.username);
+    if (exists) {
+      throw new Error("Tên tài khoản đã tồn tại");
+    }
+
+    if (UserManager.isEmailTaken(this.email)) {
+      throw new Error("Email đã được sử dụng");
+    }
+
+    users[this.id] = this; // lưu theo id
+    UserManager.saveAllUsers(users);
+  }
+
+  static loadCurrent() {
+    const id = UserManager.getCurrentUser();
+    const users = UserManager.getAllUsers();
+    if (id && users[id]) {
+      return new User(users[id]);
+    }
+    return null;
   }
 }
 
-export class CourseManager {
-  static COURSES_KEY = "courses";
-  static SELECTED_KEY = "selectedCourseId";
-  static SAVED_USERNAME_KEY = "savedUsername";
-
-  // Lấy mảng courses (raw array)
-  static getAllCourses() {
+export class UserManager {
+  static getAllUsers() {
     try {
-      return JSON.parse(localStorage.getItem(this.COURSES_KEY)) || [];
+      return JSON.parse(localStorage.getItem("listusers")) || {};
     } catch (e) {
-      console.error("CourseManager: lỗi đọc courses từ localStorage", e);
-      return [];
+      console.error("Lỗi đọc dữ liệu:", e);
+      return {};
     }
   }
 
-  // Lưu mảng courses
-  static saveAllCourses(courses) {
-    localStorage.setItem(this.COURSES_KEY, JSON.stringify(courses || []));
+  static saveAllUsers(users) {
+    localStorage.setItem("listusers", JSON.stringify(users));
   }
 
-  // Lấy course theo id (trả về tham chiếu tới phần tử trong mảng)
-  static getCourseById(id) {
-    const courses = this.getAllCourses();
-    return courses.find((c) => String(c.id) === String(id)) || null;
+  static getCurrentUser() {
+    return localStorage.getItem("currentUser");
   }
 
-  // Lấy course đang được chọn (dựa trên selectedCourseId)
-  static getSelectedCourse() {
-    const id = this.getSelectedCourseId();
-    if (!id) return null;
-    return this.getCourseById(id);
+  static setCurrentUser(id) {
+    localStorage.setItem("currentUser", id);
   }
 
-  // Lưu (cập nhật) một course object (course phải có id)
-  // Nếu course không tồn tại sẽ ném lỗi
-  static saveCourse(course) {
-    if (!course || !course.id) throw new Error("CourseManager.saveCourse: course không hợp lệ");
-    const courses = this.getAllCourses();
-    const idx = courses.findIndex((c) => String(c.id) === String(course.id));
-    if (idx === -1) {
-      // nếu không tìm thấy, thêm mới
-      courses.push(course);
-    } else {
-      courses[idx] = course;
-    }
-    this.saveAllCourses(courses);
+  static userExistsById(id) {
+    return !!this.getAllUsers()[id];
   }
 
-  // Thêm course mới (trả về course đã thêm)
-  static addCourse(courseData = {}) {
-    const courses = this.getAllCourses();
-    const course = courseData instanceof Course ? courseData : new Course(courseData);
-    courses.push(course);
-    this.saveAllCourses(courses);
-    return course;
+  static userExistsByUsername(username) {
+    return Object.values(this.getAllUsers()).some((u) => u.username === username);
   }
 
-  // Xóa course theo id
-  static deleteCourse(id) {
-    let courses = this.getAllCourses();
-    courses = courses.filter((c) => String(c.id) !== String(id));
-    this.saveAllCourses(courses);
+  static isEmailTaken(email) {
+    return Object.values(this.getAllUsers()).some((u) => u.email === email);
   }
 
-  // Set / get selectedCourseId
-  static setSelectedCourseId(id) {
-    if (id === null || id === undefined) {
-      localStorage.removeItem(this.SELECTED_KEY);
-    } else {
-      localStorage.setItem(this.SELECTED_KEY, String(id));
-    }
+  static validateLogin(username, password, role = null) {
+    const users = this.getAllUsers();
+    const user = Object.values(users).find((u) => u.username === username);
+    if (!user) return false;
+    if (user.password !== password) return false;
+    if (role && user.role !== role) return false;
+    return true;
   }
 
-  static getSelectedCourseId() {
-    return localStorage.getItem(this.SELECTED_KEY);
+  static getPasswordByEmail(email) {
+    const users = this.getAllUsers();
+    const user = Object.values(users).find((u) => u.email === email);
+    return user ? user.password : null;
   }
 
-  // Lưu / lấy tên giáo viên đã lưu (savedUsername)
-  static setSavedUsername(username) {
-    if (username === null || username === undefined) {
-      localStorage.removeItem(this.SAVED_USERNAME_KEY);
-    } else {
-      localStorage.setItem(this.SAVED_USERNAME_KEY, String(username));
-    }
+  static getUserById(id) {
+    return this.getAllUsers()[id] || null;
   }
 
-  static getSavedUsername() {
-    return localStorage.getItem(this.SAVED_USERNAME_KEY);
-  }
-
-  // ===== Video helpers (thao tác trực tiếp trên courses array) =====
-
-  // Thêm video vào course (trả về video mới)
-  static addVideoToCourse(courseId, { id = null, title = "", url = "" } = {}) {
-    const courses = this.getAllCourses();
-    const idx = courses.findIndex((c) => String(c.id) === String(courseId));
-    if (idx === -1) throw new Error("CourseManager.addVideoToCourse: Course không tồn tại");
-    const video = { id: id || Date.now(), title, url };
-    courses[idx].videos = courses[idx].videos || [];
-    courses[idx].videos.push(video);
-    this.saveAllCourses(courses);
-    return video;
-  }
-
-  // Cập nhật video trong course (videoData phải có id)
-  static updateVideoInCourse(courseId, videoData = {}) {
-    if (!videoData || !videoData.id) throw new Error("CourseManager.updateVideoInCourse: videoData không hợp lệ");
-    const courses = this.getAllCourses();
-    const idx = courses.findIndex((c) => String(c.id) === String(courseId));
-    if (idx === -1) throw new Error("CourseManager.updateVideoInCourse: Course không tồn tại");
-    const videos = courses[idx].videos || [];
-    const vidIdx = videos.findIndex((v) => String(v.id) === String(videoData.id));
-    if (vidIdx === -1) throw new Error("CourseManager.updateVideoInCourse: Video không tồn tại");
-    videos[vidIdx] = { ...videos[vidIdx], ...videoData };
-    courses[idx].videos = videos;
-    this.saveAllCourses(courses);
-    return videos[vidIdx];
-  }
-
-  // Xóa video khỏi course
-  static deleteVideoFromCourse(courseId, videoId) {
-    const courses = this.getAllCourses();
-    const idx = courses.findIndex((c) => String(c.id) === String(courseId));
-    if (idx === -1) throw new Error("CourseManager.deleteVideoFromCourse: Course không tồn tại");
-    courses[idx].videos = (courses[idx].videos || []).filter((v) => String(v.id) !== String(videoId));
-    this.saveAllCourses(courses);
-  }
-
-  // Trả về index của course trong mảng (hoặc -1)
-  static findCourseIndexById(id) {
-    const courses = this.getAllCourses();
-    return courses.findIndex((c) => String(c.id) === String(id));
+  static getUserByUsername(username) {
+    return Object.values(this.getAllUsers()).find((u) => u.username === username) || null;
   }
 }
-
-// ========================== Backwards compatibility helpers ==========================
-// Các hàm này giúp chuyển mã hiện tại (detail_course.js) sang dùng CourseManager
-// Nếu bạn muốn giữ nguyên detail_course.js hiện tại, chỉ cần thay thế các thao tác localStorage
-// bằng các hàm tương ứng của CourseManager.
-
-// Ví dụ sử dụng tương đương với mã gốc:
-// let courses = CourseManager.getAllCourses();
-// const courseId = CourseManager.getSelectedCourseId();
-// const nameTeacher = CourseManager.getSavedUsername();
-// const course = CourseManager.getCourseById(courseId);
-
-// Hoặc để lấy tham chiếu trực tiếp:
-// const coursesRef = CourseManager.getAllCourses();
-// const courseRef = coursesRef.find(c => String(c.id) === String(courseId));
-// (sau đó sửa courseRef và gọi CourseManager.saveAllCourses(coursesRef) hoặc CourseManager.saveCourse(courseRef))
-
-// ========================== Export mặc định (tuỳ chọn) ==========================
-// Không export mặc định để giữ rõ ràng các export named
