@@ -43,8 +43,7 @@ function updateCourse(type = "ALL") {
   listCourse.style.display = "grid";
 
   filteredCourses.forEach((course) => {
-    const courseImg =
-      course.image_url || "../img/image_course/image-course.png"; // LẤY ẢNH TỪ LOCALSTORAGE
+    const courseImg = course.image || "../img/image_course/image-course.png";
 
     listCourse.innerHTML += `
       <div class="item-course" data-id="${course.id}">

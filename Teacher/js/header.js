@@ -70,7 +70,9 @@ function updateLoginStatus() {
   const userInfo = document.querySelector(".user-info");
   if (!userInfo) return;
 
-  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+  const currentUserId = localStorage.getItem("currentUser");
+  const usersObject = JSON.parse(localStorage.getItem("listusers")) || {};
+  const currentUser = currentUserId ? usersObject[currentUserId] : null;
 
   if (currentUser) {
     userInfo.innerHTML = `
@@ -78,7 +80,7 @@ function updateLoginStatus() {
         <i class="fa-solid fa-user"></i>
       </div>
       <span style="font-weight: 500">
-        ${currentUser.role === "teacher" ? "GV. " : ""}${currentUser.name}
+        ${currentUser.role === "teacher" ? "GV. " : ""}${currentUser.yourname}
       </span>
     `;
 

@@ -1,10 +1,12 @@
 // ======================= LẤY THÔNG TIN GIẢNG VIÊN ĐANG ĐĂNG NHẬP =======================
-const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+const currentUserId = localStorage.getItem("currentUser"); // chỉ là ID
+const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
+const currentUser = currentUserId ? allUsersData[currentUserId] : null;
 
-// Bảo vệ trang
+// BẢO VỆ TRANG: Không đăng nhập hoặc không phải giáo viên → đá về login
 if (!currentUser || currentUser.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");
-  window.location.href = "../../Auth/login.html";
+  window.location.href = "../User_header_footer/login.html";
 }
 
 document.addEventListener("DOMContentLoaded", () => {

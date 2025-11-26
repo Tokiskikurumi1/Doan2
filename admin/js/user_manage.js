@@ -7,89 +7,74 @@ const addUserModal = document.getElementById("addUserModal");
 const nameInput = document.getElementById("nameInput");
 const emailInput = document.getElementById("emailInput");
 const roleInput = document.getElementById("roleInput");
-const statusInput = document.getElementById("statusInput");
 const usernameInput = document.getElementById("usernameInput");
 const passwordInput = document.getElementById("passwordInput");
 const saveUserBtn = document.getElementById("saveUserBtn");
 const closeModalBtn = document.getElementById("closeModalBtn");
 
 let editingUserId = null;
+let users = []; // mảng user hiện tại
 
-// Hàm lấy dữ liệu từ localStorage
+// Lấy dữ liệu từ localStorage (không có thì trả về mảng rỗng)
 function getUsersFromLocalStorage() {
-  const data = localStorage.getItem("users");
-  if (data) {
-    const users = JSON.parse(data);
+  const data = localStorage.getItem("listusers");
+  if (!data) return [];
 
-    // Lưu lại để lần sau không cần thêm nữa
-    saveUsersToLocalStorage(users);
-    return users;
-  } else {
-    // Dữ liệu mẫu lần đầu chạy
-    const defaultUsers = [
-      {
-        id: 1,
-        name: "Nguyễn Văn A",
-        email: "a@gmail.com",
-        role: "teacher",
-        phone: "0901234567",
-        address: "Quận 1, TP.HCM",
-        created: "2024-10-01",
-        username: "admin",
-        password: "123456",
-      },
-      {
-        id: 2,
-        name: "Trần Thị B",
-        email: "b@gmail.com",
-        username: "student1",
-        password: "123456",
-        role: "student",
-        phone: "",
-        address: "",
-        created: "2024-10-03",
-      },
-      {
-        id: 3,
-        name: "Lê Văn C",
-        email: "c@gmail.com",
-        username: "student2",
-        password: "123456",
-        role: "student",
-        phone: "",
-        address: "",
-        created: "2024-10-05",
-      },
-    ];
-    saveUsersToLocalStorage(defaultUsers);
-    return defaultUsers;
+  try {
+    const usersObj = JSON.parse(data);
+    const usersArray = Object.values(usersObj);
+
+    return usersArray.map((user) => ({
+      id: String(user.id || Date.now()),
+      name: user.yourname || user.name || "Chưa đặt tên",
+      yourname: user.yourname || user.name || "Chưa đặt tên",
+      email: user.email || "",
+      role: user.role || "student",
+      username: user.username || "",
+      password: user.password || "",
+      phone: user.phone || "",
+      address: user.address || "",
+      created: user.created || new Date().toLocaleDateString("vi-VN"),
+    }));
+  } catch (e) {
+    console.error("Lỗi đọc dữ liệu người dùng:", e);
+    return [];
   }
 }
 
-// Hàm lưu mảng users vào localStorage
-function saveUsersToLocalStorage(users) {
-  localStorage.setItem("users", JSON.stringify(users));
+// Lưu lại dưới dạng object { id: user } để đồng bộ với UserManager
+function saveUsersToLocalStorage(usersArray) {
+  const usersObj = {};
+  usersArray.forEach((user) => {
+    usersObj[user.id] = user; // id là string → an toàn 100%
+  });
+  localStorage.setItem("listusers", JSON.stringify(usersObj));
 }
 
-// Load dữ liệu từ localStorage khi trang tải
-let users = getUsersFromLocalStorage();
+// Load dữ liệu khi mở trang
+users = getUsersFromLocalStorage();
 
-// Hàm hiển thị danh sách người dùng
-function displayUsers(usersToDisplay) {
+// Hiển thị danh sách
+function displayUsers(usersToDisplay = users) {
   userTableBody.innerHTML = "";
+  if (usersToDisplay.length === 0) {
+    userTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px;">Chưa có người dùng nào</td></tr>`;
+    return;
+  }
+
   usersToDisplay.forEach((user) => {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${user.id}</td>
-      <td>${user.name}</td>
+      <td>${user.yourname || user.name}</td>
       <td>${user.email}</td>
-      <td>${user.role === "teacher" ? "Giáo viên" : "Học sinh"}</td>
+      <td>${user.role === "teacher" ? "Giảng viên" : "Học viên"}</td>
       <td>${user.created}</td>
       <td class="actions">
-        <button class="edit" onclick="Edit(${user.id})">
+        <button class="edit" onclick="Edit('${user.id}')">
           <i class="fa-solid fa-pen"></i>
         </button>
-        <button class="delete" onclick="Delete(${user.id})">
+        <button class="delete" onclick="Delete('${user.id}')">
           <i class="fa-solid fa-trash"></i>
         </button>
       </td>
@@ -98,33 +83,34 @@ function displayUsers(usersToDisplay) {
   });
 }
 
-// Hàm lọc người dùng
+// Lọc + tìm kiếm
 function filterUsers() {
-  const searchText = searchInput.value.toLowerCase();
-  const selectedRole = roleFilter.value;
+  const search = searchInput.value.toLowerCase();
+  const role = roleFilter.value;
 
-  const filteredUsers = users.filter((user) => {
-    const matchesSearch =
-      user.name.toLowerCase().includes(searchText) ||
-      user.email.toLowerCase().includes(searchText) ||
-      (user.username && user.username.toLowerCase().includes(searchText));
+  const filtered = users.filter((user) => {
+    const matchSearch =
+      user.yourname?.toLowerCase().includes(search) ||
+      user.name?.toLowerCase().includes(search) ||
+      user.email.toLowerCase().includes(search) ||
+      user.username?.toLowerCase().includes(search);
 
-    const matchesRole = selectedRole === "all" || user.role === selectedRole;
-    return matchesSearch && matchesRole;
+    const matchRole = role === "all" || user.role === role;
+    return matchSearch && matchRole;
   });
 
-  displayUsers(filteredUsers);
+  displayUsers(filtered);
 }
 
-// Mở modal thêm/sửa
+// Mở modal
 function openModal(user = null) {
   addUserModal.style.display = "flex";
   if (user) {
     editingUserId = user.id;
-    nameInput.value = user.name;
+    nameInput.value = user.yourname || user.name || "";
     emailInput.value = user.email;
     usernameInput.value = user.username || "";
-    passwordInput.value = user.password || "";
+    passwordInput.value = ""; // không hiện mật khẩu cũ
     roleInput.value = user.role;
   } else {
     editingUserId = null;
@@ -136,94 +122,88 @@ function openModal(user = null) {
   }
 }
 
-// Lưu người dùng (thêm mới hoặc cập nhật)
+// Lưu user (thêm hoặc sửa)
 function saveUser() {
   const name = nameInput.value.trim();
   const email = emailInput.value.trim();
   const username = usernameInput.value.trim();
   const password = passwordInput.value.trim();
+  const role = roleInput.value;
 
   if (!name || !email) {
-    alert("Vui lòng nhập đầy đủ Họ tên và Email!");
+    alert("Vui lòng nhập Họ tên và Email!");
     return;
   }
-
   if (!editingUserId && (!username || !password)) {
-    alert("Vui lòng nhập Tên đăng nhập và Mật khẩu cho tài khoản mới!");
+    alert("Tài khoản mới cần nhập Username và Password!");
     return;
   }
 
-  const newUserData = {
-    id: editingUserId || Date.now(),
-    name,
+  const userData = {
+    id: editingUserId || String(Date.now()),
+    yourname: name,
+    name: name, // giữ cả 2 để tương thích
     email,
     username: editingUserId
-      ? username || users.find((u) => u.id === editingUserId).username
+      ? username || users.find((u) => u.id === editingUserId)?.username
       : username,
     password: editingUserId
-      ? password || users.find((u) => u.id === editingUserId).password
+      ? password || users.find((u) => u.id === editingUserId)?.password
       : password,
-    role: roleInput.value,
+    role,
     created: editingUserId
-      ? users.find((u) => u.id === editingUserId).created
+      ? users.find((u) => u.id === editingUserId)?.created
       : new Date().toLocaleDateString("vi-VN"),
-
-    phone: editingUserId ? users.find((u) => u.id === editingUserId).phone : "",
-    district: editingUserId
-      ? users.find((u) => u.id === editingUserId).district
+    phone: editingUserId
+      ? users.find((u) => u.id === editingUserId)?.phone || ""
       : "",
-    province: editingUserId
-      ? users.find((u) => u.id === editingUserId).province
+    address: editingUserId
+      ? users.find((u) => u.id === editingUserId)?.address || ""
       : "",
   };
 
   if (editingUserId) {
-    // Cập nhật user cũ
     const index = users.findIndex((u) => u.id === editingUserId);
-    users[index] = { ...users[index], ...newUserData };
+    if (index !== -1) users[index] = userData;
   } else {
-    // Thêm user mới
-    users.push(newUserData);
+    users.push(userData);
   }
 
-  // Lưu vào localStorage
   saveUsersToLocalStorage(users);
-
-  // Cập nhật lại giao diện
+  users = getUsersFromLocalStorage(); // reload để chắc chắn
   filterUsers();
+  displayUsers(users);
   addUserModal.style.display = "none";
 }
 
-// Sửa người dùng
+// Sửa
 function Edit(id) {
   const user = users.find((u) => u.id === id);
   if (user) openModal(user);
 }
 
-// Xóa người dùng
+// Xóa
 function Delete(id) {
-  if (confirm("Bạn có chắc chắn muốn xóa người dùng này không?")) {
+  if (confirm("Xóa người dùng này?")) {
     users = users.filter((u) => u.id !== id);
     saveUsersToLocalStorage(users);
     filterUsers();
+    displayUsers(users);
   }
 }
 
-// ==================== Sự kiện ====================
+// ==================== EVENTS ====================
 searchInput.addEventListener("input", filterUsers);
 roleFilter.addEventListener("change", filterUsers);
 addUserBtn.addEventListener("click", () => openModal());
 saveUserBtn.addEventListener("click", saveUser);
-closeModalBtn.addEventListener("click", () => {
-  addUserModal.style.display = "none";
-});
-
-// Click ngoài modal để đóng
+closeModalBtn.addEventListener(
+  "click",
+  () => (addUserModal.style.display = "none")
+);
 addUserModal.addEventListener("click", (e) => {
-  if (e.target === addUserModal) {
-    addUserModal.style.display = "none";
-  }
+  if (e.target === addUserModal) addUserModal.style.display = "none";
 });
 
-// Hiển thị danh sách ban đầu
+// Khởi động
 displayUsers(users);

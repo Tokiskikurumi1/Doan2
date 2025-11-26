@@ -1,12 +1,14 @@
 // ======================= LẤY THÔNG TIN GIẢNG VIÊN ĐANG ĐĂNG NHẬP =======================
-const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+// ======================= LẤY THÔNG TIN GIẢNG VIÊN ĐANG ĐĂNG NHẬP (ĐÃ SỬA) =======================
+const currentUserId = localStorage.getItem("currentUser"); // chỉ là ID
+const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
+const currentUser = currentUserId ? allUsersData[currentUserId] : null;
 
-// Bảo vệ trang: nếu không phải giảng viên → đá về login
+// BẢO VỆ TRANG: Không đăng nhập hoặc không phải giáo viên → đá về login
 if (!currentUser || currentUser.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");
-  window.location.href = "../../Auth/login.html";
+  window.location.href = "../User_header_footer/login.html";
 }
-
 // ======================= CREATE HOMEWORK =======================
 const quizForm = document.querySelector(".quizForm");
 const title = document.getElementById("homework-title");

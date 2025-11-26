@@ -1,12 +1,13 @@
 // ========================== LẤY THÔNG TIN GIẢNG VIÊN ĐANG ĐĂNG NHẬP ==========================
-const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+const currentUserId = localStorage.getItem("currentUser"); // chỉ là ID (chuỗi số)
+const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
+const currentUser = currentUserId ? allUsersData[currentUserId] : null;
 
-// Nếu chưa đăng nhập hoặc không phải giảng viên → đá về login (bảo vệ trang)
+// === BẢO VỆ TRANG: Nếu chưa đăng nhập HOẶC không phải giáo viên → đá về login ===
 if (!currentUser || currentUser.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");
   window.location.href = "../../User_header_footer/login.html";
 }
-
 // ========================== LOAD DATA ==========================
 let courses = JSON.parse(localStorage.getItem("courses")) || [];
 
@@ -27,16 +28,19 @@ document.getElementById("cancel-create").onclick = () => {
   createModal.style.display = "none";
 };
 
-// Lưu URL ảnh tạm
-let uploadedImageURL = null;
+// Upload ảnh
+let uploadedImageBase64 = null;
 
 document.getElementById("course-image").onchange = function (e) {
   const file = e.target.files[0];
   if (!file) return;
-  uploadedImageURL = URL.createObjectURL(file);
+
+  const reader = new FileReader();
+  reader.onload = () => (uploadedImageBase64 = reader.result);
+  reader.readAsDataURL(file);
 };
 
-// ======================== THÊM teacherId ========================
+// ======================== THÊM khóa học ========================
 document.getElementById("create-course-form").onsubmit = function (e) {
   e.preventDefault();
 
@@ -49,28 +53,27 @@ document.getElementById("create-course-form").onsubmit = function (e) {
   const course = {
     id: Date.now(),
     teacherId: currentUser.id,
-    teacherName: currentUser.name,
+    teacherName: currentUser.yourname,
     name,
     type,
     status,
     price,
     detail,
     date: new Date().toISOString().split("T")[0],
-    image_url: uploadedImageURL || "./img/course.png",
+    image: uploadedImageBase64 || "./img/course.png",
     videos: [],
-    comment: [],
   };
 
   courses.push(course);
   localStorage.setItem("courses", JSON.stringify(courses));
 
-  uploadedImageURL = null;
+  uploadedImageBase64 = null;
   renderCourses();
   createModal.style.display = "none";
   this.reset();
 };
 
-// ========================== RENDER COURSES (chỉ hiển thị của chính mình) ==========================
+// ========================== RENDER COURSES  ==========================
 function renderCourses() {
   courseListEl.innerHTML = "";
 
@@ -125,7 +128,7 @@ function renderCourses() {
 
   courseListEl.style.display = "grid";
 
-  // --- RENDER (giữ nguyên HTML cũ 100%) ---
+  // --- RENDER ---
   filtered.forEach((course) => {
     const div = document.createElement("div");
     div.className = "item-course";
@@ -133,7 +136,7 @@ function renderCourses() {
     div.innerHTML = `
             <div class="item-course-panel">
                 <div class="image-course">
-                    <img src="${course.image_url}" alt="Khóa học" />
+                    <img src="${course.image}" alt="Khóa học" />
                 </div>
                 <div class="course-info">
                     <div class="name-course">${course.name}</div>
