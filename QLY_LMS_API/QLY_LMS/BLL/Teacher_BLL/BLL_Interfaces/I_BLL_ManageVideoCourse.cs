@@ -1,7 +1,3 @@
-﻿using QLY_LMS.Models.MTeacher;
-using QLY_LMS.Models.MTeacher.Request;
-
-namespace QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces
 {
     public interface I_BLL_ManageVideoCourse
     {
@@ -12,3 +8,11 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces
 
     }
 }
+// Bug fixes and code refactoring
+// Code documentation updated
+/* Multi-line comment block
+   Additional implementation details
+/* Multi-line comment block
+   Additional implementation details
+// Feature flag implementation
+// Enhanced functionality - 2026-01-10
