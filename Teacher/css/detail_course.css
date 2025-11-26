@@ -308,6 +308,52 @@
   gap: 10px;
 }
 
+.video-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.video-item:hover {
+  background-color: #f8f9fa;
+}
+
+.video-info {
+  flex: 1;
+}
+
+.video-actions button {
+  margin-left: 8px;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.create-homework-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.create-homework-btn:hover {
+  background-color: #218838;
+}
+
+.edit-video-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.delete-video {
+  background-color: #dc3545;
+  color: white;
+}
 /* ======================================= ANIMATIONS ======================================= */
 @keyframes fadeIn {
   from {

@@ -1,18 +1,18 @@
 // ======================= LẤY THÔNG TIN GIẢNG VIÊN ĐANG ĐĂNG NHẬP =======================
-// ======================= LẤY THÔNG TIN GIẢNG VIÊN ĐANG ĐĂNG NHẬP (ĐÃ SỬA) =======================
-const currentUserId = localStorage.getItem("currentUser"); // chỉ là ID
+const currentUserId = localStorage.getItem("currentUser");
 const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
 const currentUser = currentUserId ? allUsersData[currentUserId] : null;
 
-// BẢO VỆ TRANG: Không đăng nhập hoặc không phải giáo viên → đá về login
+// Bảo vệ trang
 if (!currentUser || currentUser.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");
   window.location.href = "../User_header_footer/login.html";
 }
+
 // ======================= CREATE HOMEWORK =======================
 const quizForm = document.querySelector(".quizForm");
 const title = document.getElementById("homework-title");
-const course = document.getElementById("course-select");
+const courseSelect = document.getElementById("homework-course-select"); // đổi tên cho rõ
 const deadline = document.getElementById("deadline-input");
 const description = document.querySelector(".form-textarea");
 const statusHW = document.getElementById("status-select");
@@ -24,13 +24,27 @@ let questionIndex = 0;
 
 // ====================== INIT =========================
 document.addEventListener("DOMContentLoaded", () => {
-  const editingId = localStorage.getItem("editingAssignmentId");
+  // TỰ ĐỘNG ĐIỀN LOẠI KHÓA HỌC KHI TẠO TỪ VIDEO (ĐÃ FIX 100%)
+  const savedCourseType = localStorage.getItem("creatingHomeworkForCourseType");
+  const savedCourseName = localStorage.getItem("creatingHomeworkForCourseName");
 
-  if (!editingId) {
+  if (savedCourseType && !localStorage.getItem("editingAssignmentId")) {
+    courseSelect.value = savedCourseType;
+    // BẮT BUỘC KÍCH HOẠT EVENT ĐỂ TRÌNH DUYỆT CÔNG NHẬN GIÁ TRỊ MỚI
+    courseSelect.dispatchEvent(new Event("change"));
+    courseSelect.dispatchEvent(new Event("input"));
+  }
+
+  if (savedCourseName && !localStorage.getItem("editingAssignmentId")) {
+    title.placeholder = `Bài tập cho khóa: ${savedCourseName}`;
+  }
+
+  const editingId = localStorage.getItem("editingAssignmentId");
+  if (editingId) {
+    loadDraft(editingId);
+  } else {
     resetForm();
     handleTypeChange();
-  } else {
-    loadDraft(editingId);
   }
 
   quizForm.addEventListener("submit", handleSubmit);
@@ -41,7 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
 function handleTypeChange() {
   questionsContainer.innerHTML = "";
   questionIndex = 0;
-
   if (typeSelect.value === "Rewrite") {
     addRewriteQuestion();
   } else {
@@ -50,11 +63,7 @@ function handleTypeChange() {
 }
 
 function addNewQuestion() {
-  if (typeSelect.value === "Rewrite") {
-    addRewriteQuestion();
-  } else {
-    addQuestion();
-  }
+  typeSelect.value === "Rewrite" ? addRewriteQuestion() : addQuestion();
 }
 
 // ====================== ADD QUESTIONS =========================
@@ -76,7 +85,7 @@ function addRewriteQuestion() {
   questionsContainer.appendChild(qDiv);
 }
 
-// ====================== RENDER QUESTIONS (giữ nguyên) =========================
+// ====================== RENDER QUESTIONS =========================
 function renderQuestion(qIdx) {
   return `
     <div class="question-header">
@@ -85,16 +94,13 @@ function renderQuestion(qIdx) {
         <i class="fas fa-trash"></i>
       </button>
     </div>
-
     <div class="form-group">
       <label class="form-label">Nội dung câu hỏi *</label>
       <textarea class="form-textarea question-content" required></textarea>
     </div>
-
     <div class="answer-list">
       ${[0, 1, 2, 3].map((i) => renderAnswer(i, qIdx)).join("")}
     </div>
-
     <button type="button" class="btn-add-answer" onclick="addAnswer(this, ${qIdx})">
       <i class="fas fa-plus"></i> Thêm đáp án
     </button>
@@ -109,12 +115,10 @@ function renderRewrite(idx) {
         <i class="fas fa-trash"></i>
       </button>
     </div>
-
     <div class="form-group">
       <label class="form-label">Câu gốc *</label>
       <textarea class="form-textarea rewrite-original" required></textarea>
     </div>
-
     <div class="form-group">
       <label class="form-label">Câu viết lại đúng *</label>
       <textarea class="form-textarea rewrite-answer" required></textarea>
@@ -122,7 +126,6 @@ function renderRewrite(idx) {
   `;
 }
 
-// ====================== ANSWER MANAGEMENT (giữ nguyên) =========================
 function renderAnswer(idx, qIdx, value = "", correct = false) {
   const letters = ["A", "B", "C", "D", "E", "F"];
   const canRemove = idx >= 4;
@@ -145,9 +148,11 @@ function renderAnswer(idx, qIdx, value = "", correct = false) {
 
 function addAnswer(btn, qIdx) {
   const list = btn.previousElementSibling;
-  const count = list.children.length;
-  if (count >= 6) return alert("Tối đa 6 đáp án!");
-  list.insertAdjacentHTML("beforeend", renderAnswer(count, qIdx));
+  if (list.children.length >= 6) return alert("Tối đa 6 đáp án!");
+  list.insertAdjacentHTML(
+    "beforeend",
+    renderAnswer(list.children.length, qIdx)
+  );
 }
 
 function removeAnswer(btn) {
@@ -163,15 +168,15 @@ function updateAnswerIndices(list) {
     const input = opt.querySelector(".answer-input");
     radio.value = idx;
     input.placeholder = `Đáp án ${letters[idx]}`;
-
     const removeBtn = opt.querySelector(".btn-remove");
-    if (idx >= 4) {
-      if (!removeBtn)
-        opt.insertAdjacentHTML(
-          "beforeend",
-          `<button type="button" class="btn-remove" onclick="removeAnswer(this)"><i class='fas fa-times'></i></button>`
-        );
-    } else if (removeBtn) removeBtn.remove();
+    if (idx >= 4 && !removeBtn) {
+      opt.insertAdjacentHTML(
+        "beforeend",
+        `<button type="button" class="btn-remove" onclick="removeAnswer(this)"><i class="fas fa-times"></i></button>`
+      );
+    } else if (idx < 4 && removeBtn) {
+      removeBtn.remove();
+    }
   });
 }
 
@@ -193,7 +198,7 @@ function updateQuestionNumbers() {
   questionIndex = qs.length;
 }
 
-// ====================== SUBMIT – ĐÃ THÊM teacherId & teacherName ======================
+// ====================== SUBMIT (ĐÃ FIX LOẠI KHÓA HỌC) ======================
 function handleSubmit(e) {
   e.preventDefault();
 
@@ -202,18 +207,29 @@ function handleSubmit(e) {
 
   if (typeSelect.value !== "Rewrite") {
     for (let q of questions) {
-      if (!q.querySelector("input[type='radio']:checked"))
+      if (!q.querySelector("input[type='radio']:checked")) {
         return alert("Mỗi câu hỏi phải chọn ít nhất 1 đáp án đúng!");
+      }
     }
   }
 
   const editingId = localStorage.getItem("editingAssignmentId");
 
+  // ƯU TIÊN LẤY LOẠI KHÓA HỌC TỪ TEMP STORAGE (khi tạo từ video)
+  const finalCourseType =
+    localStorage.getItem("creatingHomeworkForCourseType") ||
+    courseSelect.value ||
+    "TOEIC";
+
   const assignment = {
     id: editingId || Date.now().toString(),
-    teacherId: currentUser.id, // ← THÊM ID GIẢNG VIÊN
+    teacherId: currentUser.id,
+    videoId: localStorage.getItem("creatingHomeworkForVideoId") || null,
+    videoTitle:
+      localStorage.getItem("creatingHomeworkForVideoTitle") || "Không có video",
+    courseId: localStorage.getItem("creatingHomeworkForCourseId") || null,
     title: title.value.trim(),
-    course: course.value,
+    course: finalCourseType, // ĐÃ FIX CHẮC CHẮN
     deadline: deadline.value,
     description: description.value.trim(),
     status: statusHW.value,
@@ -223,6 +239,7 @@ function handleSubmit(e) {
     questions: [],
   };
 
+  // Thu thập câu hỏi
   questions.forEach((q) => {
     if (typeSelect.value === "Rewrite") {
       assignment.questions.push({
@@ -240,29 +257,60 @@ function handleSubmit(e) {
     }
   });
 
-  let list = JSON.parse(localStorage.getItem("assignments") || "[]");
-
+  // LƯU BÀI TẬP
+  let assignments = JSON.parse(localStorage.getItem("assignments") || "[]");
   if (editingId) {
-    const idx = list.findIndex((x) => x.id === editingId);
-    if (idx !== -1) list[idx] = assignment;
+    const idx = assignments.findIndex((x) => x.id === editingId);
+    if (idx !== -1) assignments[idx] = assignment;
     localStorage.removeItem("editingAssignmentId");
   } else {
-    list.push(assignment);
+    assignments.push(assignment);
+  }
+  localStorage.setItem("assignments", JSON.stringify(assignments));
+
+  // GẮN BÀI TẬP VÀO VIDEO
+  const courseId = localStorage.getItem("creatingHomeworkForCourseId");
+  const videoId = localStorage.getItem("creatingHomeworkForVideoId");
+  if (courseId && videoId) {
+    let courses = JSON.parse(localStorage.getItem("courses") || "[]");
+    const course = courses.find((c) => String(c.id) === String(courseId));
+    if (course?.videos) {
+      const video = course.videos.find((v) => String(v.id) === String(videoId));
+      if (video) {
+        if (!video.assignments) video.assignments = [];
+        if (!video.assignments.includes(assignment.id)) {
+          video.assignments.push(assignment.id);
+        }
+        localStorage.setItem("courses", JSON.stringify(courses));
+      }
+    }
   }
 
-  localStorage.setItem("assignments", JSON.stringify(list));
-  alert("Lưu bài tập thành công!");
-  window.location.href = "manage-homework.html";
+  // DỌN DẸP TEMP DATA
+  localStorage.removeItem("creatingHomeworkForCourseId");
+  localStorage.removeItem("creatingHomeworkForVideoId");
+  localStorage.removeItem("creatingHomeworkForVideoTitle");
+  localStorage.removeItem("creatingHomeworkForCourseType");
+  localStorage.removeItem("creatingHomeworkForCourseName");
+
+  alert("Tạo bài tập thành công và đã gắn vào video!");
+
+  if (courseId) {
+    localStorage.setItem("selectedCourseId", courseId);
+    window.location.href = "./detail-course.html";
+  } else {
+    window.location.href = "./manage-homework.html";
+  }
 }
 
-// ====================== LOAD DRAFT (giữ nguyên) =========================
+// ====================== LOAD DRAFT & RESET ======================
 function loadDraft(id) {
   const list = JSON.parse(localStorage.getItem("assignments") || "[]");
   const draft = list.find((x) => x.id === id);
   if (!draft) return;
 
   title.value = draft.title;
-  course.value = draft.course;
+  courseSelect.value = draft.course;
   deadline.value = draft.deadline || "";
   description.value = draft.description || "";
   statusHW.value = draft.status;
@@ -291,14 +339,12 @@ function loadDraft(id) {
       });
     }
   });
-
   updateQuestionNumbers();
 }
 
-// ====================== RESET =========================
 function resetForm() {
   title.value = "";
-  course.value = "TOEIC";
+  courseSelect.value = "TOEIC";
   deadline.value = "";
   description.value = "";
   statusHW.value = "draft";
