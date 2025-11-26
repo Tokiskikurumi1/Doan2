@@ -55,7 +55,7 @@ function updateLoginStatus() {
   }
 }
 
-// GỌI SAU KHI HEADER ĐÃ LOAD XONG (bắt buộc)
+// GỌI SAU KHI HEADER ĐÃ LOAD XONG
 fetch("header.html")
   .then((r) => (r.ok ? r.text() : Promise.reject("Không tìm thấy header")))
   .then((data) => {

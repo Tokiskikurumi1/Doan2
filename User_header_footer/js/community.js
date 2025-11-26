@@ -74,7 +74,7 @@ let currentFilter = "Tổng hợp";
 let currentPost = null;
 let commentsMap = {}; // postId → mảng bình luận (cũng sẽ lưu sau nếu cần)
 const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {
-  name: "Bạn",
+  name: "?",
 };
 
 // ========================== KIỂM TRA ĐĂNG NHẬP ==========================
@@ -84,7 +84,7 @@ function isLoggedIn() {
 
 // ========================== LẤY TÊN + AVATAR HIỆN TẠI ==========================
 function getCurrentUserInfo() {
-  const name = currentUser.name || "Bạn";
+  const name = currentUser.name || "?";
   const avt = name.charAt(0).toUpperCase();
   return { name, avt };
 }

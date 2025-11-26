@@ -80,7 +80,7 @@ function loginUser() {
     alert("Vui lòng nhập đầy đủ thông tin và chọn vai trò.");
     return;
   }
-const users = UserManager.getAllUsers();
+  const users = UserManager.getAllUsers();
   const user = Object.values(users).find((u) => u.username === username);
 
   if (!user) {
@@ -114,7 +114,7 @@ const users = UserManager.getAllUsers();
   if (user.role === "teacher") {
     window.location.href = "../Teacher/teacher.html";
   } else if (user.role === "student") {
-    window.location.href = "../index.html";
+    window.location.href = "./GUI.html";
   } else {
     alert("Vai trò không hợp lệ.");
   }

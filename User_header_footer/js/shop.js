@@ -1,16 +1,16 @@
-    document.addEventListener("DOMContentLoaded", function () {
-        const toggleBtn = document.getElementById("toggleFilter");
-        const overlay = document.getElementById("filterOverlay");
-        const closeBtn = document.getElementById("closeFilter");
+document.addEventListener("DOMContentLoaded", function () {
+  const toggleBtn = document.getElementById("toggleFilter");
+  const overlay = document.getElementById("filterOverlay");
+  const closeBtn = document.getElementById("closeFilter");
 
-        toggleBtn.addEventListener("click", () => {
-            overlay.style.display = "flex"; // hiện overlay
-        });
+  toggleBtn.addEventListener("click", () => {
+    overlay.style.display = "flex"; // hiện overlay
+  });
 
-        closeBtn.addEventListener("click", () => {
-            overlay.style.display = "none"; // ẩn overlay
-        });
-    });
+  closeBtn.addEventListener("click", () => {
+    overlay.style.display = "none"; // ẩn overlay
+  });
+});
 // shop.js (không dùng innerHTML, không tạo nút "Xem chi tiết")
 document.addEventListener("DOMContentLoaded", () => {
   const headerCountEl = document.querySelector(".product-header h2");
@@ -31,7 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // image container
     const imgDiv = document.createElement("div");
     imgDiv.className = "product-card-item-img";
-    const imageUrl = escapeText(product.imageUrl || "../img/img_GUI/096dabbf-65c6-4096-bc72-ddc405f6b795.jpg");
+    const imageUrl = escapeText(
+      product.imageUrl ||
+        "../img/img_GUI/096dabbf-65c6-4096-bc72-ddc405f6b795.jpg"
+    );
     imgDiv.style.backgroundImage = `url('${imageUrl}')`;
     imgDiv.style.backgroundPosition = "center";
     imgDiv.style.backgroundRepeat = "no-repeat";
@@ -80,7 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderProductsFromCourses() {
     const courses = reader.getAllCourses(); // clone mảng
     const count = courses.length;
-    if (headerCountEl) headerCountEl.textContent = `Tìm được ${count} sản phẩm:`;
+    if (headerCountEl)
+      headerCountEl.textContent = `Tìm được ${count} sản phẩm:`;
 
     if (!productCardContainer) return;
     // clear children safely
@@ -102,8 +106,14 @@ document.addEventListener("DOMContentLoaded", () => {
         author: course.teacher || "",
         duration: course.date || "",
         rating: course.rating || "",
-        price: (course.price !== undefined && course.price !== null) ? `${course.price} VND` : "Liên hệ",
-        imageUrl: course.imageUrl || course.thumbnail || "../img/img_GUI/096dabbf-65c6-4096-bc72-ddc405f6b795.jpg"
+        price:
+          course.price !== undefined && course.price !== null
+            ? `${course.price} VND`
+            : "Liên hệ",
+        imageUrl:
+          course.imageUrl ||
+          course.thumbnail ||
+          "../img/img_GUI/096dabbf-65c6-4096-bc72-ddc405f6b795.jpg",
       };
       const cardEl = createProductCardElement(product);
       productCardContainer.appendChild(cardEl);
@@ -116,10 +126,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!raw) return false;
     try {
       const parsed = JSON.parse(raw);
-      const arr = Array.isArray(parsed) ? parsed : (typeof parsed === "object" ? Object.values(parsed) : []);
+      const arr = Array.isArray(parsed)
+        ? parsed
+        : typeof parsed === "object"
+        ? Object.values(parsed)
+        : [];
       if (!arr.length) return false;
 
-      if (headerCountEl) headerCountEl.textContent = `Tìm được ${arr.length} sản phẩm:`;
+      if (headerCountEl)
+        headerCountEl.textContent = `Tìm được ${arr.length} sản phẩm:`;
 
       while (productCardContainer.firstChild) {
         productCardContainer.removeChild(productCardContainer.firstChild);
@@ -133,7 +148,10 @@ document.addEventListener("DOMContentLoaded", () => {
           duration: p.duration,
           rating: p.rating,
           price: p.price || "Liên hệ",
-          imageUrl: p.imageUrl || p.thumbnail || "../img/img_GUI/096dabbf-65c6-4096-bc72-ddc405f6b795.jpg"
+          imageUrl:
+            p.imageUrl ||
+            p.thumbnail ||
+            "../img/img_GUI/096dabbf-65c6-4096-bc72-ddc405f6b795.jpg",
         };
         const cardEl = createProductCardElement(product);
         productCardContainer.appendChild(cardEl);
@@ -151,7 +169,8 @@ document.addEventListener("DOMContentLoaded", () => {
   } else if (!renderProductsFallback()) {
     if (headerCountEl) headerCountEl.textContent = `Tìm được 0 sản phẩm:`;
     if (productCardContainer) {
-      while (productCardContainer.firstChild) productCardContainer.removeChild(productCardContainer.firstChild);
+      while (productCardContainer.firstChild)
+        productCardContainer.removeChild(productCardContainer.firstChild);
       const p = document.createElement("p");
       p.textContent = "Không có dữ liệu sản phẩm để hiển thị.";
       productCardContainer.appendChild(p);
