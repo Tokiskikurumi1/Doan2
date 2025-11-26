@@ -130,6 +130,7 @@ document.getElementById("add-video-form").onsubmit = function (e) {
     id: Date.now(),
     title,
     url,
+    status: "Chưa hoàn thành",
     assignments: [], // ← THÊM DÒNG NÀY
   });
 
