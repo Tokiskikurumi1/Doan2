@@ -1,59 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
-    <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
-    <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
-    <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
-    <link rel="stylesheet" href="./css/shop.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shop</title>
+  <link rel="stylesheet" href="../Assets/CSS/Base/reset.css" />
+  <link rel="stylesheet" href="../Assets/CSS/Base/base.css" />
+  <link rel="stylesheet" href="../Assets/CSS/Base/card.css" />
+  <link rel="stylesheet" href="../Assets/CSS/Base/btn.css" />
+  <link rel="stylesheet" href="./css/shop.css" />
 </head>
 <body>
-    <div class="shop">
-        <div class="product-header">
-            <h2>Tìm được 1 sản phẩm:</h2>
-            <button id="toggleFilter">Hiện bộ lọc</button>
-        </div>
-        <div class="product">
-            <div class="product-card">
-                <div class="product-card-item" id="cardhover">
-                    <div class="product-card-item-img"></div>
-                    <h3>Tên sản phẩm</h3>
-                    <span class="product-card-item-rating">Tên tác giả</span>
-                    <span class="product-card-item-duration">Thời lượng - Số trang</span>
-                    <span class="product-card-item-rating">Sao</span>
-                    <div class="product-card-item-price">
-                        <span class="price">250.000 VND</span>
-                        <button id="btnblue">Xem chi tiết</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="filter-overlay" id="filterOverlay">
-            <div class="filter-content">
-                <button id="closeFilter">Quay lại</button>
-                <h2>Bộ lọc</h2>
-                <h3>Loại sản phẩm</h3>
-                <label><input type="radio" name="all" value="type-product"> Tất cả</label>
-                <label><input type="radio" name="all" value="type-product"> Sách</label>
-                <label><input type="radio" name="all" value="type-product"> Khóa học</label>
-
-                <h3>Trình độ</h3>
-                <label><input type="radio" name="level" value="level-easy"> Dễ</label>
-                <label><input type="radio" name="level" value="level-medium"> Trung bình</label>
-                <label><input type="radio" name="level" value="level-hard"> Khó</label>
-
-                <h3>Đánh giá</h3>
-                <label><input type="radio" name="rating" value="rating-1"> 4.5 sao</label>
-                <label><input type="radio" name="rating" value="rating-2"> 3 sao</label>
-                <label><input type="radio" name="rating" value="rating-3"> 2 sao</label>
-                <label><input type="radio" name="rating" value="rating-4"> 1 sao</label>
-            </div>
-        </div>
+  <div class="shop">
+    <div class="product-header">
+      <h2 id="resultCount">Tìm được 0 sản phẩm:</h2>
+      <button id="toggleFilter">Hiện bộ lọc</button>
     </div>
 
-    <script src="../User_header_footer/js/shop.js"></script>
+    <div class="product">
+      <div class="product-card" id="productCard"></div>
+    </div>
+  </div>
+
+  <!-- Overlay bộ lọc -->
+  <div class="filter-overlay" id="filterOverlay" aria-hidden="true">
+    <div class="filter-content">
+      <button id="closeFilter">Quay lại</button>
+      <h2>Bộ lọc</h2>
+
+      <form id="filterForm">
+        <h3>Loại sản phẩm</h3>
+        <label><input type="radio" name="type" value="all" checked /> Tất cả</label>
+        <label><input type="radio" name="type" value="book" /> Sách</label>
+        <label><input type="radio" name="type" value="course" /> Khóa học</label>
+
+        <h3>Trình độ</h3>
+        <label><input type="radio" name="level" value="all" checked /> Tất cả</label>
+        <label><input type="radio" name="level" value="easy" /> Dễ</label>
+        <label><input type="radio" name="level" value="medium" /> Trung bình</label>
+        <label><input type="radio" name="level" value="hard" /> Khó</label>
+
+        <h3>Đánh giá tối thiểu</h3>
+        <label><input type="radio" name="rating" value="0" checked /> Tất cả</label>
+        <label><input type="radio" name="rating" value="4.5" /> 4.5+</label>
+        <label><input type="radio" name="rating" value="3" /> 3+</label>
+        <label><input type="radio" name="rating" value="2" /> 2+</label>
+
+        <div style="margin-top:12px;">
+          <button type="button" id="applyFilter">Áp dụng</button>
+          <button type="button" id="resetFilter">Đặt lại</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal chi tiết (hiển thị khi click) -->
+  <div class="detail-modal" id="detailModal" aria-hidden="true">
+    <div class="detail-content">
+      <button id="closeDetail">Đóng</button>
+      <div id="detailBody"></div>
+    </div>
+  </div>
+
+  <script type="module" src="../User_header_footer/js/shop.js"></script>
 </body>
 </html>
