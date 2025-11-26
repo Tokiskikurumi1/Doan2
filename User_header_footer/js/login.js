@@ -115,7 +115,7 @@ function loginUser() {
   if (user.role === "teacher") {
     window.location.href = "../Teacher/teacher.html";
   } else if (user.role === "student") {
-    window.location.href = "./info.html";
+    window.location.href = "../index.html";
   } else {
     alert("Vai trò không hợp lệ.");
   }
