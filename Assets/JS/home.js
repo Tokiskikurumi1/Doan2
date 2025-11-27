@@ -1,129 +1,89 @@
-let slides = document.getElementsByClassName("slide");
-let dots = document.getElementsByClassName("dot");
+// =================== HOME.JS – PHIÊN BẢN CHẠY ỔN KHI ĐỂ RIÊNG FILE ===================
+
+// 1. MENU MOBILE
 const menuIcon = document.querySelector("#menu-icon");
-const navBarMenuIconActive = document.querySelector(
-  ".nav-bar-menu-icon-active"
-);
+const navMobile = document.querySelector(".nav-bar-menu-icon-active");
 
-let currentCenter = 1;
-
-const container = document.querySelector(".slideshow-container");
-let startX = 0;
-let currentX = 0;
-let isDragging = false;
-
-// Đợi DOM tải xong
-
-// GỌI SAU KHI HEADER ĐÃ LOAD XONG (bắt buộc)
-function updateLoginStatus() {
-  const loginArea = document.querySelector(".login");
-  if (!loginArea) {
-    // Nếu header chưa load xong → thử lại sau 100ms
-    setTimeout(updateLoginStatus, 100);
-    return;
-  }
-
-  const currentUser = JSON.parse(localStorage.getItem("currentUser")); // ← KEY PHẢI ĐÚNG
-
-  if (currentUser && currentUser.username) {
-    loginArea.innerHTML = `
-      <span>Chào mừng: ${currentUser.name} | <a href="#" id="logout">Đăng xuất</a></span>
-    `;
-
-    // Đăng xuất đúng cách
-    document.getElementById("logout")?.addEventListener("click", (e) => {
-      e.preventDefault();
-      localStorage.removeItem("currentUser"); // chỉ xóa currentUser
-      location.reload();
-    });
-  } else {
-    loginArea.innerHTML = `
-      <span><a href="${
-        location.pathname.includes("web_children")
-          ? "./User_header_footer/login.html"
-          : "./User_header_footer/login.html"
-      }">Đăng nhập/Đăng ký</a></span>
-    `;
-  }
-}
-// Menu toggle
-const nav = document.querySelector(".nav-bar-menu-icon-active");
-if (menuIcon && nav) {
+if (menuIcon && navMobile) {
   menuIcon.onclick = () => {
-    nav.classList.toggle("active");
+    navMobile.classList.toggle("active");
     menuIcon.classList.toggle("fa-bars");
     menuIcon.classList.toggle("fa-x");
   };
 }
 
-// Dự phòng nếu header load chậm
-window.addEventListener("load", () => setTimeout(updateLoginStatus, 500));
+// 2. CẬP NHẬT TRẠNG THÁI ĐĂNG NHẬP
+function updateLoginStatus() {
+  const loginArea = document.querySelector(".login");
+  if (!loginArea) return; // nếu chưa có thì thôi, không lỗi
 
-function startDrag(e) {
-  isDragging = true;
-  startX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
-}
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-function drag(e) {
-  if (!isDragging) return;
-  e.preventDefault();
-  currentX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
-}
-
-function endDrag(e) {
-  if (!isDragging) return;
-  isDragging = false;
-  const deltaX = currentX - startX;
-  const threshold = 50;
-  if (Math.abs(deltaX) > threshold) {
-    if (deltaX > 0) {
-      // Dragged right: move to previous slide
-      const prevIndex = (currentCenter - 1 + 3) % 3;
-      moveToCenter(prevIndex);
-    } else {
-      // Dragged left: move to next slide
-      const nextIndex = (currentCenter + 1) % 3;
-      moveToCenter(nextIndex);
-    }
+  if (currentUser && currentUser.username) {
+    loginArea.innerHTML = `
+      <span>Chào mừng: ${
+        currentUser.name || currentUser.username
+      } | <a href="#" id="logout">Đăng xuất</a></span>
+    `;
+    document.getElementById("logout")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.removeItem("currentUser");
+      location.reload();
+    });
+  } else {
+    loginArea.innerHTML = `
+      <a href="./User_header_footer/login.html"><span>Đăng nhập</span></a>
+      <span>/</span>
+      <a href="./User_header_footer/login.html"><span>Đăng ký</span></a>
+    `;
   }
-  currentX = 0; // Reset
 }
 
-// Attach mouse events
-container.addEventListener("mousedown", startDrag);
-container.addEventListener("mousemove", drag);
-container.addEventListener("mouseup", endDrag);
-container.addEventListener("mouseleave", endDrag);
+// 3. HIỂN THỊ KHÓA HỌC PHỔ BIẾN (5 KHÓA ĐẦU TIÊN)
+function renderPopularCourses() {
+  const courses = JSON.parse(localStorage.getItem("courses")) || [];
+  const container = document.querySelector(".popular-courses-list");
 
-// Attach touch events
-container.addEventListener("touchstart", startDrag);
-container.addEventListener("touchmove", drag, { passive: false });
-container.addEventListener("touchend", endDrag);
+  if (!container) return;
 
-function moveToCenter(index) {
-  // Xóa class hiện tại của slides và dots
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].className = "slide slide" + (i + 1);
-    dots[i].classList.remove("active");
+  container.innerHTML = ""; // xóa box cũ
+
+  const displayCourses = courses.slice(0, 5);
+
+  if (displayCourses.length === 0) {
+    container.innerHTML =
+      '<p style="grid-column: 1 / -1; text-align:center; padding:40px;">Chưa có khóa học nào</p>';
+    return;
   }
 
-  // Gán class mới dựa trên chỉ số
-  if (index === 0) {
-    slides[0].classList.add("center");
-    slides[1].classList.add("right");
-    slides[2].classList.add("left");
-  } else if (index === 1) {
-    slides[0].classList.add("left");
-    slides[1].classList.add("center");
-    slides[2].classList.add("right");
-  } else if (index === 2) {
-    slides[0].classList.add("right");
-    slides[1].classList.add("left");
-    slides[2].classList.add("center");
-  }
-  dots[index].classList.add("active");
-  // slides[index].classList.add("active"); // Removed as it's not used in CSS
-  currentCenter = index;
+  displayCourses.forEach((course) => {
+    const box = document.createElement("div");
+    box.className = "box";
+    box.innerHTML = `
+        <img src="${course.image}" alt="${course.title || ""}">
+        <h3>${course.name}</h3>
+        <div class="info">
+          <span>${
+            course.price
+              ? Number(course.price).toLocaleString("vi-VN") + " VND"
+              : "Miễn phí"
+          }</span>
+        </div>
+    `;
+    container.appendChild(box);
+  });
 }
 
-updateLoginStatus();
+// 4. CHẠY KHI DOM SẴN SÀNG (QUAN TRỌNG NHẤT)
+document.addEventListener("DOMContentLoaded", () => {
+  updateLoginStatus(); // đăng nhập
+  renderPopularCourses(); // khóa học phổ biến
+});
+
+// Nếu trang load chậm (header/footer load bằng JS), chạy lại sau 1 lần nữa cho chắc
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    updateLoginStatus();
+    renderPopularCourses();
+  }, 300);
+});

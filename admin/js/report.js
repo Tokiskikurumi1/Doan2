@@ -1,5 +1,3 @@
-
-
 const data = {
   users: {
     summary: {
@@ -114,7 +112,10 @@ const data = {
   },
 };
 
-// --- DOM references (dựa trên HTML bạn đang dùng)
+const listUsers = JSON.parse(localStorage.getItem("listusers")) || {};
+const courses = JSON.parse(localStorage.getItem("courses")) || [];
+
+// --- DOM references
 const selectType = document.querySelector("select");
 const statsContainer = document.querySelector(".stats");
 const reportTableContainer = document.querySelector(".reportTable");
@@ -170,27 +171,79 @@ function renderContent(type, from = null, to = null) {
   }
 }
 
-// ================== USERS ==================
+// ================== USERS - LẤY THỰC TẾ TỪ localStorage ==================
 function renderUserStats(from, to) {
-  const s = data.users.summary;
-  // lọc bảng user theo ngày nếu from/to hợp lệ
-  let rows = data.users.table.slice();
+  // Lấy dữ liệu người dùng thực tế từ localStorage
+  const rawData = localStorage.getItem("listusers");
+  let realUsers = [];
+
+  if (rawData) {
+    try {
+      const usersObj = JSON.parse(rawData);
+      realUsers = Object.values(usersObj).map((user) => ({
+        id: String(user.id || Date.now()),
+        name: user.yourname || user.name || "Chưa đặt tên",
+        email: user.email || "",
+        role: user.role || "student", // "student" hoặc "teacher"
+        created: user.created || new Date().toLocaleDateString("vi-VN"),
+      }));
+    } catch (e) {
+      console.error("Lỗi parse listusers:", e);
+    }
+  }
+
+  // Tính toán thống kê
+  const totalUsers = realUsers.length;
+
+  const students = realUsers.filter((u) => u.role === "student").length;
+  const teachers = realUsers.filter((u) => u.role === "teacher").length;
+
+  // Đăng ký gần đây: trong 7 ngày qua
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+  const newRegistrations = realUsers.filter((u) => {
+    // created có dạng "dd/mm/yyyy"
+    if (!u.created) return false;
+    const parts = u.created.split("/");
+    if (parts.length !== 3) return false;
+    const userDate = new Date(
+      Number(parts[2]),
+      Number(parts[1]) - 1,
+      Number(parts[0])
+    );
+    return userDate >= sevenDaysAgo;
+  }).length;
+
+  // Lọc theo khoảng ngày
+  let filteredUsers = realUsers;
   if (from && to) {
     const f = parseDateYMD(from);
     const t = parseDateYMD(to);
-    rows = rows.filter((u) => {
-      const d = parseDateYMD(u.joinDate);
-      return d >= f && d <= t;
-    });
+    if (f && t) {
+      filteredUsers = realUsers.filter((u) => {
+        if (!u.created) return false;
+        const parts = u.created.split("/");
+        if (parts.length !== 3) return false;
+        const userDate = new Date(
+          Number(parts[2]),
+          Number(parts[1]) - 1,
+          Number(parts[0])
+        );
+        return userDate >= f && userDate <= t;
+      });
+    }
   }
 
+  // Render 4 card thống kê
   statsContainer.innerHTML = `
-    <div class="card"><h3>Tổng người dùng</h3><p>${s.totalUsers}</p></div>
-    <div class="card"><h3>Tổng học viên</h3><p>${s.students}</p></div>
-    <div class="card"><h3>Tổng giảng viên</h3><p>${s.teachers}</p></div>
-    <div class="card"><h3>Học viên đăng ký gần đây</h3><p>${s.newRegistrations}</p></div>
+    <div class="card"><h3>Tổng người dùng</h3><p>${totalUsers}</p></div>
+    <div class="card"><h3>Tổng học viên</h3><p>${students}</p></div>
+    <div class="card"><h3>Tổng giảng viên</h3><p>${teachers}</p></div>
+    <div class="card"><h3>Người dùng đăng ký gần đây</h3><p>${newRegistrations}</p></div>
   `;
 
+  // Render bảng danh sách người dùng
   reportTableContainer.innerHTML = `
     <h3>Bảng tổng hợp người dùng</h3>
     <table>
@@ -198,47 +251,154 @@ function renderUserStats(from, to) {
         <tr><th>STT</th><th>Họ tên</th><th>Vai trò</th><th>Ngày tham gia</th></tr>
       </thead>
       <tbody>
-        ${rows
-          .map(
-            (u) =>
-              `<tr><td>${u.id}</td><td>${u.name}</td><td>${u.role}</td><td>${u.joinDate}</td></tr>`
-          )
-          .join("")}
+        ${
+          filteredUsers.length === 0
+            ? `<tr><td colspan="4" style="text-align:center; padding:20px;">Không có dữ liệu</td></tr>`
+            : filteredUsers
+                .map(
+                  (u, index) => `
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>${u.name}</td>
+                  <td>${u.role === "teacher" ? "Giảng viên" : "Học viên"}</td>
+                  <td>${u.created}</td>
+                </tr>
+              `
+                )
+                .join("")
+        }
       </tbody>
     </table>
   `;
 
-  exportDiv.innerHTML = `<button onclick="exportToPDF()">📄 Xuất PDF</button>`;
+  exportDiv.innerHTML = `<button onclick="exportToPDF()">Xuất PDF</button>`;
 }
 
 // ================== KHÓA HỌC ==================
-function renderCourseStats(from, to) {
-  const s = data.courses.summary;
+// ================== KHÓA HỌC – LẤY THỰC TẾ TỪ localStorage.courses ==================
+function renderCourseStats(from = null, to = null) {
+  let courses = JSON.parse(localStorage.getItem("courses") || "[]");
+
+  // Lọc theo ngày nếu có
+  if (from && to) {
+    const fromDate = parseDateYMD(from);
+    const toDate = parseDateYMD(to);
+    if (fromDate && toDate) {
+      courses = courses.filter((c) => {
+        const courseDate = parseDateYMD(c.date);
+        return courseDate && courseDate >= fromDate && courseDate <= toDate;
+      });
+    }
+  }
+
+  // Tính toán thống kê
+  const totalCourses = courses.length;
+  const completedCourses = courses.filter(
+    (c) => c.status === "completed"
+  ).length;
+  const activeCourses = totalCourses - completedCourses;
+
+  // Tổng doanh thu: sum giá tiền tất cả khóa học
+  const totalRevenue = courses.reduce((sum, c) => {
+    const price = parseFloat(c.price) || 0;
+    return sum + price;
+  }, 0);
+
+  // Format tiền VND đẹp
+  const formatVND = (num) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+      maximumFractionDigits: 0,
+    }).format(num);
+  };
+
+  // Tính % hoàn thành trung bình (nếu có dữ liệu tiến độ học viên)
+  const studentProgress = JSON.parse(
+    localStorage.getItem("studentProgress") || "[]"
+  );
+  const progressByCourse = {};
+
+  studentProgress.forEach((p) => {
+    if (!progressByCourse[p.courseId]) {
+      progressByCourse[p.courseId] = { watched: 0, total: 0, students: 0 };
+    }
+    const course = courses.find((c) => String(c.id) === String(p.courseId));
+    const totalVideos = course?.videos?.length || 1;
+    const watched = p.progress?.watchedVideos?.length || 0;
+    progressByCourse[p.courseId].watched += watched;
+    progressByCourse[p.courseId].total += totalVideos;
+    progressByCourse[p.courseId].students += 1;
+  });
+
+  // Render 4 card thống kê
   statsContainer.innerHTML = `
-    <div class="card"><h3>Tổng khóa học</h3><p>${s.totalCourses}</p></div>
-    <div class="card"><h3>Đang hoạt động</h3><p>${s.activeCourses}</p></div>
-    <div class="card"><h3>Đã hoàn thành</h3><p>${s.completedCourses}</p></div>
-    <div class="card"><h3>Doanh thu</h3><p>${s.totalRevenue}</p></div>
+    <div class="card"><h3>Tổng khóa học</h3><p class="big-number">${totalCourses}</p></div>
+    <div class="card"><h3>Chưa hoàn thành</h3><p class="big-number warning">${activeCourses}</p></div>
+    <div class="card"><h3>Đã hoàn thành</h3><p class="big-number success">${completedCourses}</p></div>
+    <div class="card"><h3>Tổng doanh thu</h3><p class="big-number revenue">${formatVND(
+      totalRevenue
+    )}</p></div>
   `;
 
+  // Render bảng chi tiết khóa học
+  const tableRows = courses
+    .map((c, index) => {
+      const progressInfo = progressByCourse[c.id] || {
+        watched: 0,
+        total: 0,
+        students: 0,
+      };
+      const percentComplete =
+        progressInfo.total > 0
+          ? Math.round((progressInfo.watched / progressInfo.total) * 100)
+          : 0;
+
+      const teacherName = c.teacherName || "Chưa có";
+
+      return `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${c.name}</td>
+        <td>${teacherName}</td>
+        <td>${progressInfo.students}</td>
+        <td>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div style="flex:1; height:8px; background:#eee; border-radius:4px; overflow:hidden;">
+              <div style="width:${percentComplete}%; height:100%; background:#4caf50;"></div>
+            </div>
+            <span>${percentComplete}%</span>
+          </div>
+        </td>
+        <td>${formatVND(parseFloat(c.price) || 0)}</td>
+      </tr>
+    `;
+    })
+    .join("");
+
   reportTableContainer.innerHTML = `
-    <h3>Bảng tổng hợp khóa học</h3>
+    <h3>Bảng tổng hợp khóa học (${totalCourses} khóa)</h3>
     <table>
       <thead>
-        <tr><th>STT</th><th>Tên khóa học</th><th>Giảng viên</th><th>Học viên</th><th>Hoàn thành (%)</th><th>Doanh thu</th></tr>
+        <tr>
+          <th>STT</th>
+          <th>Tên khóa học</th>
+          <th>Giảng viên</th>
+          <th>Học viên</th>
+          <th>Tiến độ hoàn thành</th>
+          <th>Giá khóa học</th>
+        </tr>
       </thead>
       <tbody>
-        ${data.courses.table
-          .map(
-            (c) =>
-              `<tr><td>${c.id}</td><td>${c.name}</td><td>${c.teacher}</td><td>${c.students}</td><td>${c.percent}</td><td>${c.revenue}</td></tr>`
-          )
-          .join("")}
+        ${
+          tableRows ||
+          `<tr><td colspan="6" style="text-align:center; padding:30px; color:#999;">Chưa có khóa học nào</td></tr>`
+        }
       </tbody>
     </table>
   `;
 
-  exportDiv.innerHTML = `<button onclick="exportToPDF()">📄 Xuất PDF</button>`;
+  exportDiv.innerHTML = `<button onclick="exportToPDF()">Xuất PDF</button>`;
 }
 
 // ================== DOANH THU ==================
