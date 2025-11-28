@@ -307,3 +307,6 @@ window.handleAddComment = function () {
 // 7. Chạy khi trang load
 ////////////////////////////////////////////////////
 document.addEventListener("DOMContentLoaded", initDetail);
+# Performance optimization
+# Database optimization
+# Security enhancements
