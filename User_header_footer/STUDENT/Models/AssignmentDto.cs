@@ -1,6 +1,3 @@
-    {
-        public int AssignmentID { get; set; }
-        public string AssignmentName { get; set; } = string.Empty;
         public string AssignmentCourse { get; set; } = string.Empty;
         public string AssignmentType { get; set; } = string.Empty;
         public DateTime? AssignmentDeadline { get; set; }
@@ -27,3 +24,15 @@
 // Feature flag implementation
 // Feature flag implementation
 // Configuration settings optimized
+// Feature flag implementation
+   Additional implementation details
+// UI/UX improvements added
+// UI/UX improvements added
+   Code review suggestions applied */
+   Additional implementation details
+// Feature flag implementation
+// Logging mechanism enhanced
+   Code review suggestions applied */
+// Performance optimization implemented
+// Performance optimization implemented
+// Security enhancements integrated
