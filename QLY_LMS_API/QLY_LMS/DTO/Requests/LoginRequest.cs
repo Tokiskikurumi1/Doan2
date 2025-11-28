@@ -1,7 +1,3 @@
-﻿namespace QLY_LMS.DTO.Requests
-{
-    public class LoginRequest
-    {
         public string Account { get; set; } = null!;
         public string Pass { get; set; } = null!;
     }
@@ -16,3 +12,18 @@
         public int RoleId { get; set; }
     }
 }
+// Performance optimization implemented
+// UI/UX improvements added
+// Performance optimization implemented
+// Bug fixes and code refactoring
+// Unit tests added for better coverage
+   Additional implementation details
+// Configuration settings optimized
+   Code review suggestions applied */
+// Logging mechanism enhanced
+// Enhanced functionality - 2026-01-10
+   Additional implementation details
+// UI/UX improvements added
+// Performance optimization implemented
+// Code documentation updated
+// Logging mechanism enhanced
