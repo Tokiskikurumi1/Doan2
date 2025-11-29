@@ -514,9 +514,6 @@
   .searchbar {
     width: 50% !important;
   }
-  /* .searchbar #searchInput {
-    width: 60% !important;
-  } */
 }
 
 @media (max-width: 1110px) {
@@ -545,13 +542,9 @@
     padding: 20px;
   }
 
-  /* .container-highter {
-    display: none !important;
-  } */
-
   .container-768 {
     display: flex !important;
-    padding: 12px 20px; /* 👈 giảm padding hai bên */
+    padding: 12px 20px;
     gap: 8px;
   }
 

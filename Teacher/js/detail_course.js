@@ -44,20 +44,20 @@ function renderVideos() {
     div.className = "video-item";
 
     div.innerHTML = `
-      <div class="video-info">
-        <p><strong>${video.title}</strong></p>
-        <a href="${video.url}" target="_blank">${video.url}</a>
-      </div>
-      <div class="video-actions">
-        <button class="edit-video-btn" title="Sửa video">
-          <i class="fas fa-edit"></i>
-        </button>
-        <button class="create-homework-btn" title="Tạo bài tập cho video này">
-          <i class="fas fa-tasks"></i> Tạo bài tập
-        </button>
-        <button class="delete-video" title="Xóa video">Xóa</button>
-      </div>
-    `;
+        <div class="video-info">
+          <p><strong>${video.title}</strong></p>
+          <a href="${video.url}" target="_blank">${video.url}</a>
+        </div>
+        <div class="video-actions">
+          <button class="edit-video-btn" title="Sửa video">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="create-homework-btn" title="Tạo bài tập cho video này">
+            <i class="fas fa-tasks"></i> Tạo bài tập
+          </button>
+          <button class="delete-video" title="Xóa video">Xóa</button>
+        </div>
+      `;
 
     // Click toàn bộ video-item để sửa (trừ các nút)
     div.addEventListener("click", (e) => {
@@ -174,7 +174,7 @@ function saveVideo() {
 
   localStorage.setItem("courses", JSON.stringify(courses));
 
-  alert("Lưu thông tin thay đổi!");
+  alert("Thêm video thành công!");
 }
 
 // ========================== HỦY ==========================

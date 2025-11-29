@@ -1,18 +1,17 @@
-// ======================= LẤY THÔNG TIN GIẢNG VIÊN ĐANG ĐĂNG NHẬP =======================
+// ======================= LẤY THÔNG TIN GIẢNG VIÊN =======================
 const currentUserId = localStorage.getItem("currentUser");
 const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
 const currentUser = currentUserId ? allUsersData[currentUserId] : null;
 
-// Bảo vệ trang
 if (!currentUser || currentUser.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");
   window.location.href = "../User_header_footer/login.html";
 }
 
-// ======================= CREATE HOMEWORK =======================
+// ======================= DOM ELEMENTS =======================
 const quizForm = document.querySelector(".quizForm");
 const title = document.getElementById("homework-title");
-const courseSelect = document.getElementById("homework-course-select"); // đổi tên cho rõ
+const courseSelect = document.getElementById("homework-course-select");
 const deadline = document.getElementById("deadline-input");
 const description = document.querySelector(".form-textarea");
 const statusHW = document.getElementById("status-select");
@@ -20,76 +19,70 @@ const typeSelect = document.getElementById("type-select");
 const durationelect = document.getElementById("duration-select");
 const questionsContainer = document.getElementById("questions-container");
 
-let questionIndex = 0;
+let questionCounter = 0; // ĐÃ SỬA: dùng counter riêng, không dùng index mập mờ
 
 // ====================== INIT =========================
 document.addEventListener("DOMContentLoaded", () => {
-  // TỰ ĐỘNG ĐIỀN LOẠI KHÓA HỌC KHI TẠO TỪ VIDEO (ĐÃ FIX 100%)
-  const savedCourseType = localStorage.getItem("creatingHomeworkForCourseType");
-  const savedCourseName = localStorage.getItem("creatingHomeworkForCourseName");
+  setTimeout(() => {
+    const savedCourseType = localStorage.getItem(
+      "creatingHomeworkForCourseType"
+    );
+    const savedCourseName = localStorage.getItem(
+      "creatingHomeworkForCourseName"
+    );
 
-  if (savedCourseType && !localStorage.getItem("editingAssignmentId")) {
-    courseSelect.value = savedCourseType;
-    // BẮT BUỘC KÍCH HOẠT EVENT ĐỂ TRÌNH DUYỆT CÔNG NHẬN GIÁ TRỊ MỚI
-    courseSelect.dispatchEvent(new Event("change"));
-    courseSelect.dispatchEvent(new Event("input"));
-  }
+    if (
+      courseSelect &&
+      savedCourseType &&
+      !localStorage.getItem("editingAssignmentId")
+    ) {
+      courseSelect.value = savedCourseType;
+      courseSelect.dispatchEvent(new Event("change"));
+    }
 
-  if (savedCourseName && !localStorage.getItem("editingAssignmentId")) {
-    title.placeholder = `Bài tập cho khóa: ${savedCourseName}`;
-  }
+    if (savedCourseName && !localStorage.getItem("editingAssignmentId")) {
+      title.placeholder = `Bài tập cho khóa: ${savedCourseName}`;
+    }
 
-  const editingId = localStorage.getItem("editingAssignmentId");
-  if (editingId) {
-    loadDraft(editingId);
-  } else {
-    resetForm();
-    handleTypeChange();
-  }
+    const editingId = localStorage.getItem("editingAssignmentId");
+    if (editingId) {
+      loadDraft(editingId);
+    } else {
+      resetForm();
+      addNewQuestion(); // TỰ ĐỘNG THÊM 1 CÂU HỎI KHI MỚI VÀO
+    }
 
-  quizForm.addEventListener("submit", handleSubmit);
-  typeSelect.addEventListener("change", handleTypeChange);
+    quizForm.addEventListener("submit", handleSubmit);
+    typeSelect.addEventListener("change", () => {
+      questionsContainer.innerHTML = "";
+      questionCounter = 0;
+      addNewQuestion();
+    });
+  }, 100);
 });
 
-// ====================== HANDLE TYPE CHANGE =========================
-function handleTypeChange() {
-  questionsContainer.innerHTML = "";
-  questionIndex = 0;
-  if (typeSelect.value === "Rewrite") {
-    addRewriteQuestion();
-  } else {
-    addQuestion();
-  }
-}
-
+// ====================== THÊM CÂU HỎI MỚI =======================
 function addNewQuestion() {
-  typeSelect.value === "Rewrite" ? addRewriteQuestion() : addQuestion();
-}
-
-// ====================== ADD QUESTIONS =========================
-function addQuestion() {
-  questionIndex++;
+  questionCounter++;
   const qDiv = document.createElement("div");
   qDiv.className = "question-builder";
-  qDiv.dataset.qid = questionIndex;
-  qDiv.innerHTML = renderQuestion(questionIndex);
+  qDiv.dataset.qid = questionCounter;
+
+  if (typeSelect.value === "Rewrite") {
+    qDiv.classList.add("rewrite");
+    qDiv.innerHTML = renderRewriteQuestion(questionCounter);
+  } else {
+    qDiv.innerHTML = renderMultipleChoiceQuestion(questionCounter);
+  }
+
   questionsContainer.appendChild(qDiv);
 }
 
-function addRewriteQuestion() {
-  questionIndex++;
-  const qDiv = document.createElement("div");
-  qDiv.className = "question-builder rewrite";
-  qDiv.dataset.qid = questionIndex;
-  qDiv.innerHTML = renderRewrite(questionIndex);
-  questionsContainer.appendChild(qDiv);
-}
-
-// ====================== RENDER QUESTIONS =========================
-function renderQuestion(qIdx) {
+// ====================== RENDER CÂU HỎI TRẮC NGHIỆM =======================
+function renderMultipleChoiceQuestion(num) {
   return `
     <div class="question-header">
-      <div class="question-title">Câu hỏi ${qIdx}</div>
+      <div class="question-title">Câu hỏi ${num}</div>
       <button type="button" class="btn-remove" onclick="removeQuestion(this)">
         <i class="fas fa-trash"></i>
       </button>
@@ -98,19 +91,24 @@ function renderQuestion(qIdx) {
       <label class="form-label">Nội dung câu hỏi *</label>
       <textarea class="form-textarea question-content" required></textarea>
     </div>
-    <div class="answer-list">
-      ${[0, 1, 2, 3].map((i) => renderAnswer(i, qIdx)).join("")}
+    <div class="answer-list" data-qid="${num}">
+      ${renderAnswerOption(0, num)}
+      ${renderAnswerOption(1, num)}
+      ${renderAnswerOption(2, num)}
+      ${renderAnswerOption(3, num)}
     </div>
-    <button type="button" class="btn-add-answer" onclick="addAnswer(this, ${qIdx})">
+    <button type="button" class="btn-add-answer" onclick="addAnswer(this, ${num})">
       <i class="fas fa-plus"></i> Thêm đáp án
     </button>
+    <hr style="margin: 2rem 0; border: none; border-top: 1px dashed #cbd5e1;">
   `;
 }
 
-function renderRewrite(idx) {
+// ====================== RENDER CÂU VIẾT LẠI =======================
+function renderRewriteQuestion(num) {
   return `
     <div class="question-header">
-      <div class="question-title">Câu ${idx}</div>
+      <div class="question-title">Câu ${num}</div>
       <button type="button" class="btn-remove" onclick="removeQuestion(this)">
         <i class="fas fa-trash"></i>
       </button>
@@ -123,16 +121,18 @@ function renderRewrite(idx) {
       <label class="form-label">Câu viết lại đúng *</label>
       <textarea class="form-textarea rewrite-answer" required></textarea>
     </div>
+    <hr style="margin: 2rem 0; border: none; border-top: 1px dashed #cbd5e1;">
   `;
 }
 
-function renderAnswer(idx, qIdx, value = "", correct = false) {
+// ====================== RENDER ĐÁP ÁN =======================
+function renderAnswerOption(idx, qNum, value = "", isCorrect = false) {
   const letters = ["A", "B", "C", "D", "E", "F"];
   const canRemove = idx >= 4;
   return `
     <div class="answer-option">
-      <input type="radio" name="correct-${qIdx}" value="${idx}" ${
-    correct ? "checked" : ""
+      <input type="radio" name="correct-${qNum}" value="${idx}" ${
+    isCorrect ? "checked" : ""
   }>
       <input type="text" class="answer-input" value="${value}" placeholder="Đáp án ${
     letters[idx]
@@ -146,59 +146,43 @@ function renderAnswer(idx, qIdx, value = "", correct = false) {
   `;
 }
 
-function addAnswer(btn, qIdx) {
+// ====================== THÊM / XÓA ĐÁP ÁN =======================
+function addAnswer(btn, qNum) {
   const list = btn.previousElementSibling;
   if (list.children.length >= 6) return alert("Tối đa 6 đáp án!");
   list.insertAdjacentHTML(
     "beforeend",
-    renderAnswer(list.children.length, qIdx)
+    renderAnswerOption(list.children.length, qNum)
   );
 }
 
 function removeAnswer(btn) {
-  const list = btn.closest(".answer-list");
   btn.closest(".answer-option").remove();
-  updateAnswerIndices(list);
 }
 
-function updateAnswerIndices(list) {
-  const letters = ["A", "B", "C", "D", "E", "F"];
-  list.querySelectorAll(".answer-option").forEach((opt, idx) => {
-    const radio = opt.querySelector("input[type='radio']");
-    const input = opt.querySelector(".answer-input");
-    radio.value = idx;
-    input.placeholder = `Đáp án ${letters[idx]}`;
-    const removeBtn = opt.querySelector(".btn-remove");
-    if (idx >= 4 && !removeBtn) {
-      opt.insertAdjacentHTML(
-        "beforeend",
-        `<button type="button" class="btn-remove" onclick="removeAnswer(this)"><i class="fas fa-times"></i></button>`
-      );
-    } else if (idx < 4 && removeBtn) {
-      removeBtn.remove();
-    }
-  });
-}
-
+// ====================== XÓA CÂU HỎI =======================
 function removeQuestion(btn) {
   btn.closest(".question-builder").remove();
   updateQuestionNumbers();
 }
 
 function updateQuestionNumbers() {
-  const qs = document.querySelectorAll(".question-builder");
-  qs.forEach((q, i) => {
-    q.dataset.qid = i + 1;
+  const questions = document.querySelectorAll(".question-builder");
+  questions.forEach((q, idx) => {
+    const newNum = idx + 1;
+    q.dataset.qid = newNum;
     q.querySelector(".question-title").textContent =
-      typeSelect.value === "Rewrite" ? `Câu ${i + 1}` : `Câu hỏi ${i + 1}`;
-    q.querySelectorAll("input[type='radio']").forEach(
-      (r) => (r.name = `correct-${i + 1}`)
-    );
+      typeSelect.value === "Rewrite" ? `Câu ${newNum}` : `Câu hỏi ${newNum}`;
+
+    // Cập nhật name của radio button
+    q.querySelectorAll("input[type='radio']").forEach((radio) => {
+      radio.name = `correct-${newNum}`;
+    });
   });
-  questionIndex = qs.length;
+  questionCounter = questions.length;
 }
 
-// ====================== SUBMIT (ĐÃ FIX LOẠI KHÓA HỌC) ======================
+// ====================== SUBMIT (ĐÃ FIX 100%) =======================
 function handleSubmit(e) {
   e.preventDefault();
 
@@ -207,15 +191,17 @@ function handleSubmit(e) {
 
   if (typeSelect.value !== "Rewrite") {
     for (let q of questions) {
-      if (!q.querySelector("input[type='radio']:checked")) {
-        return alert("Mỗi câu hỏi phải chọn ít nhất 1 đáp án đúng!");
+      if (!q.querySelector(`input[name^='correct-']:checked`)) {
+        return alert(
+          `Câu hỏi ${
+            q.querySelector(".question-title").textContent
+          } chưa chọn đáp án đúng!`
+        );
       }
     }
   }
 
   const editingId = localStorage.getItem("editingAssignmentId");
-
-  // ƯU TIÊN LẤY LOẠI KHÓA HỌC TỪ TEMP STORAGE (khi tạo từ video)
   const finalCourseType =
     localStorage.getItem("creatingHomeworkForCourseType") ||
     courseSelect.value ||
@@ -228,8 +214,8 @@ function handleSubmit(e) {
     videoTitle:
       localStorage.getItem("creatingHomeworkForVideoTitle") || "Không có video",
     courseId: localStorage.getItem("creatingHomeworkForCourseId") || null,
-    title: title.value.trim(),
-    course: finalCourseType, // ĐÃ FIX CHẮC CHẮN
+    title: title.value.trim() || "Bài tập không có tiêu đề",
+    course: finalCourseType,
     deadline: deadline.value,
     description: description.value.trim(),
     status: statusHW.value,
@@ -247,20 +233,26 @@ function handleSubmit(e) {
         rewritten: q.querySelector(".rewrite-answer").value.trim(),
       });
     } else {
+      const content = q.querySelector(".question-content").value.trim();
       const answers = q.querySelectorAll(".answer-input");
-      const correct = q.querySelector("input[type='radio']:checked").value;
+      const correctIdx = q.querySelector(
+        `input[name="correct-${q.dataset.qid}"]:checked`
+      )?.value;
+
       assignment.questions.push({
-        question: q.querySelector(".question-content").value.trim(),
-        answers: Array.from(answers).map((a) => a.value.trim()),
-        correct: Number(correct),
+        question: content,
+        answers: Array.from(answers)
+          .map((a) => a.value.trim())
+          .filter((a) => a),
+        correct: Number(correctIdx),
       });
     }
   });
 
-  // LƯU BÀI TẬP
+  // Lưu vào localStorage
   let assignments = JSON.parse(localStorage.getItem("assignments") || "[]");
   if (editingId) {
-    const idx = assignments.findIndex((x) => x.id === editingId);
+    const idx = assignments.findIndex((a) => a.id === editingId);
     if (idx !== -1) assignments[idx] = assignment;
     localStorage.removeItem("editingAssignmentId");
   } else {
@@ -268,7 +260,7 @@ function handleSubmit(e) {
   }
   localStorage.setItem("assignments", JSON.stringify(assignments));
 
-  // GẮN BÀI TẬP VÀO VIDEO
+  // Gắn vào video (nếu có)
   const courseId = localStorage.getItem("creatingHomeworkForCourseId");
   const videoId = localStorage.getItem("creatingHomeworkForVideoId");
   if (courseId && videoId) {
@@ -286,70 +278,66 @@ function handleSubmit(e) {
     }
   }
 
-  // DỌN DẸP TEMP DATA
-  localStorage.removeItem("creatingHomeworkForCourseId");
-  localStorage.removeItem("creatingHomeworkForVideoId");
-  localStorage.removeItem("creatingHomeworkForVideoTitle");
-  localStorage.removeItem("creatingHomeworkForCourseType");
-  localStorage.removeItem("creatingHomeworkForCourseName");
+  // Dọn dẹp
+  [
+    "creatingHomeworkForCourseId",
+    "creatingHomeworkForVideoId",
+    "creatingHomeworkForVideoTitle",
+    "creatingHomeworkForCourseType",
+    "creatingHomeworkForCourseName",
+  ].forEach((key) => localStorage.removeItem(key));
 
-  alert("Tạo bài tập thành công và đã gắn vào video!");
-
-  if (courseId) {
-    localStorage.setItem("selectedCourseId", courseId);
-    window.location.href = "./detail-course.html";
-  } else {
-    window.location.href = "./manage-homework.html";
-  }
+  alert("Tạo bài tập thành công!");
+  window.location.href = courseId
+    ? "./detail-course.html"
+    : "./manage-homework.html";
 }
 
-// ====================== LOAD DRAFT & RESET ======================
+// ====================== LOAD DRAFT & RESET =======================
 function loadDraft(id) {
-  const list = JSON.parse(localStorage.getItem("assignments") || "[]");
-  const draft = list.find((x) => x.id === id);
+  const assignments = JSON.parse(localStorage.getItem("assignments") || "[]");
+  const draft = assignments.find((a) => a.id === id);
   if (!draft) return;
 
-  title.value = draft.title;
-  courseSelect.value = draft.course;
+  title.value = draft.title || "";
+  if (courseSelect) courseSelect.value = draft.course;
   deadline.value = draft.deadline || "";
   description.value = draft.description || "";
-  statusHW.value = draft.status;
+  statusHW.value = draft.status || "draft";
   typeSelect.value = draft.type || "Quizz";
   durationelect.value = draft.duration || "15";
   questionsContainer.innerHTML = "";
-  questionIndex = 0;
+  questionCounter = 0;
 
-  draft.questions.forEach((q, idx) => {
+  draft.questions.forEach((q) => {
+    addNewQuestion();
+    const lastQ = questionsContainer.lastElementChild;
+
     if (draft.type === "Rewrite") {
-      addRewriteQuestion();
-      const qDiv = questionsContainer.children[idx];
-      qDiv.querySelector(".rewrite-original").value = q.original;
-      qDiv.querySelector(".rewrite-answer").value = q.rewritten;
+      lastQ.querySelector(".rewrite-original").value = q.original || "";
+      lastQ.querySelector(".rewrite-answer").value = q.rewritten || "";
     } else {
-      addQuestion();
-      const qDiv = questionsContainer.children[idx];
-      qDiv.querySelector(".question-content").value = q.question;
-      const answerList = qDiv.querySelector(".answer-list");
+      lastQ.querySelector(".question-content").value = q.question || "";
+      const answerList = lastQ.querySelector(".answer-list");
       answerList.innerHTML = "";
       q.answers.forEach((ans, i) => {
         answerList.insertAdjacentHTML(
           "beforeend",
-          renderAnswer(i, idx + 1, ans, i === q.correct)
+          renderAnswerOption(i, questionCounter, ans, i === q.correct)
         );
       });
     }
   });
-  updateQuestionNumbers();
 }
 
 function resetForm() {
   title.value = "";
-  courseSelect.value = "TOEIC";
+  if (courseSelect) courseSelect.value = "TOEIC";
   deadline.value = "";
   description.value = "";
   statusHW.value = "draft";
   typeSelect.value = "Quizz";
   durationelect.value = "15";
   questionsContainer.innerHTML = "";
-  questionIndex = 0;
+  questionCounter = 0;
 }

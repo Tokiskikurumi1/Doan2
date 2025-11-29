@@ -114,7 +114,7 @@ function renderCourses() {
   else if (arrange === "ZtoA")
     filtered.sort((a, b) => b.name.localeCompare(a.name));
 
-  // --- NO COURSE (giữ nguyên HTML cũ của mày) ---
+
   if (filtered.length === 0) {
     courseListEl.style.display = "flex";
     courseListEl.style.justifyContent = "center";

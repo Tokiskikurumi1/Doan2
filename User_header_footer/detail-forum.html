@@ -1,25 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    />
-    <link rel="stylesheet" href="../Assets/CSS/Base/reset.css" />
-    <link rel="stylesheet" href="../Assets/CSS/Base/base.css" />
-    <link rel="stylesheet" href="../Assets/CSS/Base/card.css" />
-    <link rel="stylesheet" href="../Assets/CSS/Base/btn.css" />
+    <title>Chi tiết bài viết</title>
     <link rel="stylesheet" href="./css/GUI.css" />
-    <link rel="stylesheet" href="./css/community-logined.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    />
+    <link rel="stylesheet" href="./css/forumCSS/detail-forum.css" />
   </head>
-
   <body>
     <header>
       <div class="header">
@@ -30,7 +17,7 @@
           <ul>
             <li><a href="#">KHÓA HỌC</a></li>
             <li><a href="#">BÀI TẬP</a></li>
-            <li><a href="./community-logined.html">CỘNG ĐỒNG</a></li>
+            <li><a href="./forum.html">CỘNG ĐỒNG</a></li>
             <li><a href="#">CỬA HÀNG</a></li>
             <li><a href="#">GIỚI THIỆU</a></li>
           </ul>
@@ -113,7 +100,7 @@
             <ul>
               <li><a href="#">KHÓA HỌC</a></li>
               <li><a href="#">BÀI TẬP</a></li>
-              <li><a href="./community-logined.html">CỘNG ĐỒNG</a></li>
+              <li><a href="./forum.html">CỘNG ĐỒNG</a></li>
             </ul>
           </nav>
         </div>
@@ -131,109 +118,91 @@
                 id="searchInput"
                 placeholder="Tìm chủ đề, từ vựng, ngữ pháp..."
               />
-              <div class="img-search">
+              <!-- <div class="img-search">
                 <img src="./img/img_community/search.png" alt="" />
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="actions">
-            <button id="newPostBtn" class="btn">
-              <span>Đăng bài</span>
-              <i class="fa-solid fa-plus"></i>
-            </button>
-            <button id="generalBtn" class="btn">
+            <!-- NÚT ĐĂNG BÀI -->
+            <div class="actions">
+              <button id="btn-open-modal" class="btn">
+                <span>Đăng bài</span>
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+            <!-- <button id="generalBtn" class="btn">
               <i class="fa-solid fa-layer-group"></i>
             </button>
-            <div class="avatar">M</div>
+            <div class="avatar">M</div> -->
           </div>
         </div>
       </div>
-      <!-- LAYOUT CHÍNH -->
-      <div class="layout">
-        <section class="sidebar">
-          <ul id="categories">
-            <li data-cat="Tổng hợp" class="cat active">Bài viết tổng hợp</li>
-            <li data-cat="Trang cá nhân" class="cat">Trang cá nhân</li>
-          </ul>
-        </section>
+      <div class="container-comment-detail" style="max-width: 900px">
+        <br />
+        <div id="post-container">
+          <div style="text-align: center; padding: 2rem">
+            Đang tải bài viết...
+          </div>
+        </div>
 
-        <!-- BÀI ĐĂNG TỔNG HỢP -->
-        <section class="contents">
-          <div class="panel">
-            <h2 id="panelTitle">Bài viết mới nhất</h2>
-            <!--TRANG CÁ NHÂN + BÀI VIẾT TỔNG HỢP-->
-            <div id="profileSection">
-              <div class="c-avatar">B</div>
-              <h3 style="margin-top: 10px">Bạn</h3>
-              <p style="color: gray">Bài viết của tôi</p>
+        <div class="card" style="margin-top: 2rem">
+          <div class="card-body">
+            <h3
+              style="
+                font-size: 1.25rem;
+                font-weight: bold;
+                margin-bottom: 1.5rem;
+                display: flex;
+                align-items: center;
+              "
+            >
+              <span id="comment-count-display">0</span> &nbsp;Bình luận
+            </h3>
+
+            <div
+              id="main-comment-form"
+              style="display: flex; gap: 1rem; margin-bottom: 2rem"
+            >
+              <div
+                id="current-user-avatar"
+                src=""
+                class="avatar"
+                style="width: 40px; height: 40px"
+              ></div>
+              <div style="flex: 1">
+                <textarea
+                  id="comment-input"
+                  class="form-input"
+                  style="height: 80px; resize: none; border-radius: 12px"
+                  placeholder="Viết bình luận của bạn..."
+                ></textarea>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: flex-end;
+                    margin-top: 0.5rem;
+                  "
+                >
+                  <button
+                    onclick="handleAddComment()"
+                    class="btn btn-primary"
+                    style="width: auto"
+                  >
+                    Gửi bình luận
+                  </button>
+                </div>
+              </div>
             </div>
 
-            <div id="postList" class="post-list"></div>
-          </div>
-        </section>
-      </div>
-    </div>
-
-    <!-- XEM CHI TIẾT BÀI VIẾT  -->
-    <div id="postModal" class="modal" aria-hidden="true">
-      <div class="modal-dialog">
-        <button class="modal-close" id="closeModal">✕</button>
-
-        <div class="content-scroll">
-          <div class="meta" id="modalMeta">
-            <div class="avt-name-title">
-              <div class="c-avatar">M</div>
-              <div class="meta">Bởi tao • 2h trước</div>
-            </div>
-          </div>
-          <div id="modalContent" class="post-content">Nội dung bài viết...</div>
-          <h3>Bình luận</h3>
-          <div id="comments" class="comments"></div>
-        </div>
-
-        <div class="comment-form">
-          <input id="commentInput" placeholder="Viết bình luận..." />
-          <div id="sendComment" class="btn">
-            <i class="fa-solid fa-paper-plane"></i>
+            <div id="comment-list"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ĐĂNG BÀI VIẾT  -->
-    <!--VỀ SỬA LẠI CÁI NÀY, LỖI KHI ĐĂNG BÀI HIỆN TÊN KHÔNG TRÙNG VỚI MÃ GIẢ-->
-    <div id="newPostModal" class="modal" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="content-scroll">
-          <button class="modal-close" id="closeNewPost">✕</button>
-          <h2>Tạo bài viết</h2>
-          <div class="avt-name-title avt_create">
-            <div class="c-avatar">M</div>
-            <div class="meta">Bạn</div>
-          </div>
-          <textarea id="postBody" placeholder="Nội dung bài viết"></textarea>
-          <img id="imagePreview" />
-        </div>
-        <div class="choose-img">
-          <label class="btn-choose-img" for="postImage">
-            Thêm ảnh vào bài viết của bạn
-            <input
-              type="file"
-              id="postImage"
-              accept="image/*"
-              style="display: none"
-            />
-          </label>
-        </div>
-        <div class="row right">
-          <button id="createPost" class="btn primary">Đăng bài</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- FOOTER -->
-    <!-- <div id="main-footer"></div> -->
+    <!-- <script src="data.js"></script>
+    <script src="utils.js"></script> -->
+    <script src="./js/forumJS/forum-detail.js"></script>
   </body>
-  <script src="./js/GUI.js"></script>
-  <script src="./js/community-logined.js"></script>
 </html>
