@@ -131,7 +131,7 @@ document.getElementById("add-video-form").onsubmit = function (e) {
     title,
     url,
     status: "Chưa hoàn thành",
-    assignments: [], // ← THÊM DÒNG NÀY
+    assignments: [],
   });
 
   saveVideo();

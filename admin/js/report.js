@@ -412,7 +412,6 @@ function renderRevenueStats(from, to) {
     <div class="card"><h3>Tổng giao dịch</h3><p>${s.transactions}</p></div>
   `;
 
-  // chuẩn bị dữ liệu biểu đồ: nếu có from/to -> tổng hợp từ data.revenue.table, ngược lại dùng data.revenue.chart
   let chartValues = [];
   let transactions = data.revenue.table.slice();
 
@@ -477,64 +476,6 @@ function renderRevenueStats(from, to) {
   `;
 
   exportDiv.innerHTML = `<button onclick="exportToPDF()">📄 Xuất PDF</button>`;
-}
-
-// ================== TÀI KHOẢN VI PHẠM ==================
-function renderViolationStats() {
-  reportTableContainer.innerHTML = `
-    <h3>Danh sách tài khoản vi phạm</h3>
-    <table>
-      <thead>
-        <tr><th>STT</th><th>Tài khoản</th><th>Lý do</th><th>Trạng thái</th><th>Hành động</th></tr>
-      </thead>
-      <tbody>
-        ${data.violations.reports
-          .map(
-            (v) => `
-          <tr>
-            <td>${v.id}</td>
-            <td>${v.username}</td>
-            <td>${v.reason}</td>
-            <td id="status-${v.username}">${v.status}</td>
-            <td>
-              ${
-                v.status === "Đang bị khóa"
-                  ? `<button onclick="unlock('${v.username}')">Gỡ khóa</button>`
-                  : `<button onclick="lock('${v.username}')">Khóa</button>`
-              }
-            </td>
-          </tr>
-        `
-          )
-          .join("")}
-      </tbody>
-    </table>
-  `;
-
-  statsContainer.innerHTML = `
-    <div class="card"><h3>Tài khoản bị khóa</h3><p>${
-      data.violations.reports.filter((r) => r.status === "Đang bị khóa").length
-    }</p></div>
-    <div class="card"><h3>Tổng báo cáo</h3><p>${
-      data.violations.reports.length
-    }</p></div>
-  `;
-
-  exportDiv.innerHTML = `<button onclick="exportToPDF()">📄 Xuất PDF</button>`;
-}
-
-// ================== KHÓA / GỠ KHÓA ==================
-function lock(username) {
-  const u = data.violations.reports.find((r) => r.username === username);
-  if (u) u.status = "Đang bị khóa";
-  renderViolationStats();
-  alert(`🔒 Đã khóa tài khoản: ${username}`);
-}
-function unlock(username) {
-  const u = data.violations.reports.find((r) => r.username === username);
-  if (u) u.status = "Đã gỡ khóa";
-  renderViolationStats();
-  alert(`✅ Đã gỡ khóa tài khoản: ${username}`);
 }
 
 // ================== EXPORT ==================
