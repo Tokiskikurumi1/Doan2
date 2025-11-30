@@ -24,10 +24,7 @@ body{
 }
 .practice{
     flex:1;
-    
-    
 }
-
 .hot-topic-item{
     display: flex;
     padding: 10px;
