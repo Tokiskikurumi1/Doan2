@@ -199,6 +199,14 @@
   gap: 0.5rem;
 }
 
+.selectTypeCourse {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--grey-border);
+  background-color: var(--white);
+  color: var(--black);
+}
+
 /* ========================== RESPONSIVE ======================= */
 @media (max-width: 1024px) {
   .assignment-grid {

@@ -23,9 +23,20 @@
         <!-- manage-homework.html -->
         <div class="page-header">
           <h2 class="page-title">Bài tập của tôi</h2>
-          <button class="btn btn-primary" id="create-new-homework">
-            <i class="fas fa-plus"></i> Tạo bài tập mới
-          </button>
+          <div class="actions-header">
+            <select name="" id="selectTypeCourse" class="selectTypeCourse">
+              <option value="all">TẤT CẢ</option>
+              <option value="TOEIC">TOEIC</option>
+              <option value="IELTS">IELTS</option>
+              <option value="Combo">Combo</option>
+              <option value="BEGINNER">TIẾNG ANH CĂN BẢN</option>
+              <option value="COMBO-4">COMBO TOEIC 4 KỸ NĂNG</option>
+              <option value="COMBO-2">COMBO TOEIC 2 KỸ NĂNG</option>
+            </select>
+            <button class="btn btn-primary" id="create-new-homework">
+              <i class="fas fa-plus"></i> Tạo bài tập mới
+            </button>
+          </div>
         </div>
 
         <!-- Filter Tabs -->
@@ -156,6 +167,7 @@
     <div class="overlay" id="overlay"></div>
 
     <script src="./js/header.js"></script>
+    <!-- <script src="./js/fakeDataHomework.js"></script> -->
     <script src="./js/manage_homework.js"></script>
   </body>
 </html>

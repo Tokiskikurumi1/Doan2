@@ -34,7 +34,7 @@
             placeholder="Tìm theo tên, email, khóa học..."
             class="search-bar"
           />
-          <select class="select-type-of-course" id="course-type">
+          <select class="select-type-of-course" id="courseType">
             <option value="ALL">Tất cả khóa học</option>
             <option value="TOEIC">TOEIC</option>
             <option value="IELTS">IELTS</option>
@@ -60,7 +60,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <!-- <tr>
                 <td>1</td>
                 <td>
                   <div>
@@ -72,8 +72,8 @@
 
                 <td>15/10/2025</td>
                 <td>10%</td>
-                <td>
-                  <!-- <div class="actions">
+                <td> -->
+              <!-- <div class="actions">
                     <button class="btn-icon" title="Xem chi tiết">
                       <i class="fas fa-eye"></i>
                     </button>
@@ -81,8 +81,8 @@
                       <i class="fas fa-envelope"></i>
                     </button>
                   </div> -->
-                </td>
-              </tr>
+              <!-- </td>
+              </tr> -->
 
               <!-- <tr>
                 <td>2</td>
@@ -123,21 +123,20 @@
         </div>
 
         <!-- === PAGINATION === -->
-        <!-- <div class="pagination">
+        <div class="pagination">
           <p>Hiển thị 1-10 của 48 học viên</p>
           <div style="display: flex; gap: 0.5rem">
-            <button class="btn btn-outline btn-sm">Trước</button>
+            <button class="btn btn-outline btn-sm"><</button>
             <button class="btn btn-primary btn-sm">1</button>
-            <button class="btn btn-outline btn-sm">2</button>
-            <button class="btn btn-outline btn-sm">3</button>
-            <button class="btn btn-outline btn-sm">Sau</button>
+            <button class="btn btn-outline btn-sm">></button>
           </div>
-        </div> -->
+        </div>
       </main>
     </div>
     <!--DÙNG ĐỂ KHI XUỐNG GIAO DIỆN ĐIỆN THOẠI THAO TÁC VỚI MENU-ICON-->
     <div class="overlay" id="overlay"></div>
     <script src="./js/header.js"></script>
+    <script src="./js/fakeDataHomework.js"></script>
     <script src="./js/manage-student.js"></script>
   </body>
 </html>
