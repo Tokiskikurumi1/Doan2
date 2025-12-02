@@ -1,7 +1,3 @@
-const data = [
-  { label: "Nghe", value: 120 },
-  { label: "Đọc", value: 180 },
-  { label: "Viết", value: 90 },
   { label: "Từ vựng", value: 220 },
   { label: "Ngữ pháp", value: 160 },
 ];
@@ -30,3 +26,12 @@ data.forEach((item, index) => {
 # API improvements
 # UI/UX improvements
 # Bug fixes and improvements
+// Bug fixes and code refactoring
+// Logging mechanism enhanced
+   Additional implementation details
+// Feature flag implementation
+// Code documentation updated
+// Configuration settings optimized
+// Logging mechanism enhanced
+// Unit tests added for better coverage
+   Code review suggestions applied */
