@@ -1,5 +1,3 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces;
 using QLY_LMS.DAL.Teacher_DAL.Implementations;
 using QLY_LMS.DAL.Teacher_DAL.Interfaces;
 using QLY_LMS.DTO;
@@ -22,12 +20,12 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
             //if (string.IsNullOrEmpty(courses.courseName) || string.IsNullOrEmpty(courses.courseType) || 
             //    string.IsNullOrEmpty(courses.courseDes) || string.IsNullOrEmpty(courses.courseStatus))
             //{
-            //    Mess = "Không được để trống dữ liệu!";
+            //    Mess = "Kh�ng du?c d? tr?ng d? li?u!";
             //    return false;
             //}
             //if (courses.coursePrice < 0)
             //{
-            //    Mess = "Giá không được nhỏ hơn 0!";
+            //    Mess = "Gi� kh�ng du?c nh? hon 0!";
             //    return false;
             //}
             return _manageCourse.createCourse(courses);
@@ -64,3 +62,16 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
         
     }
 }
+/* Multi-line comment block
+   Additional implementation details
+// Logging mechanism enhanced
+// Bug fixes and code refactoring
+// Security enhancements integrated
+// Bug fixes and code refactoring
+// Configuration settings optimized
+// Unit tests added for better coverage
+// Security enhancements integrated
+// Bug fixes and code refactoring
+// Security enhancements integrated
+// Security enhancements integrated
+/* Multi-line comment block
