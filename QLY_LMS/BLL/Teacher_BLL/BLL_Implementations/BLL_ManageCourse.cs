@@ -16,7 +16,7 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
             _manageCourse = manageCourse;
         }
 
-        public bool createCourse(Course courses)
+        public bool createCourse(CourseRequest courses)
         {
             //Mess = string.Empty;
             //if (string.IsNullOrEmpty(courses.courseName) || string.IsNullOrEmpty(courses.courseType) || 

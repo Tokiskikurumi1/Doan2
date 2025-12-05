@@ -18,7 +18,7 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
             _db = db;
         }
 
-        public bool createCourse(Course course)
+        public bool createCourse(CourseRequest course)
         {
             using (var conn = _db.GetConnection())
             {
@@ -65,7 +65,7 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
                         {
                             courseList.Add(new Course
                             {
-                                courseID = reader.GetInt32("courseID"),  // hoặc "CourseId", "Id" tùy DB
+                                courseID = reader.GetInt32("courseID"),  
                                 courseName = reader.GetString("courseName"),
                                 courseType = reader.GetString("courseType"),
                                 courseDes = reader.GetString("courseDes"),  // sửa đúng cột mô tả
@@ -75,7 +75,7 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
                                 coursePrice = reader.GetDecimal("coursePrice"),
                                 courseStatus = reader.GetString("courseStatus"),
                                 courseImage = reader.IsDBNull("courseImage") ? null : reader.GetString("courseImage"),
-                                teacherID = reader.GetInt32("teacherID")  // sửa từ roleID → teacherID
+                                teacherID = reader.GetInt32("teacherID")
                             });
                         }
                     }

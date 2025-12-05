@@ -3,11 +3,8 @@ using System.Text.Json.Serialization;
 
 namespace QLY_LMS.Models.MTeacher
 {
-    public class Course
+    public class CourseRequest
     {
-        //[JsonIgnore]
-        public int courseID { get; set; }
-
         [Required(ErrorMessage = "Tên khóa học không được để trống")]
         [StringLength(50)]
         public string courseName { get; set; } = null!;
@@ -31,7 +28,6 @@ namespace QLY_LMS.Models.MTeacher
         public string courseStatus { get; set; } = "incomplete";
 
         public string? courseImage { get; set; }
-
         [JsonIgnore]
         public int teacherID { get; set; }
     }

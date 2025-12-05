@@ -1,33 +1,29 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces;
-using QLY_LMS.DAL.Admin.Implementations;
-using QLY_LMS.Modal;
 using QLY_LMS.Models.MTeacher;
 
 namespace QLY_LMS.Controllers.Teacher_Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "2")]
+    [Authorize(Roles = "Teacher")]
     public class Teacher : ControllerBase
     {
-        private readonly I_BLL_ManageCourse _ImanageCoure;
-        
-        public Teacher (I_BLL_ManageCourse course)
+        private readonly I_BLL_ManageCourse _ImanageCourse;
+
+        public Teacher(I_BLL_ManageCourse course)
         {
-            _ImanageCoure = course;
+            _ImanageCourse = course;
         }
 
-        [Authorize(Roles = "Teacher")]
-        [Route("get-all-course")]
-        [HttpGet]
+        // ==================== GET ALL COURSE ====================
+        [HttpGet("get-all-course")]
         public IActionResult GetAll()
         {
-            var teacherId = int.Parse(User.FindFirst("userID").Value);
+            int teacherId = int.Parse(User.FindFirst("userID").Value);
 
-            var courses = _ImanageCoure.getAllCoures(teacherId);
+            var courses = _ImanageCourse.getAllCoures(teacherId);
 
             if (courses == null || !courses.Any())
                 return BadRequest("Không tồn tại khóa học của giảng viên!");
@@ -35,60 +31,48 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
             return Ok(courses);
         }
 
-
-
-        //[Route("get-by-id/{id}")]
-        //[HttpGet]
-        //public User_table GetByID(int id)
-        //{
-        //    var user = _ImanageCoure.GetUserById(id);
-        //    return _User.GetUserById(id);
-
-        //}
-
-        [Authorize(Roles = "Teacher")]
+        // ==================== CREATE COURSE ====================
         [HttpPost("create-new-course")]
-        public IActionResult Create([FromBody] Course model)
+        public IActionResult Create([FromBody] CourseRequest model)
         {
-            var teacherId = int.Parse(User.FindFirst("userID").Value);
+            int teacherId = int.Parse(User.FindFirst("userID").Value);
 
-            model.teacherID = teacherId;
+            model.teacherID = teacherId;  // Force teacherID từ token
 
-            var course = _ImanageCoure.createCourse(model);
+            var result = _ImanageCourse.createCourse(model);
 
             return Ok("Thêm khóa học thành công!");
         }
 
-
-        [Authorize(Roles = "Teacher")]
+        // ==================== UPDATE COURSE ====================
         [HttpPut("update-course/{courseID}")]
         public IActionResult Update(int courseID, [FromBody] Course model)
         {
-            var teacherId = int.Parse(User.FindFirst("userID").Value);
+            int teacherId = int.Parse(User.FindFirst("userID").Value);
 
-            // Gán teacherID từ token
-            model.teacherID = teacherId;
-
-            // Kiểm tra quyền sở hữu
-            bool allowed = _ImanageCoure.CheckCourseOfTeacher(courseID, teacherId);
+            // Kiểm tra quyền sở hữu khóa học
+            bool allowed = _ImanageCourse.CheckCourseOfTeacher(courseID, teacherId);
             if (!allowed)
                 return BadRequest("Bạn không có quyền sửa khóa học này!");
 
-            var result = _ImanageCoure.updateCourse(courseID, model);
+            model.teacherID = teacherId;
+
+            var result = _ImanageCourse.updateCourse(courseID, model);
             return Ok("Cập nhật thành công!");
         }
 
-
-
-        [Route("delete-course")]
-        [HttpPost]
-        public IActionResult Delete(int courseID, int teacherID)
+        // ==================== DELETE COURSE ====================
+        [HttpDelete("delete-course/{courseID}")]
+        public IActionResult Delete(int courseID)
         {
-            //var user = _ImanageCoure.(courseID, teacherID);
-            //if (user == null)
-            //    return NotFound("Không tìm thấy user");
+            int teacherId = int.Parse(User.FindFirst("userID").Value);
 
-            bool result = _ImanageCoure.deleteCourse(courseID, teacherID);
+            bool allowed = _ImanageCourse.CheckCourseOfTeacher(courseID, teacherId);
+            if (!allowed)
+                return BadRequest("Bạn không có quyền xóa khóa học này!");
+
+            bool result = _ImanageCourse.deleteCourse(courseID, teacherId);
+
             return result
                 ? Ok("Xóa thành công")
                 : BadRequest("Xóa thất bại");
