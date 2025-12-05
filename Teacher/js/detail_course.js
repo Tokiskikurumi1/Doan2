@@ -55,7 +55,7 @@ function renderVideos() {
     div.innerHTML = `
       <div class="video-info">
         <p><strong>${video.title}</strong></p>
-        <a href="${video.url}" target="_blank">${video.url}</a>
+        <a href="${video.url}" target="_blank">Video bài giảng</a>
         
       </div>
       <div class="video-actions">
@@ -148,7 +148,7 @@ document.getElementById("add-video-form").onsubmit = function (e) {
     assignments: [],
   });
 
-  saveVideo();
+  saveVideo(false);
   renderVideos();
 
   this.reset();
@@ -184,7 +184,7 @@ function saveCoursesData() {
   localStorage.setItem("courses", JSON.stringify(courses));
 }
 
-// 2. Hàm lưu + chuyển trang (chỉ dùng khi bấm nút "Lưu khóa học")
+// 2. Hàm lưu + chuyển trang
 function saveCourseAndRedirect() {
   saveCoursesData();
   alert("Lưu thông tin thay đổi!");
@@ -193,7 +193,7 @@ function saveCourseAndRedirect() {
   }, 10);
 }
 
-function saveVideo() {
+function saveVideo(isEdit = false) {
   course.name = titleInput.value;
   course.type = typeSelect.value;
   course.date = dateInput.value;
@@ -204,7 +204,7 @@ function saveVideo() {
 
   localStorage.setItem("courses", JSON.stringify(courses));
 
-  alert("Thêm video thành công!");
+  alert(isEdit ? "Sửa video thành công!" : "Thêm video thành công!");
 }
 
 // ========================== HỦY ==========================
@@ -233,7 +233,7 @@ document.getElementById("edit-video-form").onsubmit = function (e) {
   currentEditingVideo.title = document.getElementById("edit-video-title").value;
   currentEditingVideo.url = document.getElementById("edit-video-url").value;
 
-  saveVideo();
+  saveVideo(true);
   renderVideos();
 
   document.getElementById("edit-video-modal").style.display = "none";

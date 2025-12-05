@@ -143,7 +143,7 @@ function renderCourses() {
 
                     <div class="date-and-number">
                         <div class="date-make">Ngày tạo: ${course.date}</div>
-                        <div class="number-of-student">456 học viên</div>
+                        <div class="number-of-student">0 học viên</div>
                     </div>
 
                     <hr />
