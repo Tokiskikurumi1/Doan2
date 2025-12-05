@@ -310,3 +310,7 @@ public async Task SaveScoreAsync(SaveScoreDto scoreDto)
 
     }
 }
+# Database optimization
+# Database optimization
+# Database optimization
+# UI/UX improvements
