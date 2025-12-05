@@ -62,6 +62,7 @@ document.getElementById("create-course-form").onsubmit = function (e) {
     date: new Date().toISOString().split("T")[0],
     image: uploadedImageBase64 || "./img/course.png",
     videos: [],
+    students: [],
   };
 
   courses.push(course);
@@ -113,7 +114,6 @@ function renderCourses() {
     filtered.sort((a, b) => a.name.localeCompare(b.name));
   else if (arrange === "ZtoA")
     filtered.sort((a, b) => b.name.localeCompare(a.name));
-
 
   if (filtered.length === 0) {
     courseListEl.style.display = "flex";
