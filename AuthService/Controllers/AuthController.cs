@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Data.SqlClient;
 using System.Security.Claims;
 using System.Text;
+using AuthService.Models;
 
 [ApiController]
 [Route("api/auth")]
@@ -35,7 +36,9 @@ public class AuthController : ControllerBase
         var rd = cmd.ExecuteReader();
 
         if (!rd.Read())
+        {
             return Unauthorized(new { message = "Sai tài khoản hoặc mật khẩu" });
+        }
 
         int userID = rd.GetInt32(0);
         string userName = rd.GetString(1);
@@ -78,8 +81,3 @@ public class AuthController : ControllerBase
     }
 }
 
-public class LoginRequest
-{
-    public string Account { get; set; }
-    public string Pass { get; set; }
-}
