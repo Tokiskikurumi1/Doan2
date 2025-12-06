@@ -1,59 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop</title>
+  <link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
     <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
     <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
     <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
     <link rel="stylesheet" href="./css/shop.css">
 </head>
 <body>
-    <div class="shop">
-        <div class="product-header">
-            <h2>Tìm được 1 sản phẩm:</h2>
-            <button id="toggleFilter">Hiện bộ lọc</button>
-        </div>
-        <div class="product">
-            <div class="product-card">
-                <div class="product-card-item" id="cardhover">
-                    <div class="product-card-item-img"></div>
-                    <h3>Tên sản phẩm</h3>
-                    <span class="product-card-item-rating">Tên tác giả</span>
-                    <span class="product-card-item-duration">Thời lượng - Số trang</span>
-                    <span class="product-card-item-rating">Sao</span>
-                    <div class="product-card-item-price">
-                        <span class="price">250.000 VND</span>
-                        <button id="btnblue">Xem chi tiết</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="filter-overlay" id="filterOverlay">
-            <div class="filter-content">
-                <button id="closeFilter">Quay lại</button>
-                <h2>Bộ lọc</h2>
-                <h3>Loại sản phẩm</h3>
-                <label><input type="radio" name="all" value="type-product"> Tất cả</label>
-                <label><input type="radio" name="all" value="type-product"> Sách</label>
-                <label><input type="radio" name="all" value="type-product"> Khóa học</label>
-
-                <h3>Trình độ</h3>
-                <label><input type="radio" name="level" value="level-easy"> Dễ</label>
-                <label><input type="radio" name="level" value="level-medium"> Trung bình</label>
-                <label><input type="radio" name="level" value="level-hard"> Khó</label>
-
-                <h3>Đánh giá</h3>
-                <label><input type="radio" name="rating" value="rating-1"> 4.5 sao</label>
-                <label><input type="radio" name="rating" value="rating-2"> 3 sao</label>
-                <label><input type="radio" name="rating" value="rating-3"> 2 sao</label>
-                <label><input type="radio" name="rating" value="rating-4"> 1 sao</label>
-            </div>
-        </div>
+  <div class="shop">
+    <div class="filter-content">
+      <div class="filter-group">
+        <h3>Trình độ</h3>
+        <label><input type="radio" name="level" value="level-easy"> TOEIC</label>
+        <label><input type="radio" name="level" value="level-medium"> IELST</label>
+        <label><input type="radio" name="level" value="level-hard"> Cơ bản</label>
+        <label><input type="radio" name="level" value="level-hard"> COMBO-2</label>
+        <label><input type="radio" name="level" value="level-hard"> COMBO-4</label>
+      </div>
     </div>
 
-    <script type="module" src="../User_header_footer/js/shop.js"></script>
+    <div class="product">
+      <div class="product-card">
+        <div class="product-card-item">
+          <div class="product-card-item-img"></div>
+          <h3>Tên sản phẩm</h3>
+          <span>Tên tác giả</span>
+          <span>Loại</span>
+          <div class="product-card-item-price">
+            <span class="price">250.000 VND</span>
+            <button id="btnblue">Xem chi tiết</button>
+          </div>
+        </div>
+      </div>
+      <img src="" alt="">
+      <div class="pagination" aria-label="Pagination">
+        <button id="prevPage">Prev</button>
+        <button class="active" aria-current="page">1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>...</button>
+        <button>cuối</button>
+        <button id="nextPage">Next</button>
+      </div>
+    </div>
+  </div>
 </body>
+ <script src="./js/shop.js"></script>
 </html>
