@@ -1,35 +1,63 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces;
+using QLY_LMS.Controllers.Teacher_Controllers;
 using QLY_LMS.Models.MTeacher;
 
-namespace QLY_LMS.Controllers.Teacher_Controllers
+[Authorize(Roles = "Teacher")]
+[Route("api/[controller]")]
+[ApiController]
+public class VideoController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TManageVideoCourse : Controller
+    private readonly I_BLL_ManageVideoCourse _service;
+
+    public VideoController(I_BLL_ManageVideoCourse service)
     {
-        private readonly I_BLL_ManageVideoCourse _IManageVideoCourse;
+        _service = service;
+    }
 
-        public TManageVideoCourse(I_BLL_ManageVideoCourse IbanageVideoCourse)
-        {
-            _IManageVideoCourse = IbanageVideoCourse;
-        }
-        [Route("get-all-video")]
-        [HttpGet]
-        public IActionResult get_All_Video(int CId)
-        {
-            var courseId = _IManageVideoCourse.getAllVideo(CId);
+    private int GetTeacherID()
+    {
+        return int.Parse(User.FindFirst("userID").Value);
 
-            if(courseId == null)
-            {
-                return BadRequest("khoá học chưa có video!");
-            }
-            return Ok(courseId);
-        }
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
+    }
+
+
+    [HttpGet("get-all-video/{courseID}")]
+    public IActionResult GetAll(int courseID)
+    {
+        int teacherID = GetTeacherID();
+
+        return Ok(_service.GetAllVideo(courseID, teacherID));
+    }
+
+    [HttpPost("create-new-video")]
+    public IActionResult Create(Video_course video)
+    {
+        int teacherID = GetTeacherID();
+
+        _service.CreateVideo(video, teacherID);
+
+        return Ok(new { message = "created" });
+    }
+
+    [HttpPut("update-video")]
+    public IActionResult Update(Video_course video)
+    {
+        int teacherID = GetTeacherID();
+
+        _service.UpdateVideo(video, teacherID);
+
+        return Ok(new { message = "updated" });
+    }
+
+    [HttpDelete("delete-video/{videoID}")]
+    public IActionResult Delete(int videoID)
+    {
+        int teacherID = GetTeacherID();
+
+        _service.DeleteVideo(videoID, teacherID);
+
+        return Ok(new { message = "deleted" });
     }
 }

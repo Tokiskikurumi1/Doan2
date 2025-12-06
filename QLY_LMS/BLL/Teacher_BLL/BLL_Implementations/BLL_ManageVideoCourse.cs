@@ -8,14 +8,30 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
     {
         private readonly I_DAL_ManageVideoCourse _ManageCourse;
 
-        public BLL_ManageVideoCourse(I_DAL_ManageVideoCourse MAnageCourse)
+        public BLL_ManageVideoCourse(I_DAL_ManageVideoCourse dal)
         {
-            _ManageCourse = MAnageCourse;
+            _ManageCourse = dal;
         }
 
-        public List<Video_course> getAllVideo(int CId)
+        public List<Video_course> GetAllVideo(int courseID, int teacherID)
         {
-            return _ManageCourse.getAllVideo(CId);
+            return _ManageCourse.GetAllVideo(courseID, teacherID);
+
+        }
+
+        public bool CreateVideo(Video_course video, int teacherID)
+        {
+            return _ManageCourse.CreateVideo(video, teacherID);
+        }
+
+        public bool UpdateVideo(Video_course video, int teacherID)
+        {
+            return _ManageCourse.UpdateVideo(video, teacherID);
+        }
+
+        public bool DeleteVideo(int videoID, int teacherID)
+        {
+            return _ManageCourse.DeleteVideo(videoID, teacherID);
         }
     }
 }
