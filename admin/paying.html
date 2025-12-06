@@ -71,7 +71,7 @@
                     <span>10</span>
                     <span>0</span>
                   </div>
-                  <div class="box-column">
+                  <div class="box-column" id="monthlyChart">
                     <div
                       class="chart-serie"
                       style="--i: 80%; --color: var(--blue-)"
@@ -147,12 +147,18 @@
                   </div>
                 </div>
                 <div class="name-course">
-                  <span>Tiếng anh cơ bản </span>
-                  <span>Tiếng anh cơ bản</span>
-
-                  <span>Tiếng anh cơ bản</span>
-
-                  <span>Tiếng anh cơ bản</span>
+                  <span>Tháng 1 </span>
+                  <span>Tháng 2</span>
+                  <span>Tháng 3</span>
+                  <span>Tháng 4</span>
+                  <span>Tháng 5 </span>
+                  <span>Tháng 6</span>
+                  <span>Tháng 7</span>
+                  <span>Tháng 8</span>
+                  <span>Tháng 9 </span>
+                  <span>Tháng 10</span>
+                  <span>Tháng 11</span>
+                  <span>Tháng 12</span>
                 </div>
               </div>
             </div>
@@ -166,7 +172,7 @@
                   placeholder="🔍 Tìm kiếm theo tên học viên/ mã giao dịch"
                 />
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label>Trạng thái thanh toán</label>
                 <select id="roleFilter">
                   <option value="all">Tất cả</option>
@@ -174,13 +180,17 @@
                   <option value="unpaid">Chưa thanh toán</option>
                   <option value="confirm">Chờ xác nhận</option>
                 </select>
-              </div>
+              </div> -->
               <div class="form-group">
                 <label>Khóa học</label>
                 <select id="roleFilterCourse">
-                  <option value="all">Tất cả</option>
-                  <option value="ielts">IELTS</option>
-                  <option value="toeic">TOEIC</option>
+                  <option value="All">Tất cả</option>
+                  <option value="TOEIC">TOEIC</option>
+                  <option value="IELTS">IELTS</option>
+                  <option value="Combo">Combo</option>
+                  <option value="BEGINNER">BEGINNER</option>
+                  <option value="COMBO-4">COMBO-4</option>
+                  <option value="COMBO-2">COMBO-2</option>
                 </select>
               </div>
             </div>
@@ -215,6 +225,24 @@
               </thead>
               <tbody id="paymentTableBody"></tbody>
             </table>
+          </div>
+
+          <!-- PHÂN TRANG -->
+          <div class="pagination-container">
+            <div class="pagination-info">
+              Hiển thị <span id="pageStart">1</span> -
+              <span id="pageEnd">10</span> trong tổng
+              <span id="totalRecords">0</span> giao dịch
+            </div>
+            <div class="pagination">
+              <button id="prevPage" class="page-btn">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <div class="page-numbers" id="pageNumbers"></div>
+              <button id="nextPage" class="page-btn">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
           </div>
 
           <div id="paymentModal" class="modal">
@@ -256,6 +284,7 @@
     </div>
 
     <script src="./js/header_siderbar.js"></script>
+    <script src="./js/fakeData.js"></script>
     <script src="./js/paying.js"></script>
   </body>
 </html>

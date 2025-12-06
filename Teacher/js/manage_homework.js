@@ -1,9 +1,8 @@
-// ======================= LẤY THÔNG TIN GIẢNG VIÊN ĐANG ĐĂNG NHẬP =======================
-const currentUserId = localStorage.getItem("currentUser"); // chỉ là ID
+// ======================= LẤY THÔNG TIN GIẢNG VIÊN =======================
+const currentUserId = localStorage.getItem("currentUser");
 const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
 const currentUser = currentUserId ? allUsersData[currentUserId] : null;
 
-// BẢO VỆ TRANG: Không đăng nhập hoặc không phải giáo viên → đá về login
 if (!currentUser || currentUser.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");
   window.location.href = "../User_header_footer/login.html";
@@ -11,50 +10,47 @@ if (!currentUser || currentUser.role !== "teacher") {
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("manage_homework.js loaded");
-  loadAssignments(); // mặc định load "all"
+  loadAssignments(); // load lần đầu
   setupTabs();
+  setupCourseFilter(); // THÊM HÀM NÀY
   updateTabCounts();
 });
 
-let allAssignments = []; // toàn bộ bài tập
+let allAssignments = [];
 
-// ======================= LOAD ASSIGNMENTS =======================
-function loadAssignments(filter = "all") {
-  console.log("loadAssignments called with filter:", filter);
+// ======================= LOAD ASSIGNMENTS (CÓ LỌC THEO KHÓA HỌC) =======================
+function loadAssignments(filterStatus = "all", filterCourse = "all") {
   const grid = document.querySelector(".assignment-grid");
   if (!grid) return;
 
   grid.innerHTML = "";
 
-  // Lấy tất cả bài tập
+  // Lấy tất cả bài tập của giảng viên hiện tại
   const rawAssignments = JSON.parse(
     localStorage.getItem("assignments") || "[]"
   );
-
-  // CHỈ LẤY BÀI TẬP CÓ teacherId === currentUser.id
   allAssignments = rawAssignments.filter((a) => a.teacherId === currentUser.id);
 
-  // Lọc theo tab
+  // LỌC THEO TRẠNG THÁI + LOẠI KHÓA HỌC
   const filtered = allAssignments.filter((a) => {
-    if (filter === "published") return a.status === "published";
-    if (filter === "draft") return a.status === "draft";
-    return true;
+    const matchStatus =
+      filterStatus === "all" ||
+      (filterStatus === "published" && a.status === "published") ||
+      (filterStatus === "draft" && a.status === "draft");
+
+    const matchCourse = filterCourse === "all" || a.course === filterCourse;
+
+    return matchStatus && matchCourse;
   });
 
   if (filtered.length === 0) {
-    grid.style.display = "block";
     grid.innerHTML = `
-            <div style="
-                background: white; padding: 2rem; border-radius: 12px;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; color: var(--grey);
-            ">
-                <i class="fas fa-clipboard-list" style="font-size: 2.5rem; color: var(--white); margin-bottom: 0.5rem;"></i>
-                <p>Chưa có bài tập nào. Nhấn "Tạo bài tập mới" để bắt đầu!</p>
-            </div>`;
+      <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <i class="fas fa-search fa-3x" style="color: #cbd5e1; margin-bottom: 1rem;"></i>
+        <p style="color: #94a3b8; font-size: 1.1rem;">Không tìm thấy bài tập nào.</p>
+      </div>`;
     return;
   }
-
-  grid.style.display = "grid";
 
   filtered.forEach((a) => {
     const card = createAssignmentCard(a);
@@ -62,111 +58,110 @@ function loadAssignments(filter = "all") {
   });
 }
 
-// ======================= TẠO CARD  =======================
+// ======================= TẠO CARD =======================
 function createAssignmentCard(a) {
   const card = document.createElement("div");
   card.className = "assignment-card";
 
+  const submitted = 0; // sẽ làm thật sau
+  const notSubmitted = 0;
+  const total = submitted + notSubmitted;
+  const percent = total > 0 ? Math.round((submitted / total) * 100) : 0;
+
   if (a.status === "published") {
-    // Dữ liệu giả lập (sẽ thay bằng thật khi có học viên nộp)
-    const submitted = 0;
-    const notSubmitted = 0;
-    const total = submitted + notSubmitted;
-    const percent = total > 0 ? Math.round((submitted / total) * 100) : 0;
-
     card.innerHTML = `
-        <div class="assignment-card-header">
-          <div class="assignment">
-            <h3 class="assignment-title">${escapeHtml(a.title)}</h3>
-            <span class="badge badge-published">Đã xuất bản</span>
+      <div class="assignment-card-header">
+        <div class="assignment">
+          <h3 class="assignment-title">${escapeHtml(a.title)}</h3>
+          <span class="badge badge-published">Đã xuất bản</span>
+        </div>
+        <div class="assignment-meta">
+          <span><i class="fas fa-book"></i> ${escapeHtml(
+            a.course || "Không xác định"
+          )}</span>
+          <span><i class="fas fa-calendar"></i> Hạn: ${formatDeadline(
+            a.deadline
+          )}</span>
+        </div>
+      </div>
+      <div class="assignment-body">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-value done">${submitted}</div>
+            <div class="stat-label">Đã nộp</div>
           </div>
-          <div class="assignment-meta">
-            <span><i class="fas fa-book"></i> ${escapeHtml(a.course)}</span>
-            <span><i class="fas fa-calendar"></i> Hạn: ${formatDeadline(
-              a.deadline
-            )}</span>
+          <div class="stat-item">
+            <div class="stat-value done-yet">${notSubmitted}</div>
+            <div class="stat-label">Chưa nộp</div>
           </div>
         </div>
-        <div class="assignment-body">
-          <div class="stats-grid">
-            <div class="stat-item">
-              <div class="stat-value done">${submitted}</div>
-              <div class="stat-label">Đã nộp</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-value done-yet">${notSubmitted}</div>
-              <div class="stat-label">Chưa nộp</div>
-            </div>
+        <div class="progress-container">
+          <div class="progress-label">
+            <span>Tỷ lệ nộp</span>
+            <span>${percent}%</span>
           </div>
-          <div class="progress-container">
-            <div class="progress-label">
-              <span>Tỷ lệ nộp</span>
-              <span>${percent}%</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: ${percent}%"></div>
-            </div>
-          </div>
-          <div class="assignment-actions">
-            <button class="btn btn-primary btn-sm" onclick="viewDetail('${
-              a.id
-            }')">Xem chi tiết</button>
-            <button class="btn btn-outline btn-sm" onclick="editDraft('${
-              a.id
-            }')">Chỉnh sửa</button>
-            <button class="btn btn-outline btn-sm text-red" onclick="deleteAssignment('${
-              a.id
-            }')">Xóa</button>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${percent}%"></div>
           </div>
         </div>
-      `;
+        <div class="assignment-actions">
+          <button class="btn btn-primary btn-sm" onclick="viewDetail('${
+            a.id
+          }')">Xem chi tiết</button>
+          <button class="btn btn-outline btn-sm" onclick="editDraft('${
+            a.id
+          }')">Chỉnh sửa</button>
+          <button class="btn btn-outline btn-sm text-red" onclick="deleteAssignment('${
+            a.id
+          }')">Xóa</button>
+        </div>
+      </div>
+    `;
   } else {
-    // Bản nháp
     card.innerHTML = `
-          <div class="assignment-card-header">
-            <div class="assignment">
-              <h3 class="assignment-title">${escapeHtml(a.title)}</h3>
-              <span class="badge badge-draft">Bản nháp</span>
-            </div>
-            <div class="assignment-meta">
-              <span><i class="fas fa-book"></i> ${escapeHtml(a.course)}</span>
-              <span><i class="fas fa-calendar"></i> Chưa đặt hạn</span>
-            </div>
+      <div class="assignment-card-header">
+        <div class="assignment">
+          <h3 class="assignment-title">${escapeHtml(a.title)}</h3>
+          <span class="badge badge-draft">Bản nháp</span>
+        </div>
+        <div class="assignment-meta">
+          <span><i class="fas fa-book"></i> ${escapeHtml(
+            a.course || "Chưa chọn khóa"
+          )}</span>
+          <span><i class="fas fa-calendar"></i> Chưa đặt hạn</span>
+        </div>
+      </div>
+      <div class="assignment-body">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-value">—</div>
+            <div class="stat-label">Chưa xuất bản</div>
           </div>
-          <div class="assignment-body">
-            <div class="stats-grid">
-              <div class="stat-item">
-                <div class="stat-value">—</div>
-                <div class="stat-label">Chưa xuất bản</div>
-              </div>
-            </div>
-            <div class="assignment-actions">
-              <button class="btn btn-outline btn-sm" onclick="editDraft('${
-                a.id
-              }')">Tiếp tục soạn</button>
-              <button class="btn btn-outline btn-sm text-red" onclick="deleteAssignment('${
-                a.id
-              }')">Xóa</button>
-            </div>
-          </div>
-        `;
+        </div>
+        <div class="assignment-actions">
+          <button class="btn btn-outline btn-sm" onclick="editDraft('${
+            a.id
+          }')">Tiếp tục soạn</button>
+          <button class="btn btn-outline btn-sm text-red" onclick="deleteAssignment('${
+            a.id
+          }')">Xóa</button>
+        </div>
+      </div>
+    `;
   }
-
   return card;
 }
 
-// ======================= CÁC HÀM HỖ TRỢ (giữ nguyên) =======================
-function formatDeadline(d) {
-  if (!d) return "Chưa đặt hạn";
-  const date = new Date(d);
-  if (isNaN(date)) return "Không hợp lệ";
-  return date.toLocaleDateString("vi-VN");
-}
+// ======================= LỌC THEO LOẠI KHÓA HỌC (MỚI) =======================
+function setupCourseFilter() {
+  const select = document.getElementById("selectTypeCourse");
+  if (!select) return;
 
-function escapeHtml(text) {
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
+  select.addEventListener("change", () => {
+    const selectedCourse = select.value;
+    const currentStatus = getActiveFilter(); // lấy tab đang active
+    loadAssignments(currentStatus, selectedCourse);
+  });
 }
 
 // ======================= TAB & ĐẾM =======================
@@ -177,10 +172,14 @@ function setupTabs() {
       tabs.forEach((t) => t.classList.remove("active"));
       tab.classList.add("active");
 
-      const text = tab.textContent || tab.innerText;
-      if (text.includes("Tất cả")) loadAssignments("all");
-      else if (text.includes("Đã xuất bản")) loadAssignments("published");
-      else if (text.includes("Bản nháp")) loadAssignments("draft");
+      const text = tab.textContent || "";
+      let filterStatus = "all";
+      if (text.includes("Đã xuất bản")) filterStatus = "published";
+      if (text.includes("Bản nháp")) filterStatus = "draft";
+
+      const currentCourse =
+        document.getElementById("selectTypeCourse")?.value || "all";
+      loadAssignments(filterStatus, currentCourse); // truyền cả 2 filter
     });
   });
 }
@@ -198,32 +197,45 @@ function updateTabCounts() {
   if (tabs[2]) tabs[2].textContent = `Bản nháp (${draft})`;
 }
 
-// ======================= XÓA =======================
+function getActiveFilter() {
+  const active = document.querySelector(".filter-tabs .tab.active");
+  const text = active?.textContent || "";
+  if (text.includes("Đã xuất bản")) return "published";
+  if (text.includes("Bản nháp")) return "draft";
+  return "all";
+}
+
+// ======================= CÁC HÀM HỖ TRỢ =======================
+function formatDeadline(d) {
+  if (!d) return "Chưa đặt hạn";
+  const date = new Date(d);
+  return isNaN(date) ? "Không hợp lệ" : date.toLocaleDateString("vi-VN");
+}
+
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text || "";
+  return div.innerHTML;
+}
+
 function deleteAssignment(id) {
-  if (!confirm("Bạn có chắc muốn xóa bài tập này?")) return;
+  if (!confirm("Xóa bài tập này? Hành động không thể hoàn tác!")) return;
 
   let assignments = JSON.parse(localStorage.getItem("assignments") || "[]");
   assignments = assignments.filter((a) => a.id !== id);
   localStorage.setItem("assignments", JSON.stringify(assignments));
 
-  // Cập nhật lại danh sách hiện tại
   allAssignments = allAssignments.filter((a) => a.id !== id);
   updateTabCounts();
-  loadAssignments(getActiveFilter());
+  loadAssignments(
+    getActiveFilter(),
+    document.getElementById("selectTypeCourse")?.value || "all"
+  );
 }
 
-function getActiveFilter() {
-  const active = document.querySelector(".filter-tabs .tab.active");
-  const text = active?.textContent || "";
-  if (text.includes("Tất cả")) return "all";
-  if (text.includes("Đã xuất bản")) return "published";
-  return "draft";
-}
-
-// ======================= CHỈNH SỬA & XEM CHI TIẾT =======================
 function editDraft(id) {
   localStorage.setItem("editingAssignmentId", id);
-  window.location.href = "create-homework.html";
+  window.location.href = "./create-homework.html";
 }
 
 function viewDetail(id) {
@@ -231,11 +243,10 @@ function viewDetail(id) {
   window.location.href = "./detail-homework.html";
 }
 
-// ======================= TẠO MỚI =======================
+// TẠO MỚI
 document
   .getElementById("create-new-homework")
-  ?.addEventListener("click", (e) => {
-    e.preventDefault();
-    localStorage.removeItem("editingAssignmentId"); // đảm bảo tạo mới
+  ?.addEventListener("click", () => {
+    localStorage.removeItem("editingAssignmentId");
     window.location.href = "./create-homework.html";
   });

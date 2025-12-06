@@ -1,47 +1,6 @@
-// ======================= DỮ LIỆU GIẢ =======================
-const payments = [
-  {
-    id: "TX001",
-    student: "Nguyễn Văn A",
-    course: "IELTS",
-    amount: 1500000,
-    method: "Chuyển khoản",
-    date: "2025-10-10",
-    status: "Đã thanh toán",
-  },
-  {
-    id: "TX002",
-    student: "Trần Thị B",
-    course: "TOEIC",
-    amount: 1200000,
-    method: "Tiền mặt",
-    date: "2025-10-11",
-    status: "Chưa thanh toán",
-  },
-  {
-    id: "TX003",
-    student: "Lê Minh C",
-    course: "IELTS",
-    amount: 2000000,
-    method: "Ví Momo",
-    date: "2025-10-12",
-    status: "Chờ xác nhận",
-  },
-  {
-    id: "TX003",
-    student: "Lê Minh C",
-    course: "IELTS",
-    amount: 2000000,
-    method: "Ví Momo",
-    date: "2025-10-12",
-    status: "Chờ xác nhận",
-  },
-];
-
 // ======================= LẤY PHẦN TỬ HTML =======================
 const paymentTableBody = document.getElementById("paymentTableBody");
 const searchPayment = document.getElementById("searchPayment");
-const roleFilter = document.getElementById("roleFilter");
 const roleFilterCourse = document.getElementById("roleFilterCourse");
 const dateFrom = document.getElementById("fromDate");
 const dateTo = document.getElementById("toDate");
@@ -55,113 +14,145 @@ const payMethod = document.getElementById("payMethod");
 const payDate = document.getElementById("payDate");
 const payStatus = document.getElementById("payStatus");
 
-//==========HIỂN THỊ DỮ LIỆU HEADER===============
+// Header thống kê
 const Total = document.getElementById("Total");
 const totalTrade = document.getElementById("totalTrade");
 const tradeSuccsess = document.getElementById("tradeSuccsess");
-const tradeFail = document.getElementById("tradeFail");
 
-function displayTotal(payments) {
-  var total = 0;
-  var trade = 0;
-  var succsess = 0;
-  var fail = 0;
-  for (var i = 0; i < payments.length; i++) {
-    if (payments[i].status === "Đã thanh toán") {
-      total += payments[i].amount;
-      succsess += 1;
-    } else {
-      fail += 1;
-    }
-    trade += 1;
-  }
-  Total.textContent = total.toLocaleString() + "đ";
-  totalTrade.textContent = trade;
-  tradeSuccsess.textContent = succsess;
-  tradeFaild.textContent = fail;
+// ======================= CÀI ĐẶT PHÂN TRANG =======================
+const itemsPerPage = 10;
+let currentPage = 1;
+let currentList = []; // Danh sách sau khi lọc
+
+// ======================= HIỂN THỊ TỔNG TIỀN & THỐNG KÊ =======================
+function displayTotal(list) {
+  const totalAmount = list.reduce((sum, p) => sum + p.amount, 0);
+  Total.textContent = totalAmount.toLocaleString() + "đ";
+  totalTrade.textContent = list.length;
+  tradeSuccsess.textContent = list.length;
 }
 
-displayTotal(payments);
-
-// ======================= HIỂN THỊ DỮ LIỆU =======================
+// ======================= HIỂN THỊ DANH SÁCH + PHÂN TRANG =======================
 function displayPayment(list_payment) {
+  currentList = list_payment;
+
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const paginatedItems = currentList.slice(start, end);
+
   paymentTableBody.innerHTML = "";
 
-  if (list_payment.length === 0) {
-    paymentTableBody.innerHTML = `
-      <tr><td colspan="8" style="text-align:center;">Không có dữ liệu phù hợp</td></tr>`;
-    return;
+  if (currentList.length === 0) {
+    paymentTableBody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 40px 0;">Không có dữ liệu phù hợp</td></tr>`;
+  } else {
+    paginatedItems.forEach((p) => {
+      paymentTableBody.innerHTML += `
+        <tr>
+          <td>${p.id}</td>
+          <td>${p.student}</td>
+          <td>${p.course}</td>
+          <td>${p.amount.toLocaleString()}đ</td>
+          <td>${p.method}</td>
+          <td>${p.date}</td>
+          <td><span class="status-paid">Đã thanh toán</span></td>
+          <td class="actionsTable">
+            <button class="view-btn" onclick="View('${
+              p.id
+            }')"><i class="fas fa-eye"></i></button>
+            <button class="delete-btn" onclick="deletePayment('${p.id}')">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      `;
+    });
   }
 
-  list_payment.forEach((p) => {
-    paymentTableBody.innerHTML += `
-      <tr>
-        <td>${p.id}</td>
-        <td>${p.student}</td>
-        <td>${p.course}</td>
-        <td>${p.amount.toLocaleString()}đ</td>
-        <td>${p.method}</td>
-        <td>${p.date}</td>
-        <td>${p.status}</td>
-        <td class="actionsTable">
-          <button class="view-btn" onclick="View('${
-            p.id
-          }')"><i class="fas fa-eye"></i></button>
-          ${
-            p.status === "Chờ xác nhận"
-              ? `<button class="confirm-btn" onclick="confirmPayment('${p.id}')"><i class="fas fa-check-circle"></i></button>`
-              : ""
-          }
-          ${
-            p.status === "Đã thanh toán"
-              ? `<button class="refund-btn" onclick="refundPayment('${p.id}')"><i class="fas fa-rotate-left"></i></button>`
-              : ""
-          }
-          <button class="delete-btn" onclick="deletePayment('${
-            p.id
-          }')"> <i class="fa-solid fa-trash"></i></button>
-        </td>
-      </tr>
-    `;
-  });
+  renderPagination();
+  displayTotal(currentList); // Cập nhật thống kê theo dữ liệu đang hiển thị
 }
 
-// ======================= LỌC THANH TOÁN =======================
+// ======================= LỌC DỮ LIỆU =======================
 function filterPayments() {
-  const keyword = searchPayment.value.toLowerCase();
-  const status = roleFilter.value;
+  const keyword = searchPayment.value.toLowerCase().trim();
   const course = roleFilterCourse.value;
-  const fromDate = dateFrom.value ? new Date(dateFrom.value) : null;
-  const toDate = dateTo.value ? new Date(dateTo.value) : null;
+  const from = dateFrom.value ? new Date(dateFrom.value) : null;
+  const to = dateTo.value ? new Date(dateTo.value) : null;
 
-  const filtered = payments.filter((p) => {
+  let filtered = payments.filter((p) => {
     const matchKeyword =
       p.id.toLowerCase().includes(keyword) ||
       p.student.toLowerCase().includes(keyword);
 
-    const matchStatus =
-      status === "all" ||
-      (status === "paid" && p.status === "Đã thanh toán") ||
-      (status === "unpaid" && p.status === "Chưa thanh toán") ||
-      (status === "confirm" && p.status === "Chờ xác nhận");
+    const matchCourse = course === "All" || p.course === course;
 
-    const matchCourse = course === "all" || p.course.toLowerCase() === course;
+    const pDate = new Date(p.date);
+    const matchDate = (!from || pDate >= from) && (!to || pDate <= to);
 
-    const paymentDate = new Date(p.date);
-    let matchDate = true;
-    if (fromDate && paymentDate < fromDate) matchDate = false;
-    if (toDate && paymentDate > toDate) matchDate = false;
-
-    return matchKeyword && matchStatus && matchCourse && matchDate;
+    return matchKeyword && matchCourse && matchDate;
   });
 
+  currentPage = 1; // Reset về trang 1 khi lọc
   displayPayment(filtered);
 }
 
-// ======================= XEM CHI TIẾT =======================
+// ======================= PHÂN TRANG =======================
+function renderPagination() {
+  const totalItems = currentList.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+
+  // Cập nhật thông tin hiển thị
+  document.getElementById("totalRecords").textContent = totalItems;
+  document.getElementById("pageStart").textContent =
+    totalItems > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0;
+  document.getElementById("pageEnd").textContent = Math.min(
+    currentPage * itemsPerPage,
+    totalItems
+  );
+
+  // Ẩn/Hiện nút Prev - Next
+  document.getElementById("prevPage").disabled = currentPage === 1;
+  document.getElementById("nextPage").disabled = currentPage >= totalPages;
+
+  // CHỈ HIỆN DUY NHẤT 1 SỐ: TRANG HIỆN TẠI
+  const pageNumbers = document.getElementById("pageNumbers");
+  pageNumbers.innerHTML = ""; // Xóa hết
+
+  const currentBtn = document.createElement("div");
+  currentBtn.className = "page-number active";
+  currentBtn.textContent = currentPage;
+  pageNumbers.appendChild(currentBtn);
+}
+
+function addPageButton(page) {
+  const btn = document.createElement("div");
+  btn.className = "page-number" + (page === currentPage ? " active" : "");
+  btn.textContent = page;
+  btn.onclick = () => {
+    currentPage = page;
+    displayPayment(currentList);
+  };
+  document.getElementById("pageNumbers").appendChild(btn);
+}
+
+document.getElementById("prevPage").onclick = () => {
+  if (currentPage > 1) {
+    currentPage--;
+    displayPayment(currentList);
+  }
+};
+
+document.getElementById("nextPage").onclick = () => {
+  if (currentPage < Math.ceil(currentList.length / itemsPerPage)) {
+    currentPage++;
+    displayPayment(currentList);
+  }
+};
+
+// ======================= XEM CHI TIẾT & XÓA =======================
 function View(id) {
   const pay = payments.find((p) => p.id === id);
-  if (!pay) return alert("Không tìm thấy giao dịch này!");
+  if (!pay) return alert("Không tìm thấy giao dịch!");
 
   paymentModal.style.display = "flex";
   payId.textContent = pay.id;
@@ -172,44 +163,66 @@ function View(id) {
   payDate.textContent = pay.date;
   payStatus.textContent = pay.status;
 
-  document.getElementById("closeModalBtn").addEventListener("click", () => {
+  document.getElementById("closeModalBtn").onclick = () => {
     paymentModal.style.display = "none";
-  });
+  };
 }
 
-// ======================= XÓA GIAO DỊCH =======================
 function deletePayment(id) {
-  const index = payments.findIndex((p) => p.id === id);
-  if (index === -1) return alert("Không tìm thấy giao dịch!");
-  if (confirm("Bạn có chắc muốn xóa giao dịch này không?")) {
-    payments.splice(index, 1);
-    filterPayments();
+  if (confirm("Bạn có chắc chắn muốn xóa giao dịch này không?")) {
+    const index = payments.findIndex((p) => p.id === id);
+    if (index !== -1) {
+      payments.splice(index, 1);
+      filterPayments(); // Tự động reload + phân trang
+      alert("Đã xóa thành công!");
+    }
   }
-}
-
-// ======================= XÁC NHẬN THỦ CÔNG =======================
-function confirmPayment(id) {
-  const pay = payments.find((p) => p.id === id);
-  if (!pay) return alert("Không tìm thấy giao dịch!");
-  pay.status = "Đã thanh toán";
-  alert("Đã xác nhận thanh toán thủ công!");
-  filterPayments();
-}
-
-// ======================= HOÀN TIỀN =======================
-function refundPayment(id) {
-  const pay = payments.find((p) => p.id === id);
-  if (!pay) return alert("Không tìm thấy giao dịch!");
-  pay.status = "Đã hoàn tiền";
-  alert("Đã hoàn tiền cho học viên!");
-  filterPayments();
 }
 
 // ======================= SỰ KIỆN =======================
 searchPayment.addEventListener("input", filterPayments);
-roleFilter.addEventListener("change", filterPayments);
 roleFilterCourse.addEventListener("change", filterPayments);
 applyDate.addEventListener("click", filterPayments);
+dateFrom.addEventListener("change", filterPayments);
+dateTo.addEventListener("change", filterPayments);
 
-// ======================= HIỂN THỊ MẶC ĐỊNH =======================
-displayPayment(payments);
+// ======================= BIỂU ĐỒ DOANH THU =======================
+function updateMonthlyRevenueChart() {
+  const boxColumn = document.getElementById("monthlyChart");
+  if (!boxColumn) return;
+
+  const bars = boxColumn.querySelectorAll(".chart-serie");
+  const monthlyRevenue = Array(12).fill(0);
+
+  payments.forEach((p) => {
+    if (p.status === "Đã thanh toán") {
+      const monthIndex = new Date(p.date).getMonth();
+      monthlyRevenue[monthIndex] += p.amount;
+    }
+  });
+
+  const MAX_REVENUE = 100000000; // 100 triệu = 100%
+
+  bars.forEach((bar, index) => {
+    const revenue = monthlyRevenue[index];
+    let percent = (revenue / MAX_REVENUE) * 100;
+    percent = Math.min(percent, 100);
+
+    bar.style.setProperty("--i", percent + "%");
+
+    let displayText = "";
+    if (revenue >= 1000000) displayText = (revenue / 1000000).toFixed(1) + "tr";
+    else if (revenue >= 1000) displayText = (revenue / 1000).toFixed(0) + "k";
+    else if (revenue > 0) displayText = revenue.toLocaleString() + "đ";
+
+    const title = bar.querySelector(".column-title");
+    if (title) {
+      title.textContent = revenue > 0 ? displayText : "";
+      title.style.opacity = revenue > 0 ? "1" : "0";
+    }
+  });
+}
+updateMonthlyRevenueChart();
+
+// ======================= KHỞI TẠO TRANG =======================
+filterPayments(); // Load lần đầu + phân trang + thống kê đúng

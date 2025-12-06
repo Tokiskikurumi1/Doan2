@@ -263,16 +263,30 @@ function handleSubmit(e) {
   // Gắn vào video (nếu có)
   const courseId = localStorage.getItem("creatingHomeworkForCourseId");
   const videoId = localStorage.getItem("creatingHomeworkForVideoId");
+  // GẮN TRỰC TIẾP OBJECT BÀI TẬP VÀO VIDEO (TỐT NHẤT)
   if (courseId && videoId) {
     let courses = JSON.parse(localStorage.getItem("courses") || "[]");
     const course = courses.find((c) => String(c.id) === String(courseId));
-    if (course?.videos) {
+    if (course) {
       const video = course.videos.find((v) => String(v.id) === String(videoId));
       if (video) {
         if (!video.assignments) video.assignments = [];
-        if (!video.assignments.includes(assignment.id)) {
-          video.assignments.push(assignment.id);
+
+        if (editingId) {
+          // SỬA: thay thế bài cũ
+          const index = video.assignments.findIndex(
+            (a) => String(a.id) === String(editingId)
+          );
+          if (index !== -1) {
+            video.assignments[index] = assignment;
+          } else {
+            video.assignments.push(assignment); // nếu không thấy thì thêm mới
+          }
+        } else {
+          // TẠO MỚI
+          video.assignments.push(assignment);
         }
+
         localStorage.setItem("courses", JSON.stringify(courses));
       }
     }
@@ -294,40 +308,79 @@ function handleSubmit(e) {
 }
 
 // ====================== LOAD DRAFT & RESET =======================
-function loadDraft(id) {
-  const assignments = JSON.parse(localStorage.getItem("assignments") || "[]");
-  const draft = assignments.find((a) => a.id === id);
-  if (!draft) return;
+function loadDraft(editingId) {
+  if (!editingId) return;
 
-  title.value = draft.title || "";
-  if (courseSelect) courseSelect.value = draft.course;
-  deadline.value = draft.deadline || "";
-  description.value = draft.description || "";
-  statusHW.value = draft.status || "draft";
-  typeSelect.value = draft.type || "Quizz";
-  durationelect.value = draft.duration || "15";
+  const courseId = localStorage.getItem("creatingHomeworkForCourseId");
+  const videoId = localStorage.getItem("creatingHomeworkForVideoId");
+
+  let foundAssignment = null;
+
+  // ƯU TIÊN 1: Đọc trực tiếp từ video (nơi bạn đang lưu chính)
+  if (courseId && videoId) {
+    const courses = JSON.parse(localStorage.getItem("courses") || "[]");
+    const course = courses.find((c) => String(c.id) === String(courseId));
+    const video = course?.videos?.find((v) => String(v.id) === String(videoId));
+
+    if (video?.assignments && video.assignments.length > 0) {
+      // Tìm bài tập theo ID (hỗ trợ cả số và chuỗi)
+      foundAssignment = video.assignments.find(
+        (a) => String(a.id) === String(editingId)
+      );
+    }
+  }
+
+  // ƯU TIÊN 2: Nếu không thấy → fallback đọc mảng cũ (phòng trường hợp dữ liệu cũ)
+  if (!foundAssignment) {
+    const assignments = JSON.parse(localStorage.getItem("assignments") || "[]");
+    foundAssignment = assignments.find(
+      (a) => String(a.id) === String(editingId)
+    );
+  }
+
+  if (!foundAssignment) {
+    console.warn("Không tìm thấy bài tập với ID:", editingId);
+    alert("Không tìm thấy bài tập để chỉnh sửa!");
+    return;
+  }
+
+  // ĐIỀN DỮ LIỆU VÀO FORM
+  title.value = foundAssignment.title || "";
+  if (courseSelect) courseSelect.value = foundAssignment.course || "TOEIC";
+  deadline.value = foundAssignment.deadline || "";
+  description.value = foundAssignment.description || "";
+  statusHW.value = foundAssignment.status || "draft";
+  typeSelect.value = foundAssignment.type || "Quizz";
+  durationelect.value = foundAssignment.duration || "15";
+
   questionsContainer.innerHTML = "";
   questionCounter = 0;
 
-  draft.questions.forEach((q) => {
-    addNewQuestion();
-    const lastQ = questionsContainer.lastElementChild;
+  // Trigger đổi loại câu hỏi trước
+  typeSelect.dispatchEvent(new Event("change"));
 
-    if (draft.type === "Rewrite") {
-      lastQ.querySelector(".rewrite-original").value = q.original || "";
-      lastQ.querySelector(".rewrite-answer").value = q.rewritten || "";
-    } else {
-      lastQ.querySelector(".question-content").value = q.question || "";
-      const answerList = lastQ.querySelector(".answer-list");
-      answerList.innerHTML = "";
-      q.answers.forEach((ans, i) => {
-        answerList.insertAdjacentHTML(
-          "beforeend",
-          renderAnswerOption(i, questionCounter, ans, i === q.correct)
-        );
-      });
-    }
-  });
+  setTimeout(() => {
+    foundAssignment.questions.forEach((q) => {
+      addNewQuestion();
+      const lastQ = questionsContainer.lastElementChild;
+
+      if (foundAssignment.type === "Rewrite") {
+        lastQ.querySelector(".rewrite-original").value = q.original || "";
+        lastQ.querySelector(".rewrite-answer").value = q.rewritten || "";
+      } else {
+        lastQ.querySelector(".question-content").value = q.question || "";
+        const answerList = lastQ.querySelector(".answer-list");
+        answerList.innerHTML = "";
+        q.answers.forEach((ans, i) => {
+          const isCorrect = i === (q.correct ?? q.correctIdx);
+          answerList.insertAdjacentHTML(
+            "beforeend",
+            renderAnswerOption(i, questionCounter, ans, isCorrect)
+          );
+        });
+      }
+    });
+  }, 150);
 }
 
 function resetForm() {

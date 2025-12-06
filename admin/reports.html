@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./Components/base.css" />
     <link rel="stylesheet" href="./Components/header_siderbar.css" />
     <link rel="stylesheet" href="./css/reports.css" />
-    <link rel="stylesheet" href="./css/style.css" />
+    <!-- <link rel="stylesheet" href="./css/style.css" /> -->
 
     <title>Thống kê & Báo cáo - E-learning</title>
   </head>
@@ -32,11 +32,10 @@
             <!-- Bộ lọc -->
             <div class="actions">
               <label>Loại thống kê:</label>
-              <select>
-                <option>Người dùng</option>
-                <option>Khóa học</option>
-                <option>Doanh thu</option>
-                <!-- <option value="">Tài khoản vi phạm</option> -->
+              <select id="roleFilter">
+                <option value="user">Người dùng</option>
+                <option value="course">Khóa học</option>
+                <option value="revenue">Doanh thu</option>
               </select>
 
               <label>Từ ngày:</label>
@@ -166,6 +165,7 @@
     </div>
 
     <script src="./js/header_siderbar.js"></script>
+    <!-- <script src="./js/fakeData.js"></script> -->
     <script src="./js/report.js"></script>
   </body>
 </html>

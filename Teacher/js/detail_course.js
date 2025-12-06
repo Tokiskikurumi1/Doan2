@@ -43,69 +43,83 @@ function renderVideos() {
     const div = document.createElement("div");
     div.className = "video-item";
 
+    const hasHomework = video.assignments && video.assignments.length > 0;
+    const homeworkBtnText = hasHomework ? "Sửa bài tập" : "Tạo bài tập";
+    const homeworkBtnClass = hasHomework
+      ? "edit-homework-btn"
+      : "create-homework-btn";
+    const homeworkIcon = hasHomework
+      ? '<i class="fas fa-edit"></i>'
+      : '<i class="fas fa-tasks"></i>';
+
     div.innerHTML = `
-        <div class="video-info">
-          <p><strong>${video.title}</strong></p>
-          <a href="${video.url}" target="_blank">${video.url}</a>
-        </div>
-        <div class="video-actions">
-          <button class="edit-video-btn" title="Sửa video">
-            <i class="fas fa-edit"></i>
-          </button>
-          <button class="create-homework-btn" title="Tạo bài tập cho video này">
-            <i class="fas fa-tasks"></i> Tạo bài tập
-          </button>
-          <button class="delete-video" title="Xóa video">Xóa</button>
-        </div>
-      `;
+      <div class="video-info">
+        <p><strong>${video.title}</strong></p>
+        <a href="${video.url}" target="_blank">Video bài giảng</a>
+        
+      </div>
+      <div class="video-actions">
+        <button type="button" class="edit-video-btn" title="Sửa video">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button type="button" class="${homeworkBtnClass} homework-btn" title="${homeworkBtnText}">
+          ${homeworkIcon} ${homeworkBtnText}
+        </button>
+        <button type="button" class="delete-video" title="Xóa video">Xóa</button>
+      </div>
+    `;
 
-    // Click toàn bộ video-item để sửa (trừ các nút)
+    // === CLICK TOÀN BỘ ITEM ĐỂ SỬA VIDEO ===
     div.addEventListener("click", (e) => {
-      if (
-        e.target.closest(".delete-video") ||
-        e.target.closest(".create-homework-btn") ||
-        e.target.closest(".edit-video-btn")
-      )
+      if (e.target.closest(".delete-video, .homework-btn, .edit-video-btn"))
         return;
-
       openEditVideoModal(video);
     });
 
-    // Nút sửa video
+    // === SỬA VIDEO ===
     div.querySelector(".edit-video-btn").onclick = (e) => {
       e.stopPropagation();
       openEditVideoModal(video);
     };
 
-    // Nút tạo bài tập
-    div.querySelector(".create-homework-btn").onclick = (e) => {
+    // === TẠO / SỬA BÀI TẬP ===
+    div.querySelector(".homework-btn").onclick = (e) => {
       e.stopPropagation();
 
-      // Lưu thông tin để quay lại đúng chỗ
+      // Lưu thông tin cần thiết
       localStorage.setItem("creatingHomeworkForCourseId", course.id);
       localStorage.setItem("creatingHomeworkForVideoId", video.id);
       localStorage.setItem("creatingHomeworkForVideoTitle", video.title);
-
-      // MỚI: LƯU THÊM THÔNG TIN KHÓA HỌC ĐỂ TỰ ĐỘNG ĐIỀN FORM
       localStorage.setItem("creatingHomeworkForCourseName", course.name);
       localStorage.setItem("creatingHomeworkForCourseType", course.type);
       localStorage.setItem("creatingHomeworkForCoursePrice", course.price);
 
-      setTimeout(() => {
-        window.location.href = "./create-homework.html";
-      }, 1);
+      if (hasHomework && video.assignments[0]) {
+        const assignment = video.assignments[0];
+        const assignmentId =
+          assignment.id ?? assignment.id?.toString() ?? Date.now().toString();
+        localStorage.setItem("editingAssignmentId", String(assignmentId));
+        console.log("Đang sửa bài tập ID:", String(assignmentId)); // để debug
+      } else {
+        localStorage.removeItem("editingAssignmentId");
+      }
+
+      // Chuyển trang – dùng location.href trực tiếp, không cần setTimeout
+      window.location.href = "./create-homework.html";
     };
 
-    // Nút xóa video
+    // === XÓA VIDEO ===
     div.querySelector(".delete-video").onclick = (e) => {
       e.stopPropagation();
-      if (confirm("Bạn có chắc muốn xóa video này?")) {
+      if (confirm("Bạn có chắc chắn muốn xóa video này không?")) {
         course.videos = course.videos.filter((v) => v.id !== video.id);
-        saveCourse();
-        renderVideos();
+        saveCoursesData(); // ← chỉ lưu
+        renderVideos(); // ← ở lại trang và render lại danh sách
+        alert("Xóa video thành công!");
       }
     };
 
+    // Thêm vào DOM
     videoListEl.appendChild(div);
   });
 }
@@ -131,10 +145,10 @@ document.getElementById("add-video-form").onsubmit = function (e) {
     title,
     url,
     status: "Chưa hoàn thành",
-    assignments: [], // ← THÊM DÒNG NÀY
+    assignments: [],
   });
 
-  saveVideo();
+  saveVideo(false);
   renderVideos();
 
   this.reset();
@@ -163,7 +177,23 @@ function saveCourse() {
   }, 10);
 }
 
-function saveVideo() {
+// 1. Hàm chỉ lưu (không chuyển trang)
+function saveCoursesData() {
+  const index = courses.findIndex((c) => c.id === course.id);
+  courses[index] = course;
+  localStorage.setItem("courses", JSON.stringify(courses));
+}
+
+// 2. Hàm lưu + chuyển trang
+function saveCourseAndRedirect() {
+  saveCoursesData();
+  alert("Lưu thông tin thay đổi!");
+  setTimeout(() => {
+    window.location.href = "../Teacher/manage-course.html";
+  }, 10);
+}
+
+function saveVideo(isEdit = false) {
   course.name = titleInput.value;
   course.type = typeSelect.value;
   course.date = dateInput.value;
@@ -174,7 +204,7 @@ function saveVideo() {
 
   localStorage.setItem("courses", JSON.stringify(courses));
 
-  alert("Thêm video thành công!");
+  alert(isEdit ? "Sửa video thành công!" : "Thêm video thành công!");
 }
 
 // ========================== HỦY ==========================
@@ -203,7 +233,7 @@ document.getElementById("edit-video-form").onsubmit = function (e) {
   currentEditingVideo.title = document.getElementById("edit-video-title").value;
   currentEditingVideo.url = document.getElementById("edit-video-url").value;
 
-  saveVideo();
+  saveVideo(true);
   renderVideos();
 
   document.getElementById("edit-video-modal").style.display = "none";
