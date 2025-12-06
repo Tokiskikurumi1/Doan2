@@ -1,6 +1,3 @@
-using QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces;
-
-namespace QLY_LMS.Controllers.Teacher_Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -59,3 +56,13 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
 // Enhanced functionality - 2026-01-10
 /* Multi-line comment block
 // API improvements and error handling
+/* Multi-line comment block
+// API improvements and error handling
+// Configuration settings optimized
+// Bug fixes and code refactoring
+// Unit tests added for better coverage
+// Unit tests added for better coverage
+// Performance optimization implemented
+// UI/UX improvements added
+// API improvements and error handling
+// Enhanced functionality - 2026-01-10

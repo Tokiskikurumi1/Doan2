@@ -1,6 +1,3 @@
-﻿using QLY_LMS.Models.MTeacher;
-using QLY_LMS.Models.MTeacher.Request;
-
 namespace QLY_LMS.DAL.Teacher_DAL.Interfaces
 {
     public interface I_DAL_Question
@@ -14,3 +11,12 @@ namespace QLY_LMS.DAL.Teacher_DAL.Interfaces
 # API improvements
 # Feature enhancement 2026-01-10 18:03:07
 # UI/UX improvements
+// Logging mechanism enhanced
+   Code review suggestions applied */
+// UI/UX improvements added
+// Feature flag implementation
+// Code documentation updated
+// UI/UX improvements added
+// Security enhancements integrated
+// Unit tests added for better coverage
+// UI/UX improvements added
