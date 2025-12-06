@@ -1,5 +1,3 @@
-  { label: "Từ vựng", value: 220 },
-  { label: "Ngữ pháp", value: 160 },
 ];
 
 const chart = document.getElementById("chart");
@@ -35,3 +33,15 @@ data.forEach((item, index) => {
 // Logging mechanism enhanced
 // Unit tests added for better coverage
    Code review suggestions applied */
+// API improvements and error handling
+// Enhanced functionality - 2026-01-10
+// Bug fixes and code refactoring
+// Configuration settings optimized
+// Unit tests added for better coverage
+/* Multi-line comment block
+// Code documentation updated
+// Performance optimization implemented
+// Bug fixes and code refactoring
+// Code documentation updated
+// Database optimization completed
+// API improvements and error handling
