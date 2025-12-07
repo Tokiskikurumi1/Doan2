@@ -270,6 +270,30 @@
   background-color: var(--red);
 }
 
+/* ============================ PAGINATION ================ */
+.pagination {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#prevPage,
+#nextPage,
+#pageNumber {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--grey-border);
+}
+
+#pageNumber {
+  background-color: var(--blue-);
+  color: var(--white);
+}
+.pagination p {
+  color: var(--grey);
+}
+
 /* Animation */
 @keyframes fadeIn {
   from {
@@ -346,6 +370,12 @@
   }
   .search-bar {
     width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .pagination {
+    flex-direction: column;
   }
 }
 

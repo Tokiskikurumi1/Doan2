@@ -3,83 +3,123 @@ const courseTableBody = document.getElementById("courseTableBody");
 const searchInput = document.getElementById("searchInput");
 const roleFilter = document.getElementById("roleFilter");
 
-// Modal
 const modal = document.getElementById("editCourseModal");
 const saveBtn = document.getElementById("saveCourseBtn");
 const closeBtn = document.getElementById("closeModalBtn");
 
-// Input trong modal
 const nameInput = document.getElementById("nameInput");
 const descInput = document.getElementById("descInput");
 const roleInput = document.getElementById("roleInput");
 const teacherInput = document.getElementById("teacherInput");
 
-// Biến lưu ID khóa học đang sửa
-let editingCourseId = null;
+// ======================= BIẾN DỮ LIỆU =======================
 let courses = JSON.parse(localStorage.getItem("courses") || "[]");
+let editingCourseId = null;
 
-// ======================= HIỂN THỊ BẢNG =======================
+// ======================= PHÂN TRANG =======================
+const itemsPerPage = 10;
+let currentPage = 1;
+let currentList = []; // Danh sách sau khi lọc
+
+// ======================= HIỂN THỊ KHÓA HỌC =======================
 function displayCourses(list) {
+  currentList = list;
+
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const paginated = list.slice(start, end);
+
   courseTableBody.innerHTML = "";
 
-  if (list.length === 0) {
+  if (paginated.length === 0) {
     courseTableBody.innerHTML = `
       <tr>
-        <td colspan="6" style="text-align:center; padding:60px 20px; color:#95a5a6; font-size:15px;">
-          <i class="fas fa-search fa-3x" style="margin-bottom:16px; display:block;"></i>
+        <td colspan="6" style="text-align:center; padding:40px;">
           Không tìm thấy khóa học nào
         </td>
-      </tr>
-    `;
+      </tr>`;
+    renderPagination();
     return;
   }
 
-  list.forEach((course) => {
+  paginated.forEach((c) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${course.id}</td>
-      <td><strong>${course.name}</strong></td>
-      <td>${course.detail}</td>
-      <td>
-        <span class="badge ${course.type}">
-          ${course.type.toUpperCase()}
-        </span>
-      </td>
-      <td>${course.teacherName}</td>
+      <td>${c.id}</td>
+      <td><strong>${c.name}</strong></td>
+      <td>${c.detail}</td>
+      <td><span class="badge ${c.type}">${c.type.toUpperCase()}</span></td>
+      <td>${c.teacherName}</td>
       <td class="actions">
-        <button class="edit-btn" onclick="openEditModal(${
-          course.id
-        })" title="Sửa">
+        <button class="edit-btn" onclick="openEditModal(${c.id})">
           <i class="fas fa-pen"></i>
         </button>
-        <button class="delete-btn" onclick="deleteCourse(${
-          course.id
-        })" title="Xóa">
+        <button class="delete-btn" onclick="deleteCourse(${c.id})">
           <i class="fas fa-trash"></i>
         </button>
       </td>
     `;
     courseTableBody.appendChild(tr);
   });
+
+  renderPagination();
 }
 
-// ======================= TÌM KIẾM + LỌC =======================
+// ======================= LỌC + TÌM KIẾM =======================
 function filterCourses() {
-  const query = searchInput.value.toLowerCase().trim();
-  const category = roleFilter.value; // all, ielts, toeic
+  const keyword = searchInput.value.toLowerCase().trim();
+  const category = roleFilter.value.toUpperCase();
 
   const filtered = courses.filter((c) => {
-    const matchesSearch =
-      c.name.toLowerCase().includes(query) ||
-      c.detail.toLowerCase().includes(query) ||
-      c.teacherName.toLowerCase().includes(query);
+    const matchKeyword =
+      c.name.toLowerCase().includes(keyword) ||
+      c.detail.toLowerCase().includes(keyword) ||
+      c.teacherName.toLowerCase().includes(keyword);
 
-    const matchesCategory = category === "all" || c.type === category;
+    const matchCategory =
+      category === "ALL" || c.type.toUpperCase() === category;
 
-    return matchesSearch && matchesCategory;
+    return matchKeyword && matchCategory;
   });
 
+  currentPage = 1;
   displayCourses(filtered);
+}
+
+// ======================= PHÂN TRANG =======================
+function renderPagination() {
+  const totalItems = currentList.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+
+  document.getElementById("totalRecords").textContent = totalItems;
+  document.getElementById("pageStart").textContent =
+    totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
+  document.getElementById("pageEnd").textContent = Math.min(
+    currentPage * itemsPerPage,
+    totalItems
+  );
+
+  document.getElementById("prevPage").disabled = currentPage <= 1;
+  document.getElementById("nextPage").disabled = currentPage >= totalPages;
+
+  document.getElementById("prevPage").onclick = () => {
+    if (currentPage > 1) {
+      currentPage--;
+      displayCourses(currentList);
+    }
+  };
+
+  document.getElementById("nextPage").onclick = () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      displayCourses(currentList);
+    }
+  };
+
+  // Hiện số trang hiện tại
+  document.getElementById("pageNumbers").innerHTML = `
+    <div class="page-number active">${currentPage}</div>
+  `;
 }
 
 // ======================= MỞ MODAL SỬA =======================
@@ -88,8 +128,6 @@ function openEditModal(id) {
   if (!course) return;
 
   editingCourseId = id;
-
-  // Set data vào modal
   nameInput.value = course.name;
   descInput.value = course.detail;
   roleInput.value = course.type;
@@ -98,36 +136,24 @@ function openEditModal(id) {
   modal.classList.add("show");
 }
 
-// ======================= LƯU THAY ĐỔI =======================
-saveBtn.onclick = function () {
+// ======================= LƯU SỬA =======================
+saveBtn.onclick = () => {
   if (!editingCourseId) return;
 
-  // Tìm vị trí khóa học cần sửa
   const index = courses.findIndex((c) => c.id === editingCourseId);
-  if (index === -1) return alert("Không tìm thấy khóa học để cập nhật!");
+  if (index === -1) return alert("Không tìm thấy khóa học!");
 
-  const oldCourse = courses[index];
+  const course = courses[index];
 
-  const updatedCourse = {
-    ...oldCourse, // GIỮ TẤT CẢ CÁC FIELD KHÁC
+  courses[index] = {
+    ...course,
     name: nameInput.value.trim(),
     detail: descInput.value.trim(),
     type: roleInput.value,
     teacherName: teacherInput.value.trim(),
   };
 
-  if (!updatedCourse.name || !updatedCourse.teacherName) {
-    alert("Vui lòng nhập đầy đủ tên khóa học và giảng viên!");
-    return;
-  }
-
-  // Cập nhật mảng
-  courses[index] = updatedCourse;
-
-  // Lưu lại localStorage
   localStorage.setItem("courses", JSON.stringify(courses));
-
-  alert("Cập nhật khóa học thành công!");
 
   modal.classList.remove("show");
   filterCourses();
@@ -135,25 +161,26 @@ saveBtn.onclick = function () {
 
 // ======================= XÓA KHÓA HỌC =======================
 function deleteCourse(id) {
-  if (confirm("Bạn có chắc chắn muốn xóa khóa học này không?")) {
-    courses = courses.filter((c) => c.id !== id);
-    localStorage.setItem("courses", JSON.stringify(courses));
-    filterCourses();
-  }
+  if (!confirm("Bạn có chắc chắn muốn xóa khóa học này?")) return;
+
+  courses = courses.filter((c) => c.id !== id);
+  localStorage.setItem("courses", JSON.stringify(courses));
+
+  filterCourses();
 }
 
 // ======================= ĐÓNG MODAL =======================
-closeBtn.onclick = function () {
+closeBtn.onclick = () => {
   modal.classList.remove("show");
-  editingCourseId = null;
 };
 
-window.onclick = function (e) {
-  if (e.target === modal) {
-    modal.classList.remove("show");
-    editingCourseId = null;
-  }
+window.onclick = (e) => {
+  if (e.target === modal) modal.classList.remove("show");
 };
+
+// ======================= SỰ KIỆN =======================
+searchInput.addEventListener("input", filterCourses);
+roleFilter.addEventListener("change", filterCourses);
 
 // ======================= KHỞI TẠO =======================
-displayCourses(courses);
+filterCourses();

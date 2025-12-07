@@ -18,6 +18,13 @@ const fromDateEl = document.getElementById("fromDate");
 const toDateEl = document.getElementById("toDate");
 const roleFilter = document.querySelector(".role_course");
 const arrangeFilter = document.querySelector(".arrange");
+// ======= PAGINATION BUTTONS =======
+const prevBtn = document.getElementById("prevPage");
+const nextBtn = document.getElementById("nextPage");
+
+let currentPage = 1;
+const itemsPerPage = 12;
+let currentRenderedList = [];
 
 // ========================== TẠO KHÓA HỌC ==========================
 document.getElementById("new-course").onclick = () => {
@@ -76,24 +83,20 @@ document.getElementById("create-course-form").onsubmit = function (e) {
 
 // ========================== RENDER COURSES  ==========================
 function renderCourses() {
-  courseListEl.innerHTML = "";
-
-  // ← CHỈ LỌC KHÓA HỌC CỦA GIẢNG VIÊN ĐANG ĐĂNG NHẬP
   let filtered = courses.filter((c) => c.teacherId === currentUser.id);
 
-  // --- SEARCH ---
+  // SEARCH
   const keyword = searchBar.value.toLowerCase();
-  if (keyword) {
+  if (keyword)
     filtered = filtered.filter((c) => c.name.toLowerCase().includes(keyword));
-  }
 
-  // --- DATE FILTER ---
+  // DATE FILTER
   if (fromDateEl.value)
     filtered = filtered.filter((c) => c.date >= fromDateEl.value);
   if (toDateEl.value)
     filtered = filtered.filter((c) => c.date <= toDateEl.value);
 
-  // --- ROLE FILTER (giữ nguyên logic cũ của mày) ---
+  // ROLE FILTER
   const role = roleFilter.value;
   if (role === "published")
     filtered = filtered.filter((c) => c.status === "completed");
@@ -104,7 +107,7 @@ function renderCourses() {
   )
     filtered = filtered.filter((c) => c.type === role);
 
-  // --- ARRANGE ---
+  // ARRANGE
   const arrange = arrangeFilter.value;
   if (arrange === "new")
     filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -115,54 +118,61 @@ function renderCourses() {
   else if (arrange === "ZtoA")
     filtered.sort((a, b) => b.name.localeCompare(a.name));
 
-  if (filtered.length === 0) {
-    courseListEl.style.display = "flex";
-    courseListEl.style.justifyContent = "center";
+  // ============================ PHÂN TRANG ============================
+  currentRenderedList = filtered;
+
+  const totalItems = filtered.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+
+  if (currentPage > totalPages) currentPage = totalPages;
+
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const pageData = filtered.slice(start, end);
+
+  courseListEl.innerHTML = "";
+
+  if (pageData.length === 0) {
     courseListEl.innerHTML = `
-            <div class="no-course" style="padding:20px; font-size:20px; color:var(--grey);">
-                Không có khóa học nào.
-            </div>
-        `;
+      <div class="no-course" style="padding:20px; font-size:18px; color:#666;">
+        Không có khóa học nào.
+      </div>`;
+    updatePagination(start, end, totalItems);
     return;
   }
 
-  courseListEl.style.display = "grid";
-
-  // --- RENDER ---
-  filtered.forEach((course) => {
+  // RENDER ITEM
+  pageData.forEach((course) => {
     const div = document.createElement("div");
     div.className = "item-course";
 
     div.innerHTML = `
-            <div class="item-course-panel">
-                <div class="image-course">
-                    <img src="${course.image}" alt="Khóa học" />
-                </div>
-                <div class="course-info">
-                    <div class="name-course">${course.name}</div>
+      <div class="item-course-panel">
+        <div class="image-course">
+          <img src="${course.image}" alt="Course" />
+        </div>
+        <div class="course-info">
+          <div class="name-course">${course.name}</div>
+          <div class="date-and-number">
+            <div class="date-make">Ngày tạo: ${course.date}</div>
+            <div class="number-of-student">${
+              course.students.length
+            } học viên</div>
+          </div>
+          <hr />
+          <div class="status-course">
+            <div class="status">${
+              course.status === "completed"
+                ? "Đã hoàn thành"
+                : "Chưa hoàn thành"
+            }</div>
+            <button class="delete-btn">Xóa</button>
+          </div>
+        </div>
+      </div>
+    `;
 
-                    <div class="date-and-number">
-                        <div class="date-make">Ngày tạo: ${course.date}</div>
-                        <div class="number-of-student">0 học viên</div>
-                    </div>
-
-                    <hr />
-
-                    <div class="status-course">
-                        <div class="status">
-                            ${
-                              course.status === "completed"
-                                ? "Đã hoàn thành"
-                                : "Chưa hoàn thành"
-                            }
-                        </div>
-                        <button class="delete-btn">Xóa</button>
-                    </div>
-                </div>
-            </div>
-        `;
-
-    // Mở chi tiết
+    // Đi đến chi tiết
     div.querySelector(".item-course-panel").onclick = (e) => {
       if (e.target.classList.contains("delete-btn")) return;
       localStorage.setItem("selectedCourseId", course.id);
@@ -171,7 +181,7 @@ function renderCourses() {
 
     // XÓA
     div.querySelector(".delete-btn").onclick = () => {
-      if (!confirm("Bạn có chắc muốn xóa khóa học này?")) return;
+      if (!confirm("Bạn có muốn xóa khóa học?")) return;
       courses = courses.filter((c) => c.id !== course.id);
       localStorage.setItem("courses", JSON.stringify(courses));
       renderCourses();
@@ -179,6 +189,19 @@ function renderCourses() {
 
     courseListEl.appendChild(div);
   });
+
+  updatePagination(start, end, totalItems);
+}
+function updatePagination(start, end, total) {
+  document.getElementById("pagination-info").textContent =
+    total === 0
+      ? "Hiển thị 0 khóa học"
+      : `Hiển thị ${start + 1}-${Math.min(end, total)} của ${total} khóa học`;
+
+  document.getElementById("pageNumber").textContent = currentPage;
+
+  prevBtn.disabled = currentPage === 1;
+  nextBtn.disabled = currentPage >= Math.ceil(total / itemsPerPage);
 }
 
 // ========================== LISTENERS  ==========================
@@ -186,6 +209,21 @@ searchBar.oninput = renderCourses;
 document.querySelector(".apply").onclick = renderCourses;
 roleFilter.onchange = renderCourses;
 arrangeFilter.onchange = renderCourses;
+
+prevBtn.onclick = () => {
+  if (currentPage > 1) {
+    currentPage--;
+    renderCourses();
+  }
+};
+
+nextBtn.onclick = () => {
+  const totalPages = Math.ceil(currentRenderedList.length / itemsPerPage);
+  if (currentPage < totalPages) {
+    currentPage++;
+    renderCourses();
+  }
+};
 
 // Gọi lần đầu
 renderCourses();

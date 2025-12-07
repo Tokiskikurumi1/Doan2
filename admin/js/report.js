@@ -146,34 +146,27 @@ function renderContent(type, from = null, to = null) {
   reportTableContainer.innerHTML = "";
   exportDiv.innerHTML = "";
 
-  if (type === "Người dùng") {
-    renderUserStats(from, to);
-  } else if (type === "Khóa học") {
-    renderCourseStats(from, to);
-  } else if (type === "Doanh thu") {
-    renderRevenueStats(from, to);
-  } else if (type === "" || type === "Tài khoản vi phạm") {
-    renderViolationStats();
-  } else {
-    // nếu option value khác (trường hợp bạn đổi value) hỗ trợ các variant:
-    if (
-      type.toLowerCase().includes("user") ||
-      type.toLowerCase().includes("người")
-    )
+  switch (type) {
+    case "user":
       renderUserStats(from, to);
-    else if (
-      type.toLowerCase().includes("course") ||
-      type.toLowerCase().includes("khóa")
-    )
+      break;
+
+    case "course":
       renderCourseStats(from, to);
-    else if (type.toLowerCase().includes("doanh")) renderRevenueStats(from, to);
-    else renderViolationStats();
+      break;
+
+    case "revenue":
+      renderRevenueStats(from, to);
+      break;
+
+    default:
+      renderUserStats(from, to);
+      break;
   }
 }
 
-// ================== USERS - LẤY THỰC TẾ TỪ localStorage ==================
+// ================== USERS ==================
 function renderUserStats(from, to) {
-  // Lấy dữ liệu người dùng thực tế từ localStorage
   const rawData = localStorage.getItem("listusers");
   let realUsers = [];
 
@@ -275,7 +268,6 @@ function renderUserStats(from, to) {
 }
 
 // ================== KHÓA HỌC ==================
-// ================== KHÓA HỌC – LẤY THỰC TẾ TỪ localStorage.courses ==================
 function renderCourseStats(from = null, to = null) {
   let courses = JSON.parse(localStorage.getItem("courses") || "[]");
 
@@ -412,53 +404,19 @@ function renderRevenueStats(from, to) {
     <div class="card"><h3>Tổng giao dịch</h3><p>${s.transactions}</p></div>
   `;
 
-  let chartValues = [];
   let transactions = data.revenue.table.slice();
 
   if (from && to) {
     const f = parseDateYMD(from);
     const t = parseDateYMD(to);
+
     transactions = transactions.filter((r) => {
       const d = parseDateYMD(r.date);
       return d && d >= f && d <= t;
     });
-
-    // aggregate by month (1..12) -> value in triệu đồng
-    const months = Array(12).fill(0);
-    transactions.forEach((r) => {
-      const d = parseDateYMD(r.date);
-      if (!d) return;
-      const m = d.getMonth(); // 0..11
-      const v = parseVND(r.amount) / 1000000; // convert to million
-      months[m] += v;
-    });
-    // round
-    chartValues = months.map((v) => Math.round(v));
-  } else {
-    chartValues = data.revenue.chart.slice(); // triệu đồng
   }
 
-  // Thêm biểu đồ
   reportTableContainer.innerHTML = `
-  <div class="chart-container">
-    <h3>Biểu đồ doanh thu theo tháng</h3>
-    <div class="char-container"></div>
-  </div>
-`;
-
-  // Lấy thẻ div nơi cần thêm
-  const chartDiv = document.querySelector(".char-container");
-
-  // Tạo thẻ <script>
-  const script = document.createElement("script");
-  script.src = "./assets/js/char.js"; // đường dẫn tới file JS của bạn
-  script.defer = true; // để script chạy sau khi HTML được load xong (không bắt buộc)
-
-  // Thêm thẻ script vào trong div
-  chartDiv.appendChild(script);
-
-  // show transactions table (filtered if from/to)
-  reportTableContainer.innerHTML += `
     <h3>Bảng giao dịch chi tiết</h3>
     <table>
       <thead>
@@ -485,10 +443,9 @@ function exportToPDF() {
 
 // ================== SỰ KIỆN UI ==================
 selectType.addEventListener("change", () => {
-  // lấy giá trị option text (giữ tương thích với HTML bạn dùng)
-  const selectedText = selectType.options[selectType.selectedIndex].text;
+  const selectedValue = selectType.value;
   renderContent(
-    selectedText,
+    selectedValue,
     fromDateInput ? fromDateInput.value : null,
     toDateInput ? toDateInput.value : null
   );
@@ -496,22 +453,21 @@ selectType.addEventListener("change", () => {
 
 if (applyButton) {
   applyButton.addEventListener("click", () => {
-    const selectedText = selectType.options[selectType.selectedIndex].text;
+    const selectedValue = selectType.value;
     const from = fromDateInput ? fromDateInput.value : null;
     const to = toDateInput ? toDateInput.value : null;
+
     if ((from && !to) || (!from && to)) {
-      alert(
-        "Vui lòng chọn cả Từ ngày và Đến ngày hoặc bỏ cả hai để xem toàn bộ."
-      );
+      alert("Vui lòng chọn cả Từ ngày và Đến ngày hoặc bỏ cả hai.");
       return;
     }
     if (from && to && parseDateYMD(from) > parseDateYMD(to)) {
       alert("Từ ngày không được lớn hơn Đến ngày.");
       return;
     }
-    renderContent(selectedText, from, to);
+
+    renderContent(selectedValue, from, to);
   });
 }
 
-// mặc định render Người dùng
-renderContent("Người dùng");
+renderContent("user");

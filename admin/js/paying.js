@@ -73,9 +73,11 @@ function displayPayment(list_payment) {
 }
 
 // ======================= LỌC DỮ LIỆU =======================
-function filterPayments() {
+function filterPayments(applyDateFilter = false) {
   const keyword = searchPayment.value.toLowerCase().trim();
   const course = roleFilterCourse.value;
+
+  // Lấy ngày
   const from = dateFrom.value ? new Date(dateFrom.value) : null;
   const to = dateTo.value ? new Date(dateTo.value) : null;
 
@@ -86,13 +88,18 @@ function filterPayments() {
 
     const matchCourse = course === "All" || p.course === course;
 
-    const pDate = new Date(p.date);
-    const matchDate = (!from || pDate >= from) && (!to || pDate <= to);
+    // Nếu không nhấn Áp dụng -> KHÔNG lọc ngày
+    let matchDate = true;
+
+    if (applyDateFilter && (from || to)) {
+      const pDate = new Date(p.date);
+      matchDate = (!from || pDate >= from) && (!to || pDate <= to);
+    }
 
     return matchKeyword && matchCourse && matchDate;
   });
 
-  currentPage = 1; // Reset về trang 1 khi lọc
+  currentPage = 1;
   displayPayment(filtered);
 }
 
@@ -182,9 +189,9 @@ function deletePayment(id) {
 // ======================= SỰ KIỆN =======================
 searchPayment.addEventListener("input", filterPayments);
 roleFilterCourse.addEventListener("change", filterPayments);
-applyDate.addEventListener("click", filterPayments);
-dateFrom.addEventListener("change", filterPayments);
-dateTo.addEventListener("change", filterPayments);
+applyDate.addEventListener("click", () => filterPayments(true));
+// dateFrom.addEventListener("change", filterPayments);
+// dateTo.addEventListener("change", filterPayments);
 
 // ======================= BIỂU ĐỒ DOANH THU =======================
 function updateMonthlyRevenueChart() {
