@@ -4,3 +4,7 @@ GET {{QLY_LMS_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+# API improvements
+# Security enhancements
+# UI/UX improvements
+# Code optimization and refactoring
