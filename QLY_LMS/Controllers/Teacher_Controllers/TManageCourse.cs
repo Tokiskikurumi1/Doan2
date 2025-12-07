@@ -17,11 +17,15 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
             _ImanageCourse = course;
         }
 
+        private int getTeacherID()
+        {
+            return (int)HttpContext.Items["UserID"];
+        }
         // ==================== GET ALL COURSE ====================
         [HttpGet("get-all-course")]
         public IActionResult GetAll()
         {
-            int teacherId = int.Parse(User.FindFirst("userID").Value);
+            int teacherId = getTeacherID();
 
             var courses = _ImanageCourse.getAllCoures(teacherId);
 
@@ -35,9 +39,9 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         [HttpPost("create-new-course")]
         public IActionResult Create([FromBody] CourseRequest model)
         {
-            int teacherId = int.Parse(User.FindFirst("userID").Value);
+            int teacherId = getTeacherID();
 
-            model.teacherID = teacherId;  // Force teacherID từ token
+            model.teacherID = teacherId;  
 
             var result = _ImanageCourse.createCourse(model);
 
@@ -48,12 +52,7 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         [HttpPut("update-course/{courseID}")]
         public IActionResult Update(int courseID, [FromBody] Course model)
         {
-            int teacherId = int.Parse(User.FindFirst("userID").Value);
-
-            // Kiểm tra quyền sở hữu khóa học
-            bool allowed = _ImanageCourse.CheckCourseOfTeacher(courseID, teacherId);
-            if (!allowed)
-                return BadRequest("Bạn không có quyền sửa khóa học này!");
+            int teacherId = getTeacherID();
 
             model.teacherID = teacherId;
 
@@ -65,11 +64,11 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         [HttpDelete("delete-course/{courseID}")]
         public IActionResult Delete(int courseID)
         {
-            int teacherId = int.Parse(User.FindFirst("userID").Value);
+            int teacherId = getTeacherID();
 
-            bool allowed = _ImanageCourse.CheckCourseOfTeacher(courseID, teacherId);
-            if (!allowed)
-                return BadRequest("Bạn không có quyền xóa khóa học này!");
+            //bool allowed = _ImanageCourse.CheckCourseOfTeacher(courseID, teacherId);
+            //if (!allowed)
+            //    return BadRequest("Bạn không có quyền xóa khóa học này!");
 
             bool result = _ImanageCourse.deleteCourse(courseID, teacherId);
 

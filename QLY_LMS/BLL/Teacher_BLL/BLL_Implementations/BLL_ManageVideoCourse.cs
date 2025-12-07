@@ -24,7 +24,7 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
             return _ManageCourse.CreateVideo(video, teacherID);
         }
 
-        public bool UpdateVideo(Video_course video, int teacherID)
+        public bool UpdateVideo(Video_courseRequest video, int teacherID)
         {
             return _ManageCourse.UpdateVideo(video, teacherID);
         }

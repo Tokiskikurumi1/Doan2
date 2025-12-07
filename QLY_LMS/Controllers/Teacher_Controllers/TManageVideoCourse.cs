@@ -28,7 +28,13 @@ public class VideoController : ControllerBase
     {
         int teacherID = GetTeacherID();
 
-        return Ok(_service.GetAllVideo(courseID, teacherID));
+        var list_video = _service.GetAllVideo(courseID, teacherID);
+
+        if(list_video == null)
+        {
+            return BadRequest("khóa học chưa có video!");
+        }
+        return Ok(list_video);
     }
 
     [HttpPost("create-new-video")]
@@ -38,17 +44,17 @@ public class VideoController : ControllerBase
 
         _service.CreateVideo(video, teacherID);
 
-        return Ok(new { message = "created" });
+        return Ok(new { message = "tạo mới video thành công!" });
     }
 
     [HttpPut("update-video")]
-    public IActionResult Update(Video_course video)
+    public IActionResult Update(Video_courseRequest video)
     {
         int teacherID = GetTeacherID();
 
         _service.UpdateVideo(video, teacherID);
 
-        return Ok(new { message = "updated" });
+        return Ok(new { message = "sửa video thành công!" });
     }
 
     [HttpDelete("delete-video/{videoID}")]
@@ -58,6 +64,6 @@ public class VideoController : ControllerBase
 
         _service.DeleteVideo(videoID, teacherID);
 
-        return Ok(new { message = "deleted" });
+        return Ok(new { message = "xóa video thành công!" });
     }
 }

@@ -81,7 +81,7 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
         /* ==========================================================
            3. CẬP NHẬT VIDEO 
         ========================================================== */
-        public bool UpdateVideo(Video_course video, int teacherID)
+        public bool UpdateVideo(Video_courseRequest video, int teacherID)
         {
             using (var conn = _db.GetConnection())
             using (var cmd = new SqlCommand("tc_video_update", conn))

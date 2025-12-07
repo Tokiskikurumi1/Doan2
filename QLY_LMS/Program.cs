@@ -67,9 +67,11 @@ namespace QLY_LMS
 
             app.UseHttpsRedirection();
 
-            // ==== 🔥 BẬT AUTHENTICATION TRƯỚC AUTHORIZATION ====
+            // ====  BẬT AUTHENTICATION TRƯỚC AUTHORIZATION ====
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<UserContextMiddleware>();
+            app.UseMiddleware<TeacherCourseAuthorizationMiddleware>();
 
             app.MapControllers();
 
