@@ -1,188 +1,113 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const toggleBtn = document.getElementById("toggleFilter");
-  const overlay = document.getElementById("filterOverlay");
-  const closeBtn = document.getElementById("closeFilter");
+// Lấy dữ liệu từ localStorage
+const courses = JSON.parse(localStorage.getItem("courses")) || [];
+const productContainer = document.querySelector(".product");
+const pagination = document.querySelector(".pagination");
 
-  toggleBtn.addEventListener("click", () => {
-    overlay.style.display = "flex"; // hiện overlay
-  });
+let currentPage = 1;
+const itemsPerPage = 8;
+let filteredCourses = courses; 
 
-  closeBtn.addEventListener("click", () => {
-    overlay.style.display = "none"; // ẩn overlay
-  });
-});
-// shop.js (không dùng innerHTML, không tạo nút "Xem chi tiết")
-document.addEventListener("DOMContentLoaded", () => {
-  const headerCountEl = document.querySelector(".product-header h2");
-  const productCardContainer = document.querySelector(".product-card");
+// Hàm render sản phẩm theo trang
+function renderCourses(page) {
+  productContainer.innerHTML = "";
 
-  // CourseReader đã có trong scope
-  const reader = new CourseReader();
+  const start = (page - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const pageCourses = filteredCourses.slice(start, end);
 
-  function escapeText(str) {
-    return str == null ? "" : String(str);
-  }
-
-  function createProductCardElement(product) {
-    // product: { id, name, author, duration, rating, price, imageUrl }
+  pageCourses.forEach(course => {
     const card = document.createElement("div");
-    card.className = "product-card-item";
+    card.className = "product-card";
 
-    // image container
-    const imgDiv = document.createElement("div");
-    imgDiv.className = "product-card-item-img";
-    const imageUrl = escapeText(
-      product.imageUrl ||
-        "../img/img_GUI/096dabbf-65c6-4096-bc72-ddc405f6b795.jpg"
-    );
-    imgDiv.style.backgroundImage = `url('${imageUrl}')`;
-    imgDiv.style.backgroundPosition = "center";
-    imgDiv.style.backgroundRepeat = "no-repeat";
-    imgDiv.style.backgroundSize = "cover";
+    card.innerHTML = `
+  <div class="product-card-item">
+    <div class="product-card-item-img"
+         style="background-image:url('${course.imageUrl || "./img/image_course/image-course.png"}');
+                background-size:cover;
+                background-position:center;"></div>
+    <h3>${course.name}</h3>
+    <span>Tác Giả: ${course.teacherName || "Không rõ"}</span>
+    <span>Loại: ${course.type}</span>
+    <div class="product-card-item-price">
+      <span class="price">${course.price} VND</span>
+      <button class="btn-detail" data-id="${course.id}" id="btnblue">Xem chi tiết</button>
+    </div>
+  </div>
+`;
 
-    // title
-    const h3 = document.createElement("h3");
-    h3.textContent = escapeText(product.name || "Tên sản phẩm");
+    productContainer.appendChild(card);
+  });
 
-    // author
-    const authorSpan = document.createElement("span");
-    authorSpan.className = "product-card-item-rating";
-    authorSpan.textContent = escapeText(product.author || "Tên tác giả");
+  productContainer.appendChild(pagination);
+  renderPagination();
 
-    // duration
-    const durationSpan = document.createElement("span");
-    durationSpan.className = "product-card-item-duration";
-    durationSpan.textContent = escapeText(product.duration || "");
-
-    // rating
-    const ratingSpan = document.createElement("span");
-    ratingSpan.className = "product-card-item-rating";
-    ratingSpan.textContent = escapeText(product.rating || "");
-
-    // price container
-    const priceContainer = document.createElement("div");
-    priceContainer.className = "product-card-item-price";
-
-    const priceSpan = document.createElement("span");
-    priceSpan.className = "price";
-    priceSpan.textContent = escapeText(product.price || "Liên hệ");
-
-    // gắn các phần vào card (không có nút)
-    priceContainer.appendChild(priceSpan);
-
-    card.appendChild(imgDiv);
-    card.appendChild(h3);
-    card.appendChild(authorSpan);
-    card.appendChild(durationSpan);
-    card.appendChild(ratingSpan);
-    card.appendChild(priceContainer);
-
-    return card;
-  }
-
-  function renderProductsFromCourses() {
-    const courses = reader.getAllCourses(); // clone mảng
-    const count = courses.length;
-    if (headerCountEl)
-      headerCountEl.textContent = `Tìm được ${count} sản phẩm:`;
-
-    if (!productCardContainer) return;
-    // clear children safely
-    while (productCardContainer.firstChild) {
-      productCardContainer.removeChild(productCardContainer.firstChild);
-    }
-
-    if (count === 0) {
-      const p = document.createElement("p");
-      p.textContent = "Không tìm thấy sản phẩm nào.";
-      productCardContainer.appendChild(p);
-      return;
-    }
-
-    courses.forEach((course) => {
-      const product = {
-        id: course.id,
-        name: course.name,
-        author: course.teacher || "",
-        duration: course.date || "",
-        rating: course.rating || "",
-        price:
-          course.price !== undefined && course.price !== null
-            ? `${course.price} VND`
-            : "Liên hệ",
-        imageUrl:
-          course.imageUrl ||
-          course.thumbnail ||
-          "../img/img_GUI/096dabbf-65c6-4096-bc72-ddc405f6b795.jpg",
-      };
-      const cardEl = createProductCardElement(product);
-      productCardContainer.appendChild(cardEl);
+  // Gắn sự kiện cho nút chi tiết
+  document.querySelectorAll(".btn-detail").forEach(btn => {
+    btn.addEventListener("click", e => {
+      const id = e.target.dataset.id;
+      localStorage.setItem("selectedCourseId", id);
+      window.location.href = "./course-detail.html";
     });
-  }
+  });
+}
 
-  // fallback: nếu không có courses, thử key "products"
-  function renderProductsFallback() {
-    const raw = localStorage.getItem("products");
-    if (!raw) return false;
-    try {
-      const parsed = JSON.parse(raw);
-      const arr = Array.isArray(parsed)
-        ? parsed
-        : typeof parsed === "object"
-        ? Object.values(parsed)
-        : [];
-      if (!arr.length) return false;
+// Hàm render phân trang
+function renderPagination() {
+  pagination.innerHTML = "";
+  const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
 
-      if (headerCountEl)
-        headerCountEl.textContent = `Tìm được ${arr.length} sản phẩm:`;
-
-      while (productCardContainer.firstChild) {
-        productCardContainer.removeChild(productCardContainer.firstChild);
-      }
-
-      arr.forEach((p) => {
-        const product = {
-          id: p.id,
-          name: p.name || p.title,
-          author: p.author || p.teacher,
-          duration: p.duration,
-          rating: p.rating,
-          price: p.price || "Liên hệ",
-          imageUrl:
-            p.imageUrl ||
-            p.thumbnail ||
-            "../img/img_GUI/096dabbf-65c6-4096-bc72-ddc405f6b795.jpg",
-        };
-        const cardEl = createProductCardElement(product);
-        productCardContainer.appendChild(cardEl);
-      });
-      return true;
-    } catch (e) {
-      console.error("Không parse được products:", e);
-      return false;
-    }
-  }
-
-  // thực thi render
-  if (reader.getAllCourses().length > 0) {
-    renderProductsFromCourses();
-  } else if (!renderProductsFallback()) {
-    if (headerCountEl) headerCountEl.textContent = `Tìm được 0 sản phẩm:`;
-    if (productCardContainer) {
-      while (productCardContainer.firstChild)
-        productCardContainer.removeChild(productCardContainer.firstChild);
-      const p = document.createElement("p");
-      p.textContent = "Không có dữ liệu sản phẩm để hiển thị.";
-      productCardContainer.appendChild(p);
-    }
-  }
-
-  // lắng nghe storage thay đổi từ tab khác
-  window.addEventListener("storage", (e) => {
-    if (e.key === reader.coursesKey || e.key === "products") {
-      reader.reload();
-      if (reader.getAllCourses().length > 0) renderProductsFromCourses();
-      else renderProductsFallback();
+  const prevBtn = document.createElement("button");
+  prevBtn.textContent = "Prev";
+  prevBtn.disabled = currentPage === 1;
+  prevBtn.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderCourses(currentPage);
     }
   });
+  pagination.appendChild(prevBtn);
+
+  for (let i = 1; i <= totalPages; i++) {
+    const pageBtn = document.createElement("button");
+    pageBtn.textContent = i;
+    if (i === currentPage) pageBtn.classList.add("active");
+    pageBtn.addEventListener("click", () => {
+      currentPage = i;
+      renderCourses(currentPage);
+    });
+    pagination.appendChild(pageBtn);
+  }
+
+  const nextBtn = document.createElement("button");
+  nextBtn.textContent = "Next";
+  nextBtn.disabled = currentPage === totalPages;
+  nextBtn.addEventListener("click", () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderCourses(currentPage);
+    }
+  });
+  pagination.appendChild(nextBtn);
+}
+
+// Hàm lọc theo loại/trình độ
+function applyFilter(type) {
+  if (type === "all") {
+    filteredCourses = courses;
+  } else {
+    filteredCourses = courses.filter(c => c.type.toLowerCase().includes(type.toLowerCase()));
+  }
+  currentPage = 1; // reset về trang đầu
+  renderCourses(currentPage);
+}
+
+// Bắt sự kiện radio filter
+document.querySelectorAll('input[name="level"]').forEach(radio => {
+  radio.addEventListener("change", () => {
+    const selectedText = radio.parentElement.textContent.trim(); // lấy text hiển thị
+    applyFilter(selectedText);
+  });
 });
+
+// Khởi chạy lần đầu
+renderCourses(currentPage);

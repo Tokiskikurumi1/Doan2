@@ -1,0 +1,14 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1; /* chiếm toàn bộ phần còn lại giữa header và footer */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* căn giữa theo trục Y */
+  align-items: center;     /* căn giữa theo trục X */
+  text-align: center;
+}

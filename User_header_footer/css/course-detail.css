@@ -40,9 +40,13 @@ h2 {
 }
 /* Đánh giá và học viên */
 .img {
-  max-height: 500px;
   width: 100%;
+  height: 300px; /* thêm chiều cao cố định */
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
 }
+
 
 .img img {
   width: 100%;
