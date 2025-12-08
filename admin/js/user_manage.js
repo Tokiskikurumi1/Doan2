@@ -14,6 +14,10 @@ const closeModalBtn = document.getElementById("closeModalBtn");
 
 let editingUserId = null;
 let users = []; // mảng user hiện tại
+// ======================= CÀI ĐẶT PHÂN TRANG =======================
+const itemsPerPage = 10;
+let currentPage = 1;
+let currentList = []; // Danh sách sau khi lọc
 
 // Lấy dữ liệu từ localStorage (không có thì trả về mảng rỗng)
 function getUsersFromLocalStorage() {
@@ -24,18 +28,28 @@ function getUsersFromLocalStorage() {
     const usersObj = JSON.parse(data);
     const usersArray = Object.values(usersObj);
 
-    return usersArray.map((user) => ({
-      id: String(user.id || Date.now()),
-      name: user.yourname || user.name || "Chưa đặt tên",
-      yourname: user.yourname || user.name || "Chưa đặt tên",
-      email: user.email || "",
-      role: user.role || "student",
-      username: user.username || "",
-      password: user.password || "",
-      phone: user.phone || "",
-      address: user.address || "",
-      created: user.created || new Date().toLocaleDateString("vi-VN"),
-    }));
+    return usersArray.map((user) => {
+      let normalizedRole = user.role || "student";
+
+      // nếu chỗ khác lưu 'Giảng viên' / 'Học viên' thì map lại
+      if (normalizedRole.toLowerCase() === "giảng viên")
+        normalizedRole = "teacher";
+      if (normalizedRole.toLowerCase() === "học viên")
+        normalizedRole = "student";
+
+      return {
+        id: String(user.id || Date.now()),
+        name: user.yourname || user.name || "Chưa đặt tên",
+        yourname: user.yourname || user.name || "Chưa đặt tên",
+        email: user.email || "",
+        role: normalizedRole,
+        username: user.username || "",
+        password: user.password || "",
+        phone: user.phone || "",
+        address: user.address || "",
+        created: user.created || new Date().toLocaleDateString("vi-VN"),
+      };
+    });
   } catch (e) {
     console.error("Lỗi đọc dữ liệu người dùng:", e);
     return [];
@@ -55,32 +69,41 @@ function saveUsersToLocalStorage(usersArray) {
 users = getUsersFromLocalStorage();
 
 // Hiển thị danh sách
-function displayUsers(usersToDisplay = users) {
+function displayUsers(list) {
+  currentList = list; // cập nhật danh sách đang dùng cho phân trang
+
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const paginated = list.slice(start, end);
+
   userTableBody.innerHTML = "";
-  if (usersToDisplay.length === 0) {
-    userTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px;">Chưa có người dùng nào</td></tr>`;
+
+  if (paginated.length === 0) {
+    userTableBody.innerHTML = `
+      <tr><td colspan="6" style="text-align:center; padding:20px;">Không có dữ liệu</td></tr>`;
     return;
   }
 
-  usersToDisplay.forEach((user) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${user.id}</td>
-      <td>${user.yourname || user.name}</td>
-      <td>${user.email}</td>
-      <td>${user.role === "teacher" ? "Giảng viên" : "Học viên"}</td>
-      <td>${user.created}</td>
-      <td class="actions">
-        <button class="edit" onclick="Edit('${user.id}')">
-          <i class="fa-solid fa-pen"></i>
-        </button>
-        <button class="delete" onclick="Delete('${user.id}')">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      </td>
-    `;
-    userTableBody.appendChild(row);
+  paginated.forEach((user) => {
+    userTableBody.innerHTML += `
+      <tr>
+        <td>${user.id}</td>
+        <td>${user.yourname || user.name}</td>
+        <td>${user.email}</td>
+        <td>${user.role === "teacher" ? "Giảng viên" : "Học viên"}</td>
+        <td>${user.created}</td>
+        <td class="actions">
+          <button class="edit" onclick="Edit('${user.id}')">
+            <i class="fa-solid fa-pen"></i>
+          </button>
+          <button class="delete" onclick="Delete('${user.id}')">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      </tr>`;
   });
+
+  renderPagination();
 }
 
 // Lọc + tìm kiếm
@@ -90,16 +113,16 @@ function filterUsers() {
 
   const filtered = users.filter((user) => {
     const matchSearch =
-      user.yourname?.toLowerCase().includes(search) ||
-      user.name?.toLowerCase().includes(search) ||
-      user.email.toLowerCase().includes(search) ||
-      user.username?.toLowerCase().includes(search);
+      user.yourname.toLowerCase().includes(search) ||
+      user.email.toLowerCase().includes(search);
 
     const matchRole = role === "all" || user.role === role;
+
     return matchSearch && matchRole;
   });
 
-  displayUsers(filtered);
+  currentPage = 1; // ✔ reset số trang về 1
+  displayUsers(filtered); // ✔ cập nhật danh sách phân trang
 }
 
 // Mở modal
@@ -170,9 +193,8 @@ function saveUser() {
   }
 
   saveUsersToLocalStorage(users);
-  users = getUsersFromLocalStorage(); // reload để chắc chắn
+  users = getUsersFromLocalStorage();
   filterUsers();
-  displayUsers(users);
   addUserModal.style.display = "none";
 }
 
@@ -187,8 +209,8 @@ function Delete(id) {
   if (confirm("Xóa người dùng này?")) {
     users = users.filter((u) => u.id !== id);
     saveUsersToLocalStorage(users);
+    users = getUsersFromLocalStorage();
     filterUsers();
-    displayUsers(users);
   }
 }
 
@@ -205,5 +227,67 @@ addUserModal.addEventListener("click", (e) => {
   if (e.target === addUserModal) addUserModal.style.display = "none";
 });
 
+function renderPagination() {
+  const totalItems = currentList.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+
+  document.getElementById("totalRecords").textContent = totalItems;
+
+  document.getElementById("pageStart").textContent =
+    totalItems > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0;
+
+  document.getElementById("pageEnd").textContent = Math.min(
+    currentPage * itemsPerPage,
+    totalItems
+  );
+
+  // xử lý nút
+  document.getElementById("prevPage").disabled = currentPage === 1;
+  document.getElementById("nextPage").disabled = currentPage === totalPages;
+
+  document.getElementById("prevPage").onclick = () => {
+    if (currentPage > 1) {
+      currentPage--;
+      displayUsers(currentList);
+    }
+  };
+
+  document.getElementById("nextPage").onclick = () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      displayUsers(currentList);
+    }
+  };
+
+  const pageNumbers = document.getElementById("pageNumbers");
+  pageNumbers.innerHTML = `
+    <div class="page-number active">${currentPage}</div>
+  `;
+}
+
+// function addPageButton(page) {
+//   const btn = document.createElement("div");
+//   btn.className = "page-number" + (page === currentPage ? " active" : "");
+//   btn.textContent = page;
+//   btn.onclick = () => {
+//     currentPage = page;
+//     displayPayment(currentList);
+//   };
+//   document.getElementById("pageNumbers").appendChild(btn);
+// }
+
+// document.getElementById("prevPage").onclick = () => {
+//   if (currentPage > 1) {
+//     currentPage--;
+//     displayPayment(currentList);
+//   }
+// };
+
+// document.getElementById("nextPage").onclick = () => {
+//   if (currentPage < Math.ceil(currentList.length / itemsPerPage)) {
+//     currentPage++;
+//     displayPayment(currentList);
+//   }
+// };
 // Khởi động
 displayUsers(users);

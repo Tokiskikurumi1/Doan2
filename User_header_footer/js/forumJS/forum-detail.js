@@ -3,6 +3,17 @@ let posts = [];
 let comments = [];
 let currentPostId = ""; // Lưu ID bài viết hiện tại (toàn cục)
 
+const params = new URLSearchParams(window.location.search);
+const postId = params.get("id");
+
+let forumPost = JSON.parse(localStorage.getItem("forum_posts")) || [];
+let post = forumPost.find((p) => p.id === postId);
+
+// Tăng lượt xem
+if (post) {
+  post.viewCount = (post.viewCount || 0) + 1;
+  localStorage.setItem("forum_posts", JSON.stringify(forumPost));
+}
 ////////////////////////////////////////////////////
 // 1. Load dữ liệu từ localStorage
 ////////////////////////////////////////////////////
