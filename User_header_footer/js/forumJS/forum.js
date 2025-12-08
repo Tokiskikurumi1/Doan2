@@ -1,6 +1,5 @@
 // forum.js
 let currentTopic = "All";
-
 // DOM Elements
 const postListEl = document.getElementById("post-list");
 const topicFiltersEl = document.getElementById("topic-filters");
@@ -73,6 +72,7 @@ function renderFilters() {
 
 // 2. Render Posts
 function renderPosts() {
+  totalAccess++;
   let filtered =
     currentTopic === "All"
       ? posts
