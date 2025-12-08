@@ -1,0 +1,129 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background: #f5f6fa;
+    padding: 30px;
+    color: #333;
+}
+
+.My-courses {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* --- FILTER AREA --- */
+.courses-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.search input {
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.2s;
+    width: 100%;
+}
+
+.search input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.filter {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter select {
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.2s;
+    min-width: 160px;
+}
+
+.filter select:focus {
+    border-color: #4a90e2;
+}
+
+/* --- COURSE LIST --- */
+.course-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.course-item {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    background: #fff;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: 0.2s;
+}
+
+.course-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+.course-item-img {
+    width: 140px;
+    height: 90px;
+    background: #dfe6e9;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.course-item-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.course-item-info h3 {
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.course-item-info span {
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.course-item-info button {
+    align-self: flex-start;
+    padding: 10px 16px;
+    background: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.course-item-info button:hover {
+    background: #357ABD;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .filter {
+        flex-direction: column;
+    }
+}

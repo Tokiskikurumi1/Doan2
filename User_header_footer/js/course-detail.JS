@@ -41,3 +41,11 @@ if (course.videos && course.videos.length > 0) {
 } else {
   videoContainer.innerHTML = "<p>Chưa có video nào</p>";
 }
+// Nút thanh toán
+document.getElementById("btnwhite").addEventListener("click", () => {
+  // Lưu giá tiền vào localStorage để payment.html lấy lại
+  localStorage.setItem("paymentPrice", course.price);
+
+  // Chuyển hướng sang trang thanh toán
+  window.location.href = "./payment.html";
+});

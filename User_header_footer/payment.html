@@ -13,9 +13,11 @@
 
     <div class="content">
       <p>Quét mã QR bằng ứng dụng ZaloPay để thanh toán</p>
-      <p>Mã giao dịch: 3115291595902042112</p>
+      <p>Mã giao dịch: <span id="transaction-id"></span></p>
+
+
       <img src="../Assets/Images/OIP (1).webp" alt="QR Code" />
-      <p>Tổng tiền: 250.000 VND</p>
+      <p>Tổng tiền: <span id="payment-price"></span></p>
       <button>Xác nhận thanh toán</button>
     </div>
 
@@ -23,5 +25,5 @@
   </div>
 </body>
 
-
+<script src="./js/payment.js"></script>
 </html>
