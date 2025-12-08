@@ -72,7 +72,6 @@ function renderFilters() {
 
 // 2. Render Posts
 function renderPosts() {
-  totalAccess++;
   let filtered =
     currentTopic === "All"
       ? posts
