@@ -1,8 +1,6 @@
 // ========================== LOAD COURSE ==========================
 let courses = JSON.parse(localStorage.getItem("courses")) || [];
 const courseId = localStorage.getItem("selectedCourseId");
-const nameTeacher = localStorage.getItem("savedUsername");
-
 const course = courses.find((c) => String(c.id) === String(courseId));
 
 if (!course) {
@@ -17,11 +15,13 @@ const dateInput = document.getElementById("date-input");
 const courseDetail = document.getElementById("course-detail");
 const priceInput = document.getElementById("number-price");
 const videoListEl = document.getElementById("video-list");
-const nameInput = document.querySelector(".name-teacher");
+// const nameInput = document.querySelector(".name-teacher");
 const statusSelect = document.getElementById("course-status");
 const numberStudent = document.getElementById("numberStudent");
+const name_teacher = document.getElementById("nameTeacher");
+
 // ========================== HIỂN THỊ ==========================
-nameInput.innerHTML = nameTeacher;
+name_teacher.textContent = course.teacherName;
 dateInput.value = course.date;
 titleInput.value = course.name;
 typeSelect.value = course.type;
