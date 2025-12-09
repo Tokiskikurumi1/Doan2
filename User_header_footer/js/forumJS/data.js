@@ -43,3 +43,4 @@ function savePostsToStorage() {
 
 // Gọi ngay khi load
 loadPostsFromStorage();
+# Update 2026-01-10 17:57:44
