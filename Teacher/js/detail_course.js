@@ -19,6 +19,7 @@ const priceInput = document.getElementById("number-price");
 const videoListEl = document.getElementById("video-list");
 const nameInput = document.querySelector(".name-teacher");
 const statusSelect = document.getElementById("course-status");
+const numberStudent = document.getElementById("numberStudent");
 // ========================== HIỂN THỊ ==========================
 nameInput.innerHTML = nameTeacher;
 dateInput.value = course.date;
@@ -27,7 +28,7 @@ typeSelect.value = course.type;
 statusSelect.value = course.status;
 courseDetail.value = course.detail;
 priceInput.value = course.price;
-
+numberStudent.textContent = `Số học viên: ` + course.students.length;
 renderVideos();
 
 // ========================== RENDER VIDEO ==========================
