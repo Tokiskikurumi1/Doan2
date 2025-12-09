@@ -72,10 +72,8 @@ fetch("header.html")
       };
     }
 
-    // GỌI NGAY KHI HEADER ĐÃ CHÈN XONG → CHẮC CHẮN HIỂN THỊ ĐÚNG
     updateLoginStatus();
   })
   .catch((err) => console.error(err));
 
-// Dự phòng nếu header load chậm
 window.addEventListener("load", () => setTimeout(updateLoginStatus, 500));
