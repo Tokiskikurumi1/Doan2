@@ -1,4 +1,7 @@
-// lấy dữ liệu từ localStorage
+// =========================
+// LẤY DỮ LIỆU TỪ LOCAL STORAGE
+// =========================
+
 const courses = JSON.parse(localStorage.getItem("courses")) || [];
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 const courseListEl = document.querySelector(".course-list");
@@ -12,13 +15,19 @@ if (!currentUser) {
     throw new Error("User not logged in");
 }
 
-//LỌC KHÓA HỌC USER ĐÃ ĐĂNG KÝ 
+// =========================
+// LỌC KHÓA HỌC USER ĐÃ ĐĂNG KÝ
+// =========================
+
 let myCourses = courses.filter(course =>
     Array.isArray(course.students) &&
     course.students.some(s => s.id === currentUser.id)
 );
 
-// render khóa học
+// =========================
+// RENDER KHÓA HỌC
+// =========================
+
 function renderCourses(list) {
     courseListEl.innerHTML = "";
 
@@ -43,12 +52,12 @@ function renderCourses(list) {
         courseListEl.appendChild(item);
     });
 
-    // Gán sự kiện cho nút Bắt đầu học
+    // Sự kiện nút Bắt đầu học
     document.querySelectorAll(".course-item button").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = btn.getAttribute("data-id");
             localStorage.setItem("selectedCourseId", id);
-            window.location.href = "./course-detail.html";
+            window.location.href = "./learn.html";
         });
     });
 }
@@ -56,22 +65,14 @@ function renderCourses(list) {
 // Render lần đầu
 renderCourses(myCourses);
 
-// tìm kiếm
-searchInput.addEventListener("input", () => {
-    applyFilters();
-});
+// =========================
+// TÌM KIẾM + LỌC + SẮP XẾP
+// =========================
 
-// lọc theio trình độ
-levelSelect.addEventListener("change", () => {
-    applyFilters();
-});
+searchInput.addEventListener("input", applyFilters);
+levelSelect.addEventListener("change", applyFilters);
+sortSelect.addEventListener("change", applyFilters);
 
-// sx
-sortSelect.addEventListener("change", () => {
-    applyFilters();
-});
-
-// lọc
 function applyFilters() {
     let filtered = [...myCourses];
 
@@ -90,15 +91,10 @@ function applyFilters() {
 
     // Sắp xếp
     const sort = sortSelect.value;
-    if (sort === "az") {
-        filtered.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (sort === "za") {
-        filtered.sort((a, b) => b.name.localeCompare(a.name));
-    } else if (sort === "newest") {
-        filtered.sort((a, b) => b.id - a.id);
-    } else if (sort === "oldest") {
-        filtered.sort((a, b) => a.id - b.id);
-    }
+    if (sort === "az") filtered.sort((a, b) => a.name.localeCompare(b.name));
+    if (sort === "za") filtered.sort((a, b) => b.name.localeCompare(a.name));
+    if (sort === "newest") filtered.sort((a, b) => b.id - a.id);
+    if (sort === "oldest") filtered.sort((a, b) => a.id - b.id);
 
     renderCourses(filtered);
 }

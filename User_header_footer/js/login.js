@@ -38,15 +38,10 @@ function registerUser() {
     .value.trim();
   const agreeTerms = document.getElementById("checkbox1").checked;
 
-  if (!agreeTerms) {
-    return alert("Bạn phải đồng ý với điều khoản trước khi đăng ký.");
-  }
-
-  if (!usernameRegex.test(username))
-    return alert("Tên tài khoản không hợp lệ.");
+  if (!agreeTerms) return alert("Bạn phải đồng ý với điều khoản trước khi đăng ký.");
+  if (!usernameRegex.test(username)) return alert("Tên tài khoản không hợp lệ.");
   if (!passwordRegex.test(password)) return alert("Mật khẩu không hợp lệ.");
-  if (password !== confirmPassword)
-    return alert("Mật khẩu xác nhận không khớp.");
+  if (password !== confirmPassword) return alert("Mật khẩu xác nhận không khớp.");
   if (!emailRegex.test(email)) return alert("Email không hợp lệ.");
 
   const users = UserManager.getAllUsers();
@@ -62,6 +57,7 @@ function registerUser() {
       password,
       role: "student",
     });
+
     newUser.save();
     alert("Đăng ký thành công!");
     showForm("Auth-Login");
@@ -80,28 +76,21 @@ function loginUser() {
     alert("Vui lòng nhập đầy đủ thông tin và chọn vai trò.");
     return;
   }
+
   const users = UserManager.getAllUsers();
   const user = Object.values(users).find((u) => u.username === username);
 
-  if (!user) {
-    alert("Tài khoản không tồn tại.");
-    return;
-  }
+  if (!user) return alert("Tài khoản không tồn tại.");
+  if (user.password !== password) return alert("Mật khẩu không đúng.");
+  if (user.role !== role) return alert("Vai trò không khớp với tài khoản.");
 
-  if (user.password !== password) {
-    alert("Mật khẩu không đúng.");
-    return;
-  }
-
-  if (user.role !== role) {
-    alert("Vai trò không khớp với tài khoản.");
-    return;
-  }
-
-  // lưu id của user hiện tại
+  // ✅ Lưu ID user hiện tại (phục vụ UserManager)
   UserManager.setCurrentUser(user.id);
 
-  // nếu tick "Ghi nhớ đăng nhập" thì lưu thêm flag
+  // ✅ Lưu FULL thông tin user để payment.js và mycourses.js dùng
+  localStorage.setItem("currentUser", JSON.stringify(user));
+
+  // ✅ Ghi nhớ đăng nhập
   if (rememberMe) {
     localStorage.setItem("rememberLogin", "true");
   } else {
@@ -109,8 +98,8 @@ function loginUser() {
   }
 
   alert("Đăng nhập thành công!");
-  // localStorage.setItem("currentUser", JSON.stringify(user));
-  // điều hướng theo role
+
+  // ✅ Điều hướng theo role
   if (user.role === "teacher") {
     window.location.href = "../Teacher/teacher.html";
   } else if (user.role === "student") {
