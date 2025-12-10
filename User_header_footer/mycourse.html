@@ -9,40 +9,55 @@
 </head>
 
 <body>
-    <div class="My-courses">
-        <div class="courses-filter">
-            <div class="search">
-                <input type="text">
-            </div>
-            <div class="filter">
-                <select name="level" id="level">
-                    <option value="all">Tất cả trình độ</option>
-                    <option value="toeic">TOEIC</option>
-                    <option value="ielts">IELTS</option>
-                    <option value="basic">Cơ bản</option>
-                    <option value="combo2">COMBO-2</option>
-                    <option value="combo4">COMBO-4</option>
-                </select>
-                <select name="sort" id="sort">
-                    <option value="newest">Mới nhất</option>
-                    <option value="oldest">Cũ nhất</option>
-                    <option value="az">A-Z</option>
-                    <option value="za">Z-A</option>
-                </select>
-        </div>
-        <h2>Các khóa học/ Chương trình đã đăng ký</h2>
-        <div class="course-list">
-            <div class="course-item">
-                <div class="course-item-img"></div>
-                <div class="course-item-info">
-                    <h3>Tên khóa học</h3>
-                    <span>mô tả</span>
-                    <button>Bắt đầu học</button>
+    <div id="header"></div>
+
+    <div class="mycourse-page">
+        <div class="My-courses">
+            <div class="courses-filter">
+                <div class="filter">
+                    <select name="level" id="level">
+                        <option value="all">Tất cả trình độ</option>
+                        <option value="toeic">TOEIC</option>
+                        <option value="ielts">IELTS</option>
+                        <option value="basic">Cơ bản</option>
+                        <option value="combo2">COMBO-2</option>
+                        <option value="combo4">COMBO-4</option>
+                    </select>
+                    <select name="sort" id="sort">
+                        <option value="newest">Mới nhất</option>
+                        <option value="oldest">Cũ nhất</option>
+                        <option value="az">A-Z</option>
+                        <option value="za">Z-A</option>
+                    </select>
                 </div>
             </div>
+
+            <h2>Các khóa học/ Chương trình đã đăng ký</h2>
+
+            <div class="course-list"></div>
         </div>
+    </div>
+
+    <script>
+      fetch("./GUI.html")
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById("header").innerHTML = html;
+
+          const script = document.createElement("script");
+          script.src = "./js/GUI.js";
+          script.onload = () => {
+            if (typeof loadUserToGUI === "function") {
+              loadUserToGUI();
+            }
+          };
+          document.body.appendChild(script);
+        });
+    </script>
+
+    <script src="./js/mycourse.js"></script>
 </body>
-<script src="./js/mycourse.js"></script>
+
 
 
 </html>

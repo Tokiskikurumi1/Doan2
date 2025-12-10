@@ -1,8 +1,3 @@
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
 
 .header {
   border: 0.0625rem solid #ddd;

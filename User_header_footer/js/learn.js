@@ -1,25 +1,38 @@
-// lấy dữ liệu tưg localstorage
-const courses = JSON.parse(localStorage.getItem("courses")) || [];
-const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+
+// Lấy user
+const currentUserId = localStorage.getItem("currentUser");
+const users = JSON.parse(localStorage.getItem("listusers")) || {};
+const currentUser = users[currentUserId];
+
+// Lấy courses 
+const coursesObj = JSON.parse(localStorage.getItem("courses")) || {};
+const courses = Object.values(coursesObj);
+
+// Lấy comment
 let comments = JSON.parse(localStorage.getItem("comments")) || {};
 
-const courseId = Number(localStorage.getItem("selectedCourseId"));
+// Lấy ID khóa học đang học
+const courseId = localStorage.getItem("selectedCourseId");
 
-// Nếu chưa đăng nhập
+// ktra đăng nhập
+
 if (!currentUser) {
     document.body.innerHTML = "<h2>Bạn cần đăng nhập để học.</h2>";
     throw new Error("Not logged in");
 }
 
 // tìm khóa học
-const course = courses.find(c => c.id === courseId);
+
+const course = courses.find(c => c.id == courseId);
 
 if (!course) {
     document.body.innerHTML = "<h2>Không tìm thấy khóa học.</h2>";
     throw new Error("Course not found");
 }
 
-// ktra đăng kí khóa học chưa
+// ktra dki chưa
+
 if (!course.students || !course.students.some(s => s.id === currentUser.id)) {
     document.body.innerHTML = `
         <div style="padding:40px; text-align:center; font-size:20px;">
@@ -29,6 +42,8 @@ if (!course.students || !course.students.some(s => s.id === currentUser.id)) {
     `;
     throw new Error("Not enrolled");
 }
+
+// dom elements
 
 const sidebar = document.querySelector(".sidebar");
 const videoFrame = document.getElementById("video-frame");
@@ -41,7 +56,8 @@ const commentList = document.getElementById("comment-list");
 
 let currentVideoId = null;
 
-// cắt link youtube thành dạng nhúng
+// chuyển link youtube thành embed
+
 function convertToEmbed(url) {
     if (url.includes("youtu.be")) {
         const id = url.split("youtu.be/")[1].split("?")[0];
@@ -56,8 +72,7 @@ function convertToEmbed(url) {
     return url;
 }
 
-
-// tạo slidebar
+// tạo sidebar
 function renderSidebar() {
     sidebar.innerHTML = `<h2>Danh sách bài học</h2>`;
 
@@ -77,17 +92,15 @@ function renderSidebar() {
         let exercisesHtml = "";
 
         if (video.assignments?.length > 0) {
-            exercisesHtml = video.assignments.map(a => {
-                return `
-                    <div class="exercise-item">
-                        <div class="exercise-left">
-                            <span>${a.title}</span>
-                            <span class="exercise-time">${a.duration} phút</span>
-                        </div>
-                        <button class="exercise-btn" data-assignment="${a.id}">Làm bài</button>
+            exercisesHtml = video.assignments.map(a => `
+                <div class="exercise-item">
+                    <div class="exercise-left">
+                        <span>${a.title}</span>
+                        <span class="exercise-time">${a.duration || 0} phút</span>
                     </div>
-                `;
-            }).join("");
+                    <button class="exercise-btn" data-assignment="${a.id}">Làm bài</button>
+                </div>
+            `).join("");
         }
 
         sidebar.innerHTML += `
@@ -98,24 +111,23 @@ function renderSidebar() {
     });
 }
 
+//load video
+
 function loadVideo(videoId) {
     const video = course.videos.find(v => v.id == videoId);
     if (!video) return;
 
     currentVideoId = String(videoId);
 
-    // iframe
     videoFrame.src = convertToEmbed(video.url);
-
-
     lessonTitleEl.textContent = video.title;
-    lessonDescEl.textContent = course.detail || "Không có mô tả";
+    lessonDescEl.textContent = video.description || course.detail || "Không có mô tả";
 
-    //Hiện bài tập đúng video
+    // Hiện đúng bài tập
     document.querySelectorAll(".exercise-list").forEach(el => el.style.display = "none");
     document.getElementById("video-" + videoId).style.display = "block";
 
-    //Load bình luận
+    // Load bình luận
     loadComments(videoId);
 
     // Active bài học
@@ -125,6 +137,7 @@ function loadVideo(videoId) {
 }
 
 // click bài học
+
 function setupLessonClick() {
     document.querySelectorAll(".lesson-item").forEach(item => {
         item.addEventListener("click", () => {
@@ -133,7 +146,9 @@ function setupLessonClick() {
         });
     });
 }
-// làm bài
+
+// click bài tập
+
 document.addEventListener("click", e => {
     if (e.target.classList.contains("exercise-btn")) {
         const id = e.target.getAttribute("data-assignment");
@@ -145,19 +160,64 @@ document.addEventListener("click", e => {
     }
 });
 
-// bình luận
+// load comments
+
 function loadComments(videoId) {
     commentList.innerHTML = "";
 
     const list = comments[videoId] || [];
 
     list.forEach(c => {
+        const isOwner = c.userId === currentUser.id;
+
         const item = document.createElement("div");
         item.classList.add("comment-item");
-        item.innerHTML = `<strong>${c.name}</strong><br>${c.text}`;
+
+        item.innerHTML = `
+            <div class="comment-avatar">
+                <img src="${c.avatar}" alt="avatar">
+            </div>
+
+            <div class="comment-content">
+                <strong>${c.name}</strong>
+                <p>${c.text}</p>
+                <span class="comment-time">${c.time}</span>
+
+                <div class="comment-actions">
+                    ${
+                        isOwner
+                        ? `<button class="delete-comment" data-id="${c.id}">Xóa</button>`
+                        : `<button class="report-comment" data-id="${c.id}">Báo cáo</button>`
+                    }
+                </div>
+            </div>
+        `;
+
         commentList.appendChild(item);
     });
 }
+
+
+document.addEventListener("click", e => {
+    // XÓA
+    if (e.target.classList.contains("delete-comment")) {
+        const id = Number(e.target.getAttribute("data-id"));
+
+        comments[currentVideoId] = comments[currentVideoId].filter(c => c.id !== id);
+        localStorage.setItem("comments", JSON.stringify(comments));
+
+        loadComments(currentVideoId);
+        return;
+    }
+
+    // BÁO CÁO
+    if (e.target.classList.contains("report-comment")) {
+        alert("Cảm ơn bạn! Bình luận đã được báo cáo.");
+        return;
+    }
+});
+
+
 
 commentSubmit.addEventListener("click", () => {
     const text = commentInput.value.trim();
@@ -166,8 +226,12 @@ commentSubmit.addEventListener("click", () => {
     if (!currentVideoId) return alert("Hãy chọn bài học trước");
 
     const newComment = {
-        name: currentUser.name || "Người dùng",
-        text
+        id: Date.now(),
+        userId: currentUser.id,
+        name: currentUser.yourname || "Người dùng",
+        avatar: currentUser.avatar || "./img/img_GUI/user.png",
+        text,
+        time: new Date().toLocaleString("vi-VN")
     };
 
     if (!comments[currentVideoId]) comments[currentVideoId] = [];
@@ -179,12 +243,11 @@ commentSubmit.addEventListener("click", () => {
     loadComments(currentVideoId);
 });
 
-// khởi tạo
+
 function init() {
     renderSidebar();
     setupLessonClick();
 
-    // Load video đầu tiên
     if (course.videos.length > 0) {
         loadVideo(course.videos[0].id);
     }

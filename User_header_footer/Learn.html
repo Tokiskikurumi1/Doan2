@@ -6,137 +6,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Khóa học</title>
     <link rel="stylesheet" href="./css/learn.css">
-
-    <style>
-
-    </style>
 </head>
 
 <body>
-    <div class="sidebar">
-        <h2>Danh sách bài học</h2>
-        <div class="lesson-item" data-id="1">
-            <div class="lesson-title">
-                <span class="lesson-icon">🎬</span>
-                <span>Bài 1: Giới thiệu khóa học</span>
-            </div>
-            <span class="progress">0/0</span>
-        </div>
-        <div class="exercise-list" id="lesson-1">
-            <div class="exercise-item">
-                <div class="exercise-left">
-                    <span>Bài tập 1.1</span>
-                    <span class="exercise-time">00:00</span>
-                </div>
-                <button class="exercise-btn">Làm bài</button>
-            </div>
+    <body>
+    <div id="header"></div>
 
-            <div class="exercise-item">
-                <div class="exercise-left">
-                    <span>Bài tập 1.2</span>
-                    <span class="exercise-time">00:00</span>
-                </div>
-                <button class="exercise-btn">Làm bài</button>
-            </div>
-        </div>
-        <div class="lesson-item" data-id="2">
-            <div class="lesson-title">
-                <span class="lesson-icon">🎬</span>
-                <span>Bài 2: Cài đặt môi trường</span>
-            </div>
-            <span class="progress">0/0</span>
-        </div>
-        <div class="exercise-list" id="lesson-2">
-            <div class="exercise-item">
-                <div class="exercise-left">
-                    <span>Bài tập 2.1</span>
-                    <span class="exercise-time">00:00</span>
-                </div>
-                <button class="exercise-btn">Làm bài</button>
-            </div>
-        </div>
-        <div class="lesson-item" data-id="3">
-            <div class="lesson-title">
-                <span class="lesson-icon">🎬</span>
-                <span>Bài 3: Làm việc với HTML</span>
-            </div>
-            <span class="progress">0/0</span>
-        </div>
-        <div class="exercise-list" id="lesson-3">
-            <div class="exercise-item">
-                <div class="exercise-left">
-                    <span>Bài tập 3.1</span>
-                    <span class="exercise-time">00:00</span>
-                </div>
-                <button class="exercise-btn">Làm bài</button>
-            </div>
-
-            <div class="exercise-item">
-                <div class="exercise-left">
-                    <span>Bài tập 3.2</span>
-                    <span class="exercise-time">00:00</span>
-                </div>
-                <button class="exercise-btn">Làm bài</button>
-            </div>
-
-            <div class="exercise-item">
-                <div class="exercise-left">
-                    <span>Bài tập 3.3</span>
-                    <span class="exercise-time">00:00</span>
-                </div>
-                <button class="exercise-btn">Làm bài</button>
-            </div>
-        </div>
-
-    </div>
     <div class="main-content">
-
-        <div class="courses-info-title">
-            <span id="lesson-title">📘 ✏️ Tên bài học</span>
-            <div class="pagination" aria-label="Pagination">
-                <button id="prevPage">Prev</button>
-                <button class="active" aria-current="page">1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>...</button>
-                <button>cuối</button>
-                <button id="nextPage">Next</button>
-            </div>
+        
+        <div class="sidebar">
+            <h2>Danh sách bài học</h2>
         </div>
 
-        <div class="courses-info-description">
-            <div class="courses-info-description-video">
-                <iframe id="video-frame" src="https://www.youtube.com/embed/VIDEO_ID" title="YouTube video player"
-                    allowfullscreen></iframe>
+        <div class="content-area">
 
-                <h3>Description:</h3>
-                <p id="lesson-description">This is a sample course description.</p>
+            <div class="courses-info-title">
+                <span id="lesson-title">📘 ✏️ Tên bài học</span>
 
-                <div class="btn">
-                    <button>Bài học trước</button>
-                    <button>Bài học sau</button>
+                <div class="pagination">
+                    <button id="prevPage">Prev</button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>...</button>
+                    <button>cuối</button>
+                    <button id="nextPage">Next</button>
                 </div>
-                <div class="comment-section">
-                    <h3>Bình luận</h3>
+            </div>
 
-                    <div class="comment-form">
-                        <textarea id="comment-input" placeholder="Nhập bình luận..." rows="3"></textarea>
-                        <button id="comment-submit">Gửi bình luận</button>
+            <div class="courses-info-description">
+                <div class="courses-info-description-video">
+
+                    <iframe id="video-frame" src="" allowfullscreen></iframe>
+
+                    <h3>Description:</h3>
+                    <p id="lesson-description">Chọn bài học để xem nội dung.</p>
+
+                    <div class="btn">
+                        <button id="prevLessonBtn">Bài học trước</button>
+                        <button id="nextLessonBtn">Bài học sau</button>
                     </div>
 
-                    <div id="comment-list" class="comment-list">
-                    </div>
-                </div>
+                    <div class="comment-section">
+                        <h3>Bình luận</h3>
 
+                        <div class="comment-form">
+                            <textarea id="comment-input" placeholder="Nhập bình luận..." rows="3"></textarea>
+                            <button id="comment-submit">Gửi bình luận</button>
+                        </div>
+
+                        <div id="comment-list" class="comment-list"></div>
+                    </div>
+
+                </div>
             </div>
 
         </div>
     </div>
 
-    <script src="./js/learn.js">
+    
 
-    </script>
+    <script src="./js/learn.js"></script>
+     <script>
+  fetch("./GUI.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("header").innerHTML = html;
 
+      const script = document.createElement("script");
+      script.src = "./js/GUI.js";
+      script.onload = () => {
+        if (typeof loadUserToGUI === "function") {
+          loadUserToGUI();
+        }
+      };
+      document.body.appendChild(script);
+    });
+</script>
 </body>
 
 </html>

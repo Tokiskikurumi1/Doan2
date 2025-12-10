@@ -1,3 +1,5 @@
+
+
 export class User {
   constructor({
     id = null,
@@ -5,51 +7,53 @@ export class User {
     yourname,
     email,
     phone = "",
-    dob = "", // ngày sinh
+    dob = "",
     province = "",
     district = "",
+    gender = "",
     password = "",
-    role = ""
+    role = "",
+    joinDate = null,   
+    avatar = ""        
   }) {
-    //username
+
     const usernameRegex = /^[a-zA-Z0-9]{4,12}$/;
     if (!username || !usernameRegex.test(username)) {
       throw new Error("Tên tài khoản phải từ 4-12 ký tự, chỉ gồm chữ và số");
     }
 
-    //họ tên
     const nameRegex = /^[\p{L}\s]+$/u;
     if (!yourname || !nameRegex.test(yourname)) {
       throw new Error("Họ và tên chỉ được chứa chữ cái và khoảng trắng");
     }
 
-    //email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !emailRegex.test(email)) {
       throw new Error("Email không hợp lệ");
     }
 
-    //số điện thoại
     const phoneRegex = /^\+84\d{9,10}$/;
     if (phone && !phoneRegex.test(phone)) {
       throw new Error("Số điện thoại phải có định dạng +84xxxxxxxxx");
     }
 
-    //mật khẩu
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     if (!password || !passwordRegex.test(password)) {
       throw new Error("Mật khẩu phải ít nhất 8 ký tự, gồm chữ và số");
     }
 
-    //role
     if (!["student", "teacher"].includes(role)) {
       throw new Error("Vai trò phải là 'student' hoặc 'teacher'");
     }
 
-    //ngày sinh
     if (dob && isNaN(Date.parse(dob))) {
       throw new Error("Ngày sinh không hợp lệ");
     }
+
+    if (gender && !["male", "female", "other"].includes(gender)) {
+      throw new Error("Giới tính không hợp lệ");
+    }
+
 
     this.id = id || Date.now().toString();
     this.username = username;
@@ -59,34 +63,33 @@ export class User {
     this.dob = dob;
     this.province = province;
     this.district = district;
+    this.gender = gender;
     this.password = password;
     this.role = role;
+
+    this.joinDate = joinDate || Date.now();
+
+    this.avatar = avatar || "";
   }
 
   save() {
     const users = UserManager.getAllUsers();
 
-    // kiểm tra trùng username
-    const exists = Object.values(users).some((u) => u.username === this.username);
-    if (exists) {
+    if (Object.values(users).some((u) => u.username === this.username)) {
       throw new Error("Tên tài khoản đã tồn tại");
     }
-
     if (UserManager.isEmailTaken(this.email)) {
       throw new Error("Email đã được sử dụng");
     }
 
-    users[this.id] = this; // lưu theo id
+    users[this.id] = this;
     UserManager.saveAllUsers(users);
   }
 
   static loadCurrent() {
     const id = UserManager.getCurrentUser();
     const users = UserManager.getAllUsers();
-    if (id && users[id]) {
-      return new User(users[id]);
-    }
-    return null;
+    return id && users[id] ? new User(users[id]) : null;
   }
 }
 
@@ -94,8 +97,7 @@ export class UserManager {
   static getAllUsers() {
     try {
       return JSON.parse(localStorage.getItem("listusers")) || {};
-    } catch (e) {
-      console.error("Lỗi đọc dữ liệu:", e);
+    } catch {
       return {};
     }
   }
@@ -112,48 +114,143 @@ export class UserManager {
     localStorage.setItem("currentUser", id);
   }
 
-  static userExistsById(id) {
-    return !!this.getAllUsers()[id];
-  }
-
-  static userExistsByUsername(username) {
-    return Object.values(this.getAllUsers()).some((u) => u.username === username);
-  }
-
   static isEmailTaken(email) {
     return Object.values(this.getAllUsers()).some((u) => u.email === email);
   }
 
   static validateLogin(username, password, role = null) {
-    const users = this.getAllUsers();
-    const user = Object.values(users).find((u) => u.username === username);
+    const user = Object.values(this.getAllUsers()).find((u) => u.username === username);
     if (!user) return false;
     if (user.password !== password) return false;
     if (role && user.role !== role) return false;
     return true;
   }
+}
 
-  static getPasswordByEmail(email) {
-    const users = this.getAllUsers();
-    const user = Object.values(users).find((u) => u.email === email);
-    return user ? user.password : null;
-  }
 
-  static getUserById(id) {
-    return this.getAllUsers()[id] || null;
-  }
 
-  static getUserByUsername(username) {
-    return Object.values(this.getAllUsers()).find((u) => u.username === username) || null;
+export class Course {
+  constructor({
+    id = null,
+    teacherId,
+    teacherName,
+    name,
+    type,
+    date,
+    detail = "",
+    price = 0,
+    status = "draft",
+    image = "./img/course.png",
+    students = [],
+    videos = [],
+    assignments = []
+  }) {
+    this.id = id || Date.now().toString();
+    this.teacherId = teacherId;
+    this.teacherName = teacherName;
+    this.name = name;
+    this.type = type;
+    this.date = date;
+    this.detail = detail;
+    this.price = price;
+    this.status = status;
+    this.image = image;
+    this.students = students;
+    this.videos = videos;
+    this.assignments = assignments;
   }
 }
+
+export class CourseManager {
+  static key = "courses";
+
+  static getAll() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(this.key));
+      return raw ? raw : {};
+    } catch {
+      return {};
+    }
+  }
+
+  static saveAll(courses) {
+    localStorage.setItem(this.key, JSON.stringify(courses));
+  }
+
+  static add(course) {
+    const courses = this.getAll();
+    courses[course.id] = course;
+    this.saveAll(courses);
+  }
+
+  static getById(id) {
+    return this.getAll()[id] || null;
+  }
+}
+
+export class Video {
+  constructor({ id = null, title, url, status = "Chưa hoàn thành" }) {
+    this.id = id || Date.now().toString();
+    this.title = title;
+    this.url = url;
+    this.status = status;
+  }
+}
+
+export class VideoManager {
+  static addVideoToCourse(courseId, video) {
+    const courses = CourseManager.getAll();
+    if (!courses[courseId]) return;
+
+    courses[courseId].videos.push(video);
+    CourseManager.saveAll(courses);
+  }
+}
+
+
+export class Assignment {
+  constructor({
+    id = null,
+    teacherId,
+    courseId,
+    videoId,
+    videoTitle,
+    title,
+    description,
+    duration,
+    deadline,
+    type = "Quizz",
+    status = "draft",
+    questions = [],
+    createdAt = new Date().toISOString()
+  }) {
+    this.id = id || Date.now().toString();
+    this.teacherId = teacherId;
+    this.courseId = courseId;
+    this.videoId = videoId;
+    this.videoTitle = videoTitle;
+    this.title = title;
+    this.description = description;
+    this.duration = duration;
+    this.deadline = deadline;
+    this.type = type;
+    this.status = status;
+    this.questions = questions;
+    this.createdAt = createdAt;
+  }
+}
+
+export class AssignmentManager {
+  static addAssignment(courseId, assignment) {
+    const courses = CourseManager.getAll();
+    if (!courses[courseId]) return;
+
+    courses[courseId].assignments.push(assignment);
+    CourseManager.saveAll(courses);
+  }
+}
+
 export class CourseReader {
-  /**
-   * options:
-   *  - coursesKey: key lưu courses trong localStorage (mặc định "courses")
-   *  - selectedCourseIdKey: key lưu selectedCourseId (mặc định "selectedCourseId")
-   *  - teacherNameKey: key lưu tên giáo viên (mặc định "savedUsername")
-   */
   constructor(options = {}) {
     this.coursesKey = options.coursesKey || "courses";
     this.selectedCourseIdKey = options.selectedCourseIdKey || "selectedCourseId";
@@ -164,72 +261,46 @@ export class CourseReader {
     this.teacherName = localStorage.getItem(this.teacherNameKey) || "";
   }
 
-  // ----- Nội bộ: đọc courses từ localStorage, trả về mảng (bảo toàn cấu trúc lưu trữ) -----
   _loadRawCourses() {
     try {
       const raw = JSON.parse(localStorage.getItem(this.coursesKey));
-      if (!raw) return [];
-      // nếu lưu dưới dạng object keyed-by-id, chuyển về mảng
-      if (!Array.isArray(raw) && typeof raw === "object") {
-        return Object.values(raw);
-      }
+      if (!raw) return {};
       return raw;
-    } catch (e) {
-      console.error("CourseReader: lỗi đọc courses từ localStorage", e);
-      return [];
+    } catch {
+      return {};
     }
   }
 
-  // ----- Lấy tất cả courses (mảng) -----
   getAllCourses() {
-    // trả về clone để tránh sửa nhầm dữ liệu gốc
     return JSON.parse(JSON.stringify(this._rawCourses));
   }
 
-  // ----- Lấy course theo id (trả về null nếu không tìm thấy) -----
   getCourseById(id) {
-    if (!id) return null;
-    const found = this._rawCourses.find(c => String(c.id) === String(id));
-    return found ? JSON.parse(JSON.stringify(found)) : null;
+    return this._rawCourses[id] ? JSON.parse(JSON.stringify(this._rawCourses[id])) : null;
   }
 
-  // ----- Lấy course đang được chọn (theo selectedCourseId) -----
   getSelectedCourse() {
-    if (!this.selectedCourseId) return null;
     return this.getCourseById(this.selectedCourseId);
   }
 
-  // ----- Lấy chi tiết course (object chuẩn) cho id hoặc selected -----
   getCourseDetails(id = null) {
     const course = id ? this.getCourseById(id) : this.getSelectedCourse();
     if (!course) return null;
 
-    // chuẩn hóa các trường thường dùng
     return {
-      id: course.id,
-      name: course.name || "",
-      type: course.type || "",
-      date: course.date || "",
-      price: typeof course.price === "number" ? course.price : (Number(course.price) || 0),
-      detail: course.detail || "",
-      status: course.status || "",
-      teacher: course.teacher || this.teacherName || "",
-      videos: Array.isArray(course.videos) ? course.videos.map(v => ({
-        id: v.id,
-        title: v.title,
-        url: v.url
-      })) : []
+      ...course,
+      price: Number(course.price) || 0,
+      videos: course.videos || [],
+      assignments: course.assignments || [],
+      students: course.students || []
     };
   }
 
-  // ----- Lấy danh sách video của course (theo id hoặc selected) -----
   getVideos(id = null) {
     const course = id ? this.getCourseById(id) : this.getSelectedCourse();
-    if (!course) return [];
-    return Array.isArray(course.videos) ? JSON.parse(JSON.stringify(course.videos)) : [];
+    return course?.videos || [];
   }
 
-  // ----- Tải lại dữ liệu từ localStorage (nếu cần refresh) -----
   reload() {
     this._rawCourses = this._loadRawCourses();
     this.selectedCourseId = localStorage.getItem(this.selectedCourseIdKey) || null;

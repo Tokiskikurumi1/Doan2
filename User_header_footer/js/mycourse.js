@@ -1,32 +1,28 @@
-// =========================
-// LẤY DỮ LIỆU TỪ LOCAL STORAGE
-// =========================
 
-const courses = JSON.parse(localStorage.getItem("courses")) || [];
-const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-const courseListEl = document.querySelector(".course-list");
-const searchInput = document.querySelector(".search input");
-const levelSelect = document.getElementById("level");
-const sortSelect = document.getElementById("sort");
+
+
+const currentUserId = localStorage.getItem("currentUser");
+const users = JSON.parse(localStorage.getItem("listusers")) || {};
+const currentUser = users[currentUserId];
 
 // Nếu chưa đăng nhập
+const courseListEl = document.querySelector(".mycourse-page .course-list");
 if (!currentUser) {
     courseListEl.innerHTML = "<p>Bạn cần đăng nhập để xem khóa học.</p>";
     throw new Error("User not logged in");
 }
 
-// =========================
-// LỌC KHÓA HỌC USER ĐÃ ĐĂNG KÝ
-// =========================
+
+const coursesObj = JSON.parse(localStorage.getItem("courses")) || {};
+const courses = Object.values(coursesObj);
+
 
 let myCourses = courses.filter(course =>
     Array.isArray(course.students) &&
     course.students.some(s => s.id === currentUser.id)
 );
 
-// =========================
-// RENDER KHÓA HỌC
-// =========================
+
 
 function renderCourses(list) {
     courseListEl.innerHTML = "";
@@ -65,23 +61,15 @@ function renderCourses(list) {
 // Render lần đầu
 renderCourses(myCourses);
 
-// =========================
-// TÌM KIẾM + LỌC + SẮP XẾP
-// =========================
 
-searchInput.addEventListener("input", applyFilters);
+const levelSelect = document.querySelector(".mycourse-page #level");
+const sortSelect = document.querySelector(".mycourse-page #sort");
+
 levelSelect.addEventListener("change", applyFilters);
 sortSelect.addEventListener("change", applyFilters);
 
 function applyFilters() {
     let filtered = [...myCourses];
-
-    // Tìm kiếm
-    const keyword = searchInput.value.toLowerCase();
-    filtered = filtered.filter(c =>
-        c.name.toLowerCase().includes(keyword) ||
-        (c.detail && c.detail.toLowerCase().includes(keyword))
-    );
 
     // Lọc theo trình độ
     const level = levelSelect.value;

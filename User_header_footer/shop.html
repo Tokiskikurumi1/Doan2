@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./css/shop.css">
 </head>
 <body>
+  <div id="header"></div>
   <div class="shop">
     <div class="filter-content">
       <div class="filter-group">
@@ -50,4 +51,20 @@
   </div>
 </body>
  <script src="./js/shop.js"></script>
+ <script>
+  fetch("./GUI.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("header").innerHTML = html;
+
+      const script = document.createElement("script");
+      script.src = "./js/GUI.js";
+      script.onload = () => {
+        if (typeof loadUserToGUI === "function") {
+          loadUserToGUI();
+        }
+      };
+      document.body.appendChild(script);
+    });
+</script>
 </html>

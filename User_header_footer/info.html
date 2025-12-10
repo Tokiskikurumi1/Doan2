@@ -4,10 +4,18 @@
 <head>
   <meta charset="UTF-8" />
   <title>Thông tin tài khoản</title>
+  <link rel="stylesheet" href="../Assets/CSS/Base/reset.css" />
+  <link rel="stylesheet" href="../Assets/CSS/Base/base.css" />
+  <link rel="stylesheet" href="../Assets/CSS/Base/card.css" />
+  <link rel="stylesheet" href="../Assets/CSS/Base/btn.css" />
+  <link rel="stylesheet" href="./css/GUI.css" />
+
   <link rel="stylesheet" href="./css/info.css">
 </head>
 
 <body>
+  <div id="header"></div>
+
   <div class="container">
     <div class="title">
       <h2>Thông tin tài khoản</h2>
@@ -23,72 +31,76 @@
         <input type="file" id="avatarInput" accept="image/*" hidden>
 
         <div class="avatar-info">
-          <h3>Nguyễn Văn A</h3>
-          <span>Thành viên từ 2022</span>
+          <h3 id="infoName">Tên người dùng</h3>
+          <span id="memberSince">Thành viên từ 2025</span>
         </div>
       </div>
 
-
       <div class="field-group">
         <label>Họ và tên</label>
-        <input type="text" value="Nguyễn Văn A">
+        <input type="text" id="yourname">
       </div>
 
       <div class="field-row">
         <div class="field-group">
           <label>Email</label>
-          <input type="email" class="readonly" value="user@example.com" disabled>
+          <input type="email" id="email" class="readonly" disabled>
         </div>
         <div class="field-group">
           <label>Số điện thoại</label>
-          <input type="text" value="0901 234 567">
+          <input type="text" id="phone">
         </div>
       </div>
 
       <div class="field-row">
         <div class="field-group">
           <label>Tên đăng nhập</label>
-          <input type="text" class="readonly" value="username123" disabled>
+          <input type="text" id="username" class="readonly" disabled>
         </div>
         <div class="field-group">
           <label>Vai trò</label>
-          <input type="text" class="readonly" value="Người dùng" disabled>
+          <input type="text" id="role" class="readonly" disabled>
         </div>
       </div>
 
       <div class="field-row">
         <div class="field-group">
           <label>Giới tính</label>
-          <select>
+          <select id="gender">
             <option value="">-- Chọn giới tính --</option>
-            <option value="Nam">Nam</option>
-            <option value="Nữ">Nữ</option>
-            <option value="Khác">Khác</option>
+            <option value="male">Nam</option>
+            <option value="female">Nữ</option>
+            <option value="other">Khác</option>
           </select>
         </div>
 
         <div class="field-group">
           <label>Ngày sinh</label>
-          <input type="date">
+          <input type="date" id="dob">
         </div>
       </div>
 
       <div class="field-row">
         <div class="field-group">
           <label>Quận / Huyện</label>
-          <input type="text" placeholder="Ví dụ: Hoàn Kiếm">
+          <input type="text" id="district">
         </div>
 
         <div class="field-group">
           <label>Thành phố</label>
-          <input type="text" placeholder="Ví dụ: Hà Nội">
+          <input type="text" id="province">
         </div>
       </div>
 
-      <div class="btn-row">
-        <button class="btn btn-outline" type="button">Hủy</button>
-        <button class="btn btn-primary" type="button">Lưu thay đổi</button>
-      </div>
+      <div class="btn-row" id="editButtons">
+  <button class="btn btn-primary" type="button" id="editInfoBtn">Sửa thông tin</button>
+</div>
+
+<div class="btn-row" id="saveButtons" style="display: none;">
+  <button class="btn btn-outline" type="button" id="cancelEditBtn">Hủy</button>
+  <button class="btn btn-primary" type="button" id="saveInfoBtn">Lưu thay đổi</button>
+</div>
+
     </div>
 
     <div class="section">
@@ -96,24 +108,23 @@
 
       <div class="field-group">
         <label>Mật khẩu hiện tại</label>
-        <input type="password" id="currentPassword" placeholder="Nhập mật khẩu hiện tại">
+        <input type="password" id="currentPassword">
       </div>
 
       <div class="field-group">
         <label>Mật khẩu mới</label>
-        <input type="password" id="newPassword" placeholder="Tối thiểu 8 ký tự">
-        <div class="hint">Gợi ý: nên có chữ hoa, chữ thường, số và ký tự đặc biệt.</div>
+        <input type="password" id="newPassword">
       </div>
 
       <div class="field-group">
         <label>Nhập lại mật khẩu mới</label>
-        <input type="password" id="confirmPassword" placeholder="Nhập lại mật khẩu mới">
+        <input type="password" id="confirmPassword">
         <div class="error" id="errorMessage">Mật khẩu nhập lại không khớp.</div>
       </div>
 
       <div class="btn-row">
         <button class="btn btn-outline" type="button">Hủy</button>
-        <button class="btn btn-primary" type="button" onclick="changePassword()">Cập nhật mật khẩu</button>
+        <button class="btn btn-primary" type="button" id="changePassBtn">Cập nhật mật khẩu</button>
       </div>
 
       <div class="success-message" id="successMessage">
@@ -123,6 +134,24 @@
   </div>
 
   <script src="./js/info.js"></script>
+  <script>
+  fetch("./GUI.html")
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById("header").innerHTML = html;
+
+      const script = document.createElement("script");
+      script.src = "./js/GUI.js";
+      script.onload = () => {
+        if (typeof loadUserToGUI === "function") {
+          loadUserToGUI();
+        }
+      };
+      document.body.appendChild(script);
+    });
+</script>
+
+
 </body>
 
 </html>

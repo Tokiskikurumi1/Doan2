@@ -12,11 +12,13 @@ body {
 }
 
 .My-courses {
+    
     max-width: 1000px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 30px;
+    margin-top: 60px;
 }
 
 /* --- FILTER AREA --- */
