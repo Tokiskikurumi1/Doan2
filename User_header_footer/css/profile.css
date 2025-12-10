@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #f3f4f6;
+  font-family: Arial, sans-serif;
+}
+
+.learning-profile {
+  width: 100%;
+  padding: 30px 40px;
+  background: #fff;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Tiêu đề */
+.learning-profile h2 {
+  margin-bottom: 20px;
+  color: #111827;
+  font-size: 28px;
+}
+
+/* Section */
+.section {
+  margin-bottom: 35px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Tiêu đề section */
+.section h3 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #1f2937;
+}
+
+/* Khóa học */
+.course-card {
+  background: #f9fafb;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #e5e7eb;
+}
+
+.course-card h4 {
+  margin: 0 0 6px;
+  color: #111827;
+  font-size: 18px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 6px;
+  margin: 6px 0 10px;
+}
+
+.progress {
+  height: 100%;
+  background: #2563eb;
+  border-radius: 6px;
+}
+
+/* Thành tích */
+.achievement-list {
+  list-style: none;
+  padding-left: 0;
+  color: #374151;
+  font-size: 15px;
+}
+
+.achievement-list li {
+  margin-bottom: 8px;
+}
+
+/* Bảng điểm */
+.score-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.score-table th,
+.score-table td {
+  border: 1px solid #d1d5db;
+  padding: 12px;
+  text-align: left;
+}
+
+.score-table th {
+  background: #f3f4f6;
+  color: #111827;
+}

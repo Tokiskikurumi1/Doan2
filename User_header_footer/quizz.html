@@ -1,44 +1,60 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
-    <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
-    <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
-    <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
-    <link rel="stylesheet" href="./css/quizz.css">
-  </head>
-  <body>
-    <div class="question-anwser">
-      <div class="title">
-        <h2>Time</h2>
-        <span>Tiêu đề</span>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bài kiểm tra tiếng Anh</title>
+  <link rel="stylesheet" href="./css/quizz.css">
+</head>
+<body>
+
+
+  <div class="quiz-header-fixed">
+      <h1 class="quiz-title">Bài kiểm tra tiếng Anh</h1>
+      <div class="timer">⏳ <span id="time">20:00</span></div>
+      <button id="toggleMenu" class="menu-btn">☰</button>
+  </div>
+
+
+  <div id="questionMenu" class="question-menu-top">
+      <div class="menu-grid">
+          <button class="q-btn active">1</button>
+          <button class="q-btn">2</button>
+          <button class="q-btn">3</button>
+          <button class="q-btn">4</button>
+          <button class="q-btn">5</button>
+          <button class="q-btn">6</button>
+          <button class="q-btn">7</button>
+          <button class="q-btn">8</button>
+          <button class="q-btn">9</button>
+          <button class="q-btn">10</button>
       </div>
-      <hr>
-      <br/>
-      <p> Nội dung câu hỏi</p>
-      <img src="" alt="" />
-      <div class="answer">
-        <label for="A"><input id="A" type="radio" name="answer" value="1"> Chim cánh cụt</label>
-        <label for="B"><input id="B" type="radio" name="answer" value="1"> Chim cánh cụt</label>
-        <label for="C"><input id="C" type="radio" name="answer" value="1"> Chim cánh cụt</label>
-        <label for="D"><input id="D" type="radio" name="answer" value="1"> Chim cánh cụt</label>
+  </div>
+
+  <div class="quiz-wrapper">
+      <div class="question-area">
+          <div class="question-box">
+              <h2>Câu 1</h2>
+              <p>What is the meaning of the word <strong>"ability"</strong>?</p>
+
+              <div class="answers">
+                  <label class="answer-item"><input type="radio" name="q1"><span>Khả năng</span></label>
+                  <label class="answer-item"><input type="radio" name="q1"><span>Thói quen</span></label>
+                  <label class="answer-item"><input type="radio" name="q1"><span>Hành động</span></label>
+                  <label class="answer-item"><input type="radio" name="q1"><span>Thời gian</span></label>
+              </div>
+          </div>
       </div>
-    </div>
-    <div class="select-question">
-      <span>Câu hỏi</span>
-      <hr>
-      <ul>
-        <a href=""><li>1</li></a>
-        <a href=""><li>1</li></a>
-        <a href=""><li>1</li></a>
-        <a href=""><li>1</li></a>
-        <a href=""><li>1</li></a>
-        <a href=""><li>1</li></a>
-        <a href=""><li>1</li></a>
-        <a href=""><li>1</li></a>
-        <a href=""><li>1</li></a>
-      </ul>
-    </div>
-  </body>
+      
+  </div>
+
+  <script>
+      const btn = document.getElementById("toggleMenu");
+      const menu = document.getElementById("questionMenu");
+
+      btn.addEventListener("click", () => {
+          menu.classList.toggle("show");
+      });
+  </script>
+
+</body>
 </html>
