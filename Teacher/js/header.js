@@ -70,17 +70,15 @@ function updateLoginStatus() {
   const userInfo = document.querySelector(".user-info");
   if (!userInfo) return;
 
-  const currentUserId = localStorage.getItem("currentUser");
-  const usersObject = JSON.parse(localStorage.getItem("listusers")) || {};
-  const currentUser = currentUserId ? usersObject[currentUserId] : null;
+  const user = JSON.parse(localStorage.getItem("currentUser"));
 
-  if (currentUser) {
+  if (user) {
     userInfo.innerHTML = `
       <div class="avatar">
         <i class="fa-solid fa-user"></i>
       </div>
       <span style="font-weight: 500">
-        ${currentUser.role === "teacher" ? "GV. " : ""}${currentUser.yourname}
+        ${user.role === "teacher" ? "GV. " : ""}${user.yourname}
       </span>
     `;
 

@@ -1,10 +1,10 @@
 // ========================== LẤY THÔNG TIN GIẢNG VIÊN ĐANG ĐĂNG NHẬP ==========================
-const currentUserId = localStorage.getItem("currentUser"); // chỉ là ID (chuỗi số)
-const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
-const currentUser = currentUserId ? allUsersData[currentUserId] : null;
+const user = JSON.parse(localStorage.getItem("currentUser"));
+// const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
+// const currentUser = currentUserId ? allUsersData[currentUserId] : null;
 
 // === BẢO VỆ TRANG: Nếu chưa đăng nhập HOẶC không phải giáo viên → đá về login ===
-if (!currentUser || currentUser.role !== "teacher") {
+if (!user || user.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");
   window.location.href = "../../User_header_footer/login.html";
 }
@@ -59,8 +59,8 @@ document.getElementById("create-course-form").onsubmit = function (e) {
 
   const course = {
     id: Date.now(),
-    teacherId: currentUser.id,
-    teacherName: currentUser.yourname,
+    teacherId: user.id,
+    teacherName: user.yourname,
     name,
     type,
     status,
@@ -83,7 +83,7 @@ document.getElementById("create-course-form").onsubmit = function (e) {
 
 // ========================== RENDER COURSES  ==========================
 function renderCourses() {
-  let filtered = courses.filter((c) => c.teacherId === currentUser.id);
+  let filtered = courses.filter((c) => c.teacherId === user.id);
 
   // SEARCH
   const keyword = searchBar.value.toLowerCase();

@@ -1,11 +1,12 @@
 // ======================= LẤY THÔNG TIN GIẢNG VIÊN =======================
-const currentUserId = localStorage.getItem("currentUser");
-const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
-const currentUser = currentUserId ? allUsersData[currentUserId] : null;
+const user = JSON.parse(localStorage.getItem("currentUser"));
+// const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
+// const currentUser = currentUserId ? allUsersData[currentUserId] : null;
 
-if (!currentUser || currentUser.role !== "teacher") {
+// === BẢO VỆ TRANG: Nếu chưa đăng nhập HOẶC không phải giáo viên → đá về login ===
+if (!user || user.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");
-  window.location.href = "../User_header_footer/login.html";
+  window.location.href = "../../User_header_footer/login.html";
 }
 
 // ======================= DOM ELEMENTS =======================
@@ -209,7 +210,7 @@ function handleSubmit(e) {
 
   const assignment = {
     id: editingId || Date.now().toString(),
-    teacherId: currentUser.id,
+    teacherId: user.id,
     videoId: localStorage.getItem("creatingHomeworkForVideoId") || null,
     videoTitle:
       localStorage.getItem("creatingHomeworkForVideoTitle") || "Không có video",
@@ -381,6 +382,19 @@ function loadDraft(editingId) {
       }
     });
   }, 150);
+}
+
+function closeModal() {
+  const courseId = localStorage.getItem("creatingHomeworkForCourseId");
+
+  // Nếu đang tạo bài tập trong khóa học → quay lại detail-course
+  if (courseId) {
+    window.location.href = "./detail-course.html";
+    return;
+  }
+
+  // Nếu không có courseId → quay lại danh sách bài tập
+  window.location.href = "./manage-homework.html";
 }
 
 function resetForm() {

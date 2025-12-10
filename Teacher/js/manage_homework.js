@@ -1,11 +1,12 @@
 // ======================= LẤY THÔNG TIN GIẢNG VIÊN =======================
-const currentUserId = localStorage.getItem("currentUser");
-const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
-const currentUser = currentUserId ? allUsersData[currentUserId] : null;
+const user = JSON.parse(localStorage.getItem("currentUser"));
+// const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
+// const currentUser = currentUserId ? allUsersData[currentUserId] : null;
 
-if (!currentUser || currentUser.role !== "teacher") {
+// === BẢO VỆ TRANG: Nếu chưa đăng nhập HOẶC không phải giáo viên → đá về login ===
+if (!user || user.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");
-  window.location.href = "../User_header_footer/login.html";
+  window.location.href = "../../User_header_footer/login.html";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -29,7 +30,7 @@ function loadAssignments(filterStatus = "all", filterCourse = "all") {
   const rawAssignments = JSON.parse(
     localStorage.getItem("assignments") || "[]"
   );
-  allAssignments = rawAssignments.filter((a) => a.teacherId === currentUser.id);
+  allAssignments = rawAssignments.filter((a) => a.teacherId === user.id);
 
   // LỌC THEO TRẠNG THÁI + LOẠI KHÓA HỌC
   const filtered = allAssignments.filter((a) => {
@@ -221,16 +222,37 @@ function escapeHtml(text) {
 function deleteAssignment(id) {
   if (!confirm("Xóa bài tập này? Hành động không thể hoàn tác!")) return;
 
+  // 1. Xóa trong assignments[] (global)
   let assignments = JSON.parse(localStorage.getItem("assignments") || "[]");
-  assignments = assignments.filter((a) => a.id !== id);
+  assignments = assignments.filter((a) => String(a.id) !== String(id));
   localStorage.setItem("assignments", JSON.stringify(assignments));
 
-  allAssignments = allAssignments.filter((a) => a.id !== id);
+  // 2. Xóa bài tập trong từng khóa học → từng video
+  let courses = JSON.parse(localStorage.getItem("courses") || "[]");
+
+  courses.forEach((course) => {
+    course.videos?.forEach((video) => {
+      if (video.assignments) {
+        video.assignments = video.assignments.filter(
+          (a) => String(a.id) !== String(id)
+        );
+      }
+    });
+  });
+
+  // Lưu lại changes
+  localStorage.setItem("courses", JSON.stringify(courses));
+
+  // 3. Cập nhật UI
+  allAssignments = allAssignments.filter((a) => String(a.id) !== String(id));
+
   updateTabCounts();
   loadAssignments(
     getActiveFilter(),
     document.getElementById("selectTypeCourse")?.value || "all"
   );
+
+  alert("Đã xóa bài tập!");
 }
 
 function editDraft(id) {

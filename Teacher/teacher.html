@@ -53,7 +53,7 @@
               Tổng học viên
               <i class="fas fa-user-graduate" style="color: var(--green)"></i>
             </h3>
-            <p>248</p>
+            <p id="total-students">248</p>
           </div>
           <div class="stat-card">
             <h3>
@@ -82,22 +82,26 @@
             <h3>Khóa học phổ biến</h3>
             <a href="./manage-course.html">Xem tất cả →</a>
           </div>
-          <div class="course-card">
+          <div class="course-card" id="popular-course-card">
             <div class="process">
               <div>
-                <h4>Tiếng anh cơ bản</h4>
-                <p style="font-size: 0.875rem; color: var(--grey)">
-                  68 học viên • Kết thúc: 20/12/2025
+                <h4 id="popular-course-name">Chưa có dữ liệu</h4>
+                <p
+                  id="popular-course-meta"
+                  style="font-size: 0.875rem; color: var(--grey)"
+                >
+                  0 học viên
                 </p>
               </div>
               <span
                 class="bg-yellow-light"
+                id="popular-course-badge"
                 style="
                   font-size: 0.75rem;
                   padding: 0.25rem 0.5rem;
                   border-radius: 0.375rem;
                 "
-                >Đang hot</span
+                >—</span
               >
             </div>
 
@@ -106,6 +110,7 @@
               style="display: flex; gap: 0.5rem; margin-top: 0.75rem"
             >
               <button
+                id="popular-course-detail-btn"
                 style="
                   padding: 0.5rem 1rem;
                   border: 1px solid var(--grey);
@@ -119,6 +124,7 @@
             </div>
           </div>
         </section>
+
         <!--TỈ LỆ HOÀN THÀNH BÀI TẬP-->
         <section>
           <div class="finish-work">
@@ -147,33 +153,19 @@
           </div>
           <div class="table-student">
             <table>
-              <tr>
-                <th>STT</th>
-                <th>Mã học viên</th>
-                <th>Họ tên</th>
-                <th>Ngày sinh</th>
-                <th>Số điện thoại</th>
-                <th>Khóa học đăng ký</th>
-                <th>Giá tiền</th>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>HV01</td>
-                <td>Vũ Thành Minh</td>
-                <td>03-12-2005</td>
-                <td>0123456789</td>
-                <td>Tiếng anh cơ bản</td>
-                <td>1.000.000VND</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>HV01</td>
-                <td>Vũ Thành Minh</td>
-                <td>03-12-2005</td>
-                <td>0123456789</td>
-                <td>Tiếng anh cơ bản</td>
-                <td>1.000.000VND</td>
-              </tr>
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Mã học viên</th>
+                  <th>Họ tên</th>
+                  <th>Ngày tham gia</th>
+                  <th>Khóa học đăng ký</th>
+                  <th>Giá tiền</th>
+                </tr>
+              </thead>
+              <tbody id="recent-students-body">
+                <!-- JS sẽ bơm dữ liệu vào đây -->
+              </tbody>
             </table>
           </div>
         </section>
