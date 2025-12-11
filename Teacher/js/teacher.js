@@ -1,5 +1,5 @@
 // ======================= LẤY THÔNG TIN GIẢNG VIÊN =======================
-const user = JSON.parse(localStorage.getItem("currentUser"));
+const user = JSON.parse(localStorage.getItem("currentUserData"));
 
 if (!user || user.role !== "teacher") {
   alert("Bạn không có quyền truy cập trang này!");

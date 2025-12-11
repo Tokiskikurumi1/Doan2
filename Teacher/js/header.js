@@ -70,7 +70,7 @@ function updateLoginStatus() {
   const userInfo = document.querySelector(".user-info");
   if (!userInfo) return;
 
-  const user = JSON.parse(localStorage.getItem("currentUser"));
+  const user = JSON.parse(localStorage.getItem("currentUserData"));
 
   if (user) {
     userInfo.innerHTML = `

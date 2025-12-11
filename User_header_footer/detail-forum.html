@@ -8,104 +8,7 @@
     <link rel="stylesheet" href="./css/forumCSS/detail-forum.css" />
   </head>
   <body>
-    <header>
-      <div class="header">
-        <a href="" class="header-logo">
-          <h1>K-ENGLISH</h1>
-        </a>
-        <div class="header-nav-center">
-          <ul>
-            <li><a href="#">KHÓA HỌC</a></li>
-            <li><a href="#">BÀI TẬP</a></li>
-            <li><a href="./forum.html">CỘNG ĐỒNG</a></li>
-            <li><a href="#">CỬA HÀNG</a></li>
-            <li><a href="#">GIỚI THIỆU</a></li>
-          </ul>
-        </div>
-        <div class="header-nav-right">
-          <div class="header-search">
-            <div class="header-search-box" id="searchBox">
-              <input type="text" placeholder="Tìm kiếm..." />
-            </div>
-            <div
-              class="header-search-icon"
-              id="searchIcon"
-              onclick="toggleSearch()"
-            >
-              <img src="./img/img_GUI/glass.png" alt="" />
-            </div>
-            <div class="header-search-results">
-              <h2>Kết quả tìm kiếm</h2>
-              <br />
-              <div id="search-results-container"></div>
-            </div>
-          </div>
-          <div class="header-notification">
-            <div
-              class="header-notification-container"
-              id="notificationContainer"
-            >
-              <div class="header-notification-icon">
-                <img
-                  src="./img/img_GUI/bell.png"
-                  alt="notification"
-                  class="notification-icon"
-                />
-              </div>
-
-              <div class="header-notification-count"></div>
-
-              <div class="dropdown-menu notification-menu">
-                <ul>
-                  <li>
-                    <p>Thông báo</p>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="header-message">
-            <div class="header-message-icon">
-              <img src="./img/img_GUI/messenger.png" alt="notification" />
-            </div>
-            <div class="header-notification-count"></div>
-          </div>
-          <div class="header-user">
-            <div class="header-user-container" id="userContainer">
-              <div class="header-user-icon">
-                <img src="./img/img_GUI/user.png" alt="avatar" class="avatar" />
-              </div>
-
-              <div class="user-name-popup">
-                <p>Name User</p>
-              </div>
-
-              <div class="dropdown-menu user-menu">
-                <ul>
-                  <li><a href="#">Thông tin tài khoản</a></li>
-                  <li><a href="#">Hồ sơ của tôi</a></li>
-                  <li><a href="#">Lớp của tôi</a></li>
-                  <li><a href="#">Lịch sử thanh toán</a></li>
-                  <li><a href="#">Thoát</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="burger-toggle" id="burgerToggle">
-            <i class="fas fa-bars"></i>
-          </div>
-
-          <nav class="burger-menu" id="burgerMenu">
-            <ul>
-              <li><a href="#">KHÓA HỌC</a></li>
-              <li><a href="#">BÀI TẬP</a></li>
-              <li><a href="./forum.html">CỘNG ĐỒNG</a></li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </header>
+    <div id="header"></div>
 
     <div class="main-content">
       <div class="topbar">
@@ -113,15 +16,12 @@
         <div class="container">
           <div class="logo-searchIcon">
             <div class="logo">Diễn đàn Học Tiếng Anh</div>
-            <div class="searchbar">
+            <!-- <div class="searchbar">
               <input
                 id="searchInput"
                 placeholder="Tìm chủ đề, từ vựng, ngữ pháp..."
               />
-              <!-- <div class="img-search">
-                <img src="./img/img_community/search.png" alt="" />
-              </div> -->
-            </div>
+            </div> -->
           </div>
           <div class="actions">
             <!-- NÚT ĐĂNG BÀI -->
@@ -131,10 +31,6 @@
                 <i class="fa-solid fa-plus"></i>
               </button>
             </div>
-            <!-- <button id="generalBtn" class="btn">
-              <i class="fa-solid fa-layer-group"></i>
-            </button>
-            <div class="avatar">M</div> -->
           </div>
         </div>
       </div>
@@ -199,10 +95,87 @@
           </div>
         </div>
       </div>
+
+      <!--FORM ĐĂNG BÀI-->
+      <div id="create-modal" class="modal-overlay">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Tạo bài viết mới</h2>
+            <button
+              id="btn-close-modal"
+              style="
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                cursor: pointer;
+              "
+            >
+              ×
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="create-form">
+              <div class="form-group">
+                <label class="form-label">Tiêu đề bài viết</label>
+                <input
+                  type="text"
+                  id="input-title"
+                  class="form-input"
+                  placeholder="Nhập tiêu đề hấp dẫn..."
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Chủ đề</label>
+                <select id="input-topic" class="form-select" required>
+                  <option value="">-- Chọn chủ đề --</option>
+                  <option value="TOEIC">TOEIC</option>
+                  <option value="IELTS">IELTS</option>
+                  <option value="Speaking">Speaking</option>
+                  <option value="Reading">Reading</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Nội dung</label>
+                <textarea
+                  id="input-content"
+                  class="form-textarea"
+                  placeholder="Chia sẻ kiến thức, kinh nghiệm học tiếng Anh của bạn..."
+                  required
+                ></textarea>
+              </div>
+
+              <div style="text-align: right; margin-top: 1rem">
+                <button type="submit" class="btn btn-primary">
+                  Đăng bài viết
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- <script src="data.js"></script>
     <script src="utils.js"></script> -->
     <script src="./js/forumJS/forum-detail.js"></script>
+    <script>
+      fetch("./GUI.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("header").innerHTML = html;
+
+          const script = document.createElement("script");
+          script.src = "./js/GUI.js";
+          script.onload = () => {
+            if (typeof loadUserToGUI === "function") {
+              loadUserToGUI();
+            }
+          };
+          document.body.appendChild(script);
+        });
+    </script>
   </body>
 </html>
