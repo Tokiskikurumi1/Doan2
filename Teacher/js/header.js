@@ -95,6 +95,7 @@ function updateLoginStatus() {
         e.preventDefault();
         if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
           localStorage.removeItem("currentUser");
+          localStorage.removeItem("currentUserData");
           localStorage.removeItem("activeMenu");
           window.location.href = "../index.html";
         }
