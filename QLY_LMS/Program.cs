@@ -33,7 +33,7 @@ namespace QLY_LMS
                         ValidIssuer = "lms_api",
                         ValidAudience = "lms_user",
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes("THIS_IS_SUPER_LONG_JWT_SECRET_KEY_1234567890"))   // 🔥 PHẢI GIỐNG AuthService + Gateway
+                            Encoding.UTF8.GetBytes("THIS_IS_SUPER_LONG_JWT_SECRET_KEY_1234567890"))   //  PHẢI GIỐNG AuthService + Gateway
                     };
                 });
 
@@ -46,12 +46,14 @@ namespace QLY_LMS
             builder.Services.AddScoped<IUserBLL, UserBLL>();
             builder.Services.AddScoped<I_BLL_ManageCourse, BLL_ManageCourse>();
             builder.Services.AddScoped<I_BLL_ManageVideoCourse, BLL_ManageVideoCourse>();
-
+            builder.Services.AddScoped<I_BLL_ManageAssignment, BLL_ManageAssignment>();
+            builder.Services.AddScoped<I_BLL_ManageStudent, BLL_ManageStudent>();
             // DAL
             builder.Services.AddScoped<IUserDAL, UserDAL>();
             builder.Services.AddScoped<I_DAL_ManageCourse, DAL_ManageCourse>();
             builder.Services.AddScoped<I_DAL_ManageVideoCourse, DAL_ManageVideoCourse>();
-
+            builder.Services.AddScoped<I_DAL_Assignment, DAL_Assignment>();
+            builder.Services.AddScoped<I_DAL_ManageStudent, DAL_ManageStudent>();
             // CONTROLLER + SWAGGER
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

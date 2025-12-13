@@ -16,36 +16,7 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
         public DAL_ManageCourse(DBConnect db)
         {
             _db = db;
-        }
-
-        public bool createCourse(CourseRequest course)
-        {
-            using (var conn = _db.GetConnection())
-            {
-                using (var cmd = new SqlCommand("tc_course_create", conn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@courseName", course.courseName);
-                    cmd.Parameters.AddWithValue("@courseType", course.courseType);
-                    cmd.Parameters.AddWithValue("@courseDes", course.courseDes);
-                    cmd.Parameters.AddWithValue("@courseDate", course.courseDate.ToDateTime(TimeOnly.MinValue));
-                    cmd.Parameters.Add("@coursePrice", SqlDbType.Decimal).Value = course.coursePrice;
-                    cmd.Parameters["@coursePrice"].Precision = 10;
-                    cmd.Parameters["@coursePrice"].Scale = 3;
-                    cmd.Parameters.AddWithValue("@courseStatus",course.courseStatus?.ToLower() == "completed" ? "completed" : "incomplete");
-                    cmd.Parameters.AddWithValue("@courseImage", (object)course.courseImage ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@teacherID", course.teacherID);
-
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-
-                    return true;
-                }
-            }
-        }
-
-        
+        }  
 
         public List<Course> getAllCoures(int TId)
         {
@@ -68,7 +39,7 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
                                 courseID = reader.GetInt32("courseID"),  
                                 courseName = reader.GetString("courseName"),
                                 courseType = reader.GetString("courseType"),
-                                courseDes = reader.GetString("courseDes"),  // sửa đúng cột mô tả
+                                courseDes = reader.GetString("courseDes"), 
                                 courseDate = reader["courseDate"] == DBNull.Value
                                     ? default
                                     : DateOnly.FromDateTime(reader.GetDateTime("courseDate")),
@@ -82,6 +53,33 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
                 }
             }
             return courseList;
+        }
+
+        public bool createCourse(CourseRequest course)
+        {
+            using (var conn = _db.GetConnection())
+            {
+                using (var cmd = new SqlCommand("tc_course_create", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@courseName", course.courseName);
+                    cmd.Parameters.AddWithValue("@courseType", course.courseType);
+                    cmd.Parameters.AddWithValue("@courseDes", course.courseDes);
+                    cmd.Parameters.AddWithValue("@courseDate", course.courseDate.ToDateTime(TimeOnly.MinValue));
+                    cmd.Parameters.Add("@coursePrice", SqlDbType.Decimal).Value = course.coursePrice;
+                    cmd.Parameters["@coursePrice"].Precision = 10;
+                    cmd.Parameters["@coursePrice"].Scale = 3;
+                    cmd.Parameters.AddWithValue("@courseStatus", course.courseStatus?.ToLower() == "completed" ? "completed" : "incomplete");
+                    cmd.Parameters.AddWithValue("@courseImage", (object)course.courseImage ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@teacherID", course.teacherID);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
         }
 
         public bool updateCourse(int courseID, Course model)

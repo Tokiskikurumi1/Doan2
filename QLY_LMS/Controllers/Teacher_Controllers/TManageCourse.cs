@@ -29,9 +29,10 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
 
             var courses = _ImanageCourse.getAllCoures(teacherId);
 
-            if (courses == null || !courses.Any())
+            if (courses.Count == 0)
+            {
                 return BadRequest("Không tồn tại khóa học của giảng viên!");
-
+            }
             return Ok(courses);
         }
 
