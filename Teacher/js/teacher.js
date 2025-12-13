@@ -7,7 +7,12 @@ if (!user || user.role !== "teacher") {
 }
 
 // ======================= LẤY DỮ LIỆU =======================
-const courses = JSON.parse(localStorage.getItem("courses")) || [];
+function loadCoursesArray() {
+  const raw = JSON.parse(localStorage.getItem("courses")) || [];
+  return Array.isArray(raw) ? raw : Object.values(raw);
+}
+
+let courses = loadCoursesArray();
 const assignments = JSON.parse(localStorage.getItem("assignments")) || [];
 
 const totalCourses = document.getElementById("total-courses");

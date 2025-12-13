@@ -50,7 +50,10 @@ function mapStudentsWithUserData(course) {
 //  LOAD DỮ LIỆU HỌC VIÊN CHỈ THEO GIẢNG VIÊN HIỆN TẠI
 // ===============================================================
 function loadStudentData() {
-  const courses = JSON.parse(localStorage.getItem("courses")) || [];
+  const rawCourses = JSON.parse(localStorage.getItem("courses")) || [];
+  const courses = Array.isArray(rawCourses)
+    ? rawCourses
+    : Object.values(rawCourses);
 
   // Lọc khóa học của giáo viên
   const teacherCourses = courses.filter((c) => c.teacherId === currentUser.id);
@@ -63,8 +66,6 @@ function loadStudentData() {
   });
 
   allStudents = result;
-
-  console.log("Danh sách học viên ánh xạ:", allStudents);
 }
 
 // ===============================================================
@@ -178,7 +179,7 @@ function setupEvents() {
 }
 
 // ===============================================================
-// 🔥 KHỞI ĐỘNG
+//  KHỞI ĐỘNG
 // ===============================================================
 document.addEventListener("DOMContentLoaded", () => {
   loadStudentData();

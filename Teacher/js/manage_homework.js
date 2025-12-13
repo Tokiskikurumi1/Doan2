@@ -226,7 +226,11 @@ function deleteAssignment(id) {
   localStorage.setItem("assignments", JSON.stringify(assignments));
 
   // 2. Xóa bài tập trong từng khóa học → từng video
-  let courses = JSON.parse(localStorage.getItem("courses") || "[]");
+  const rawCourses = JSON.parse(localStorage.getItem("courses")) || [];
+  let courses = Array.isArray(rawCourses)
+  ? rawCourses
+  : Object.values(rawCourses);
+
 
   courses.forEach((course) => {
     course.videos?.forEach((video) => {

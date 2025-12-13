@@ -7,7 +7,10 @@ if (!user || user.role !== "teacher") {
   window.location.href = "../../User_header_footer/login.html";
 }
 // ========================== LOAD DATA ==========================
-let courses = JSON.parse(localStorage.getItem("courses")) || [];
+let rawCourses = JSON.parse(localStorage.getItem("courses")) || [];
+let courses = Array.isArray(rawCourses)
+  ? rawCourses
+  : Object.values(rawCourses);
 
 const courseListEl = document.getElementById("course-list");
 const createModal = document.getElementById("create-course-modal");
