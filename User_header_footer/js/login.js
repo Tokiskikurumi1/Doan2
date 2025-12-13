@@ -84,13 +84,10 @@ function loginUser() {
   if (user.password !== password) return alert("Mật khẩu không đúng.");
   if (user.role !== role) return alert("Vai trò không khớp với tài khoản.");
 
-  // Lưu ID user hiện tại
-  UserManager.setCurrentUser(user.id);
 
-  //  Lưu FULL user vào key khác
-  localStorage.setItem("currentUserData", JSON.stringify(user));
+  // Lưu FULL user vào localStorage
+  UserManager.setCurrentUserData(user);
 
-  //  Ghi nhớ đăng nhập
   if (rememberMe) {
     localStorage.setItem("rememberLogin", "true");
   } else {
@@ -99,11 +96,9 @@ function loginUser() {
 
   alert("Đăng nhập thành công!");
 
-  // Điều hướng theo role
   if (user.role === "teacher") {
     window.location.href = "../Teacher/teacher.html";
   } else if (user.role === "student") {
-    window.location.href = "./GUI.html";
+    window.location.href = "./info.html";
   }
 }
-

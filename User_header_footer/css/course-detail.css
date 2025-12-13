@@ -268,6 +268,69 @@ h2 {
   }
 } */
 
+#video-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Khối bài giảng */
+.info-curriculum-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background-color: #f5f5f5;
+  padding: 12px 16px;
+  border-radius: 8px;
+  transition: 0.2s ease;
+  cursor: pointer;
+  border: 1px solid #e0e0e0;
+}
+
+/* Hover */
+.info-curriculum-item:hover {
+  background-color: #e9f2ff;
+  border-color: var(--blue-);
+}
+
+/* Số bài học */
+.info-curriculum-item .lesson {
+  width: 36px;
+  height: 36px;
+  background-color: var(--blue-);
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Tên bài học */
+.info-curriculum-item .title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* Responsive */
+@media (max-width: 575px) {
+  .info-curriculum-item {
+    padding: 10px 12px;
+  }
+
+  .info-curriculum-item .lesson {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .info-curriculum-item .title {
+    font-size: 15px;
+  }
+}
+
 @media (max-width: 768px) {
   .img-stats {
     border-radius: 8px;

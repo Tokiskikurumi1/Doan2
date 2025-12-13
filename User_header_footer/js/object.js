@@ -1,5 +1,4 @@
 
-
 export class User {
   constructor({
     id = null,
@@ -13,48 +12,9 @@ export class User {
     gender = "",
     password = "",
     role = "",
-    joinDate = null,   
-    avatar = ""        
+    joinDate = null,
+    avatar = ""
   }) {
-
-    const usernameRegex = /^[a-zA-Z0-9]{4,12}$/;
-    if (!username || !usernameRegex.test(username)) {
-      throw new Error("Tên tài khoản phải từ 4-12 ký tự, chỉ gồm chữ và số");
-    }
-
-    const nameRegex = /^[\p{L}\s]+$/u;
-    if (!yourname || !nameRegex.test(yourname)) {
-      throw new Error("Họ và tên chỉ được chứa chữ cái và khoảng trắng");
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailRegex.test(email)) {
-      throw new Error("Email không hợp lệ");
-    }
-
-    const phoneRegex = /^\+84\d{9,10}$/;
-    if (phone && !phoneRegex.test(phone)) {
-      throw new Error("Số điện thoại phải có định dạng +84xxxxxxxxx");
-    }
-
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (!password || !passwordRegex.test(password)) {
-      throw new Error("Mật khẩu phải ít nhất 8 ký tự, gồm chữ và số");
-    }
-
-    if (!["student", "teacher"].includes(role)) {
-      throw new Error("Vai trò phải là 'student' hoặc 'teacher'");
-    }
-
-    if (dob && isNaN(Date.parse(dob))) {
-      throw new Error("Ngày sinh không hợp lệ");
-    }
-
-    if (gender && !["male", "female", "other"].includes(gender)) {
-      throw new Error("Giới tính không hợp lệ");
-    }
-
-
     this.id = id || Date.now().toString();
     this.username = username;
     this.yourname = yourname;
@@ -66,67 +26,35 @@ export class User {
     this.gender = gender;
     this.password = password;
     this.role = role;
-
     this.joinDate = joinDate || Date.now();
-
     this.avatar = avatar || "";
   }
 
   save() {
     const users = UserManager.getAllUsers();
-
-    if (Object.values(users).some((u) => u.username === this.username)) {
-      throw new Error("Tên tài khoản đã tồn tại");
-    }
-    if (UserManager.isEmailTaken(this.email)) {
-      throw new Error("Email đã được sử dụng");
-    }
-
     users[this.id] = this;
     UserManager.saveAllUsers(users);
-  }
-
-  static loadCurrent() {
-    const id = UserManager.getCurrentUser();
-    const users = UserManager.getAllUsers();
-    return id && users[id] ? new User(users[id]) : null;
   }
 }
 
 export class UserManager {
   static getAllUsers() {
-    try {
-      return JSON.parse(localStorage.getItem("listusers")) || {};
-    } catch {
-      return {};
-    }
+    return JSON.parse(localStorage.getItem("listusers")) || {};
   }
 
   static saveAllUsers(users) {
     localStorage.setItem("listusers", JSON.stringify(users));
   }
 
-  static getCurrentUser() {
-    return localStorage.getItem("currentUser");
+  static getCurrentUserData() {
+    const raw = localStorage.getItem("currentUserData");
+    return raw ? JSON.parse(raw) : null;
   }
 
-  static setCurrentUser(id) {
-    localStorage.setItem("currentUser", id);
-  }
-
-  static isEmailTaken(email) {
-    return Object.values(this.getAllUsers()).some((u) => u.email === email);
-  }
-
-  static validateLogin(username, password, role = null) {
-    const user = Object.values(this.getAllUsers()).find((u) => u.username === username);
-    if (!user) return false;
-    if (user.password !== password) return false;
-    if (role && user.role !== role) return false;
-    return true;
+  static setCurrentUserData(userObj) {
+    localStorage.setItem("currentUserData", JSON.stringify(userObj));
   }
 }
-
 
 
 export class Course {
@@ -142,8 +70,7 @@ export class Course {
     status = "draft",
     image = "./img/course.png",
     students = [],
-    videos = [],
-    assignments = []
+    videos = []
   }) {
     this.id = id || Date.now().toString();
     this.teacherId = teacherId;
@@ -157,43 +84,39 @@ export class Course {
     this.image = image;
     this.students = students;
     this.videos = videos;
-    this.assignments = assignments;
   }
 }
-
 export class CourseManager {
   static key = "courses";
 
   static getAll() {
-    try {
-      const raw = JSON.parse(localStorage.getItem(this.key));
-      return raw ? raw : {};
-    } catch {
-      return {};
+    let raw = JSON.parse(localStorage.getItem(this.key));
+
+    if (Array.isArray(raw)) {
+      const obj = {};
+      raw.forEach(c => obj[String(c.id)] = c);
+      raw = obj;
+      localStorage.setItem(this.key, JSON.stringify(obj));
     }
+
+    return raw || {};
   }
 
   static saveAll(courses) {
     localStorage.setItem(this.key, JSON.stringify(courses));
   }
 
-  static add(course) {
-    const courses = this.getAll();
-    courses[course.id] = course;
-    this.saveAll(courses);
-  }
-
   static getById(id) {
-    return this.getAll()[id] || null;
+    return this.getAll()[String(id)] || null;
   }
 }
-
 export class Video {
-  constructor({ id = null, title, url, status = "Chưa hoàn thành" }) {
+  constructor({ id = null, title, url, status = "Chưa hoàn thành", assignments = [] }) {
     this.id = id || Date.now().toString();
     this.title = title;
     this.url = url;
     this.status = status;
+    this.assignments = assignments;
   }
 }
 
@@ -206,7 +129,6 @@ export class VideoManager {
     CourseManager.saveAll(courses);
   }
 }
-
 
 export class Assignment {
   constructor({
@@ -241,69 +163,70 @@ export class Assignment {
 }
 
 export class AssignmentManager {
-  static addAssignment(courseId, assignment) {
+  static addAssignment(courseId, videoId, assignment) {
     const courses = CourseManager.getAll();
-    if (!courses[courseId]) return;
+    const course = courses[courseId];
+    if (!course) return;
 
-    courses[courseId].assignments.push(assignment);
+    const video = course.videos.find(v => String(v.id) === String(videoId));
+    if (!video) return;
+
+    video.assignments.push(assignment);
     CourseManager.saveAll(courses);
   }
 }
 
-export class CourseReader {
-  constructor(options = {}) {
-    this.coursesKey = options.coursesKey || "courses";
-    this.selectedCourseIdKey = options.selectedCourseIdKey || "selectedCourseId";
-    this.teacherNameKey = options.teacherNameKey || "savedUsername";
+export class Comment {
+  constructor({
+    id = null,
+    videoId,
+    userId,
+    name,
+    avatar,
+    text,
+    time = new Date().toLocaleString("vi-VN")
+  }) {
+    this.id = id || Date.now();
+    this.videoId = String(videoId);
+    this.userId = userId;
+    this.name = name;
+    this.avatar = avatar;
+    this.text = text;
+    this.time = time;
+  }
+}
 
-    this._rawCourses = this._loadRawCourses();
-    this.selectedCourseId = localStorage.getItem(this.selectedCourseIdKey) || null;
-    this.teacherName = localStorage.getItem(this.teacherNameKey) || "";
+export class CommentManager {
+  static key = "comments";
+
+  static getAll() {
+    return JSON.parse(localStorage.getItem(this.key)) || {};
   }
 
-  _loadRawCourses() {
-    try {
-      const raw = JSON.parse(localStorage.getItem(this.coursesKey));
-      if (!raw) return {};
-      return raw;
-    } catch {
-      return {};
-    }
+  static saveAll(comments) {
+    localStorage.setItem(this.key, JSON.stringify(comments));
   }
 
-  getAllCourses() {
-    return JSON.parse(JSON.stringify(this._rawCourses));
+  static getByVideo(videoId) {
+    const all = this.getAll();
+    return all[String(videoId)] || [];
   }
 
-  getCourseById(id) {
-    return this._rawCourses[id] ? JSON.parse(JSON.stringify(this._rawCourses[id])) : null;
+  static addComment(comment) {
+    const all = this.getAll();
+    const videoId = String(comment.videoId);
+
+    if (!all[videoId]) all[videoId] = [];
+    all[videoId].push(comment);
+
+    this.saveAll(all);
   }
 
-  getSelectedCourse() {
-    return this.getCourseById(this.selectedCourseId);
-  }
+  static deleteComment(videoId, commentId) {
+    const all = this.getAll();
+    const list = all[String(videoId)] || [];
 
-  getCourseDetails(id = null) {
-    const course = id ? this.getCourseById(id) : this.getSelectedCourse();
-    if (!course) return null;
-
-    return {
-      ...course,
-      price: Number(course.price) || 0,
-      videos: course.videos || [],
-      assignments: course.assignments || [],
-      students: course.students || []
-    };
-  }
-
-  getVideos(id = null) {
-    const course = id ? this.getCourseById(id) : this.getSelectedCourse();
-    return course?.videos || [];
-  }
-
-  reload() {
-    this._rawCourses = this._loadRawCourses();
-    this.selectedCourseId = localStorage.getItem(this.selectedCourseIdKey) || null;
-    this.teacherName = localStorage.getItem(this.teacherNameKey) || "";
+    all[String(videoId)] = list.filter(c => c.id !== commentId);
+    this.saveAll(all);
   }
 }

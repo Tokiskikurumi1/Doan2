@@ -6,11 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Khóa học</title>
     <link rel="stylesheet" href="./css/learn.css">
+<link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
+    <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
+    <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
+    <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
+    <link rel="stylesheet" href="./css/header.css">
+    <script type="module" src="./js/header.js"></script>
+    <app-header></app-header>
+
 </head>
 
 <body>
-    <body>
-    <div id="header"></div>
+
+    <app-header></app-header>
 
     <div class="main-content">
         
@@ -66,22 +74,10 @@
 
     
 
-    <script src="./js/learn.js"></script>
+    <script type="module" src="./js/learn.js"></script>
      <script>
-  fetch("./GUI.html")
-    .then(res => res.text())
-    .then(html => {
-      document.getElementById("header").innerHTML = html;
 
-      const script = document.createElement("script");
-      script.src = "./js/GUI.js";
-      script.onload = () => {
-        if (typeof loadUserToGUI === "function") {
-          loadUserToGUI();
-        }
-      };
-      document.body.appendChild(script);
-    });
+
 </script>
 </body>
 

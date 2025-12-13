@@ -1,32 +1,37 @@
-// Lấy giá tiền từ localStorage
+import { UserManager, CourseManager } from "./object.js";
+
+//HIỂN THỊ GIÁ TIỀN
 const price = localStorage.getItem("paymentPrice") || "0";
 document.getElementById("payment-price").textContent = price + " VND";
 
-// Tạo mã giao dịch random
+//TẠO MÃ GIAO DỊCH NGẪU NHIÊN
+
 function generateTransactionId() {
   return Date.now().toString() + Math.floor(Math.random() * 1000000);
 }
 document.getElementById("transaction-id").textContent = generateTransactionId();
 
 
-// Xử lý thanh toán
+//XỬ LÝ THANH TOÁN
 document.querySelector("button").addEventListener("click", () => {
-  const courses = JSON.parse(localStorage.getItem("courses")) || [];
-  const courseId = localStorage.getItem("selectedCourseId");
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
+  //Lấy user từ currentUserData
+  const currentUser = UserManager.getCurrentUserData();
   if (!currentUser) {
     alert("Bạn cần đăng nhập trước khi thanh toán");
     return;
   }
 
-  const courseIndex = courses.findIndex(c => String(c.id) === String(courseId));
-  if (courseIndex === -1) {
+  //Lấy danh sách khóa học từ CourseManager
+  const courses = CourseManager.getAll();
+  const courseId = localStorage.getItem("selectedCourseId");
+
+  if (!courses[courseId]) {
     alert("Không tìm thấy khóa học!");
     return;
   }
 
-  const course = courses[courseIndex];
+  const course = courses[courseId];
 
   if (!Array.isArray(course.students)) {
     course.students = [];
@@ -43,9 +48,9 @@ document.querySelector("button").addEventListener("click", () => {
     });
   }
 
-  // Lưu lại
-  courses[courseIndex] = course;
-  localStorage.setItem("courses", JSON.stringify(courses));
+  // Lưu lại khóa học
+  courses[courseId] = course;
+  CourseManager.saveAll(courses);
 
   alert("Thanh toán thành công!");
   window.location.href = "./course-detail.html";

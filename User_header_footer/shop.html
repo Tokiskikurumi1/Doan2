@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shop</title>
   <link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
-    <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
-    <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
-    <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
-    <link rel="stylesheet" href="./css/shop.css">
+  <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
+  <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
+  <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
+  <link rel="stylesheet" href="./css/header.css">
+  <script type="module" src="./js/header.js"></script>
+  <app-header></app-header>
+  <link rel="stylesheet" href="./css/shop.css">
 </head>
+
 <body>
-  <div id="header"></div>
   <div class="shop">
     <div class="filter-content">
       <div class="filter-group">
@@ -50,21 +54,7 @@
     </div>
   </div>
 </body>
- <script src="./js/shop.js"></script>
- <script>
-  fetch("./GUI.html")
-    .then(res => res.text())
-    .then(html => {
-      document.getElementById("header").innerHTML = html;
+<script type="module" src="./js/shop.js"></script>
 
-      const script = document.createElement("script");
-      script.src = "./js/GUI.js";
-      script.onload = () => {
-        if (typeof loadUserToGUI === "function") {
-          loadUserToGUI();
-        }
-      };
-      document.body.appendChild(script);
-    });
-</script>
+
 </html>

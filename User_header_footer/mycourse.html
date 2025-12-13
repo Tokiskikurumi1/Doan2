@@ -6,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/mycourse.css">
+    <link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
+    <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
+    <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
+    <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
+    <link rel="stylesheet" href="./css/header.css">
+    <script type="module" src="./js/header.js"></script>
 </head>
 
 <body>
-    <div id="header"></div>
+    <app-header></app-header>
 
     <div class="mycourse-page">
         <div class="My-courses">
@@ -37,25 +43,7 @@
             <div class="course-list"></div>
         </div>
     </div>
-
-    <script>
-      fetch("./GUI.html")
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById("header").innerHTML = html;
-
-          const script = document.createElement("script");
-          script.src = "./js/GUI.js";
-          script.onload = () => {
-            if (typeof loadUserToGUI === "function") {
-              loadUserToGUI();
-            }
-          };
-          document.body.appendChild(script);
-        });
-    </script>
-
-    <script src="./js/mycourse.js"></script>
+    <script type="module" src="./js/mycourse.js"></script>
 </body>
 
 

@@ -1,28 +1,30 @@
+import { UserManager, CourseManager } from "./object.js";
 
+//LẤY USER HIỆN TẠI
 
-
-const currentUserId = localStorage.getItem("currentUser");
-const users = JSON.parse(localStorage.getItem("listusers")) || {};
-const currentUser = users[currentUserId];
+const currentUser = UserManager.getCurrentUserData();
+const courseListEl = document.querySelector(".mycourse-page .course-list");
 
 // Nếu chưa đăng nhập
-const courseListEl = document.querySelector(".mycourse-page .course-list");
 if (!currentUser) {
     courseListEl.innerHTML = "<p>Bạn cần đăng nhập để xem khóa học.</p>";
     throw new Error("User not logged in");
 }
 
 
-const coursesObj = JSON.parse(localStorage.getItem("courses")) || {};
-const courses = Object.values(coursesObj);
+//LẤY DANH SÁCH KHÓA HỌC
 
+// Lấy courses từ CourseManager
+const courses = Object.values(CourseManager.getAll()) || [];
 
+// Lọc ra khóa học mà user đã mua
 let myCourses = courses.filter(course =>
     Array.isArray(course.students) &&
     course.students.some(s => s.id === currentUser.id)
 );
 
 
+//RENDER KHÓA HỌC
 
 function renderCourses(list) {
     courseListEl.innerHTML = "";
@@ -37,7 +39,10 @@ function renderCourses(list) {
         item.className = "course-item";
 
         item.innerHTML = `
-            <div class="course-item-img" style="background-image: url('${course.image || "./img/course.png"}')"></div>
+            <div class="course-item-img" 
+                 style="background-image: url('${course.image || "./img/course.png"}')">
+            </div>
+
             <div class="course-item-info">
                 <h3>${course.name}</h3>
                 <span>${course.detail || "Không có mô tả"}</span>
@@ -58,10 +63,13 @@ function renderCourses(list) {
     });
 }
 
-// Render lần đầu
+
+//RENDER LẦN ĐẦU
+
 renderCourses(myCourses);
 
 
+//LỌC & SẮP XẾP 
 const levelSelect = document.querySelector(".mycourse-page #level");
 const sortSelect = document.querySelector(".mycourse-page #sort");
 
@@ -81,8 +89,8 @@ function applyFilters() {
     const sort = sortSelect.value;
     if (sort === "az") filtered.sort((a, b) => a.name.localeCompare(b.name));
     if (sort === "za") filtered.sort((a, b) => b.name.localeCompare(a.name));
-    if (sort === "newest") filtered.sort((a, b) => b.id - a.id);
-    if (sort === "oldest") filtered.sort((a, b) => a.id - b.id);
+    if (sort === "newest") filtered.sort((a, b) => Number(b.id) - Number(a.id));
+    if (sort === "oldest") filtered.sort((a, b) => Number(a.id) - Number(b.id));
 
     renderCourses(filtered);
 }

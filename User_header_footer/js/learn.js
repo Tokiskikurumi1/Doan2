@@ -1,37 +1,25 @@
+import { UserManager, CourseManager, Comment, CommentManager } from "./object.js";
 
+//LẤY USER HIỆN TẠI
 
-// Lấy user
-const currentUserId = localStorage.getItem("currentUser");
-const users = JSON.parse(localStorage.getItem("listusers")) || {};
-const currentUser = users[currentUserId];
-
-// Lấy courses 
-const coursesObj = JSON.parse(localStorage.getItem("courses")) || {};
-const courses = Object.values(coursesObj);
-
-// Lấy comment
-let comments = JSON.parse(localStorage.getItem("comments")) || {};
-
-// Lấy ID khóa học đang học
-const courseId = localStorage.getItem("selectedCourseId");
-
-// ktra đăng nhập
-
+const currentUser = UserManager.getCurrentUserData();
 if (!currentUser) {
     document.body.innerHTML = "<h2>Bạn cần đăng nhập để học.</h2>";
     throw new Error("Not logged in");
 }
 
-// tìm khóa học
+//LẤY KHÓA HỌC
 
-const course = courses.find(c => c.id == courseId);
+const courseId = localStorage.getItem("selectedCourseId");
+const courses = CourseManager.getAll();
+const course = courses[courseId];
 
 if (!course) {
     document.body.innerHTML = "<h2>Không tìm thấy khóa học.</h2>";
     throw new Error("Course not found");
 }
 
-// ktra dki chưa
+//KIỂM TRA ĐÃ MUA CHƯA
 
 if (!course.students || !course.students.some(s => s.id === currentUser.id)) {
     document.body.innerHTML = `
@@ -43,7 +31,8 @@ if (!course.students || !course.students.some(s => s.id === currentUser.id)) {
     throw new Error("Not enrolled");
 }
 
-// dom elements
+
+//DOM ELEMENTS
 
 const sidebar = document.querySelector(".sidebar");
 const videoFrame = document.getElementById("video-frame");
@@ -56,7 +45,8 @@ const commentList = document.getElementById("comment-list");
 
 let currentVideoId = null;
 
-// chuyển link youtube thành embed
+
+//CHUYỂN LINK YOUTUBE
 
 function convertToEmbed(url) {
     if (url.includes("youtu.be")) {
@@ -72,7 +62,9 @@ function convertToEmbed(url) {
     return url;
 }
 
-// tạo sidebar
+
+//TẠO SIDEBAR
+
 function renderSidebar() {
     sidebar.innerHTML = `<h2>Danh sách bài học</h2>`;
 
@@ -111,7 +103,8 @@ function renderSidebar() {
     });
 }
 
-//load video
+
+//LOAD VIDEO
 
 function loadVideo(videoId) {
     const video = course.videos.find(v => v.id == videoId);
@@ -123,20 +116,18 @@ function loadVideo(videoId) {
     lessonTitleEl.textContent = video.title;
     lessonDescEl.textContent = video.description || course.detail || "Không có mô tả";
 
-    // Hiện đúng bài tập
     document.querySelectorAll(".exercise-list").forEach(el => el.style.display = "none");
     document.getElementById("video-" + videoId).style.display = "block";
 
-    // Load bình luận
     loadComments(videoId);
 
-    // Active bài học
     document.querySelectorAll(".lesson-item").forEach(item => {
         item.classList.toggle("active", item.getAttribute("data-video") == videoId);
     });
 }
 
-// click bài học
+
+//CLICK BÀI HỌC
 
 function setupLessonClick() {
     document.querySelectorAll(".lesson-item").forEach(item => {
@@ -147,7 +138,8 @@ function setupLessonClick() {
     });
 }
 
-// click bài tập
+
+//CLICK BÀI TẬP
 
 document.addEventListener("click", e => {
     if (e.target.classList.contains("exercise-btn")) {
@@ -160,12 +152,13 @@ document.addEventListener("click", e => {
     }
 });
 
-// load comments
+
+//LOAD COMMENT
 
 function loadComments(videoId) {
     commentList.innerHTML = "";
 
-    const list = comments[videoId] || [];
+    const list = CommentManager.getByVideo(videoId);
 
     list.forEach(c => {
         const isOwner = c.userId === currentUser.id;
@@ -198,26 +191,22 @@ function loadComments(videoId) {
 }
 
 
+//XÓA / BÁO CÁO COMMENT
+
 document.addEventListener("click", e => {
-    // XÓA
     if (e.target.classList.contains("delete-comment")) {
         const id = Number(e.target.getAttribute("data-id"));
-
-        comments[currentVideoId] = comments[currentVideoId].filter(c => c.id !== id);
-        localStorage.setItem("comments", JSON.stringify(comments));
-
+        CommentManager.deleteComment(currentVideoId, id);
         loadComments(currentVideoId);
-        return;
     }
 
-    // BÁO CÁO
     if (e.target.classList.contains("report-comment")) {
         alert("Cảm ơn bạn! Bình luận đã được báo cáo.");
-        return;
     }
 });
 
 
+//THÊM COMMENT
 
 commentSubmit.addEventListener("click", () => {
     const text = commentInput.value.trim();
@@ -225,24 +214,22 @@ commentSubmit.addEventListener("click", () => {
 
     if (!currentVideoId) return alert("Hãy chọn bài học trước");
 
-    const newComment = {
-        id: Date.now(),
+    const newComment = new Comment({
+        videoId: currentVideoId,
         userId: currentUser.id,
-        name: currentUser.yourname || "Người dùng",
+        name: currentUser.yourname,
         avatar: currentUser.avatar || "./img/img_GUI/user.png",
-        text,
-        time: new Date().toLocaleString("vi-VN")
-    };
+        text
+    });
 
-    if (!comments[currentVideoId]) comments[currentVideoId] = [];
-    comments[currentVideoId].push(newComment);
-
-    localStorage.setItem("comments", JSON.stringify(comments));
+    CommentManager.addComment(newComment);
 
     commentInput.value = "";
     loadComments(currentVideoId);
 });
 
+
+// KHỞI CHẠY
 
 function init() {
     renderSidebar();

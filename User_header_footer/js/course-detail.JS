@@ -1,51 +1,53 @@
-// Lấy dữ liệu từ localStorage
-const courses = JSON.parse(localStorage.getItem("courses")) || [];
-const courseId = localStorage.getItem("selectedCourseId");
+import { CourseManager } from "./object.js";
+const courseId = String(localStorage.getItem("selectedCourseId"));
+const course = CourseManager.getById(courseId);
 
-// Tìm khóa học theo id
-const course = courses.find(c => String(c.id) === String(courseId));
-
+// Nếu không tìm thấy khóa học → quay lại shop
 if (!course) {
   alert("Không tìm thấy khóa học!");
-  window.location.href = "./shop.html"; // quay lại shop nếu lỗi
+  window.location.href = "./shop.html";
 }
 
-// ====== Ảnh mặc định ======
+//HIỂN THỊ ẢNH
+
 const imgEl = document.querySelector(".img");
-imgEl.style.backgroundImage = `url('${course.imageUrl || "./img/image_course/image-course.png"}')`;
+imgEl.style.backgroundImage = `url('${course.image || ".\img\image_course\image-course.png"}')`;
 imgEl.style.backgroundSize = "cover";
 imgEl.style.backgroundPosition = "center";
 
-// Ghi dữ liệu vào HTML
-document.querySelector(".title").textContent = course.name;
-document.querySelector(".price").textContent = course.price + " VND";
+//KHI DỮ LIỆU VÀO HTML
+
+document.querySelector(".title").textContent = course.name || "Không có tên";
+document.querySelector(".price").textContent = (course.price || 0) + " VND";
 document.querySelector(".info-description p").textContent = course.detail || "Chưa có mô tả";
 document.querySelector(".info-instructor .name").textContent = course.teacherName || "Không rõ";
 document.querySelector(".info-level .level").textContent = course.type || "Không rõ";
 document.querySelector(".info-duration .time").textContent = course.duration || "Không rõ";
 
-// Nếu có video thì render
-const videoContainer = document.getElementById("video-container");
+//RENDER DANH SÁCH BÀI GIẢNG
 
+const videoContainer = document.getElementById("video-container");
 videoContainer.innerHTML = "";
-if (course.videos && course.videos.length > 0) {
-  course.videos.forEach(video => {
+
+if (Array.isArray(course.videos) && course.videos.length > 0) {
+  course.videos.forEach((video, index) => {
     const item = document.createElement("div");
     item.className = "info-curriculum-item";
+
     item.innerHTML = `
-      <p><strong>${video.title}</strong></p>
-      <a href="${video.url}" target="_blank">${video.url}</a>
+      <div class="lesson">${index + 1}</div>
+      <div class="title">${video.title || "Bài học không tên"}</div>
     `;
+
     videoContainer.appendChild(item);
   });
 } else {
-  videoContainer.innerHTML = "<p>Chưa có video nào</p>";
+  videoContainer.innerHTML = "<p>Chưa có bài học nào</p>";
 }
-// Nút thanh toán
-document.getElementById("btnwhite").addEventListener("click", () => {
-  // Lưu giá tiền vào localStorage để payment.html lấy lại
-  localStorage.setItem("paymentPrice", course.price);
 
-  // Chuyển hướng sang trang thanh toán
+// NÚT THANH TOÁN
+
+document.getElementById("btnwhite").addEventListener("click", () => {
+  localStorage.setItem("paymentPrice", course.price);
   window.location.href = "./payment.html";
 });

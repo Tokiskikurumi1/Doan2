@@ -1,4 +1,4 @@
-// load dữ liệu khi trang được tải
+import { UserManager } from "./object.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   loadUserInfo();
@@ -6,20 +6,20 @@ document.addEventListener("DOMContentLoaded", () => {
   setupSaveInfo();
   setupChangePassword();
 
-  // Khóa form ngay khi mở trang
-  toggleEditMode(false);
+  toggleEditMode(false); // khóa form khi mở trang
 });
-
 function getCurrentUser() {
-  const id = localStorage.getItem("currentUser");
-  const users = JSON.parse(localStorage.getItem("listusers")) || {};
-  return users[id] || null;
+  return UserManager.getCurrentUserData(); // lấy từ currentUserData
 }
 
 function saveUser(user) {
-  const users = JSON.parse(localStorage.getItem("listusers")) || {};
+  //Lưu vào listusers
+  const users = UserManager.getAllUsers();
   users[user.id] = user;
-  localStorage.setItem("listusers", JSON.stringify(users));
+  UserManager.saveAllUsers(users);
+
+  //Cập nhật lại currentUserData
+  UserManager.setCurrentUserData(user);
 }
 
 function loadUserInfo() {
@@ -41,7 +41,6 @@ function loadUserInfo() {
     user.avatar || "./img/img_GUI/user.png";
 }
 
-// upload avatar
 
 function setupAvatarUpload() {
   const input = document.getElementById("avatarInput");
@@ -57,13 +56,13 @@ function setupAvatarUpload() {
 
       const user = getCurrentUser();
       user.avatar = e.target.result;
-      saveUser(user);
+
+      saveUser(user); // lưu cả listusers + currentUserData
     };
     reader.readAsDataURL(file);
   });
 }
 
-// lưu thông tin
 
 function setupSaveInfo() {
   document.getElementById("saveInfoBtn").addEventListener("click", () => {
@@ -79,14 +78,12 @@ function setupSaveInfo() {
 
     saveUser(user);
 
-    // Sau khi lưu → khóa lại form
     toggleEditMode(false);
-
     alert("Cập nhật thông tin thành công!");
   });
 }
 
-// đổi mât khẩu
+
 
 function setupChangePassword() {
   document.getElementById("changePassBtn").addEventListener("click", () => {
@@ -119,14 +116,13 @@ function setupChangePassword() {
   });
 }
 
-// sửa tt
 
 document.getElementById("editInfoBtn").addEventListener("click", () => {
   toggleEditMode(true);
 });
 
 document.getElementById("cancelEditBtn").addEventListener("click", () => {
-  loadUserInfo(); //  reset lại dữ liệu gốc
+  loadUserInfo(); // reset lại dữ liệu
   toggleEditMode(false);
 });
 
@@ -145,7 +141,6 @@ function toggleEditMode(enable) {
     if (el) el.disabled = !enable;
   });
 
-  // Chỉ hiện nút phù hợp
   document.getElementById("editButtons").style.display = enable ? "none" : "flex";
   document.getElementById("saveButtons").style.display = enable ? "flex" : "none";
 }
