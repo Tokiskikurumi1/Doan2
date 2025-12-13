@@ -6,7 +6,12 @@ if (!user || user.role !== "teacher") {
   window.location.href = "../../User_header_footer/login.html";
 }
 
-const courses = JSON.parse(localStorage.getItem("courses")) || [];
+function loadCoursesArray() {
+  const raw = JSON.parse(localStorage.getItem("courses")) || [];
+  return Array.isArray(raw) ? raw : Object.values(raw);
+}
+
+let courses = loadCoursesArray();
 const comments = JSON.parse(localStorage.getItem("forum_comments")) || [];
 const totalView = JSON.parse(localStorage.getItem("forum_posts")) || [];
 

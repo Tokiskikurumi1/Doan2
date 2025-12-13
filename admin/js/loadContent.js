@@ -1,14 +1,34 @@
 // CỐT LÕI: Đọc dữ liệu dạng OBJECT → chuyển thành MẢNG để dùng như cũ
-let usersObject = JSON.parse(localStorage.getItem("listusers")) || {};
-let allUsers = Object.values(usersObject); // ← Dòng quan trọng nhất!
+const revenue = document.getElementById("revenue");
 
-let allCourses = JSON.parse(localStorage.getItem("courses")) || [];
+let usersObject = JSON.parse(localStorage.getItem("listusers")) || {};
+let allUsers = Object.values(usersObject);
+
+function loadCoursesArray() {
+  const raw = JSON.parse(localStorage.getItem("courses")) || [];
+  return Array.isArray(raw) ? raw : Object.values(raw);
+}
+
+let allCourses = loadCoursesArray();
 
 // Hiển thị số liệu tổng
 document.getElementById("userCount").textContent = allUsers.length;
 document.getElementById("courseCount").textContent = allCourses.length;
+// ================== TÍNH DOANH THU ==================
+let totalRevenue = 0;
 
-// ... phần còn lại giữ nguyên 100%
+allCourses.forEach((course) => {
+  const price = Number(course.price) || 0;
+  const studentCount = Array.isArray(course.students)
+    ? course.students.length
+    : 0;
+
+  totalRevenue += price * studentCount;
+});
+
+// ================== HIỂN THỊ DOANH THU ==================
+revenue.textContent = totalRevenue.toLocaleString("vi-VN") + " VND";
+
 function new_user(newUsers) {
   const tableBody = document.getElementById("userTable");
   let html = "";
