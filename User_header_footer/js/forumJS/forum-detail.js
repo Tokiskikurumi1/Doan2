@@ -2,6 +2,7 @@
 let posts = [];
 let comments = [];
 let currentPostId = ""; // Lưu ID bài viết hiện tại (toàn cục)
+const modalEl = document.getElementById("create-modal");
 
 const params = new URLSearchParams(window.location.search);
 const postId = params.get("id");
@@ -131,7 +132,7 @@ function initDetail() {
 
   const postComments = comments.filter((c) => c.postId === currentPostId);
 
-  // TÍNH LẠI AVATAR CỦA NGƯỜI DÙNG HIỆN TẠI – QUAN TRỌNG!
+  // TÍNH LẠI AVATAR CỦA NGƯỜI DÙNG HIỆN TẠI
   const currentUser = getCurrentUser();
   const { letter: currLetter, bg: currBg } = generateAvatar(currentUser.name);
 
@@ -201,12 +202,68 @@ function initDetail() {
       .join("");
   }
 
-  // CẬP NHẬT AVATAR TRONG FORM BÌNH LUẬN – BÂY GIỜ ĐÚNG RỒI!
+  // CẬP NHẬT AVATAR TRONG FORM BÌNH LUẬN
   const avatarEl = document.getElementById("current-user-avatar");
   if (avatarEl) {
     avatarEl.textContent = currLetter;
     avatarEl.style.backgroundColor = currBg;
   }
+
+  setupEventListeners();
+}
+
+// ĐĂNG BÀI
+function setupEventListeners() {
+  const openBtn = document.getElementById("btn-open-modal");
+  const closeBtn = document.getElementById("btn-close-modal");
+
+  if (openBtn) {
+    openBtn.addEventListener("click", () => {
+      const user = getCurrentUser();
+      if (!user || !user.id) {
+        return alert("Vui lòng đăng nhập để đăng bài!");
+      }
+      modalEl.classList.add("open");
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      modalEl.classList.remove("open");
+    });
+  }
+
+  document.getElementById("create-form")?.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const title = document.getElementById("input-title").value.trim();
+    const topic = document.getElementById("input-topic").value;
+    const content = document.getElementById("input-content").value.trim();
+
+    if (!title || !content) {
+      return alert("Vui lòng nhập tiêu đề và nội dung!");
+    }
+
+    const user = getCurrentUser();
+
+    const newPost = {
+      id: Date.now().toString(),
+      title,
+      content,
+      topic,
+      authorId: user.id,
+      authorName: user.name,
+      createdAt: new Date().toISOString(),
+      viewCount: 0,
+    };
+
+    posts.unshift(newPost);
+    localStorage.setItem("forum_posts", JSON.stringify(posts));
+    modalEl.classList.remove("open");
+    setTimeout(() => {
+      window.location.href = "../User_header_footer/forum.html";
+    }, 200);
+  });
 }
 
 ////////////////////////////////////////////////////

@@ -1,7 +1,5 @@
 // ========================== LẤY THÔNG TIN GIẢNG VIÊN ĐANG ĐĂNG NHẬP ==========================
-const user = JSON.parse(localStorage.getItem("currentUser"));
-// const allUsersData = JSON.parse(localStorage.getItem("listusers")) || {};
-// const currentUser = currentUserId ? allUsersData[currentUserId] : null;
+const user = JSON.parse(localStorage.getItem("currentUserData"));
 
 // === BẢO VỆ TRANG: Nếu chưa đăng nhập HOẶC không phải giáo viên → đá về login ===
 if (!user || user.role !== "teacher") {

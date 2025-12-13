@@ -533,9 +533,9 @@ img {
   .topbar .container {
     padding: 0.75rem 1rem;
   }
-  .logo-searchIcon .logo {
+  /* .logo-searchIcon .logo {
     font-size: 1rem;
-  }
+  } */
 }
 
 @media (max-width: 768px) {
@@ -545,15 +545,15 @@ img {
   .col-sidebar {
     width: 100%;
   }
-  .topbar .container {
-    flex-wrap: wrap;
-  }
-  .actions {
+  /* .topbar .container {
+    flex-wrap: nowrap;
+  } */
+  /* .actions {
     order: -1;
     width: 100%;
     justify-content: center;
     margin-bottom: 0.5rem;
-  }
+  } */
 }
 
 @media (max-width: 480px) {

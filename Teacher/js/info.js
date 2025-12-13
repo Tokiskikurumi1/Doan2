@@ -10,7 +10,7 @@ const newPasswordInput = document.getElementById("new-password");
 const confirmPasswordInput = document.getElementById("confirm-password");
 // HÀM LẤY USER
 function getCurrentUser() {
-  const raw = localStorage.getItem("currentUser");
+  const raw = localStorage.getItem("currentUserData");
   if (!raw) return null;
 
   let userId = null;

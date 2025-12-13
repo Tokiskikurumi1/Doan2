@@ -1,5 +1,5 @@
 // ======================= LẤY USER HIỆN TẠI =======================
-const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+const currentUser = JSON.parse(localStorage.getItem("currentUserData"));
 if (!currentUser || currentUser.role !== "teacher") {
   alert("Bạn không có quyền truy cập!");
   window.location.href = "../../User_header_footer/login.html";

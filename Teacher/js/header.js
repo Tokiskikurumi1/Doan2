@@ -70,7 +70,7 @@ function updateLoginStatus() {
   const userInfo = document.querySelector(".user-info");
   if (!userInfo) return;
 
-  const user = JSON.parse(localStorage.getItem("currentUser"));
+  const user = JSON.parse(localStorage.getItem("currentUserData"));
 
   if (user) {
     userInfo.innerHTML = `
@@ -95,6 +95,7 @@ function updateLoginStatus() {
         e.preventDefault();
         if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
           localStorage.removeItem("currentUser");
+          localStorage.removeItem("currentUserData");
           localStorage.removeItem("activeMenu");
           window.location.href = "../index.html";
         }

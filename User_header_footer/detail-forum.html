@@ -80,7 +80,9 @@
                 <img src="./img/img_GUI/user.png" alt="avatar" class="avatar" />
               </div>
 
-              <div class="user-name-popup"><p>Name User</p> </div>
+              <div class="user-name-popup">
+                <p>Name User</p>
+              </div>
 
               <div class="dropdown-menu user-menu">
                 <ul>
@@ -114,15 +116,12 @@
         <div class="container">
           <div class="logo-searchIcon">
             <div class="logo">Diễn đàn Học Tiếng Anh</div>
-            <div class="searchbar">
+            <!-- <div class="searchbar">
               <input
                 id="searchInput"
                 placeholder="Tìm chủ đề, từ vựng, ngữ pháp..."
               />
-              <!-- <div class="img-search">
-                <img src="./img/img_community/search.png" alt="" />
-              </div> -->
-            </div>
+            </div> -->
           </div>
           <div class="actions">
             <!-- NÚT ĐĂNG BÀI -->
@@ -132,10 +131,6 @@
                 <i class="fa-solid fa-plus"></i>
               </button>
             </div>
-            <!-- <button id="generalBtn" class="btn">
-              <i class="fa-solid fa-layer-group"></i>
-            </button>
-            <div class="avatar">M</div> -->
           </div>
         </div>
       </div>
@@ -200,10 +195,87 @@
           </div>
         </div>
       </div>
+
+      <!--FORM ĐĂNG BÀI-->
+      <div id="create-modal" class="modal-overlay">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Tạo bài viết mới</h2>
+            <button
+              id="btn-close-modal"
+              style="
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                cursor: pointer;
+              "
+            >
+              ×
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="create-form">
+              <div class="form-group">
+                <label class="form-label">Tiêu đề bài viết</label>
+                <input
+                  type="text"
+                  id="input-title"
+                  class="form-input"
+                  placeholder="Nhập tiêu đề hấp dẫn..."
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Chủ đề</label>
+                <select id="input-topic" class="form-select" required>
+                  <option value="">-- Chọn chủ đề --</option>
+                  <option value="TOEIC">TOEIC</option>
+                  <option value="IELTS">IELTS</option>
+                  <option value="Speaking">Speaking</option>
+                  <option value="Reading">Reading</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Nội dung</label>
+                <textarea
+                  id="input-content"
+                  class="form-textarea"
+                  placeholder="Chia sẻ kiến thức, kinh nghiệm học tiếng Anh của bạn..."
+                  required
+                ></textarea>
+              </div>
+
+              <div style="text-align: right; margin-top: 1rem">
+                <button type="submit" class="btn btn-primary">
+                  Đăng bài viết
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- <script src="data.js"></script>
     <script src="utils.js"></script> -->
     <script src="./js/forumJS/forum-detail.js"></script>
+    <script>
+      fetch("./GUI.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("header").innerHTML = html;
+
+          const script = document.createElement("script");
+          script.src = "./js/GUI.js";
+          script.onload = () => {
+            if (typeof loadUserToGUI === "function") {
+              loadUserToGUI();
+            }
+          };
+          document.body.appendChild(script);
+        });
+    </script>
   </body>
 </html>

@@ -8,7 +8,7 @@ const postCountEl = document.getElementById("post-count");
 const modalEl = document.getElementById("create-modal");
 
 function getCurrentUserInfo() {
-  const currentUserId = localStorage.getItem("currentUser");
+  const currentUserId = localStorage.getItem("currentUserData");
   if (!currentUserId) {
     return { name: "Bạn", avt: "?", id: null };
   }

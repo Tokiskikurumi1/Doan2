@@ -1,4 +1,4 @@
-const user = JSON.parse(localStorage.getItem("currentUser"));
+const user = JSON.parse(localStorage.getItem("currentUserData"));
 
 // === Nếu chưa đăng nhập HOẶC không phải giáo viên → đá về login ===
 if (!user || user.role !== "teacher") {
