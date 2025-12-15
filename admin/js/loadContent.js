@@ -1,4 +1,3 @@
-// CỐT LÕI: Đọc dữ liệu dạng OBJECT → chuyển thành MẢNG để dùng như cũ
 const revenue = document.getElementById("revenue");
 
 let usersObject = JSON.parse(localStorage.getItem("listusers")) || {};
@@ -50,38 +49,41 @@ function updateMonthlyRevenueChart() {
 
   const bars = boxColumn.querySelectorAll(".chart-serie");
 
-  // Tính doanh thu từng tháng
+  // Doanh thu theo tháng
   const monthlyRevenue = Array(12).fill(0);
-  payments.forEach((p) => {
-    if (p.status === "Đã thanh toán") {
-      const monthIndex = new Date(p.date).getMonth(); // 0 = tháng 1
-      monthlyRevenue[monthIndex] += p.amount;
-    }
+
+  allCourses.forEach((course) => {
+    const price = Number(course.price) || 0;
+
+    if (!Array.isArray(course.students)) return;
+
+    course.students.forEach((student) => {
+      if (!student.date) return;
+
+      const monthIndex = new Date(student.date).getMonth();
+      monthlyRevenue[monthIndex] += price;
+    });
   });
 
-  // Chuẩn cố định: 100 triệu = 100% → 1 triệu = 1%
-  const MAX_REVENUE = 100000000; // 100 triệu
+  // Chuẩn hiển thị: 100 triệu = 100%
+  const MAX_REVENUE = 100000000;
 
   bars.forEach((bar, index) => {
     const revenue = monthlyRevenue[index];
 
-    // Tính %: (doanh thu / 100tr) * 100
     let percent = (revenue / MAX_REVENUE) * 100;
-
-    // Không vượt quá 100%
     percent = Math.min(percent, 100);
 
-    // Áp dụng vào --i (giữ nguyên CSS cũ của mày)
     bar.style.setProperty("--i", percent + "%");
 
-    // Hiển thị số tiền (chỉ khi có doanh thu)
+    // Text hiển thị
     let displayText = "";
     if (revenue >= 1000000) {
       displayText = (revenue / 1000000).toFixed(1) + "tr";
     } else if (revenue >= 1000) {
       displayText = (revenue / 1000).toFixed(0) + "k";
     } else if (revenue > 0) {
-      displayText = revenue.toLocaleString() + "đ";
+      displayText = revenue + "đ";
     }
 
     const title = bar.querySelector(".column-title");
@@ -99,5 +101,4 @@ function updateMonthlyRevenueChart() {
 
 updateMonthlyRevenueChart();
 
-// Hiển thị (mới nhất lên đầu)
 new_user(allUsers.slice().reverse());
