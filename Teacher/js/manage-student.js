@@ -74,17 +74,18 @@ function loadStudentData() {
 function getFilteredStudents() {
   let filtered = [...allStudents];
 
-  // Lọc theo khóa học
+  // 1. Lọc theo khóa học (nếu chọn filter khác ALL)
   if (courseFilter.value !== "ALL") {
     filtered = filtered.filter((s) => s.course === courseFilter.value);
   }
 
-  // Tìm kiếm theo tên / email
+  // 2. Tìm kiếm theo tên hoặc email
   const query = searchInput.value.toLowerCase().trim();
   if (query) {
     filtered = filtered.filter(
       (s) =>
-        s.course === courseFilter.value || s.courseFull === courseFilter.value
+        s.name.toLowerCase().includes(query) ||
+        s.email.toLowerCase().includes(query)
     );
   }
 
