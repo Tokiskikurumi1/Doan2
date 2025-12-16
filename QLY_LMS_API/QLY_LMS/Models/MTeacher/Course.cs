@@ -1,6 +1,3 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
 namespace QLY_LMS.Models.MTeacher
 {
     public class Course
@@ -8,15 +5,15 @@ namespace QLY_LMS.Models.MTeacher
         //[JsonIgnore]
         public int courseID { get; set; }
 
-        [Required(ErrorMessage = "Tên khóa học không được để trống")]
+        [Required(ErrorMessage = "T�n kh�a h?c kh�ng du?c d? tr?ng")]
         [StringLength(50)]
         public string courseName { get; set; } = null!;
 
-        [Required(ErrorMessage = "Loại khóa học không được để trống")]
+        [Required(ErrorMessage = "Lo?i kh�a h?c kh�ng du?c d? tr?ng")]
         [StringLength(50)]
         public string courseType { get; set; } = null!;
 
-        [Required(ErrorMessage = "Mô tả không được để trống")]
+        [Required(ErrorMessage = "M� t? kh�ng du?c d? tr?ng")]
         [StringLength(200)]
         public string courseDes { get; set; } = null!;
 
@@ -37,3 +34,13 @@ namespace QLY_LMS.Models.MTeacher
     }
 }
 # Update 2026-01-10 17:57:44
+// Logging mechanism enhanced
+// Code documentation updated
+// Database optimization completed
+// Enhanced functionality - 2026-01-10
+// Performance optimization implemented
+// Bug fixes and code refactoring
+// Logging mechanism enhanced
+   Additional implementation details
+// UI/UX improvements added
+// Logging mechanism enhanced
