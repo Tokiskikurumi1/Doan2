@@ -23,3 +23,5 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
         }
     }
 }
+# Database optimization
+# Security enhancements
