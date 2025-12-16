@@ -55,3 +55,5 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         }
     }
 }
+# Feature enhancement 2026-01-10 18:02:59
+# UI/UX improvements
