@@ -7,9 +7,10 @@ using QLY_LMS.Models.MTeacher.Response;
 
 namespace QLY_LMS.Controllers.Teacher_Controllers
 {
+    [ApiController]
     [Authorize(Roles = "Teacher")]
     [Route("api/[controller]")]
-    public class AssignmentController : Controller
+    public class AssignmentController : ControllerBase
     {
         private readonly I_BLL_ManageAssignment _manageAssignment;
 

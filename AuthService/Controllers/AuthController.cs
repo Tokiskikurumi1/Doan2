@@ -23,27 +23,30 @@ public class AuthController : ControllerBase
         using var con = new SqlConnection(_config.GetConnectionString("LMS"));
         con.Open();
 
-        string sql = @"
-            SELECT u.userID, u.userName, u.Email, r.roleName
-            FROM USER_TABLE u
-            JOIN ROLES r ON u.roleID = r.roleID
-            WHERE u.Account = @acc AND u.Pass = @pass";
+        //string sql = @"
+        //    SELECT u.userID, u.userName, u.Email, r.roleName
+        //    FROM USER_TABLE u
+        //    JOIN ROLES r ON u.roleID = r.roleID
+        //    WHERE u.Account = @acc AND u.Pass = @pass";
 
-        var cmd = new SqlCommand(sql, con);
-        cmd.Parameters.AddWithValue("@acc", model.Account);
-        cmd.Parameters.AddWithValue("@pass", model.Pass);
+        //var cmd = new SqlCommand(sql, con);
+        using var cmd = new SqlCommand("sp_login", con);
+        cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-        var rd = cmd.ExecuteReader();
+        cmd.Parameters.AddWithValue("@Account", model.Account);
+        cmd.Parameters.AddWithValue("@Pass", model.Pass);
+
+        using var rd = cmd.ExecuteReader();
 
         if (!rd.Read())
         {
             return Unauthorized(new { message = "Sai tài khoản hoặc mật khẩu" });
         }
 
-        int userID = rd.GetInt32(0);
-        string userName = rd.GetString(1);
-        string email = rd.GetString(2);
-        string roleName = rd.GetString(3);
+        int userID = rd.GetInt32(rd.GetOrdinal("userID"));
+        string userName = rd.GetString(rd.GetOrdinal("userName"));
+        string email = rd.GetString(rd.GetOrdinal("Email"));
+        string roleName = rd.GetString(rd.GetOrdinal("roleName"));
 
         string token = GenerateToken(userID, userName, email, roleName);
 

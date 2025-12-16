@@ -7,7 +7,7 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Teacher")]
-    public class TManageStudent : Controller
+    public class TManageStudent : ControllerBase
     {
         private readonly I_BLL_ManageStudent _BLL_ManageStudent;
         public TManageStudent(I_BLL_ManageStudent manageStudent)

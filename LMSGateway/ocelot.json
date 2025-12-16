@@ -22,7 +22,8 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
       }
     },
     {
