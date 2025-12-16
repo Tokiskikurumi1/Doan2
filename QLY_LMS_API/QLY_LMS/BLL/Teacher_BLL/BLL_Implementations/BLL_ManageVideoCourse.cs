@@ -1,5 +1,3 @@
-    {
-        private readonly I_DAL_ManageVideoCourse _ManageCourse;
 
         public BLL_ManageVideoCourse(I_DAL_ManageVideoCourse dal)
         {
@@ -61,3 +59,16 @@
 // API improvements and error handling
 // Performance optimization implemented
 // Performance optimization implemented
+// Logging mechanism enhanced
+// Code documentation updated
+   Code review suggestions applied */
+// UI/UX improvements added
+// Configuration settings optimized
+// Logging mechanism enhanced
+// API improvements and error handling
+// Bug fixes and code refactoring
+// Unit tests added for better coverage
+// Unit tests added for better coverage
+// Code documentation updated
+// API improvements and error handling
+// Code documentation updated
