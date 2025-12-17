@@ -104,6 +104,7 @@ function renderSidebar() {
 }
 
 
+
 //LOAD VIDEO
 
 function loadVideo(videoId) {

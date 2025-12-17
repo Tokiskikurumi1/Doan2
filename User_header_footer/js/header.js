@@ -1,79 +1,129 @@
-fetch("header.html")
-  .then((response) => {
-    if (!response.ok) throw new Error("Không tìm thấy header.html");
-    return response.text();
-  })
-  .then((data) => {
-    document.getElementById("main-header").innerHTML = data;
-
-    // Menu toggle
-    const menuIcon = document.querySelector("#menu-icon");
-    const navBarMenuIconActive = document.querySelector(
-      ".nav-bar-menu-icon-active"
-    );
-    if (menuIcon && navBarMenuIconActive) {
-      menuIcon.addEventListener("click", () => {
-        navBarMenuIconActive.classList.toggle("active");
-        menuIcon.classList.toggle("fa-bars");
-        menuIcon.classList.toggle("fa-x");
-      });
-    }
-
-    updateLoginStatus();
-  })
-  .catch((error) => console.error("Lỗi fetch:", error));
-
-function updateLoginStatus() {
-  const loginArea = document.querySelector(".login");
-  if (!loginArea) {
-    // Nếu header chưa load xong → thử lại sau 100ms
-    setTimeout(updateLoginStatus, 100);
-    return;
+import { UserManager } from "../js/object.js";
+class HeaderComponent extends HTMLElement {
+  connectedCallback() {
+    fetch("./header.html")
+      .then(res => res.text())
+      .then(html => {
+        this.innerHTML = html;
+        requestAnimationFrame(() => {
+          this.loadUser();
+          this.initSearch();
+          this.initDropdowns();
+          this.initBurgerMenu();
+          this.initLogout();
+        });
+      })
+      .catch(err => console.error("Lỗi load header.html:", err));
   }
 
-  const currentUser = JSON.parse(localStorage.getItem("currentUser")); // ← KEY PHẢI ĐÚNG
+  loadUser() {
+    const user = UserManager.getCurrentUserData();
+    if (!user) return;
 
-  if (currentUser && currentUser.username) {
-    loginArea.innerHTML = `
-      <span>Chào mừng: ${currentUser.name} | <a href="#" id="logout">Đăng xuất</a></span>
-    `;
+    const name = this.querySelector(".user-name-popup p");
+    const avatar = this.querySelector(".header-user-icon img");
 
-    // Đăng xuất đúng cách
-    document.getElementById("logout")?.addEventListener("click", (e) => {
-      e.preventDefault();
-      localStorage.removeItem("currentUser"); // chỉ xóa currentUser
-      location.reload();
+    if (name) name.textContent = user.yourname || "User";
+    if (avatar) avatar.src = user.avatar || "../img/img_GUI/user.png";
+  }
+
+  initSearch() {
+    const wrapper = this.querySelector(".header-search");
+    const input = this.querySelector("#searchBox input");
+    const icon = this.querySelector("#searchIcon");
+    const resultsBox = this.querySelector(".header-search-results");
+    const resultsContainer = this.querySelector("#search-results-container");
+
+    if (!wrapper || !input || !icon || !resultsBox) return;
+
+    resultsBox.style.display = "none";
+    let opened = false;
+
+    icon.addEventListener("click", () => {
+      if (!opened) {
+        wrapper.classList.add("active");
+        input.focus();
+        opened = true;
+      }
     });
-  } else {
-    loginArea.innerHTML = `
-      <span><a href="${
-        location.pathname.includes("web_children")
-          ? "./login.html"
-          : "./login.html"
-      }">Đăng nhập/Đăng ký</a></span>
-    `;
+
+    input.addEventListener("input", () => {
+      const keyword = input.value.trim().toLowerCase();
+      resultsContainer.innerHTML = "";
+
+      if (!keyword) {
+        resultsBox.style.display = "none";
+        return;
+      }
+
+      const fakeData = ["Ngữ pháp", "Từ vựng", "Giao tiếp", "Phát âm", "TOEIC"];
+      const filtered = fakeData.filter(x => x.toLowerCase().includes(keyword));
+
+      if (filtered.length) {
+        resultsBox.style.display = "block";
+        filtered.forEach(item => {
+          const div = document.createElement("div");
+          div.className = "header-search-results-item";
+          div.textContent = item;
+          resultsContainer.appendChild(div);
+        });
+      } else {
+        resultsBox.style.display = "none";
+      }
+    });
+
+    document.addEventListener("click", e => {
+      if (!wrapper.contains(e.target)) {
+        wrapper.classList.remove("active");
+        resultsBox.style.display = "none";
+        opened = false;
+      }
+    });
+  }
+
+  initDropdowns() {
+    const setup = id => {
+      const el = this.querySelector(`#${id}`);
+      if (!el) return;
+
+      let timeout;
+
+      el.addEventListener("mouseenter", () => {
+        clearTimeout(timeout);
+        el.classList.add("active");
+      });
+
+      el.addEventListener("mouseleave", () => {
+        timeout = setTimeout(() => el.classList.remove("active"), 150);
+      });
+    };
+
+    setup("userContainer");
+    setup("notificationContainer");
+  }
+
+  initBurgerMenu() {
+    const toggle = this.querySelector("#burgerToggle");
+    const menu = this.querySelector("#burgerMenu");
+
+    if (!toggle || !menu) return;
+
+    toggle.addEventListener("click", () => {
+      menu.classList.toggle("active");
+    });
+  }
+
+
+  initLogout() {
+    const btn = this.querySelector("#logoutBtn");
+    if (!btn) return;
+
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+      localStorage.removeItem("currentUserData");
+      window.location.href = "./login.html";
+    });
   }
 }
 
-// GỌI SAU KHI HEADER ĐÃ LOAD XONG
-fetch("header.html")
-  .then((r) => (r.ok ? r.text() : Promise.reject("Không tìm thấy header")))
-  .then((data) => {
-    document.getElementById("main-header").innerHTML = data;
-
-    // Menu toggle
-    const menuIcon = document.querySelector("#menu-icon");
-    const nav = document.querySelector(".nav-bar-menu-icon-active");
-    if (menuIcon && nav) {
-      menuIcon.onclick = () => {
-        nav.classList.toggle("active");
-        menuIcon.classList.toggle("fa-bars");
-        menuIcon.classList.toggle("fa-x");
-      };
-    }
-
-    updateLoginStatus();
-  })
-  .catch((err) => console.error(err));
-
-window.addEventListener("load", () => setTimeout(updateLoginStatus, 500));
+customElements.define("app-header", HeaderComponent);
