@@ -38,7 +38,8 @@
 
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
       }
     },
     {
@@ -52,7 +53,8 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
       }
     },
     {
@@ -66,7 +68,8 @@
         }
       ],
       "AuthenticationOptions": {
-        "AuthenticationProviderKey": "Bearer"
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
       }
     }
   ],

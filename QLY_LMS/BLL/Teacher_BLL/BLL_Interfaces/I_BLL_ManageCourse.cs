@@ -10,6 +10,8 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces
 
         bool deleteCourse(int courseID, int teacherID);
         bool CheckCourseOfTeacher(int courseID, int teacherID);
+        List<Course> getCourseByName(int teacherID, string nameCourse);
+        List<Course> getCousreByID(int teacherID, int courseID);
 
     }
 }

@@ -18,7 +18,19 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy => policy
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 var app = builder.Build();
+
+app.UseCors("AllowFrontend");
+
 
 // Swagger UI bật CHỈ khi Development
 if (app.Environment.IsDevelopment())

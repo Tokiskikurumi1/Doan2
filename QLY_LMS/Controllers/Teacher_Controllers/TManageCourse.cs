@@ -77,5 +77,36 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
                 ? Ok("Xóa thành công")
                 : BadRequest("Xóa thất bại");
         }
+
+        // LẤY KHÓA HỌC THEO TÊN  
+
+        [HttpGet("get-course-by-name/{searchName}")]
+        public IActionResult SearchNameCourse(string searchName)
+        {
+            int teacherID = getTeacherID();
+            var courses = _ImanageCourse.getCourseByName(teacherID, searchName);
+            if(courses.Count == 0)
+            {
+                return BadRequest("Không tồn tại khóa học tìm kiếm!");
+            }
+
+            return Ok(courses);
+        }
+
+
+        // LẤY KHÓA HỌC THEO ID KHÓA HỌC   
+
+        [HttpGet("get-course-by-id/{courseID}")]
+        public IActionResult searchCourseID(int courseID)
+        {
+            int teacherID = getTeacherID();
+            var course = _ImanageCourse.getCousreByID(teacherID, courseID);
+            if(course.Count == 0)
+            {
+                return NotFound("Không tìm tháy khóa học!");
+            }
+
+            return Ok(course);
+        }
     }
 }

@@ -9,6 +9,8 @@ namespace QLY_LMS.DAL.Teacher_DAL.Interfaces
         bool updateCourse(int courseID,Course course);
         bool deleteCourse(int courseID, int teacherID);
         bool CheckCourseOfTeacher(int courseID, int teacherID);
+        List<Course> getCourseByName(int teacherID, string searchName);
 
+        List<Course> getCourseByID(int teacherID, int courseID);
     }
 }

@@ -60,7 +60,7 @@ namespace QLY_LMS
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-
+             
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
