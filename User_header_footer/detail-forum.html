@@ -4,14 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chi tiết bài viết</title>
-    <link rel="stylesheet" href="./css/GUI.css" />
     <link rel="stylesheet" href="./css/forumCSS/detail-forum.css" />
-    <link rel="stylesheet" href="./css/shop.css">
-    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/shop.css" />
+    <link rel="stylesheet" href="./css/header.css" />
     <script type="module" src="./js/header.js"></script>
+    <app-header></app-header>
   </head>
   <body>
-    <header>
+    <!-- <header>
       <div class="header">
         <a href="" class="header-logo">
           <h1>K-ENGLISH</h1>
@@ -108,7 +108,7 @@
           </nav>
         </div>
       </div>
-    </header>
+    </header> -->
 
     <div class="main-content">
       <div class="topbar">
@@ -261,21 +261,5 @@
     <!-- <script src="data.js"></script>
     <script src="utils.js"></script> -->
     <script src="./js/forumJS/forum-detail.js"></script>
-    <script>
-      fetch("./GUI.html")
-        .then((res) => res.text())
-        .then((html) => {
-          document.getElementById("header").innerHTML = html;
-
-          const script = document.createElement("script");
-          script.src = "./js/GUI.js";
-          script.onload = () => {
-            if (typeof loadUserToGUI === "function") {
-              loadUserToGUI();
-            }
-          };
-          document.body.appendChild(script);
-        });
-    </script>
   </body>
 </html>

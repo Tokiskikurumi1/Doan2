@@ -1,5 +1,10 @@
 // ========================== LOAD COURSE ==========================
-let courses = JSON.parse(localStorage.getItem("courses")) || [];
+function loadCoursesArray() {
+  const raw = JSON.parse(localStorage.getItem("courses")) || [];
+  return Array.isArray(raw) ? raw : Object.values(raw);
+}
+
+let courses = loadCoursesArray();
 const courseId = localStorage.getItem("selectedCourseId");
 const course = courses.find((c) => String(c.id) === String(courseId));
 

@@ -50,7 +50,10 @@ function mapStudentsWithUserData(course) {
 //  LOAD DỮ LIỆU HỌC VIÊN CHỈ THEO GIẢNG VIÊN HIỆN TẠI
 // ===============================================================
 function loadStudentData() {
-  const courses = JSON.parse(localStorage.getItem("courses")) || [];
+  const rawCourses = JSON.parse(localStorage.getItem("courses")) || [];
+  const courses = Array.isArray(rawCourses)
+    ? rawCourses
+    : Object.values(rawCourses);
 
   // Lọc khóa học của giáo viên
   const teacherCourses = courses.filter((c) => c.teacherId === currentUser.id);
@@ -63,8 +66,6 @@ function loadStudentData() {
   });
 
   allStudents = result;
-
-  console.log("Danh sách học viên ánh xạ:", allStudents);
 }
 
 // ===============================================================
@@ -73,17 +74,18 @@ function loadStudentData() {
 function getFilteredStudents() {
   let filtered = [...allStudents];
 
-  // Lọc theo khóa học
+  // 1. Lọc theo khóa học (nếu chọn filter khác ALL)
   if (courseFilter.value !== "ALL") {
     filtered = filtered.filter((s) => s.course === courseFilter.value);
   }
 
-  // Tìm kiếm theo tên / email
+  // 2. Tìm kiếm theo tên hoặc email
   const query = searchInput.value.toLowerCase().trim();
   if (query) {
     filtered = filtered.filter(
       (s) =>
-        s.course === courseFilter.value || s.courseFull === courseFilter.value
+        s.name.toLowerCase().includes(query) ||
+        s.email.toLowerCase().includes(query)
     );
   }
 
@@ -178,7 +180,7 @@ function setupEvents() {
 }
 
 // ===============================================================
-// 🔥 KHỞI ĐỘNG
+//  KHỞI ĐỘNG
 // ===============================================================
 document.addEventListener("DOMContentLoaded", () => {
   loadStudentData();

@@ -1,4 +1,3 @@
-
 .header {
   border: 0.0625rem solid #ddd;
   display: flex;
@@ -33,7 +32,6 @@
 }
 
 @keyframes animate {
-
   0%,
   100% {
     background-position: left top;
@@ -65,7 +63,7 @@
   gap: 1.875rem;
   height: 100%;
 }
-.header-nav-center ul li{
+.header-nav-center ul li {
   height: 100%;
   display: flex;
   align-items: center;
@@ -94,8 +92,7 @@
 
 .header-notification-icon,
 .header-message-icon,
-.header-search-icon 
-.header-user-icon{
+.header-search-icon .header-user-icon {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
@@ -107,7 +104,7 @@
 .header-notification-icon img,
 .header-message-icon img,
 .header-search-icon img,
-.header-user-icon img{
+.header-user-icon img {
   width: 2rem;
   height: 2rem;
   cursor: pointer;
@@ -259,7 +256,6 @@
   pointer-events: auto;
 }
 
-
 .header-notification-container {
   position: relative;
   display: inline-block;
@@ -278,8 +274,6 @@
   pointer-events: auto;
 }
 
-
-
 .dropdown-menu {
   position: absolute;
   top: 44px;
@@ -296,9 +290,9 @@
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .header-notification-container .notification-menu {
-  position: fixed;       
-  top: 56px;             
-  right: 0;              
+  position: fixed;
+  top: 56px;
+  right: 0;
   min-width: 360px;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -334,7 +328,6 @@
   background-color: #f2f2f2;
   color: #000;
 }
-
 
 .burger-toggle {
   display: none;
@@ -418,4 +411,3 @@
     font-size: 12px;
   }
 }
-

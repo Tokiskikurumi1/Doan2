@@ -8,19 +8,26 @@ const postCountEl = document.getElementById("post-count");
 const modalEl = document.getElementById("create-modal");
 
 function getCurrentUserInfo() {
-  const currentUserId = localStorage.getItem("currentUserData");
-  if (!currentUserId) {
+  const currentUser = JSON.parse(localStorage.getItem("currentUserData"));
+  if (!currentUser) {
     return { name: "Bạn", avt: "?", id: null };
   }
+
   const usersObject = JSON.parse(localStorage.getItem("listusers") || "{}");
-  const user = usersObject[currentUserId];
-  if (!user) return { name: "Bạn", avt: "?", id: currentUserId };
+
+  // LẤY ID ĐÚNG
+  const user = usersObject[currentUser.id] || currentUser;
 
   const displayName =
     user.yourname || user.name || user.username || user.phone || "Người dùng";
+
   const avt = displayName.trim().charAt(0).toUpperCase();
 
-  return { id: currentUserId, name: displayName.trim(), avt };
+  return {
+    id: user.id,
+    name: displayName.trim(),
+    avt,
+  };
 }
 
 // Tạo chữ cái đầu + màu nền ngẫu nhiên đẹp (dựa trên tên)

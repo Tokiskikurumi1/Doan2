@@ -8,12 +8,14 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     />
-    <link rel="stylesheet" href="./css/GUI.css" />
+    <link rel="stylesheet" href="./css/header.css" />
+    <script type="module" src="./js/header.js"></script>
     <link rel="stylesheet" href="./css/forumCSS/forum.css" />
+    <app-header></app-header>
   </head>
 
   <body>
-    <div id="header"></div>
+    <!-- <div id="header"></div> -->
     <div class="main-content">
       <div class="topbar">
         <!-- DESKTOP VIEW -->
@@ -163,20 +165,5 @@
   <!-- <script src="./js/GUI.js"></script> -->
   <script src="./js/forumJS/data.js"></script>
   <script src="./js/forumJS/forum.js"></script>
-  <script>
-    fetch("./GUI.html")
-      .then((res) => res.text())
-      .then((html) => {
-        document.getElementById("header").innerHTML = html;
-
-        const script = document.createElement("script");
-        script.src = "./js/GUI.js";
-        script.onload = () => {
-          if (typeof loadUserToGUI === "function") {
-            loadUserToGUI();
-          }
-        };
-        document.body.appendChild(script);
-      });
-  </script>
+  <script type="module" src="./js/shop.js"></script>
 </html>

@@ -13,7 +13,13 @@ const roleInput = document.getElementById("roleInput");
 const teacherInput = document.getElementById("teacherInput");
 
 // ======================= BIẾN DỮ LIỆU =======================
-let courses = JSON.parse(localStorage.getItem("courses") || "[]");
+function loadCoursesArray() {
+  const raw = JSON.parse(localStorage.getItem("courses")) || [];
+  return Array.isArray(raw) ? raw : Object.values(raw);
+}
+
+let courses = loadCoursesArray();
+// let courses = JSON.parse(localStorage.getItem("courses") || "[]");
 let editingCourseId = null;
 
 // ======================= PHÂN TRANG =======================

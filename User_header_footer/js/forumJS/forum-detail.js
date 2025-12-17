@@ -42,16 +42,23 @@ function loadData() {
 // 2. Lấy thông tin người dùng hiện tại
 ////////////////////////////////////////////////////
 function getCurrentUser() {
-  const id = localStorage.getItem("currentUser");
-  if (!id || id === "guest") return { name: "Khách", id: null };
+  const currentUser = JSON.parse(localStorage.getItem("currentUserData"));
+  if (!currentUser || !currentUser.id) {
+    return { name: "Khách", id: null };
+  }
 
   const users = JSON.parse(localStorage.getItem("listusers") || "{}");
-  const user = users[id];
-  if (!user) return { name: "Khách", id: null };
+
+  // Ưu tiên dữ liệu trong listusers, fallback currentUserData
+  const user = users[currentUser.id] || currentUser;
 
   const name =
     user.yourname || user.name || user.username || user.phone || "Người dùng";
-  return { name: name.trim(), id };
+
+  return {
+    id: user.id,
+    name: name.trim(),
+  };
 }
 
 ////////////////////////////////////////////////////

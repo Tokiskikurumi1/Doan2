@@ -1,235 +1,262 @@
-// ======================= LẤY PHẦN TỬ HTML =======================
+// ======================= DOM =======================
 const paymentTableBody = document.getElementById("paymentTableBody");
+const Total = document.getElementById("Total");
+const totalTrade = document.getElementById("totalTrade");
+const tradeSuccsess = document.getElementById("tradeSuccsess");
+
 const searchPayment = document.getElementById("searchPayment");
 const roleFilterCourse = document.getElementById("roleFilterCourse");
 const dateFrom = document.getElementById("fromDate");
 const dateTo = document.getElementById("toDate");
 const applyDate = document.getElementById("applyDate");
-const paymentModal = document.getElementById("paymentModal");
-const payId = document.getElementById("payId");
-const payName = document.getElementById("payName");
-const payCourse = document.getElementById("payCourse");
-const payAmount = document.getElementById("payAmount");
-const payMethod = document.getElementById("payMethod");
-const payDate = document.getElementById("payDate");
-const payStatus = document.getElementById("payStatus");
 
-// Header thống kê
-const Total = document.getElementById("Total");
-const totalTrade = document.getElementById("totalTrade");
-const tradeSuccsess = document.getElementById("tradeSuccsess");
-
-// ======================= CÀI ĐẶT PHÂN TRANG =======================
-const itemsPerPage = 10;
-let currentPage = 1;
-let currentList = []; // Danh sách sau khi lọc
-
-// ======================= HIỂN THỊ TỔNG TIỀN & THỐNG KÊ =======================
-function displayTotal(list) {
-  const totalAmount = list.reduce((sum, p) => sum + p.amount, 0);
-  Total.textContent = totalAmount.toLocaleString() + "đ";
-  totalTrade.textContent = list.length;
-  tradeSuccsess.textContent = list.length;
+// ======================= LOAD DATA =======================
+function loadCoursesArray() {
+  const raw = JSON.parse(localStorage.getItem("courses")) || [];
+  return Array.isArray(raw) ? raw : Object.values(raw);
 }
 
-// ======================= HIỂN THỊ DANH SÁCH + PHÂN TRANG =======================
-function displayPayment(list_payment) {
-  currentList = list_payment;
+let allCourses = loadCoursesArray();
 
+// ======================= TIỆN ÍCH =======================
+function isSameDayLocal(a, b) {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
+}
+
+// ======================= DOANH THU HÔM NAY =======================
+function calculateTodayRevenue() {
+  let total = 0;
+  const today = new Date();
+
+  allCourses.forEach((course) => {
+    const price = Number(course.price) || 0;
+    if (!Array.isArray(course.students)) return;
+
+    course.students.forEach((student) => {
+      if (!student.date) return;
+      const d = new Date(student.date);
+      if (isNaN(d)) return;
+
+      if (isSameDayLocal(d, today)) {
+        total += price;
+      }
+    });
+  });
+
+  return total;
+}
+
+// ======================= SỐ HỌC VIÊN HÔM NAY =======================
+function calculateTodayStudentCount() {
+  let count = 0;
+  const today = new Date();
+
+  allCourses.forEach((course) => {
+    if (!Array.isArray(course.students)) return;
+
+    course.students.forEach((student) => {
+      if (!student.date) return;
+      const d = new Date(student.date);
+      if (isNaN(d)) return;
+
+      if (isSameDayLocal(d, today)) {
+        count++;
+      }
+    });
+  });
+
+  return count;
+}
+
+// ======================= BẢNG HỌC VIÊN =======================
+const itemsPerPage = 10;
+let currentPage = 1;
+let currentList = [];
+
+function getStudentsSortedByLatest() {
+  let list = [];
+
+  allCourses.forEach((course) => {
+    const price = Number(course.price) || 0;
+    const courseName = course.name || course.title || "Không rõ";
+
+    if (!Array.isArray(course.students)) return;
+
+    course.students.forEach((student) => {
+      if (!student.date) return;
+
+      list.push({
+        student: student.name || student.email || "Không tên",
+        course: courseName,
+        price: price,
+        date: student.date,
+      });
+    });
+  });
+
+  // mới nhất → cũ nhất
+  list.sort((a, b) => new Date(b.date) - new Date(a.date));
+  return list;
+}
+
+function renderPagination() {
+  const totalItems = currentList.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+
+  document.getElementById("totalRecords").textContent = totalItems;
+  document.getElementById("pageStart").textContent =
+    totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
+  document.getElementById("pageEnd").textContent = Math.min(
+    currentPage * itemsPerPage,
+    totalItems
+  );
+
+  document.getElementById("prevPage").disabled = currentPage === 1;
+  document.getElementById("nextPage").disabled = currentPage >= totalPages;
+
+  const pageNumbers = document.getElementById("pageNumbers");
+  pageNumbers.innerHTML = "";
+
+  const btn = document.createElement("div");
+  btn.className = "page-number active";
+  btn.textContent = currentPage;
+  pageNumbers.appendChild(btn);
+}
+
+function displayStudentTable(list) {
+  currentList = list;
   const start = (currentPage - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  const paginatedItems = currentList.slice(start, end);
+  const pageItems = currentList.slice(start, start + itemsPerPage);
 
   paymentTableBody.innerHTML = "";
 
-  if (currentList.length === 0) {
-    paymentTableBody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 40px 0;">Không có dữ liệu phù hợp</td></tr>`;
-  } else {
-    paginatedItems.forEach((p) => {
-      paymentTableBody.innerHTML += `
-        <tr>
-          <td>${p.id}</td>
-          <td>${p.student}</td>
-          <td>${p.course}</td>
-          <td>${p.amount.toLocaleString()}đ</td>
-          <td>${p.method}</td>
-          <td>${p.date}</td>
-          <td><span class="status-paid">Đã thanh toán</span></td>
-          <td class="actionsTable">
-            <button class="view-btn" onclick="View('${
-              p.id
-            }')"><i class="fas fa-eye"></i></button>
-            <button class="delete-btn" onclick="deletePayment('${p.id}')">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </td>
-        </tr>
-      `;
-    });
+  if (pageItems.length === 0) {
+    paymentTableBody.innerHTML = `
+      <tr><td colspan="6" style="text-align:center;padding:40px">
+        Không có học viên
+      </td></tr>`;
+    return;
   }
 
+  pageItems.forEach((item) => {
+    paymentTableBody.innerHTML += `
+      <tr>
+        <td>${item.student}</td>
+        <td>${item.course}</td>
+        <td>${item.price.toLocaleString("vi-VN")}đ</td>
+        <td>Chuyển khoản</td>
+        <td>${new Date(item.date).toLocaleString("vi-VN")}</td>
+        <td><span class="status-paid">Đã đăng ký</span></td>
+      </tr>
+    `;
+  });
+
   renderPagination();
-  displayTotal(currentList); // Cập nhật thống kê theo dữ liệu đang hiển thị
 }
 
-// ======================= LỌC DỮ LIỆU =======================
-function filterPayments(applyDateFilter = false) {
-  const keyword = searchPayment.value.toLowerCase().trim();
-  const course = roleFilterCourse.value;
+function loadStudentTable() {
+  currentPage = 1;
+  displayStudentTable(getStudentsSortedByLatest());
+}
 
-  // Lấy ngày
+function updateMonthlyRevenueChart() {
+  const boxColumn = document.getElementById("monthlyChart");
+  if (!boxColumn) return;
+
+  const bars = boxColumn.querySelectorAll(".chart-serie");
+
+  // Doanh thu theo tháng
+  const monthlyRevenue = Array(12).fill(0);
+
+  allCourses.forEach((course) => {
+    const price = Number(course.price) || 0;
+
+    if (!Array.isArray(course.students)) return;
+
+    course.students.forEach((student) => {
+      if (!student.date) return;
+
+      const monthIndex = new Date(student.date).getMonth();
+      monthlyRevenue[monthIndex] += price;
+    });
+  });
+
+  // Chuẩn hiển thị: 100 triệu = 100%
+  const MAX_REVENUE = 100000000;
+
+  bars.forEach((bar, index) => {
+    const revenue = monthlyRevenue[index];
+
+    let percent = (revenue / MAX_REVENUE) * 100;
+    percent = Math.min(percent, 100);
+
+    bar.style.setProperty("--i", percent + "%");
+
+    // Text hiển thị
+    let displayText = "";
+    if (revenue >= 1000000) {
+      displayText = (revenue / 1000000).toFixed(1) + "tr";
+    } else if (revenue >= 1000) {
+      displayText = (revenue / 1000).toFixed(0) + "k";
+    } else if (revenue > 0) {
+      displayText = revenue + "đ";
+    }
+
+    const title = bar.querySelector(".column-title");
+    if (title) {
+      if (revenue > 0) {
+        title.textContent = displayText;
+        title.style.opacity = "1";
+      } else {
+        title.textContent = "";
+        title.style.opacity = "0";
+      }
+    }
+  });
+}
+
+// ======================= TÌM KIẾM  =======================
+
+function filterStudentTable(applyDateFilter = false) {
+  const keyword = searchPayment.value.toLowerCase().trim();
+  const courseFilter = roleFilterCourse.value;
+
   const from = dateFrom.value ? new Date(dateFrom.value) : null;
   const to = dateTo.value ? new Date(dateTo.value) : null;
 
-  let filtered = payments.filter((p) => {
-    const matchKeyword =
-      p.id.toLowerCase().includes(keyword) ||
-      p.student.toLowerCase().includes(keyword);
+  let list = getStudentsSortedByLatest();
 
-    const matchCourse = course === "All" || p.course === course;
+  const filtered = list.filter((item) => {
+    // 🔍 tìm theo tên khóa học
+    const matchKeyword = item.course.toLowerCase().includes(keyword);
 
-    // Nếu không nhấn Áp dụng -> KHÔNG lọc ngày
+    // 🎓 lọc theo select khóa học
+    const matchCourse = courseFilter === "All" || item.course === courseFilter;
+
+    // 📅 lọc theo ngày
     let matchDate = true;
-
     if (applyDateFilter && (from || to)) {
-      const pDate = new Date(p.date);
-      matchDate = (!from || pDate >= from) && (!to || pDate <= to);
+      const d = new Date(item.date);
+      matchDate = (!from || d >= from) && (!to || d <= to);
     }
 
     return matchKeyword && matchCourse && matchDate;
   });
 
   currentPage = 1;
-  displayPayment(filtered);
+  displayStudentTable(filtered);
 }
 
-// ======================= PHÂN TRANG =======================
-function renderPagination() {
-  const totalItems = currentList.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+// ======================= INIT =======================
+Total.textContent = calculateTodayRevenue().toLocaleString("vi-VN") + "đ";
 
-  // Cập nhật thông tin hiển thị
-  document.getElementById("totalRecords").textContent = totalItems;
-  document.getElementById("pageStart").textContent =
-    totalItems > 0 ? (currentPage - 1) * itemsPerPage + 1 : 0;
-  document.getElementById("pageEnd").textContent = Math.min(
-    currentPage * itemsPerPage,
-    totalItems
-  );
+const todayCount = calculateTodayStudentCount();
+totalTrade.textContent = todayCount;
+tradeSuccsess.textContent = todayCount;
 
-  // Ẩn/Hiện nút Prev - Next
-  document.getElementById("prevPage").disabled = currentPage === 1;
-  document.getElementById("nextPage").disabled = currentPage >= totalPages;
-
-  // CHỈ HIỆN DUY NHẤT 1 SỐ: TRANG HIỆN TẠI
-  const pageNumbers = document.getElementById("pageNumbers");
-  pageNumbers.innerHTML = ""; // Xóa hết
-
-  const currentBtn = document.createElement("div");
-  currentBtn.className = "page-number active";
-  currentBtn.textContent = currentPage;
-  pageNumbers.appendChild(currentBtn);
-}
-
-function addPageButton(page) {
-  const btn = document.createElement("div");
-  btn.className = "page-number" + (page === currentPage ? " active" : "");
-  btn.textContent = page;
-  btn.onclick = () => {
-    currentPage = page;
-    displayPayment(currentList);
-  };
-  document.getElementById("pageNumbers").appendChild(btn);
-}
-
-document.getElementById("prevPage").onclick = () => {
-  if (currentPage > 1) {
-    currentPage--;
-    displayPayment(currentList);
-  }
-};
-
-document.getElementById("nextPage").onclick = () => {
-  if (currentPage < Math.ceil(currentList.length / itemsPerPage)) {
-    currentPage++;
-    displayPayment(currentList);
-  }
-};
-
-// ======================= XEM CHI TIẾT & XÓA =======================
-function View(id) {
-  const pay = payments.find((p) => p.id === id);
-  if (!pay) return alert("Không tìm thấy giao dịch!");
-
-  paymentModal.style.display = "flex";
-  payId.textContent = pay.id;
-  payName.textContent = pay.student;
-  payCourse.textContent = pay.course;
-  payAmount.textContent = pay.amount.toLocaleString() + "đ";
-  payMethod.textContent = pay.method;
-  payDate.textContent = pay.date;
-  payStatus.textContent = pay.status;
-
-  document.getElementById("closeModalBtn").onclick = () => {
-    paymentModal.style.display = "none";
-  };
-}
-
-function deletePayment(id) {
-  if (confirm("Bạn có chắc chắn muốn xóa giao dịch này không?")) {
-    const index = payments.findIndex((p) => p.id === id);
-    if (index !== -1) {
-      payments.splice(index, 1);
-      filterPayments(); // Tự động reload + phân trang
-      alert("Đã xóa thành công!");
-    }
-  }
-}
-
-// ======================= SỰ KIỆN =======================
-searchPayment.addEventListener("input", filterPayments);
-roleFilterCourse.addEventListener("change", filterPayments);
-applyDate.addEventListener("click", () => filterPayments(true));
-// dateFrom.addEventListener("change", filterPayments);
-// dateTo.addEventListener("change", filterPayments);
-
-// ======================= BIỂU ĐỒ DOANH THU =======================
-function updateMonthlyRevenueChart() {
-  const boxColumn = document.getElementById("monthlyChart");
-  if (!boxColumn) return;
-
-  const bars = boxColumn.querySelectorAll(".chart-serie");
-  const monthlyRevenue = Array(12).fill(0);
-
-  payments.forEach((p) => {
-    if (p.status === "Đã thanh toán") {
-      const monthIndex = new Date(p.date).getMonth();
-      monthlyRevenue[monthIndex] += p.amount;
-    }
-  });
-
-  const MAX_REVENUE = 100000000; // 100 triệu = 100%
-
-  bars.forEach((bar, index) => {
-    const revenue = monthlyRevenue[index];
-    let percent = (revenue / MAX_REVENUE) * 100;
-    percent = Math.min(percent, 100);
-
-    bar.style.setProperty("--i", percent + "%");
-
-    let displayText = "";
-    if (revenue >= 1000000) displayText = (revenue / 1000000).toFixed(1) + "tr";
-    else if (revenue >= 1000) displayText = (revenue / 1000).toFixed(0) + "k";
-    else if (revenue > 0) displayText = revenue.toLocaleString() + "đ";
-
-    const title = bar.querySelector(".column-title");
-    if (title) {
-      title.textContent = revenue > 0 ? displayText : "";
-      title.style.opacity = revenue > 0 ? "1" : "0";
-    }
-  });
-}
 updateMonthlyRevenueChart();
-
-// ======================= KHỞI TẠO TRANG =======================
-filterPayments(); // Load lần đầu + phân trang + thống kê đúng
+loadStudentTable();
