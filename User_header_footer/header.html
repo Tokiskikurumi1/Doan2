@@ -1,88 +1,59 @@
-<div class="header">
-  <a href="./home.html" class="header-logo">
-    <h1>K-ENGLISH</h1>
-  </a>
-
-  <div class="header-nav-center">
-    <ul>
-      <li><a href="./mycourse.html">KHÓA HỌC</a></li>
-      <li><a href="./quizz.html">BÀI TẬP</a></li>
-      <li><a href="./forum.html">CỘNG ĐỒNG</a></li>
-      <li><a href="./shop.html">CỬA HÀNG</a></li>
-      <li><a href="./about.html">GIỚI THIỆU</a></li>
-    </ul>
-  </div>
-
-  <div class="header-nav-right">
-    <div class="header-search">
-      <div class="header-search-box" id="searchBox">
-        <input type="text" placeholder="Tìm kiếm..." />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="./Assets/css/base/reset.css" /> -->
+    <link rel="stylesheet" href="./css/header.css" />
+    <link rel="stylesheet" href="./css/base.css" />
+  </head>
+  <body>
+    <!--Header-->
+    <header id="header">
+      <!--Nav bar title-->
+      <nav class="nav-bar-title">
+        <!--LOGO-->
+        <a href="../index.html" class="logo"
+          ><!-- Sử dụng "/" để quay về trang chủ trên GitHub Pages -->
+          <h1>K-ENGLISH</h1>
+        </a>
+        <!--UL_BAR_CENTER-->
+        <ul class="ul-bar-title">
+          <li><a href="./about.html">Về chúng tôi</a></li>
+          <li><a href="./community.html">Cộng đồng</a></li>
+          <li><a href="./courses.html">Khóa học</a></li>
+          <!-- <li><a href="./books.html">Sách</a></li> -->
+        </ul>
+        <!--UL_BAR_LOGIN-->
+        <ul class="ul-bar-info">
+          <!-- <li class="cart">
+            <a href="./cart.html">
+              <i class="fa-solid fa-basket-shopping"></i>
+            </a>
+          </li> -->
+          <li class="login">
+            <a href="./login.html"><span>Đăng nhập</span></a>
+            <span>/</span>
+            <a href="./login.html"><span>Đăng ký</span></a>
+          </li>
+          <li class="menu-icon-hidden">
+            <i class="fa-solid fa-bars" id="menu-icon"></i>
+            <i class="fa-solid fa-x" id="close-icon"></i>
+          </li>
+        </ul>
+      </nav>
+      <!--Nav bar menu icon active-->
+      <div class="nav-bar-menu-icon-active">
+        <ul class="ul-bar-menu-icon-active">
+          <li><a href="./about.html">Về chúng tôi</a></li>
+          <li><a href="./community.html">Cộng đồng</a></li>
+          <li><a href="./courses.html">Khóa học</a></li>
+          <!-- <li><a href="./books.html">Sách</a></li> -->
+          <!-- <li><a href="./cart.html">Giỏ hàng</a></li> -->
+        </ul>
       </div>
-      <div class="header-search-icon" id="searchIcon">
-        <img src="./img/img_GUI/glass.png" />
-      </div>
-      <div class="header-search-results">
-        <h2>Kết quả tìm kiếm</h2>
-        <br />
-        <div id="search-results-container"></div>
-      </div>
-    </div>
-
-    <div class="header-notification">
-      <div class="header-notification-container" id="notificationContainer">
-        <div class="header-notification-icon">
-          <img src="./img/img_GUI/bell.png" class="notification-icon" />
-        </div>
-        <div class="header-notification-count"></div>
-
-        <div class="dropdown-menu notification-menu">
-          <ul>
-            <li><p>Thông báo</p></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="header-message">
-      <div class="header-message-icon">
-        <img src="./img/img_GUI/messenger.png" />
-      </div>
-      <div class="header-notification-count"></div>
-    </div>
-
-    <div class="header-user">
-      <div class="header-user-container" id="userContainer">
-        <div class="header-user-icon">
-          <img src="./img/img_GUI/user.png" class="avatar" />
-        </div>
-
-        <div class="user-name-popup">
-          <p>Name User</p>
-        </div>
-
-        <div class="dropdown-menu user-menu">
-          <ul>
-            <li><a href="./info.html">Thông tin tài khoản</a></li>
-            <li><a href="./profile.html">Hồ sơ của tôi</a></li>
-            <li><a href="./mycourse.html">Lớp của tôi</a></li>
-            <li><a href="./payment.html">Lịch sử thanh toán</a></li>
-            <li><a href="#" id="logoutBtn">Đăng xuất</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="burger-toggle" id="burgerToggle">
-      <i class="fas fa-bars"></i>
-    </div>
-
-    <nav class="burger-menu" id="burgerMenu">
-      <ul>
-        <li><a href="./mycourse.html">KHÓA HỌC</a></li>
-        <li><a href="./quizz.html">BÀI TẬP</a></li>
-        <li><a href="./forum.html">CỘNG ĐỒNG</a></li>
-        <li><a href="./shop.html">CỬA HÀNG</a></li>
-      </ul>
-    </nav>
-  </div>
-</div>
+    </header>
+    <script src="../Assets/JS/header.js"></script>
+  </body>
+</html>
