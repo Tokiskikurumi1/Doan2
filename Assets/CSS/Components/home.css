@@ -8,6 +8,13 @@ body {
   background-color: var(--color-background-);
 }
 
+#nav-bar-index {
+  display: flex;
+  justify-content: space-between !important;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  /* gap: 10rem; */
+}
 .a {
   width: 100vh;
   height: 100vh;
@@ -564,6 +571,10 @@ body {
   .features {
     flex-direction: row;
     gap: 10px;
+  }
+  #nav-bar-index {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 

@@ -1,4 +1,4 @@
-// =================== HOME.JS – PHIÊN BẢN CHẠY ỔN KHI ĐỂ RIÊNG FILE ===================
+// =================== HOME.JS ===================
 
 // 1. MENU MOBILE
 const menuIcon = document.querySelector("#menu-icon");
@@ -41,7 +41,10 @@ function updateLoginStatus() {
 
 // 3. HIỂN THỊ KHÓA HỌC PHỔ BIẾN (5 KHÓA ĐẦU TIÊN)
 function renderPopularCourses() {
-  const courses = JSON.parse(localStorage.getItem("courses")) || [];
+  let rawCourses = JSON.parse(localStorage.getItem("courses")) || [];
+  let courses = Array.isArray(rawCourses)
+    ? rawCourses
+    : Object.values(rawCourses);
   const container = document.querySelector(".popular-courses-list");
 
   if (!container) return;
