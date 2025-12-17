@@ -29,7 +29,7 @@
         <div class="page-header">
           <h2 class="page-title">Thống kê - báo cáo</h2>
           <div class="list-btn-top">
-            <button class="btn btn-primary">
+            <button class="btn btn-primary" id="print">
               <i class="fas fa-file-excel"></i> Excel
             </button>
           </div>
@@ -70,7 +70,7 @@
 
         <!-- BIỂU ĐỒ CỘT -->
         <div class="chart-column-container">
-          <h3 class="chart-title">Tỷ lệ hoàn thành theo khóa học</h3>
+          <h3 class="chart-title">Số lượng học viên từng khóa học</h3>
           <div class="chart-column">
             <div class="number-and-columns">
               <div class="number-percen">
@@ -86,89 +86,9 @@
                 <span>10</span>
                 <span>0</span>
               </div>
-              <div class="box-column">
-                <div
-                  class="chart-serie"
-                  style="--i: 80%; --color: var(--blue-)"
-                >
-                  <h3 class="column-title">80%</h3>
-                </div>
-                <div
-                  class="chart-serie"
-                  style="--i: 87%; --color: var(--green)"
-                >
-                  <h3 class="column-title">87%</h3>
-                </div>
-                <div
-                  class="chart-serie"
-                  style="--i: 60%; --color: var(--orange)"
-                >
-                  <h3 class="column-title">60%</h3>
-                </div>
-                <div
-                  class="chart-serie"
-                  style="--i: 50%; --color: var(--purple)"
-                >
-                  <h3 class="column-title">50%</h3>
-                </div>
-                <div
-                  class="chart-serie"
-                  style="--i: 80%; --color: var(--blue-)"
-                >
-                  <h3 class="column-title">80%</h3>
-                </div>
-                <div
-                  class="chart-serie"
-                  style="--i: 87%; --color: var(--green)"
-                >
-                  <h3 class="column-title">87%</h3>
-                </div>
-                <div
-                  class="chart-serie"
-                  style="--i: 60%; --color: var(--orange)"
-                >
-                  <h3 class="column-title">60%</h3>
-                </div>
-                <div
-                  class="chart-serie"
-                  style="--i: 50%; --color: var(--purple)"
-                >
-                  <h3 class="column-title">50%</h3>
-                </div>
-                <div
-                  class="chart-serie"
-                  style="--i: 60%; --color: var(--orange)"
-                >
-                  <h3 class="column-title">60%</h3>
-                </div>
-                <div
-                  class="chart-serie"
-                  style="--i: 50%; --color: var(--purple)"
-                >
-                  <h3 class="column-title">50%</h3>
-                </div>
-                <div
-                  class="chart-serie"
-                  style="--i: 60%; --color: var(--orange)"
-                >
-                  <h3 class="column-title">60%</h3>
-                </div>
-                <div
-                  class="chart-serie"
-                  style="--i: 50%; --color: var(--purple)"
-                >
-                  <h3 class="column-title">50%</h3>
-                </div>
-              </div>
+              <div class="box-column" id="courseChart"></div>
             </div>
-            <div class="name-course">
-              <span>Tiếng anh cơ bản </span>
-              <span>Tiếng anh cơ bản</span>
-
-              <span>Tiếng anh cơ bản</span>
-
-              <span>Tiếng anh cơ bản</span>
-            </div>
+            <div class="name-course" id="courseNames"></div>
           </div>
         </div>
 
@@ -189,13 +109,13 @@
             <div class="stat-value" id="studying">118</div>
             <div class="stat-label">Đang học</div>
           </div>
-          <div class="stat-card">
+          <!-- <div class="stat-card">
             <div class="stat-icon" style="background: var(--yellow)">
               <i class="fas fa-user-clock"></i>
             </div>
             <div class="stat-value">12</div>
             <div class="stat-label">Nghỉ học</div>
-          </div>
+          </div> -->
           <div class="stat-card">
             <div class="stat-icon" style="background: var(--purple)">
               <i class="fas fa-user-graduate"></i>
@@ -206,7 +126,7 @@
         </div>
 
         <!--TIẾN ĐỘ HỌC TRUNG BÌNH -->
-        <div class="chart-circle-container">
+        <!-- <div class="chart-circle-container">
           <h3 class="chart-title">Tiến độ học tập trung bình</h3>
           <div class="info-circle-box">
             <div class="circle-box"></div>
@@ -229,7 +149,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <!-- === 3. THỐNG KÊ TƯƠNG TÁC === -->
         <h3 class="section-title">3. Thống kê tương tác</h3>
@@ -241,13 +161,6 @@
             <div class="stat-value" id="accessForum">2,847</div>
             <div class="stat-label">Lượt truy cập</div>
           </div>
-          <!-- <div class="stat-card">
-            <div class="stat-icon" style="background: var(--green)">
-              <i class="fas fa-clock"></i>
-            </div>
-            <div class="stat-value">3.2h</div>
-            <div class="stat-label">Thời gian học TB</div>
-          </div> -->
           <div class="stat-card">
             <div class="stat-icon" style="background: var(--orange)">
               <i class="fas fa-tasks"></i>

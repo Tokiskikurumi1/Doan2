@@ -94,15 +94,7 @@ function createAssignmentCard(a) {
             <div class="stat-label">Chưa nộp</div>
           </div>
         </div>
-        <div class="progress-container">
-          <div class="progress-label">
-            <span>Tỷ lệ nộp</span>
-            <span>${percent}%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: ${percent}%"></div>
-          </div>
-        </div>
+        
         <div class="assignment-actions">
           <button class="btn btn-primary btn-sm" onclick="viewDetail('${
             a.id
@@ -228,9 +220,8 @@ function deleteAssignment(id) {
   // 2. Xóa bài tập trong từng khóa học → từng video
   const rawCourses = JSON.parse(localStorage.getItem("courses")) || [];
   let courses = Array.isArray(rawCourses)
-  ? rawCourses
-  : Object.values(rawCourses);
-
+    ? rawCourses
+    : Object.values(rawCourses);
 
   courses.forEach((course) => {
     course.videos?.forEach((video) => {
