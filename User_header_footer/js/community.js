@@ -450,3 +450,5 @@ imgSearch.addEventListener("click", () => {
 
 // ========================== KHỞI TẠO ==========================
 renderList();
+# API improvements
+# Performance optimization
