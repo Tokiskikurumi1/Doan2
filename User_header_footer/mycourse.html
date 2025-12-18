@@ -1,50 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
-    <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
-    <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
-    <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
-    <link rel="stylesheet" href="./css/header.css">
-    <link rel="stylesheet" href="./css/mycourse.css">
-</head>
+    <link rel="stylesheet" href="../Assets/CSS/Base/reset.css" />
+    <link rel="stylesheet" href="../Assets/CSS/Base/base.css" />
+    <link rel="stylesheet" href="../Assets/CSS/Base/card.css" />
+    <link rel="stylesheet" href="../Assets/CSS/Base/btn.css" />
+    <link rel="stylesheet" href="./css/header.css" />
+    <link rel="stylesheet" href="./css/mycourse.css" />
+  </head>
 
-<body>
+  <body>
     <app-header></app-header>
     <div class="mycourse-page">
-        <div class="My-courses">
-            <div class="courses-filter">
-                <div class="filter">
-                    <select name="level" id="level">
-                        <option value="all">Tất cả trình độ</option>
-                        <option value="toeic">TOEIC</option>
-                        <option value="ielts">IELTS</option>
-                        <option value="basic">Cơ bản</option>
-                        <option value="combo2">COMBO-2</option>
-                        <option value="combo4">COMBO-4</option>
-                    </select>
-                    <select name="sort" id="sort">
-                        <option value="newest">Mới nhất</option>
-                        <option value="oldest">Cũ nhất</option>
-                        <option value="az">A-Z</option>
-                        <option value="za">Z-A</option>
-                    </select>
-                </div>
-            </div>
-
-            <h2>Các khóa học/ Chương trình đã đăng ký</h2>
-
-            <div class="course-list"></div>
+      <div class="My-courses">
+        <div class="courses-filter">
+          <div class="filter">
+            <select name="level" id="level">
+              <option value="all">Tất cả trình độ</option>
+              <option value="toeic">TOEIC</option>
+              <option value="ielts">IELTS</option>
+              <option value="basic">Cơ bản</option>
+              <option value="combo2">COMBO-2</option>
+              <option value="combo4">COMBO-4</option>
+            </select>
+            <select name="sort" id="sort">
+              <option value="newest">Mới nhất</option>
+              <option value="oldest">Cũ nhất</option>
+              <option value="az">A-Z</option>
+              <option value="za">Z-A</option>
+            </select>
+          </div>
         </div>
+
+        <h2>Các khóa học/ Chương trình đã đăng ký</h2>
+
+        <div class="course-list"></div>
+      </div>
     </div>
+    <div id="main-footer"></div>
+    <script src="./js/footer.js"></script>
     <script type="module" src="./js/mycourse.js"></script>
     <script type="module" src="./js/header.js"></script>
-</body>
-
-
-
+  </body>
 </html>

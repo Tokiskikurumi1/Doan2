@@ -1,51 +1,75 @@
 <!DOCTYPE html>
 <html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shop</title>
+    <link rel="stylesheet" href="../Assets/CSS/Base/reset.css" />
+    <link rel="stylesheet" href="../Assets/CSS/Base/base.css" />
+    <link rel="stylesheet" href="../Assets/CSS/Base/card.css" />
+    <link rel="stylesheet" href="../Assets/CSS/Base/btn.css" />
+    <link rel="stylesheet" href="./css/header.css" />
+    <link rel="stylesheet" href="./css/shop.css" />
+  </head>
 
-  <link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
-  <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
-  <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
-  <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
-  <link rel="stylesheet" href="./css/header.css">
-  <link rel="stylesheet" href="./css/shop.css">
-</head>
+  <body>
+    <app-header></app-header>
 
-<body>
-  <app-header></app-header>
+    <div class="shop">
+      <div class="filter-content">
+        <div class="filter-group">
+          <h3>Trình độ</h3>
+          <label
+            ><input type="radio" name="course-type" value="TOEIC" />
+            TOEIC</label
+          >
+          <label
+            ><input type="radio" name="course-type" value="IELTS" />
+            IELTS</label
+          >
+          <label
+            ><input type="radio" name="course-type" value="Cơ bản" /> Cơ
+            bản</label
+          >
+          <label
+            ><input type="radio" name="course-type" value="COMBO-2" />
+            COMBO-2</label
+          >
+          <label
+            ><input type="radio" name="course-type" value="COMBO-4" />
+            COMBO-4</label
+          >
+        </div>
 
-  <div class="shop">
-    <div class="filter-content">
-      <div class="filter-group">
-        <h3>Trình độ</h3>
-        <label><input type="radio" name="course-type" value="TOEIC"> TOEIC</label>
-        <label><input type="radio" name="course-type" value="IELTS"> IELTS</label>
-        <label><input type="radio" name="course-type" value="Cơ bản"> Cơ bản</label>
-        <label><input type="radio" name="course-type" value="COMBO-2"> COMBO-2</label>
-        <label><input type="radio" name="course-type" value="COMBO-4"> COMBO-4</label>
+        <div class="filter-group">
+          <h3>Loại khóa học</h3>
+          <label
+            ><input type="radio" name="enroll-status" value="Đã đăng kí" /> Đã
+            đăng kí</label
+          >
+          <label
+            ><input
+              type="radio"
+              name="enroll-status"
+              value="Chưa đăng kí"
+              checked
+            />
+            Chưa đăng kí</label
+          >
+        </div>
       </div>
 
-      <div class="filter-group">
-        <h3>Loại khóa học</h3>
-        <label><input type="radio" name="enroll-status" value="Đã đăng kí"> Đã đăng kí</label>
-        <label><input type="radio" name="enroll-status" value="Chưa đăng kí" checked> Chưa đăng kí</label>
+      <div class="product-wrapper">
+        <div class="product"></div>
+
+        <div class="pagination" aria-label="Pagination"></div>
       </div>
     </div>
+    <div id="main-footer"></div>
 
-    <div class="product-wrapper">
-      <div class="product">
-      </div>
-
-      <div class="pagination" aria-label="Pagination">
-      </div>
-    </div>
-  </div>
-
-  <script type="module" src="./js/header.js"></script>
-  <script type="module" src="./js/shop.js"></script>
-</body>
-
+    <script src="./js/footer.js"></script>
+    <script type="module" src="./js/header.js"></script>
+    <script type="module" src="./js/shop.js"></script>
+  </body>
 </html>
