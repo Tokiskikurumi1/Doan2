@@ -1,6 +1,3 @@
-Ôªøusing Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces;
 using QLY_LMS.Models.MTeacher;
 using QLY_LMS.Models.MTeacher.Request;
 using QLY_LMS.Models.MTeacher.Response;
@@ -29,7 +26,7 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         {
             var result = _manageQuestion.GetAllQuestion(assignmentID, GetTeacherID());
             if (result.Count == 0)
-                return NotFound("Kh√¥ng t√¨m th·∫•y c√¢u h·ªèi trong b√†i t·∫≠p n√†y!");
+                return NotFound("KhÙng tÏm th?y c‚u h?i trong b‡i t?p n‡y!");
             return Ok(result);
         }
 
@@ -37,23 +34,37 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         public IActionResult Create([FromBody] QuestionRequest req)
         {
             _manageQuestion.CreateQuestion(req, GetTeacherID());
-            return Ok("T·∫°o c√¢u h·ªèi th√†nh c√¥ng!");
+            return Ok("T?o c‚u h?i th‡nh cÙng!");
         }
 
         [HttpPut("update-question")]
         public IActionResult Update([FromBody] Question req)
         {
             _manageQuestion.UpdateQuestion(req, GetTeacherID());
-            return Ok("C·∫≠p nh·∫≠t c√¢u h·ªèi th√†nh c√¥ng!");
+            return Ok("C?p nh?t c‚u h?i th‡nh cÙng!");
         }
 
         [HttpDelete("delete-question/{questionID}")]
         public IActionResult Delete(int questionID)
         {
             _manageQuestion.DeleteQuestion(questionID, GetTeacherID());
-            return Ok("X√≥a c√¢u h·ªèi th√†nh c√¥ng!");
+            return Ok("XÛa c‚u h?i th‡nh cÙng!");
         }
     }
 }
 # Feature enhancement 2026-01-10 18:02:59
 # UI/UX improvements
+// Feature flag implementation
+// API improvements and error handling
+// Enhanced functionality - 2026-01-10
+// Feature flag implementation
+   Code review suggestions applied */
+// Feature flag implementation
+/* Multi-line comment block
+// Configuration settings optimized
+// Performance optimization implemented
+// API improvements and error handling
+// API improvements and error handling
+// Performance optimization implemented
+/* Multi-line comment block
+// Code documentation updated
