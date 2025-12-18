@@ -1,5 +1,9 @@
-import { CourseManager } from "./object.js";
+import { CourseManager, UserManager } from "./object.js";
 
+// Lấy user hiện tại
+const currentUser = UserManager.getCurrentUserData();
+
+// Lấy toàn bộ khóa học
 let courses = Object.values(CourseManager.getAll()) || [];
 
 const productContainer = document.querySelector(".product");
@@ -8,15 +12,49 @@ const pagination = document.querySelector(".pagination");
 let currentPage = 1;
 const itemsPerPage = 8;
 
-let filteredCourses = courses;
+// Danh sách khóa học sau khi lọc
+let filteredCourses = [];
 
+// Kiểm tra user đã đăng ký khóa học chưa
+function isEnrolled(course) {
+  if (!currentUser) return false;
+  if (!course.students) return false;
+  return course.students.some(s => String(s.id) === String(currentUser.id));
+}
+
+// Lọc theo trạng thái đăng ký
+function filterByEnrollStatus(status) {
+  if (status === "Đã đăng kí") {
+    filteredCourses = courses.filter(c => isEnrolled(c));
+  } else if (status === "Chưa đăng kí") {
+    filteredCourses = courses.filter(c => !isEnrolled(c));
+  } else {
+    filteredCourses = courses;
+  }
+}
+
+// Lọc theo loại khóa học
+function filterByType(type) {
+  if (type === "all") return;
+
+  filteredCourses = filteredCourses.filter(c =>
+    (c.type || "").toLowerCase().includes(type.toLowerCase())
+  );
+}
+
+// Render danh sách khóa học
 function renderCourses(page) {
   productContainer.innerHTML = "";
 
   const start = (page - 1) * itemsPerPage;
   const end = start + itemsPerPage;
-
   const pageCourses = filteredCourses.slice(start, end);
+
+  if (pageCourses.length === 0) {
+    productContainer.innerHTML = `<p>Không tìm thấy khóa học phù hợp.</p>`;
+    pagination.innerHTML = "";
+    return;
+  }
 
   pageCourses.forEach(course => {
     const card = document.createElement("div");
@@ -36,7 +74,7 @@ function renderCourses(page) {
 
         <div class="product-card-item-price">
           <span class="price">${course.price} VND</span>
-          <button class="btn-detail btnwhite" data-id="${course.id}" >Xem chi tiết</button>
+          <button class="btn-detail btnwhite" data-id="${course.id}">Xem chi tiết</button>
         </div>
       </div>
     `;
@@ -46,7 +84,7 @@ function renderCourses(page) {
 
   renderPagination();
 
-  // Gắn sự kiện xem chi tiết
+  // Gắn sự kiện xem chi tiết khóa học
   document.querySelectorAll(".btn-detail").forEach(btn => {
     btn.addEventListener("click", e => {
       const id = e.target.dataset.id;
@@ -56,13 +94,13 @@ function renderCourses(page) {
   });
 }
 
-
+// Render phân trang
 function renderPagination() {
   pagination.innerHTML = "";
 
   const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
+  if (totalPages <= 1) return;
 
-  // Prev
   const prevBtn = document.createElement("button");
   prevBtn.textContent = "Prev";
   prevBtn.disabled = currentPage === 1;
@@ -74,7 +112,6 @@ function renderPagination() {
   };
   pagination.appendChild(prevBtn);
 
-  // Các nút số trang
   for (let i = 1; i <= totalPages; i++) {
     const pageBtn = document.createElement("button");
     pageBtn.textContent = i;
@@ -88,6 +125,7 @@ function renderPagination() {
 
     pagination.appendChild(pageBtn);
   }
+
   const nextBtn = document.createElement("button");
   nextBtn.textContent = "Next";
   nextBtn.disabled = currentPage === totalPages;
@@ -99,22 +137,39 @@ function renderPagination() {
   };
   pagination.appendChild(nextBtn);
 }
-function applyFilter(type) {
-  if (type === "all") {
-    filteredCourses = courses;
-  } else {
-    filteredCourses = courses.filter(c =>
-      c.type.toLowerCase().includes(type.toLowerCase())
-    );
-  }
-  currentPage = 1;
-  renderCourses(currentPage);
-}
 
-document.querySelectorAll('input[name="level"]').forEach(radio => {
+// Gắn sự kiện lọc theo loại khóa học
+document.querySelectorAll('input[name="course-type"]').forEach(radio => {
   radio.addEventListener("change", () => {
-    const selectedText = radio.parentElement.textContent.trim();
-    applyFilter(selectedText);
+    const type = radio.value; // lấy từ value: TOEIC, IELTS,...
+
+    const statusRadio = document.querySelector('input[name="enroll-status"]:checked');
+    const status = statusRadio ? statusRadio.value : "Chưa đăng kí";
+
+    filterByEnrollStatus(status);
+    filterByType(type);
+
+    currentPage = 1;
+    renderCourses(currentPage);
   });
 });
+
+// Gắn sự kiện lọc theo trạng thái đăng ký
+document.querySelectorAll('input[name="enroll-status"]').forEach(radio => {
+  radio.addEventListener("change", () => {
+    const status = radio.value; // Đã đăng kí / Chưa đăng kí
+
+    const typeRadio = document.querySelector('input[name="course-type"]:checked');
+    const type = typeRadio ? typeRadio.value : "all";
+
+    filterByEnrollStatus(status);
+    filterByType(type);
+
+    currentPage = 1;
+    renderCourses(currentPage);
+  });
+});
+
+// Khởi tạo mặc định: hiển thị khóa học chưa đăng ký
+filterByEnrollStatus("Chưa đăng kí");
 renderCourses(currentPage);

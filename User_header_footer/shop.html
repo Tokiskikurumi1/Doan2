@@ -5,58 +5,47 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shop</title>
+
   <link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
   <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
   <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
   <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
   <link rel="stylesheet" href="./css/header.css">
-  <script type="module" src="./js/header.js"></script>
-  <app-header></app-header>
   <link rel="stylesheet" href="./css/shop.css">
 </head>
 
 <body>
+  <app-header></app-header>
+
   <div class="shop">
     <div class="filter-content">
       <div class="filter-group">
         <h3>Trình độ</h3>
-        <label><input type="radio" name="level" value="level-easy"> TOEIC</label>
-        <label><input type="radio" name="level" value="level-medium"> IELST</label>
-        <label><input type="radio" name="level" value="level-hard"> Cơ bản</label>
-        <label><input type="radio" name="level" value="level-hard"> COMBO-2</label>
-        <label><input type="radio" name="level" value="level-hard"> COMBO-4</label>
+        <label><input type="radio" name="course-type" value="TOEIC"> TOEIC</label>
+        <label><input type="radio" name="course-type" value="IELTS"> IELTS</label>
+        <label><input type="radio" name="course-type" value="Cơ bản"> Cơ bản</label>
+        <label><input type="radio" name="course-type" value="COMBO-2"> COMBO-2</label>
+        <label><input type="radio" name="course-type" value="COMBO-4"> COMBO-4</label>
+      </div>
+
+      <div class="filter-group">
+        <h3>Loại khóa học</h3>
+        <label><input type="radio" name="enroll-status" value="Đã đăng kí"> Đã đăng kí</label>
+        <label><input type="radio" name="enroll-status" value="Chưa đăng kí" checked> Chưa đăng kí</label>
       </div>
     </div>
 
-    <div class="product">
-      <div class="product-card">
-        <div class="product-card-item">
-          <div class="product-card-item-img"></div>
-          <h3>Tên sản phẩm</h3>
-          <span>Tên tác giả</span>
-          <span>Loại</span>
-          <div class="product-card-item-price">
-            <span class="price">250.000 VND</span>
-            <button class="btnwhite">Xem chi tiết</button>
-          </div>
-        </div>
+    <div class="product-wrapper">
+      <div class="product">
       </div>
 
-      <img src="" alt="">
-
       <div class="pagination" aria-label="Pagination">
-        <button id="prevPage">Prev</button>
-        <button class="active" aria-current="page">1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>...</button>
-        <button>cuối</button>
-        <button id="nextPage">Next</button>
       </div>
     </div>
   </div>
-</body>
 
-<script type="module" src="./js/shop.js"></script>
+  <script type="module" src="./js/header.js"></script>
+  <script type="module" src="./js/shop.js"></script>
+</body>
 
 </html>
