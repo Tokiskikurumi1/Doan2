@@ -17,7 +17,7 @@ imgEl.style.backgroundPosition = "center";
 
 //KHI DỮ LIỆU VÀO HTML
 
-document.querySelector(".title").textContent = course.name || "Không có tên";
+document.querySelector(".title").textContent = "Khóa học: " + (course.name || "Không có tên");
 document.querySelector(".price").textContent = (course.price || 0) + " VND";
 document.querySelector(".info-description p").textContent = course.detail || "Chưa có mô tả";
 document.querySelector(".info-instructor .name").textContent = course.teacherName || "Không rõ";
@@ -47,7 +47,7 @@ if (Array.isArray(course.videos) && course.videos.length > 0) {
 
 // NÚT THANH TOÁN
 
-document.getElementById("btnwhite").addEventListener("click", () => {
+document.getElementById("btnbuy").addEventListener("click", () => {
   localStorage.setItem("paymentPrice", course.price);
   window.location.href = "./payment.html";
 });

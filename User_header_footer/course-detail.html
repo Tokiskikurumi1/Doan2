@@ -4,89 +4,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./css/course-detail.css" />
+
   <title>Chi tiết khóa học</title>
   <link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
   <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
   <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
   <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
   <link rel="stylesheet" href="./css/header.css">
-  <script type="module" src="./js/header.js"></script>
-
+  <link rel="stylesheet" href="./css/course-detail.css" />
+  
 </head>
 
 <body>
-
   <app-header></app-header>
+  <div class="main">
+    <h2 class="title">Tên</h2>
+    <div class="course">
+      <div class="img-stats">
+        <div class="img"></div>
 
-  <h2 class="title">Tên</h2>
-  <div class="course">
-    <div class="img-stats">
-      <div class="img"></div>
-
-      <div class="stats">
-        <div class="stats-rating">
-          <span class="rating">0.0</span>
-          <span class="star">★</span>
-          <span class="reviews">(0 đánh giá)</span>
+        <div class="stats">
+          <div class="stats-rating">
+            <span class="rating">0.0</span>
+            <span class="star">★</span>
+            <span class="reviews">(0 đánh giá)</span>
+          </div>
+          <div class="stats-students">
+            <span class="students">0</span> học viên
+          </div>
         </div>
-        <div class="stats-students">
-          <span class="students">0</span> học viên
+      </div>
+      <div class="info">
+        <div class="info-price">
+          <div class="info-price-details">
+            <span class="price">700.000đ</span>
+            <span>Thanh toán một lần</span>
+          </div>
+          <button class="btnwhite" id="btnbuy">Thanh Toán</button>
+        </div>
+        <div class="info-description">
+          <h3>Mô tả</h3>
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+            Consequatur incidunt ratione, optio, id quos adipisci sunt
+            reiciendis qui explicabo soluta similique iusto dicta officia
+            perferendis nemo ducimus in, eos asperiores!
+          </p>
+        </div>
+        <div class="info-course">
+          <div class="info-instructor">
+            <h3>Giảng viên</h3>
+            <p class="name">Tên</p>
+          </div>
+          <div class="info-level">
+            <h3>Trình độ</h3>
+            <p class="level">Tất cả</p>
+          </div>
+          <div class="info-duration">
+            <h3>Thời lượng</h3>
+            <p class="time">Giờ</p>
+          </div>
         </div>
       </div>
     </div>
-    <div class="info">
-      <div class="info-price">
-        <div class="info-price-details">
-          <span class="price">700.000đ</span>
-          <span>Thanh toán một lần</span>
+    <div class="info-curriculum">
+      <h3>Các bài giảng</h3>
+      <div id="video-container">
+        <div class="lecture-item">
+          <span class="lecture-index">1.</span>
+          <span class="lecture-title">Giới thiệu khóa học</span>
         </div>
-        <button id="btnwhite">Thanh Toán</button>
-      </div>
-      <div class="info-description">
-        <h3>Mô tả</h3>
-        <p>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-          Consequatur incidunt ratione, optio, id quos adipisci sunt
-          reiciendis qui explicabo soluta similique iusto dicta officia
-          perferendis nemo ducimus in, eos asperiores!
-        </p>
-        <!-- <h3>Lợi ích</h3>
-          <ul class="info-features">
-            <li>Truy cập trọn đời</li>
-            <li>Chứng chỉ hoàn thành</li>
-            <li>Tài nguyên có thể tải xuống</li>
-            <li>Hỗ trợ Hỏi & Đáp</li>
-          </ul> -->
-      </div>
-      <div class="info-course">
-        <div class="info-instructor">
-          <h3>Giảng viên</h3>
-          <p class="name">Tên</p>
-        </div>
-        <div class="info-level">
-          <h3>Trình độ</h3>
-          <p class="level">Tất cả</p>
-        </div>
-        <div class="info-duration">
-          <h3>Thời lượng</h3>
-          <p class="time">Giờ</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="info-curriculum">
-    <h3>Các bài giảng</h3>
-    <div id="video-container">
-      <div class="lecture-item">
-        <span class="lecture-index">1.</span>
-        <span class="lecture-title">Giới thiệu khóa học</span>
       </div>
     </div>
   </div>
   <div id="main-footer"></div>
   <script src="./js/footer.js"></script>
   <script type="module" src="./js/course-detail.JS"></script>
+  <script type="module" src="./js/header.js"></script>
 </body>
 
 </html>

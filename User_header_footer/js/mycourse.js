@@ -1,31 +1,31 @@
 import { UserManager, CourseManager } from "./object.js";
-
-//LẤY USER HIỆN TẠI
-
+// LẤY USER HIỆN TẠI
 const currentUser = UserManager.getCurrentUserData();
 const courseListEl = document.querySelector(".mycourse-page .course-list");
 
-// Nếu chưa đăng nhập
 if (!currentUser) {
     courseListEl.innerHTML = "<p>Bạn cần đăng nhập để xem khóa học.</p>";
     throw new Error("User not logged in");
 }
 
-
-//LẤY DANH SÁCH KHÓA HỌC
-
-// Lấy courses từ CourseManager
+// LẤY DANH SÁCH KHÓA HỌC
 const courses = Object.values(CourseManager.getAll()) || [];
 
-// Lọc ra khóa học mà user đã mua
+// Lọc khóa học mà user đã mua
 let myCourses = courses.filter(course =>
     Array.isArray(course.students) &&
     course.students.some(s => s.id === currentUser.id)
 );
 
+// TÍNH TIẾN ĐỘ KHÓA HỌC
+function getCourseProgress(course) {
+    if (!Array.isArray(course.videos) || course.videos.length === 0) return 0;
 
-//RENDER KHÓA HỌC
+    const done = course.videos.filter(v => v.status === "Hoàn thành").length;
+    return Math.round((done / course.videos.length) * 100);
+}
 
+// RENDER KHÓA HỌC (UI MỚI)
 function renderCourses(list) {
     courseListEl.innerHTML = "";
 
@@ -35,26 +35,39 @@ function renderCourses(list) {
     }
 
     list.forEach(course => {
+        const progress = getCourseProgress(course);
+
         const item = document.createElement("div");
-        item.className = "course-item";
+        item.className = "course-card";
 
         item.innerHTML = `
-            <div class="course-item-img" 
-                 style="background-image: url('${course.image || "./img/course.png"}')">
+            <div class="course-thumb" 
+                 style="background-image: url('${course.image || "../img/image_course/imagecourse.png"}')">
             </div>
 
-            <div class="course-item-info">
-                <h3>${course.name}</h3>
-                <span>${course.detail || "Không có mô tả"}</span>
-                <button data-id="${course.id}">Bắt đầu học</button>
+            <div class="course-content">
+                <h3 class="course-title">Khóa học: ${course.name}</h3>
+                <p class="course-author">Giảng viên: ${course.teacherName}</p>
+
+
+                <div class="progress-box">
+                    <div class="progress-label">Tiến độ: ${progress}%</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${progress}%"></div>
+                    </div>
+                </div>
+
+                <div class="course-footer">
+                    <span class="course-status">Đang học</span>
+                    <button class="btn-start btnwhite" data-id="${course.id}">Tiếp tục</button>
+                </div>
             </div>
         `;
-
         courseListEl.appendChild(item);
     });
 
-    // Sự kiện nút Bắt đầu học
-    document.querySelectorAll(".course-item button").forEach(btn => {
+    // Sự kiện nút Tiếp tục
+    document.querySelectorAll(".btn-start").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = btn.getAttribute("data-id");
             localStorage.setItem("selectedCourseId", id);
@@ -63,13 +76,10 @@ function renderCourses(list) {
     });
 }
 
-
-//RENDER LẦN ĐẦU
-
+// RENDER LẦN ĐẦU
 renderCourses(myCourses);
 
-
-//LỌC & SẮP XẾP 
+// LỌC & SẮP XẾP
 const levelSelect = document.querySelector(".mycourse-page #level");
 const sortSelect = document.querySelector(".mycourse-page #sort");
 

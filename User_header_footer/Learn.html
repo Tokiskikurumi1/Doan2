@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Khóa học</title>
-    <link rel="stylesheet" href="./css/learn.css">
-<link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
+    
+    <link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
     <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
     <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
     <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
     <link rel="stylesheet" href="./css/header.css">
-    <script type="module" src="./js/header.js"></script>
+    <link rel="stylesheet" href="./css/learn.css">
     <app-header></app-header>
 
 </head>
@@ -21,7 +21,7 @@
     <app-header></app-header>
 
     <div class="main-content">
-        
+
         <div class="sidebar">
             <h2>Danh sách bài học</h2>
         </div>
@@ -45,14 +45,16 @@
             <div class="courses-info-description">
                 <div class="courses-info-description-video">
 
-                    <iframe id="video-frame" src="" allowfullscreen></iframe>
+                    <div class="video-wrapper">
+                        <iframe id="video-frame" src="" allowfullscreen></iframe>
+                    </div>
 
-                    <h3>Description:</h3>
+                    <h3>Mô tả:</h3>
                     <p id="lesson-description">Chọn bài học để xem nội dung.</p>
 
                     <div class="btn">
-                        <button id="prevLessonBtn">Bài học trước</button>
-                        <button id="nextLessonBtn">Bài học sau</button>
+                        <button id="prevLessonBtn" class="btnconfirm">Bài học trước</button>
+                        <button id="nextLessonBtn" class="btnconfirm">Bài học sau</button>
                     </div>
 
                     <div class="comment-section">
@@ -72,13 +74,10 @@
         </div>
     </div>
 
-    
+
 
     <script type="module" src="./js/learn.js"></script>
-     <script>
-
-
-</script>
+    <script type="module" src="./js/header.js"></script>
 </body>
 
 </html>

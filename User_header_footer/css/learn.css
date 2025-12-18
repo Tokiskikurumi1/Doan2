@@ -1,3 +1,22 @@
+h3{
+    margin-bottom: 20px;
+    color: #222;
+    font-weight: 600;
+    font-size: larger;
+}
+
+p{
+    margin-top: 6px;
+    margin-bottom: 6px;
+    white-space: pre-line;
+    line-height: 1.2rem;
+    color: #555;
+}
+span{
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 6px;
+}
 
 
 body {
@@ -15,7 +34,6 @@ body {
 }
 
 /* Sidebar */
-
 .sidebar {
     width: 280px;
     background: #ffffff;
@@ -151,14 +169,6 @@ body {
     font-weight: bold;
 }
 
-iframe {
-    width: 100%;
-    height: 380px;
-    border-radius: 8px;
-    border: none;
-    background: #000;
-}
-
 /* comment */
 .comment-section {
     margin-top: 20px;
@@ -212,7 +222,9 @@ iframe {
 
 .comment-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .comment-time {
@@ -238,8 +250,37 @@ iframe {
     background: #ffc107;
     color: black;
 }
+/* video wallpaper */
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 tỉ lệ */
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    margin-bottom: 20px;
+}
 
+/* ifame */
+.video-wrapper iframe {
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 12px;
+}
 
+.btn{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 30px;
+    margin-top: 20px;
+}
 
 @media (max-width: 900px) {
     .main-content {

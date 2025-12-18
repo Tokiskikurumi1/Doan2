@@ -1,6 +1,8 @@
 import { UserManager, CourseManager, Comment, CommentManager } from "./object.js";
 
-//LẤY USER HIỆN TẠI
+// =========================
+// 1. LẤY USER HIỆN TẠI
+// =========================
 
 const currentUser = UserManager.getCurrentUserData();
 if (!currentUser) {
@@ -8,7 +10,9 @@ if (!currentUser) {
     throw new Error("Not logged in");
 }
 
-//LẤY KHÓA HỌC
+// =========================
+// 2. LẤY KHÓA HỌC HIỆN TẠI
+// =========================
 
 const courseId = localStorage.getItem("selectedCourseId");
 const courses = CourseManager.getAll();
@@ -19,9 +23,11 @@ if (!course) {
     throw new Error("Course not found");
 }
 
-//KIỂM TRA ĐÃ MUA CHƯA
+// =========================
+// 3. KIỂM TRA ĐÃ ĐĂNG KÝ KHÓA HỌC
+// =========================
 
-if (!course.students || !course.students.some(s => s.id === currentUser.id)) {
+if (!course.students || !course.students.some(s => String(s.id) === String(currentUser.id))) {
     document.body.innerHTML = `
         <div style="padding:40px; text-align:center; font-size:20px;">
             <h2>Bạn chưa đăng ký khóa học này</h2>
@@ -31,8 +37,9 @@ if (!course.students || !course.students.some(s => s.id === currentUser.id)) {
     throw new Error("Not enrolled");
 }
 
-
-//DOM ELEMENTS
+// =========================
+// 4. DOM ELEMENTS
+// =========================
 
 const sidebar = document.querySelector(".sidebar");
 const videoFrame = document.getElementById("video-frame");
@@ -45,10 +52,13 @@ const commentList = document.getElementById("comment-list");
 
 let currentVideoId = null;
 
-
-//CHUYỂN LINK YOUTUBE
+// =========================
+// 5. HÀM CHUYỂN LINK YOUTUBE
+// =========================
 
 function convertToEmbed(url) {
+    if (!url) return "";
+
     if (url.includes("youtu.be")) {
         const id = url.split("youtu.be/")[1].split("?")[0];
         return `https://www.youtube.com/embed/${id}`;
@@ -62,15 +72,22 @@ function convertToEmbed(url) {
     return url;
 }
 
-
-//TẠO SIDEBAR
+// =========================
+// 6. TẠO SIDEBAR DANH SÁCH BÀI HỌC + BÀI TẬP
+// =========================
 
 function renderSidebar() {
     sidebar.innerHTML = `<h2>Danh sách bài học</h2>`;
 
+    if (!Array.isArray(course.videos) || course.videos.length === 0) {
+        sidebar.innerHTML += `<p>Chưa có video nào trong khóa học.</p>`;
+        return;
+    }
+
     course.videos.forEach(video => {
         const totalAssignments = video.assignments?.length || 0;
 
+        // Item bài học
         sidebar.innerHTML += `
             <div class="lesson-item" data-video="${video.id}">
                 <div class="lesson-title">
@@ -81,6 +98,7 @@ function renderSidebar() {
             </div>
         `;
 
+        // Danh sách bài tập
         let exercisesHtml = "";
 
         if (video.assignments?.length > 0) {
@@ -103,32 +121,39 @@ function renderSidebar() {
     });
 }
 
-
-
-//LOAD VIDEO
+// =========================
+// 7. LOAD VIDEO THEO ID
+// =========================
 
 function loadVideo(videoId) {
-    const video = course.videos.find(v => v.id == videoId);
+    const video = course.videos.find(v => String(v.id) === String(videoId));
     if (!video) return;
 
     currentVideoId = String(videoId);
 
     videoFrame.src = convertToEmbed(video.url);
-    lessonTitleEl.textContent = video.title;
+    lessonTitleEl.textContent = video.title || "Bài học";
     lessonDescEl.textContent = video.description || course.detail || "Không có mô tả";
 
-    document.querySelectorAll(".exercise-list").forEach(el => el.style.display = "none");
-    document.getElementById("video-" + videoId).style.display = "block";
+    // Ẩn toàn bộ danh sách bài tập, chỉ hiện bài tập của video hiện tại
+    document.querySelectorAll(".exercise-list").forEach(el => {
+        el.style.display = "none";
+    });
+    const currentExerciseList = document.getElementById("video-" + videoId);
+    if (currentExerciseList) currentExerciseList.style.display = "block";
 
+    // Load comment
     loadComments(videoId);
 
+    // Đổi trạng thái active cho bài học
     document.querySelectorAll(".lesson-item").forEach(item => {
         item.classList.toggle("active", item.getAttribute("data-video") == videoId);
     });
 }
 
-
-//CLICK BÀI HỌC
+// =========================
+// 8. CLICK BÀI HỌC
+// =========================
 
 function setupLessonClick() {
     document.querySelectorAll(".lesson-item").forEach(item => {
@@ -139,44 +164,68 @@ function setupLessonClick() {
     });
 }
 
-
-//CLICK BÀI TẬP
+// =========================
+// 9. CLICK BÀI TẬP (LÀM BÀI → QUIZZ)
+// =========================
 
 document.addEventListener("click", e => {
     if (e.target.classList.contains("exercise-btn")) {
         const id = e.target.getAttribute("data-assignment");
+        if (!id) return;
 
-        const video = course.videos.find(v => v.assignments.some(a => a.id == id));
-        const assignment = video.assignments.find(a => a.id == id);
+        const video = course.videos.find(v =>
+            Array.isArray(v.assignments) && v.assignments.some(a => String(a.id) === String(id))
+        );
+        if (!video) {
+            alert("Không tìm thấy video chứa bài tập này.");
+            return;
+        }
 
-        alert("Đi đến bài tập: " + assignment.title);
+        const assignment = video.assignments.find(a => String(a.id) === String(id));
+        if (!assignment) {
+            alert("Không tìm thấy bài tập.");
+            return;
+        }
+
+        // LƯU ID BÀI TẬP ĐỂ QUIZZ.JS LẤY
+        localStorage.setItem("doingAssignmentId", assignment.id);
+
+        // CHUYỂN SANG TRANG QUIZZ
+        window.location.href = "quizz.html";
     }
 });
 
-
-//LOAD COMMENT
+// =========================
+// 10. LOAD COMMENT THEO VIDEO
+// =========================
 
 function loadComments(videoId) {
     commentList.innerHTML = "";
 
     const list = CommentManager.getByVideo(videoId);
 
+    if (!Array.isArray(list) || list.length === 0) {
+        commentList.innerHTML = `<p>Chưa có bình luận nào. Hãy là người đầu tiên bình luận!</p>`;
+        return;
+    }
+
     list.forEach(c => {
-        const isOwner = c.userId === currentUser.id;
+        const isOwner = String(c.userId) === String(currentUser.id);
 
         const item = document.createElement("div");
         item.classList.add("comment-item");
 
         item.innerHTML = `
             <div class="comment-avatar">
-                <img src="${c.avatar}" alt="avatar">
+                <img src="${c.avatar || "./img/img_GUI/user.png"}" alt="avatar">
             </div>
 
             <div class="comment-content">
-                <strong>${c.name}</strong>
-                <p>${c.text}</p>
-                <span class="comment-time">${c.time}</span>
-
+                <div class="comment-text">
+                    <strong>${c.name}</strong>
+                    <p>${c.text}</p>
+                    <span class="comment-time">${c.time}</span>
+                </div>
                 <div class="comment-actions">
                     ${
                         isOwner
@@ -191,12 +240,15 @@ function loadComments(videoId) {
     });
 }
 
-
-//XÓA / BÁO CÁO COMMENT
+// =========================
+// 11. XÓA / BÁO CÁO COMMENT
+// =========================
 
 document.addEventListener("click", e => {
     if (e.target.classList.contains("delete-comment")) {
         const id = Number(e.target.getAttribute("data-id"));
+        if (!currentVideoId) return;
+
         CommentManager.deleteComment(currentVideoId, id);
         loadComments(currentVideoId);
     }
@@ -206,37 +258,41 @@ document.addEventListener("click", e => {
     }
 });
 
+// =========================
+// 12. THÊM COMMENT MỚI
+// =========================
 
-//THÊM COMMENT
+if (commentSubmit) {
+    commentSubmit.addEventListener("click", () => {
+        const text = commentInput.value.trim();
+        if (!text) return alert("Vui lòng nhập bình luận");
 
-commentSubmit.addEventListener("click", () => {
-    const text = commentInput.value.trim();
-    if (!text) return alert("Vui lòng nhập bình luận");
+        if (!currentVideoId) return alert("Hãy chọn bài học trước");
 
-    if (!currentVideoId) return alert("Hãy chọn bài học trước");
+        const newComment = new Comment({
+            videoId: currentVideoId,
+            userId: currentUser.id,
+            name: currentUser.yourname,
+            avatar: currentUser.avatar || "./img/img_GUI/user.png",
+            text
+        });
 
-    const newComment = new Comment({
-        videoId: currentVideoId,
-        userId: currentUser.id,
-        name: currentUser.yourname,
-        avatar: currentUser.avatar || "./img/img_GUI/user.png",
-        text
+        CommentManager.addComment(newComment);
+
+        commentInput.value = "";
+        loadComments(currentVideoId);
     });
+}
 
-    CommentManager.addComment(newComment);
-
-    commentInput.value = "";
-    loadComments(currentVideoId);
-});
-
-
-// KHỞI CHẠY
+// =========================
+// 13. KHỞI CHẠY
+// =========================
 
 function init() {
     renderSidebar();
     setupLessonClick();
 
-    if (course.videos.length > 0) {
+    if (Array.isArray(course.videos) && course.videos.length > 0) {
         loadVideo(course.videos[0].id);
     }
 }

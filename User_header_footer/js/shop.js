@@ -36,7 +36,7 @@ function renderCourses(page) {
 
         <div class="product-card-item-price">
           <span class="price">${course.price} VND</span>
-          <button class="btn-detail" data-id="${course.id}" id="btnblue">Xem chi tiết</button>
+          <button class="btn-detail btnwhite" data-id="${course.id}" >Xem chi tiết</button>
         </div>
       </div>
     `;

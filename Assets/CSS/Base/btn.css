@@ -1,4 +1,4 @@
-#btnconfirm {
+.btnconfirm {
     background-color: #0BDA51;
     border: none;
     color: white;
@@ -7,16 +7,14 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    
     cursor: pointer;
     border-radius: 6px;
 }
-#btnconfirm:hover {
+.btnconfirm:hover {
   background-color: #32CD32;
 }
 
-
-#btnwhite {
+.btnwhite {
   background-color: white;
   color: #6a4de9;
   border: 2px solid #6a4de9;
@@ -25,13 +23,13 @@
   padding: 10px 20px;
   cursor: pointer;
 }
-#btnwhite:hover {
+.btnwhite:hover {
   background: linear-gradient(45deg, #6a4de9, #6a4de9);
   color: white;
   transform: translateY(-2px);
 }
 
-#btnblue {
+.btnblue {
     background-color: var(--blue-);
     border: none;
     color: white;
@@ -44,8 +42,6 @@
     cursor: pointer;
     border-radius: 6px;
 }
-#btnblue:hover {
+.btnblue:hover {
   background: linear-gradient(45deg, #6a4de9, #6a4de9);
 }
-
-
