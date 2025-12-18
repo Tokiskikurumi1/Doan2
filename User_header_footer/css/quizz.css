@@ -55,6 +55,7 @@ body {
 
 /*MENU CÂU HỎI TRƯỢT XUỐNG */
 .question-menu-top {
+  margin-top: 60px;
   position: fixed;
   top: 70px;
   left: 0;
@@ -66,9 +67,18 @@ body {
   display: none;
   z-index: 999;
 }
+.q-btn.answered {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+
 
 .question-menu-top.show {
-  display: block;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+
 }
 
 /*Lưới câu hỏi */
@@ -80,6 +90,7 @@ body {
 
 .q-btn {
   height: 45px;
+  width: 45px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
   background: #f9fafb;

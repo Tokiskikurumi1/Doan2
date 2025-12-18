@@ -1,7 +1,9 @@
+<!-- header.html -->
 <div class="header">
   <a href="./home.html" class="header-logo">
     <h1>K-ENGLISH</h1>
   </a>
+
   <div class="header-nav-center">
     <ul>
       <li><a href="./mycourse.html">KHÓA HỌC</a></li>
@@ -11,7 +13,9 @@
       <li><a href="./about.html">GIỚI THIỆU</a></li>
     </ul>
   </div>
+
   <div class="header-nav-right">
+    <!-- Search -->
     <div class="header-search">
       <div class="header-search-box" id="searchBox">
         <input type="text" placeholder="Tìm kiếm..." />
@@ -26,6 +30,7 @@
       </div>
     </div>
 
+    <!-- Notification -->
     <div class="header-notification">
       <div class="header-notification-container" id="notificationContainer">
         <div class="header-notification-icon">
@@ -41,6 +46,7 @@
       </div>
     </div>
 
+    <!-- Messenger Icon -->
     <div class="header-message">
       <div class="header-message-icon">
         <img src="./img/img_GUI/messenger.png" />
@@ -48,6 +54,7 @@
       <div class="header-notification-count"></div>
     </div>
 
+    <!-- User -->
     <div class="header-user">
       <div class="header-user-container" id="userContainer">
         <div class="header-user-icon">
@@ -68,6 +75,8 @@
         </div>
       </div>
     </div>
+
+    <!-- Burger menu -->
     <div class="burger-toggle" id="burgerToggle">
       <i class="fas fa-bars"></i>
     </div>
@@ -79,5 +88,42 @@
         <li><a href="./shop.html">CỬA HÀNG</a></li>
       </ul>
     </nav>
+  </div>
+</div>
+<div class="messenger-container" id="messengerContainer">
+  <div class="messenger-sidebar">
+    <div class="sidebar-header">Tin nhắn</div>
+
+    <div class="chat-list">
+      <div class="chat-item" data-chat="user1">
+        <img src="./img/img_GUI/user.png" class="chat-avatar" />
+        <div class="chat-info">
+          <p class="chat-name">Nguyễn Minh</p>
+          <p class="chat-last">Bạn: Chào bạn!</p>
+        </div>
+      </div>
+
+      <div class="chat-item" data-chat="group1">
+        <img src="./img/img_GUI/group.png" class="chat-avatar" />
+        <div class="chat-info">
+          <p class="chat-name">Nhóm Speaking A2</p>
+          <p class="chat-last">Hà: Mai học nhé!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="messenger-chat">
+    <div class="chat-header">
+      <p id="chatTitle">Chọn cuộc trò chuyện</p>
+      <span id="closeMessenger" class="close-btn">×</span>
+    </div>
+
+    <div class="chat-body" id="chatBody">
+    </div>
+
+    <div class="chat-footer">
+      <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." />
+      <button id="sendChatBtn">Gửi</button>
+    </div>
   </div>
 </div>

@@ -365,6 +365,136 @@
   font-weight: bold;
   font-size: 1rem;
 }
+.messenger-container {
+  position: fixed;
+  bottom: 0;
+  right: 20px;
+  width: 700px;
+  height: 500px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  display: flex;
+  overflow: hidden;
+  display: none;
+  z-index: 9999;
+}
+
+/* Sidebar */
+.messenger-sidebar {
+  width: 35%;
+  background: #f3f3f3;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  height: 65px;
+  padding: 15px;
+  font-weight: bold;
+  background: #007bff;
+  color: #fff;
+}
+
+.chat-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.chat-item {
+  display: flex;
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+}
+
+.chat-item:hover {
+  background: #e6e6e6;
+}
+
+.chat-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.chat-info p {
+  margin: 0;
+}
+
+/* Chat window */
+.messenger-chat {
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 65px;
+  padding: 15px;
+  background: #007bff;
+  color: #fff;
+  font-weight: bold;
+}
+.chat-header span {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  font-size: larger;
+  cursor: pointer;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background: #fafafa;
+}
+
+.message {
+  max-width: 70%;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+}
+
+.message.user {
+  background: #007bff;
+  color: #fff;
+  margin-left: auto;
+}
+
+.message.other {
+  background: #e0e0e0;
+}
+
+/* Footer */
+.chat-footer {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.chat-footer input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.chat-footer button {
+  margin-left: 10px;
+  padding: 10px 15px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+}
 
 /* Responsive hiển thị burger */
 @media (max-width: 768px) {

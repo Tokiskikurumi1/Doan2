@@ -1,8 +1,5 @@
 import { UserManager, CourseManager, Comment, CommentManager } from "./object.js";
 
-// =========================
-// 1. LẤY USER HIỆN TẠI
-// =========================
 
 const currentUser = UserManager.getCurrentUserData();
 if (!currentUser) {
@@ -10,9 +7,6 @@ if (!currentUser) {
     throw new Error("Not logged in");
 }
 
-// =========================
-// 2. LẤY KHÓA HỌC HIỆN TẠI
-// =========================
 
 const courseId = localStorage.getItem("selectedCourseId");
 const courses = CourseManager.getAll();
@@ -22,10 +16,6 @@ if (!course) {
     document.body.innerHTML = "<h2>Không tìm thấy khóa học.</h2>";
     throw new Error("Course not found");
 }
-
-// =========================
-// 3. KIỂM TRA ĐÃ ĐĂNG KÝ KHÓA HỌC
-// =========================
 
 if (!course.students || !course.students.some(s => String(s.id) === String(currentUser.id))) {
     document.body.innerHTML = `
@@ -37,9 +27,6 @@ if (!course.students || !course.students.some(s => String(s.id) === String(curre
     throw new Error("Not enrolled");
 }
 
-// =========================
-// 4. DOM ELEMENTS
-// =========================
 
 const sidebar = document.querySelector(".sidebar");
 const videoFrame = document.getElementById("video-frame");
@@ -52,9 +39,7 @@ const commentList = document.getElementById("comment-list");
 
 let currentVideoId = null;
 
-// =========================
-// 5. HÀM CHUYỂN LINK YOUTUBE
-// =========================
+
 
 function convertToEmbed(url) {
     if (!url) return "";
@@ -72,9 +57,6 @@ function convertToEmbed(url) {
     return url;
 }
 
-// =========================
-// 6. TẠO SIDEBAR DANH SÁCH BÀI HỌC + BÀI TẬP
-// =========================
 
 function renderSidebar() {
     sidebar.innerHTML = `<h2>Danh sách bài học</h2>`;
@@ -121,9 +103,7 @@ function renderSidebar() {
     });
 }
 
-// =========================
-// 7. LOAD VIDEO THEO ID
-// =========================
+
 
 function loadVideo(videoId) {
     const video = course.videos.find(v => String(v.id) === String(videoId));
@@ -151,9 +131,7 @@ function loadVideo(videoId) {
     });
 }
 
-// =========================
-// 8. CLICK BÀI HỌC
-// =========================
+
 
 function setupLessonClick() {
     document.querySelectorAll(".lesson-item").forEach(item => {
@@ -164,9 +142,6 @@ function setupLessonClick() {
     });
 }
 
-// =========================
-// 9. CLICK BÀI TẬP (LÀM BÀI → QUIZZ)
-// =========================
 
 document.addEventListener("click", e => {
     if (e.target.classList.contains("exercise-btn")) {
@@ -195,9 +170,6 @@ document.addEventListener("click", e => {
     }
 });
 
-// =========================
-// 10. LOAD COMMENT THEO VIDEO
-// =========================
 
 function loadComments(videoId) {
     commentList.innerHTML = "";
@@ -240,9 +212,6 @@ function loadComments(videoId) {
     });
 }
 
-// =========================
-// 11. XÓA / BÁO CÁO COMMENT
-// =========================
 
 document.addEventListener("click", e => {
     if (e.target.classList.contains("delete-comment")) {
@@ -257,10 +226,6 @@ document.addEventListener("click", e => {
         alert("Cảm ơn bạn! Bình luận đã được báo cáo.");
     }
 });
-
-// =========================
-// 12. THÊM COMMENT MỚI
-// =========================
 
 if (commentSubmit) {
     commentSubmit.addEventListener("click", () => {
@@ -283,10 +248,7 @@ if (commentSubmit) {
         loadComments(currentVideoId);
     });
 }
-
-// =========================
-// 13. KHỞI CHẠY
-// =========================
+// khởi chạy
 
 function init() {
     renderSidebar();

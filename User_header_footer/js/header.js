@@ -1,21 +1,31 @@
 import { UserManager } from "../js/object.js";
+
 class HeaderComponent extends HTMLElement {
   connectedCallback() {
     fetch("./header.html")
       .then(res => res.text())
       .then(html => {
         this.innerHTML = html;
+
         requestAnimationFrame(() => {
           this.loadUser();
           this.initSearch();
           this.initDropdowns();
           this.initBurgerMenu();
           this.initLogout();
+
+          // Messenger
+          this.initMessenger();
+          this.initChatList();
+          this.initChatSend();
         });
       })
       .catch(err => console.error("Lỗi load header.html:", err));
   }
 
+  /* ==========================
+        LOAD USER
+  ========================== */
   loadUser() {
     const user = UserManager.getCurrentUserData();
     if (!user) return;
@@ -27,6 +37,9 @@ class HeaderComponent extends HTMLElement {
     if (avatar) avatar.src = user.avatar || "../img/img_GUI/user.png";
   }
 
+  /* ==========================
+        SEARCH BOX
+  ========================== */
   initSearch() {
     const wrapper = this.querySelector(".header-search");
     const input = this.querySelector("#searchBox input");
@@ -81,6 +94,9 @@ class HeaderComponent extends HTMLElement {
     });
   }
 
+  /* ==========================
+        DROPDOWN USER + NOTI
+  ========================== */
   initDropdowns() {
     const setup = id => {
       const el = this.querySelector(`#${id}`);
@@ -102,6 +118,9 @@ class HeaderComponent extends HTMLElement {
     setup("notificationContainer");
   }
 
+  /* ==========================
+        BURGER MENU
+  ========================== */
   initBurgerMenu() {
     const toggle = this.querySelector("#burgerToggle");
     const menu = this.querySelector("#burgerMenu");
@@ -113,7 +132,9 @@ class HeaderComponent extends HTMLElement {
     });
   }
 
-
+  /* ==========================
+        LOGOUT
+  ========================== */
   initLogout() {
     const btn = this.querySelector("#logoutBtn");
     if (!btn) return;
@@ -122,6 +143,82 @@ class HeaderComponent extends HTMLElement {
       e.preventDefault();
       localStorage.removeItem("currentUserData");
       window.location.href = "./login.html";
+    });
+  }
+
+  /* ==========================
+        MESSENGER: OPEN/CLOSE
+  ========================== */
+  initMessenger() {
+    const icon = this.querySelector(".header-message-icon");
+    const container = this.querySelector("#messengerContainer");
+    const closeBtn = this.querySelector("#closeMessenger");
+
+    if (!icon || !container || !closeBtn) return;
+
+    icon.addEventListener("click", () => {
+      container.style.display = "flex";
+    });
+
+    closeBtn.addEventListener("click", () => {
+      container.style.display = "none";
+    });
+  }
+
+  /* ==========================
+        MESSENGER: SELECT CHAT
+  ========================== */
+  initChatList() {
+    const chatItems = this.querySelectorAll(".chat-item");
+    const chatTitle = this.querySelector("#chatTitle");
+    const chatBody = this.querySelector("#chatBody");
+
+    if (!chatItems.length) return;
+
+    chatItems.forEach(item => {
+      item.addEventListener("click", () => {
+        const name = item.querySelector(".chat-name").textContent;
+        chatTitle.textContent = name;
+        chatBody.innerHTML = ""; // load tin nhắn từ DB nếu có
+      });
+    });
+  }
+
+  /* ==========================
+        MESSENGER: SEND MESSAGE
+  ========================== */
+  initChatSend() {
+    const input = this.querySelector("#chatInput");
+    const btn = this.querySelector("#sendChatBtn");
+    const chatBody = this.querySelector("#chatBody");
+
+    if (!input || !btn || !chatBody) return;
+
+    const send = () => {
+      const text = input.value.trim();
+      if (!text) return;
+
+      const msg = document.createElement("div");
+      msg.className = "message user";
+      msg.textContent = text;
+      chatBody.appendChild(msg);
+
+      input.value = "";
+      chatBody.scrollTop = chatBody.scrollHeight;
+
+      // Bot trả lời demo
+      setTimeout(() => {
+        const reply = document.createElement("div");
+        reply.className = "message other";
+        reply.textContent = "Đã nhận tin nhắn!";
+        chatBody.appendChild(reply);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }, 500);
+    };
+
+    btn.addEventListener("click", send);
+    input.addEventListener("keypress", e => {
+      if (e.key === "Enter") send();
     });
   }
 }
