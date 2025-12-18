@@ -15,8 +15,13 @@ body {
   width: 100%;
   background: #ffffff;
   padding: 15px 25px;
+
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   /* z-index: 1000; */
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+
   top: 56px;
   display: flex;
   align-items: center;
@@ -65,7 +70,7 @@ body {
   border-bottom: 1px solid #d1d5db;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   display: none;
-  z-index: 999;
+  z-index: 10;
 }
 .q-btn.answered {
   background-color: #28a745 !important;
@@ -152,3 +157,4 @@ body {
   background: #e0ecff;
   border-color: #2563eb;
 }
+git add .

@@ -25,7 +25,7 @@ function getCourseProgress(course) {
     return Math.round((done / course.videos.length) * 100);
 }
 
-// RENDER KHÓA HỌC (UI MỚI)
+// RENDER KHÓA HỌC
 function renderCourses(list) {
     courseListEl.innerHTML = "";
 
