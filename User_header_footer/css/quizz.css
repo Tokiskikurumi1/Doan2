@@ -15,8 +15,8 @@ body {
   width: 100%;
   background: #ffffff;
   padding: 15px 25px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* z-index: 1000; */
   top: 56px;
   display: flex;
   align-items: center;
@@ -63,22 +63,19 @@ body {
   background: #ffffff;
   padding: 15px 20px;
   border-bottom: 1px solid #d1d5db;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   display: none;
   z-index: 999;
 }
 .q-btn.answered {
-    background-color: #28a745 !important;
-    color: white !important;
+  background-color: #28a745 !important;
+  color: white !important;
 }
-
-
 
 .question-menu-top.show {
   display: flex;
   gap: 10px;
   overflow-x: auto;
-
 }
 
 /*Lưới câu hỏi */

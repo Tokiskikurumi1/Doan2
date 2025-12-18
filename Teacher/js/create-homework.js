@@ -262,9 +262,14 @@ function handleSubmit(e) {
   // Gắn vào video (nếu có)
   const courseId = localStorage.getItem("creatingHomeworkForCourseId");
   const videoId = localStorage.getItem("creatingHomeworkForVideoId");
-  // GẮN TRỰC TIẾP OBJECT BÀI TẬP VÀO VIDEO (TỐT NHẤT)
+  // GẮN TRỰC TIẾP OBJECT BÀI TẬP VÀO VIDEO
   if (courseId && videoId) {
-    let courses = JSON.parse(localStorage.getItem("courses") || "[]");
+    function loadCoursesArray() {
+      const raw = JSON.parse(localStorage.getItem("courses")) || [];
+      return Array.isArray(raw) ? raw : Object.values(raw);
+    }
+
+    let courses = loadCoursesArray();
     const course = courses.find((c) => String(c.id) === String(courseId));
     if (course) {
       const video = course.videos.find((v) => String(v.id) === String(videoId));
