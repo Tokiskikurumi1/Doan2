@@ -16,7 +16,7 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
             _manageCourse = manageCourse;
         }
 
-        public bool createCourse(Course courses)
+        public bool createCourse(CourseRequest courses)
         {
             //Mess = string.Empty;
             //if (string.IsNullOrEmpty(courses.courseName) || string.IsNullOrEmpty(courses.courseType) || 
@@ -48,9 +48,19 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
             return _manageCourse.deleteCourse(courseID, teacherID);
         }
 
-        public bool CheckCourseOfTeacher(int courseID, int teacherID)
+        public List<Course> getCourseByName(int teacherID, string nameCourse)
         {
-            return _manageCourse.CheckCourseOfTeacher(courseID, teacherID);
+            return _manageCourse.getCourseByName(teacherID, nameCourse);
         }
+        public List<Course> getCousreByID(int teacherID, int courseID)
+        {
+            return _manageCourse.getCourseByID(teacherID, courseID);
+        }
+        public bool CheckCourseOfTeacher(int teacherID, int courseID)
+        {
+            return _manageCourse.CheckCourseOfTeacher(teacherID, courseID);
+        }
+
+        
     }
 }
