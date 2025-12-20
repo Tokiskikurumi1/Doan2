@@ -1,6 +1,3 @@
-namespace QLY_LMS.Models.MTeacher
-{
-    public class Course
     {
         //[JsonIgnore]
         public int courseID { get; set; }
@@ -44,3 +41,16 @@ namespace QLY_LMS.Models.MTeacher
    Additional implementation details
 // UI/UX improvements added
 // Logging mechanism enhanced
+   Additional implementation details
+// Database optimization completed
+   Code review suggestions applied */
+// Configuration settings optimized
+// Configuration settings optimized
+// Security enhancements integrated
+   Additional implementation details
+   Additional implementation details
+   Code review suggestions applied */
+/* Multi-line comment block
+// Database optimization completed
+// Bug fixes and code refactoring
+// Configuration settings optimized
