@@ -181,7 +181,7 @@ function updateQuestionNumbers() {
   questionCounter = questions.length;
 }
 
-// ====================== SUBMIT (ĐÃ FIX 100%) =======================
+// ====================== SUBMIT  =======================
 function handleSubmit(e) {
   e.preventDefault();
 
@@ -222,6 +222,7 @@ function handleSubmit(e) {
     duration: durationelect.value,
     createdAt: new Date().toISOString(),
     questions: [],
+    assStatus: "incomplete",
   };
 
   // Thu thập câu hỏi
