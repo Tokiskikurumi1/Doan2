@@ -34,6 +34,26 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
             }
             return Ok(result);
         }
+        [HttpGet("get-all-assignments")]
+        public IActionResult GetAllAssignments()
+        {
+            var result = _manageAssignment.getAllAssignment(GetTeacherID());
+            if (result.Count == 0)
+            {
+                return NotFound("Không tìm thấy bài tập nào!");
+            }
+            return Ok(result);
+        }
+        [HttpGet("get-assignment-by-id/{assignmentID}")]
+        public IActionResult GetAssignmentById(int assignmentID)
+        {
+            var result = _manageAssignment.getAssignmentById(assignmentID, GetTeacherID());
+            if (result.Count == 0)
+            {
+                return NotFound("Không tìm thấy bài tập!");
+            }
+            return Ok(result);
+        }
 
         [HttpPost("create-assignment")]
         public IActionResult Create([FromBody] AssignmentRequest req)

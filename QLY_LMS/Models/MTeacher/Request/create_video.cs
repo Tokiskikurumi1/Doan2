@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace QLY_LMS.Models.MTeacher
+namespace QLY_LMS.Models.MTeacher.Request
 {
-    public class Video_course
+    public class create_video
     {
-        //[JsonIgnore]
+        [JsonIgnore]
         public int videoID { get; set; }
         [Required]
         public int courseID { get; set; }

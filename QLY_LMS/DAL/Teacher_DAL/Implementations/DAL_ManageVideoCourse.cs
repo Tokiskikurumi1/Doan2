@@ -3,6 +3,7 @@ using QLY_LMS.Data;
 using QLY_LMS.Models.MTeacher;
 using System.Data.SqlClient;
 using System.Data;
+using QLY_LMS.Models.MTeacher.Request;
 
 namespace QLY_LMS.DAL.Teacher_DAL.Implementations
 {
@@ -51,7 +52,7 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
         /* ==========================================================
            2. THÊM VIDEO 
         ========================================================== */
-        public bool CreateVideo(Video_course video, int teacherID)
+        public bool CreateVideo(create_video video, int teacherID)
         {
             using (var conn = _db.GetConnection())
             using (var cmd = new SqlCommand("tc_video_create", conn))

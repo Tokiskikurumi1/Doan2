@@ -1,10 +1,10 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace QLY_LMS.Models.MTeacher
+namespace QLY_LMS.Models.MTeacher.Request
 {
-    public class Question
+    public class QuestionRequest
     {
-        //[JsonIgnore]        
+        [JsonIgnore]
         public int questionID { get; set; }
         public int assignmentID { get; set; }
         public string questionType { get; set; }

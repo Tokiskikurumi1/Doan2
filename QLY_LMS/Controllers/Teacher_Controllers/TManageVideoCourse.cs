@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces;
 using QLY_LMS.Controllers.Teacher_Controllers;
 using QLY_LMS.Models.MTeacher;
+using QLY_LMS.Models.MTeacher.Request;
 
 [Authorize(Roles = "Teacher")]
 [Route("api/[controller]")]
@@ -38,7 +39,7 @@ public class VideoController : ControllerBase
     }
 
     [HttpPost("create-new-video")]
-    public IActionResult Create(Video_course video)
+    public IActionResult Create(create_video video)
     {
         int teacherID = GetTeacherID();
 
