@@ -125,6 +125,7 @@ export class Assignment {
   constructor({
     id = null,
     teacherId,
+    course,             
     courseId,
     videoId,
     videoTitle,
@@ -133,12 +134,14 @@ export class Assignment {
     duration,
     deadline,
     type = "Quizz",
-    status = "draft",
+    status = "draft",    // trạng thái xuất bản: draft/published
+    assStatus = "incomplete", // trạng thái làm bài của học viên
     questions = [],
     createdAt = new Date().toISOString()
   }) {
     this.id = id || Date.now().toString();
     this.teacherId = teacherId;
+    this.course = course;          
     this.courseId = courseId;
     this.videoId = videoId;
     this.videoTitle = videoTitle;
@@ -147,7 +150,10 @@ export class Assignment {
     this.duration = duration;
     this.deadline = deadline;
     this.type = type;
-    this.status = status;
+    this.status = status;          
+    this.assStatus = assStatus;    
+
+
     this.questions = questions.map(q => {
       if (type === "Rewrite") {
         return { 
@@ -164,9 +170,11 @@ export class Assignment {
         };
       }
     });
+
     this.createdAt = createdAt;
   }
 }
+
 
 export class AssignmentManager {
   static addAssignment(courseId, videoId, assignment) {

@@ -18,12 +18,24 @@ let myCourses = courses.filter(course =>
 );
 
 // TÍNH TIẾN ĐỘ KHÓA HỌC
+// TÍNH TIẾN ĐỘ KHÓA HỌC
 function getCourseProgress(course) {
     if (!Array.isArray(course.videos) || course.videos.length === 0) return 0;
 
-    const done = course.videos.filter(v => v.status === "Hoàn thành").length;
-    return Math.round((done / course.videos.length) * 100);
+    let totalAssignments = 0;
+    let completedAssignments = 0;
+
+    course.videos.forEach(video => {
+        if (Array.isArray(video.assignments)) {
+            totalAssignments += video.assignments.length;
+            completedAssignments += video.assignments.filter(a => a.assStatus === "complete").length;
+        }
+    });
+
+    if (totalAssignments === 0) return 0;
+    return Math.round((completedAssignments / totalAssignments) * 100);
 }
+
 
 // RENDER KHÓA HỌC
 function renderCourses(list) {

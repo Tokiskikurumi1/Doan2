@@ -14,8 +14,37 @@
     <h2>Kết quả thi</h2>
     <p class="subject">Môn: HTML & CSS Cơ bản</p>
     <div class="score">92</div>
-    <div class="grade a">Xếp loại: A</div>
+    <div class="grade a">Xếp loại: Tốt</div>
+    <button class="btnconfirm">Quay lại khóa học</button>
   </div>
+  
+
 
 </body>
+<script>
+  const result = JSON.parse(localStorage.getItem("lastExamResult"));
+  if (result) {
+    document.querySelector(".subject").textContent = "Môn: " + result.subject;
+    document.querySelector(".score").textContent = result.score;
+    let gradeText = "Xếp loại: ";
+    if (result.score >= 85) gradeText += "Tốt";
+    else if (result.score >= 70) gradeText += "Khá";
+    else if (result.score >= 50) gradeText += "Trung bình";
+    else gradeText += "Kém";
+    document.querySelector(".grade").textContent = gradeText;
+
+    // gắn sự kiện cho nút quay lại
+    document.querySelector("button").addEventListener("click", () => {
+      if (result.courseId) {
+        // chuyển về trang learn.html với courseId
+        localStorage.setItem("selectedCourseId", result.courseId);
+        window.location.href = "learn.html";
+      } else {
+        window.location.href = "mycourse.html";
+      }
+    });
+  }
+</script>
+
+
 </html>

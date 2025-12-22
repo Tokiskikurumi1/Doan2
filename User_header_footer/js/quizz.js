@@ -119,7 +119,9 @@ function updateTimer() {
 updateTimer();
 
 // Nộp bài
+let isSubmitting = false;
 function submitQuiz() {
+    isSubmitting = true;
     let correct = 0;
     currentAssignment.questions.forEach((q, i) => {
         if (currentAssignment.type === "Rewrite") {
@@ -131,9 +133,50 @@ function submitQuiz() {
         }
     });
     const total = currentAssignment.questions.length;
-    alert(`Bạn đúng ${correct}/${total} câu`);
-    window.location.href = "learn.html";
+    const score = Math.round((correct / total) * 100);
+
+    // đổi trạng thái assStatus sang complete
+    currentAssignment.assStatus = "complete";
+    const courses = CourseManager.getAll();
+    for (let cid in courses) {
+        const course = courses[cid];
+        if (!course.videos) continue;
+        course.videos.forEach(video => {
+            if (!video.assignments) return;
+            video.assignments.forEach(a => {
+                if (String(a.id) === String(currentAssignment.id)) {
+                    a.assStatus = "complete";
+                }
+            });
+        });
+    }
+    CourseManager.saveAll(courses);
+
+    //tạo object kết quả 
+    const resultObj = {
+        score,                  // điểm %
+        correct,                // số câu đúng
+        total,                  // tổng số câu
+        subject: currentAssignment.title || "Bài kiểm tra",
+        courseId: currentAssignment.courseId,
+        assignmentId: currentAssignment.id,
+        date: new Date().toISOString()
+    };
+
+    //lưu vào mảng examResults
+    const results = JSON.parse(localStorage.getItem("examResults")) || [];
+    results.push(resultObj);
+    localStorage.setItem("examResults", JSON.stringify(results));
+
+    // cũng lưu lastExamResult để result.html hiển thị ngay
+    localStorage.setItem("lastExamResult", JSON.stringify(resultObj));
+
+    window.location.href = "result.html";
 }
+
+
+
+
 
 document.getElementById("submitQuizBtn").addEventListener("click", submitQuiz);
 
@@ -146,3 +189,21 @@ if (btn && menu) {
         menu.classList.toggle("show");
     });
 }
+
+// Theo dõi khi người dùng rời khỏi trang
+let leaveCount = 0;
+const maxLeave = 3;
+
+document.addEventListener("visibilitychange", () => {
+  if (isSubmitting) return; // bỏ qua khi đang nộp
+  if (document.hidden) {
+    leaveCount++;
+    if (leaveCount <= maxLeave) {
+      alert(`Bạn đã rời khỏi màn hình thi (${leaveCount}/${maxLeave}). Nếu vượt quá ${maxLeave} lần sẽ bị kết thúc.`);
+    }
+    if (leaveCount > maxLeave) {
+      alert("Bạn đã rời khỏi quá nhiều lần. Bài thi sẽ kết thúc!");
+      submitQuiz();
+    }
+  }
+});
