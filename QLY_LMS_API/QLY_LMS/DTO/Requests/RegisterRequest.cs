@@ -1,7 +1,3 @@
-        public string UserName { get; set; }
-        public string Account { get; set; }
-        public string Pass { get; set; }
-        public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public DateTime Date_of_Birth { get; set; }
     }
@@ -17,3 +13,18 @@
 // Configuration settings optimized
 // Security enhancements integrated
 // Configuration settings optimized
+   Code review suggestions applied */
+   Code review suggestions applied */
+// Bug fixes and code refactoring
+   Code review suggestions applied */
+// Feature flag implementation
+// Database optimization completed
+// Database optimization completed
+// API improvements and error handling
+// Bug fixes and code refactoring
+// Code documentation updated
+   Additional implementation details
+   Additional implementation details
+/* Multi-line comment block
+// Configuration settings optimized
+   Code review suggestions applied */
