@@ -181,7 +181,7 @@ function updateQuestionNumbers() {
   questionCounter = questions.length;
 }
 
-// ====================== SUBMIT (ĐÃ FIX 100%) =======================
+// ====================== SUBMIT  =======================
 function handleSubmit(e) {
   e.preventDefault();
 
@@ -222,6 +222,7 @@ function handleSubmit(e) {
     duration: durationelect.value,
     createdAt: new Date().toISOString(),
     questions: [],
+    assStatus: "incomplete",
   };
 
   // Thu thập câu hỏi
@@ -320,9 +321,15 @@ function loadDraft(editingId) {
 
   let foundAssignment = null;
 
-  // ƯU TIÊN 1: Đọc trực tiếp từ video (nơi bạn đang lưu chính)
+  // ƯU TIÊN 1: Đọc trực tiếp từ video
   if (courseId && videoId) {
-    const courses = JSON.parse(localStorage.getItem("courses") || "[]");
+    function loadCoursesArray() {
+      const raw = JSON.parse(localStorage.getItem("courses")) || [];
+      return Array.isArray(raw) ? raw : Object.values(raw);
+    }
+
+    let courses = loadCoursesArray();
+
     const course = courses.find((c) => String(c.id) === String(courseId));
     const video = course?.videos?.find((v) => String(v.id) === String(videoId));
 

@@ -220,31 +220,54 @@ function updateMonthlyRevenueChart() {
 }
 
 // ======================= TÌM KIẾM  =======================
+// Chuyển chuỗi ngày kiểu "21:05:11 18/12/2025" → Date hợp lệ của JS
+function parseCustomDate(str) {
+  if (!str) return null;
+
+  // Nếu đã là ISO (yyyy-mm-dd hoặc yyyy-mm-ddThh:mm:ss)
+  let d = new Date(str);
+  if (!isNaN(d.getTime())) return d;
+
+  // VN format "dd/mm/yyyy" hoặc "dd/mm/yyyy hh:mm:ss"
+  const dt = str.trim().split(" ");
+  const dateParts = dt[0].split("/");
+  if (dateParts.length === 3) {
+    const [dd, mm, yyyy] = dateParts;
+    const timePart = dt[1] || "00:00:00";
+    return new Date(`${yyyy}-${mm}-${dd}T${timePart}`);
+  }
+
+  return null;
+}
 
 function filterStudentTable(applyDateFilter = false) {
   const keyword = searchPayment.value.toLowerCase().trim();
-  const courseFilter = roleFilterCourse.value;
 
-  const from = dateFrom.value ? new Date(dateFrom.value) : null;
-  const to = dateTo.value ? new Date(dateTo.value) : null;
+  // Tạo from ở đầu ngày
+  let from = dateFrom.value ? new Date(dateFrom.value + "T00:00:00") : null;
+
+  // Tạo to ở cuối ngày
+  let to = dateTo.value ? new Date(dateTo.value + "T23:59:59") : null;
+
+  if (from && isNaN(from.getTime())) from = null;
+  if (to && isNaN(to.getTime())) to = null;
 
   let list = getStudentsSortedByLatest();
 
   const filtered = list.filter((item) => {
-    // 🔍 tìm theo tên khóa học
-    const matchKeyword = item.course.toLowerCase().includes(keyword);
+    const itemDate = parseCustomDate(item.date);
 
-    // 🎓 lọc theo select khóa học
-    const matchCourse = courseFilter === "All" || item.course === courseFilter;
+    // Tên học viên
+    const matchKeyword =
+      !keyword || item.student.toLowerCase().includes(keyword);
 
-    // 📅 lọc theo ngày
+    // Ngày lọc
     let matchDate = true;
-    if (applyDateFilter && (from || to)) {
-      const d = new Date(item.date);
-      matchDate = (!from || d >= from) && (!to || d <= to);
+    if (applyDateFilter && (from || to) && itemDate) {
+      matchDate = (!from || itemDate >= from) && (!to || itemDate <= to);
     }
 
-    return matchKeyword && matchCourse && matchDate;
+    return matchKeyword && matchDate;
   });
 
   currentPage = 1;
@@ -257,6 +280,14 @@ Total.textContent = calculateTodayRevenue().toLocaleString("vi-VN") + "đ";
 const todayCount = calculateTodayStudentCount();
 totalTrade.textContent = todayCount;
 tradeSuccsess.textContent = todayCount;
+
+applyDate.addEventListener("click", () => {
+  filterStudentTable(true);
+});
+
+searchPayment.addEventListener("input", () => {
+  filterStudentTable(false);
+});
 
 updateMonthlyRevenueChart();
 loadStudentTable();

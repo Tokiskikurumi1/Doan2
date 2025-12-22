@@ -75,7 +75,7 @@ function renderVideos() {
       </div>
     `;
 
-    // === CLICK TOÀN BỘ ITEM ĐỂ SỬA VIDEO ===
+    // === CLICK ITEM ĐỂ SỬA VIDEO ===
     div.addEventListener("click", (e) => {
       if (e.target.closest(".delete-video, .homework-btn, .edit-video-btn"))
         return;
