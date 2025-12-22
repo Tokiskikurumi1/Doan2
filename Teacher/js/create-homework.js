@@ -18,7 +18,7 @@ const typeSelect = document.getElementById("type-select");
 const durationelect = document.getElementById("duration-select");
 const questionsContainer = document.getElementById("questions-container");
 
-let questionCounter = 0; // ĐÃ SỬA: dùng counter riêng, không dùng index mập mờ
+let questionCounter = 0;
 
 // ====================== INIT =========================
 document.addEventListener("DOMContentLoaded", () => {
