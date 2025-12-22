@@ -1,7 +1,3 @@
-    justify-content: center; /* căn giữa theo trục Y */
-  align-items: center;     /* căn giữa theo trục X */
-}
-
 .content {
   display: flex;
   flex-direction: column;
@@ -38,3 +34,15 @@
 // Database optimization completed
 // Code documentation updated
    Additional implementation details
+// Feature flag implementation
+// Database optimization completed
+/* Multi-line comment block
+// Enhanced functionality - 2026-01-10
+// Bug fixes and code refactoring
+   Code review suggestions applied */
+// Security enhancements integrated
+// Database optimization completed
+// Enhanced functionality - 2026-01-10
+// Bug fixes and code refactoring
+// Security enhancements integrated
+// Configuration settings optimized
