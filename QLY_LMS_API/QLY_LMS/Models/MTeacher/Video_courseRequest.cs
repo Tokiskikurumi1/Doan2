@@ -18,3 +18,7 @@ namespace QLY_LMS.Models.MTeacher
         public string videoProgress { get; set; } = "incomplete";
     }
 }
+# Code optimization and refactoring
+# API improvements
+# Performance optimization
+# Database optimization
