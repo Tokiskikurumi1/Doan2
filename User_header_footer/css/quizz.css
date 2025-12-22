@@ -140,6 +140,23 @@ body {
   margin-top: 20px;
 }
 
+.answer-text {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 16px;
+  background: #f9fafb;
+  transition: 0.2s;
+}
+
+.answer-text:focus {
+  outline: none;
+  border-color: #2563eb;
+  background: #e0ecff;
+}
+ 
+
 .answer-item {
   display: flex;
   align-items: center;

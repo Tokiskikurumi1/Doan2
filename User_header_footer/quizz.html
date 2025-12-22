@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8" />
     <title>Bài kiểm tra tiếng Anh</title>
@@ -11,7 +10,6 @@
     <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
     <link rel="stylesheet" href="./css/header.css">
 </head>
-
 <body>
     <app-header></app-header>
     <div class="quiz-header-fixed">
@@ -19,42 +17,14 @@
         <div class="timer">⏳ <span id="time">20:00</span></div>
         <button id="toggleMenu" class="menu-btn">☰</button>
     </div>
-    <div id="questionMenu" class="question-menu-top">
-        <div class="menu-grid">
-            <button class="q-btn active">1</button>
-            <button class="q-btn">2</button>
-            <button class="q-btn">3</button>
-            <button class="q-btn">4</button>
-            <button class="q-btn">5</button>
-            <button class="q-btn">6</button>
-            <button class="q-btn">7</button>
-            <button class="q-btn">8</button>
-            <button class="q-btn">9</button>
-            <button class="q-btn">10</button>
-        </div>
-    </div>
-
+    <div id="questionMenu" class="question-menu-top"></div>
     <div class="quiz-wrapper">
-        <div class="question-area">
-            <div class="question-box">
-                <h2>Câu 1</h2>
-                <p>What is the meaning of the word <strong>"ability"</strong>?</p>
-
-                <div class="answers">
-                    <label class="answer-item"><input type="radio" name="q1"><span>Khả năng</span></label>
-                    <label class="answer-item"><input type="radio" name="q1"><span>Thói quen</span></label>
-                    <label class="answer-item"><input type="radio" name="q1"><span>Hành động</span></label>
-                    <label class="answer-item"><input type="radio" name="q1"><span>Thời gian</span></label>
-                </div>
-            </div>
+        <div class="question-area"></div>
+        <div class="submit-area">
+            <button id="submitQuizBtn" class="btnconfirm">Nộp bài</button>
         </div>
-        <div class="submit-area"> <button id="submitQuizBtn" class="btnconfirm">Nộp bài</button> </div>
-
     </div>
-
     <script type="module" src="./js/quizz.js"></script>
     <script type="module" src="./js/header.js"></script>
-
 </body>
-
 </html>

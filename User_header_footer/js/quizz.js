@@ -9,79 +9,91 @@ if (!assignmentId) {
 const courses = CourseManager.getAll();
 let currentAssignment = null;
 
+// Tìm assignment theo ID và loại bỏ bản nháp
 for (let cid in courses) {
     const course = courses[cid];
     if (!course.videos) continue;
     course.videos.forEach(video => {
         if (!video.assignments) return;
         video.assignments.forEach(a => {
-            if (String(a.id) === String(assignmentId)) currentAssignment = a;
+            if (String(a.id) === String(assignmentId) && a.status !== "draft") {
+                currentAssignment = a;
+            }
         });
     });
 }
 
 if (!currentAssignment) {
-    alert("Bài kiểm tra không tồn tại!");
+    alert("Bài kiểm tra không tồn tại hoặc chưa được phát hành!");
     window.location.href = "learn.html";
 }
 
 const questionArea = document.querySelector(".question-area");
 const menuContainer = document.getElementById("questionMenu");
-
 let userAnswers = {};
 let currentIndex = 0;
 
-
+// Tạo menu câu hỏi
 menuContainer.innerHTML = currentAssignment.questions
     .map((q, i) => `<button class="q-btn" data-id="${i}">${i + 1}</button>`)
     .join("");
 
 const menuButtons = document.querySelectorAll(".q-btn");
 
-
+// Render toàn bộ câu hỏi
 function renderAllQuestions() {
-    questionArea.innerHTML = currentAssignment.questions.map((q, index) => `
+    questionArea.innerHTML = currentAssignment.questions.map((q, index) => {
+        const originalText = q.original || q.question || "";
+        return `
         <div class="question-box" id="qbox-${index}">
             <h2>Câu ${index + 1}</h2>
-            <p>${q.question}</p>
-
+            <p><strong>Original:</strong> ${originalText}</p>
             <div class="answers">
-                ${q.answers.map((opt, i) => `
-                    <label class="answer-item">
-                        <input type="radio" 
-                               name="q${index}" 
-                               value="${i}"
-                               ${userAnswers[index] == i ? "checked" : ""}>
-                        <span>${opt}</span>
-                    </label>
-                `).join("")}
+                ${currentAssignment.type === "Rewrite"
+                    ? `<input type="text" name="q${index}" class="answer-text"
+                              placeholder="Nhập câu viết lại..."
+                              value="${userAnswers[index] || ""}"/>`
+                    : (q.answers || []).map((opt, i) => `
+                        <label class="answer-item">
+                            <input type="radio" name="q${index}" value="${i}" ${userAnswers[index] == i ? "checked" : ""}>
+                            <span>${opt}</span>
+                        </label>
+                    `).join("")
+                }
             </div>
         </div>
-    `).join("");
+        `;
+    }).join("");
 
+    // Gắn sự kiện cho input hoặc radio
     currentAssignment.questions.forEach((q, index) => {
-        document.querySelectorAll(`input[name="q${index}"]`).forEach(input => {
-            input.addEventListener("change", () => {
-                userAnswers[index] = Number(input.value);
-
-                const btn = menuButtons[index];
-                btn.classList.add("answered"); 
+        if (currentAssignment.type === "Rewrite") {
+            const input = document.querySelector(`input[name="q${index}"]`);
+            if (input) {
+                input.addEventListener("input", () => {
+                    userAnswers[index] = input.value;
+                    menuButtons[index].classList.add("answered");
+                });
+            }
+        } else {
+            document.querySelectorAll(`input[name="q${index}"]`).forEach(input => {
+                input.addEventListener("change", () => {
+                    userAnswers[index] = Number(input.value);
+                    menuButtons[index].classList.add("answered");
+                });
             });
-        });
+        }
     });
 }
 
 renderAllQuestions();
 
-
-
+// Sự kiện chuyển câu hỏi
 menuButtons.forEach((btn, i) => {
     btn.addEventListener("click", () => {
         currentIndex = i;
-
         menuButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-
         const box = document.getElementById(`qbox-${i}`);
         if (box) box.scrollIntoView({ behavior: "smooth", block: "start" });
     });
@@ -89,6 +101,7 @@ menuButtons.forEach((btn, i) => {
 
 menuButtons[0].classList.add("active");
 
+// Đồng hồ đếm ngược
 let timeLeft = (currentAssignment.duration || 20) * 60;
 const timeEl = document.getElementById("time");
 
@@ -105,11 +118,17 @@ function updateTimer() {
 
 updateTimer();
 
-
+// Nộp bài
 function submitQuiz() {
     let correct = 0;
     currentAssignment.questions.forEach((q, i) => {
-        if (userAnswers[i] === q.correct) correct++;
+        if (currentAssignment.type === "Rewrite") {
+            if (userAnswers[i] && q.rewritten && userAnswers[i].trim() === q.rewritten.trim()) {
+                correct++;
+            }
+        } else {
+            if (userAnswers[i] === q.correct) correct++;
+        }
     });
     const total = currentAssignment.questions.length;
     alert(`Bạn đúng ${correct}/${total} câu`);
@@ -118,6 +137,7 @@ function submitQuiz() {
 
 document.getElementById("submitQuizBtn").addEventListener("click", submitQuiz);
 
+// Toggle menu
 const btn = document.getElementById("toggleMenu");
 const menu = document.getElementById("questionMenu");
 

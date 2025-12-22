@@ -1,155 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LMS - Trang chủ</title>
     <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
     <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
     <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
-    <link rel="stylesheet" href="./css/learn.css">
     <link rel="stylesheet" href="./css/home.css">
-    <link rel="stylesheet" href="./css/shop.css">
-    <link rel="stylesheet" href="./css/chart.css">
+
 </head>
 <body>
-    <div class="body1">
-        <div class="welcome" id="cardgradient">
-            <h2>Chào mừng quay trở lại,...</h2>
-            <span>Tiến trình của bạn đang được theo dõi. Hãy tiếp tục phát huy!</span>
-            <div class="welcome-progress">
-                <div class="item">
-                    <span class="value" id="lessons">12</span>
-                    <span class="label">Bài hoàn thành</span>
-                </div>
-                <div class="item">
-                    <span class="value" id="score">85%</span>
-                    <span class="label">Điểm trung bình</span>
-                </div>
-                <div class="item">
-                    <span class="value" id="streak">7</span>
-                    <span class="label">Chuỗi hoạt động</span>
-                </div>
-            </div>
+
+  <section class="welcome">
+    <h2>Xin chào, Quyet 👋</h2>
+    <p>Hôm nay bạn có 2 bài tập cần hoàn thành.</p>
+  </section>
+
+  <div class="container">
+    <div>
+      <div class="box">
+        <h3>Tiến độ học tập</h3>
+        <p>Khóa học: HTML & CSS Cơ bản</p>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <p>Hoàn thành: 70%</p>
+      </div>
+
+      <div class="box">
+        <h3>Khóa học của bạn</h3>
+        <div class="course-card">
+          <h4>JavaScript Nâng cao</h4>
+          <p>5 bài học còn lại</p>
+          <button>Vào học</button>
         </div>
-
-        <h2>Khóa học gợi í</h2>
-        <div class="suggested-courses">
-
-            <div class="product-card-item" id="cardhover">
-                <div class="product-card-item-img">
-                </div>
-                <h3>Tên sản phẩm</h3>
-                <span class="product-card-item-rating">Tên tác giả</span>
-                <span class="product-card-item-duration">Thời lượng- Số trang</span>
-                <span class="product-card-item-rating">Sao</span>
-                <div class="product-card-item-price">
-                    <span class="price">250.000 VND</span>
-                    <button id="btnblue">Xem chi tiết</button>
-                </div>
-            </div>
-            <div class="product-card-item" id="cardhover">
-                <div class="product-card-item-img">
-                </div>
-                <h3>Tên sản phẩm</h3>
-                <span class="product-card-item-rating">Tên tác giả</span>
-                <span class="product-card-item-duration">Thời lượng- Số trang</span>
-                <span class="product-card-item-rating">Sao</span>
-                <div class="product-card-item-price">
-                    <span class="price">250.000 VND</span>
-                    <button id="btnblue">Xem chi tiết</button>
-                </div>
-            </div>
-            <div class="product-card-item" id="cardhover">
-                <div class="product-card-item-img">
-                </div>
-                <h3>Tên sản phẩm</h3>
-                <span class="product-card-item-rating">Tên tác giả</span>
-                <span class="product-card-item-duration">Thời lượng- Số trang</span>
-                <span class="product-card-item-rating">Sao</span>
-                <div class="product-card-item-price">
-                    <span class="price">250.000 VND</span>
-                    <button id="btnblue">Xem chi tiết</button>
-                </div>
-            </div>
-            <div class="product-card-item" id="cardhover">
-                <div class="product-card-item-img">
-                </div>
-                <h3>Tên sản phẩm</h3>
-                <span class="product-card-item-rating">Tên tác giả</span>
-                <span class="product-card-item-duration">Thời lượng- Số trang</span>
-                <span class="product-card-item-rating">Sao</span>
-                <div class="product-card-item-price">
-                    <span class="price">250.000 VND</span>
-                    <button id="btnblue">Xem chi tiết</button>
-                </div>
-            </div>
+        <div class="course-card">
+          <h4>Python cho Data Science</h4>
+          <p>3 bài tập chưa nộp</p>
+          <button>Vào học</button>
         </div>
-        <div class="img">
-            <img src="../Assets/images/image_home/banner.png" alt="" style="width: 100%; height: auto;">
+      </div>
+
+      <div class="box">
+        <h3>Khóa học gợi ý</h3>
+        <div class="course-card">
+          <h4>ReactJS từ cơ bản đến nâng cao</h4>
+          <p>Phù hợp với bạn sau khi hoàn thành JavaScript.</p>
+          <button>Đăng ký</button>
         </div>
-        <div class="Kĩ năng của bạn">
-            <h2>Biểu đồ kỹ năng tiếng Anh</h2>
-            <div class="chart-container">
-                <div class="chart" id="chart"></div>
-                <div class="label-row" id="labelRow"></div>
-            </div>
+        <div class="course-card">
+          <h4>Machine Learning với Python</h4>
+          <p>Tiếp nối khóa Data Science.</p>
+          <button>Đăng ký</button>
         </div>
-        <div class="practice">
-            <h3>Bài tập cá nhân</h3>
-            <div class="practice-daily">
-                <div class="practice-progress">
-                    <div class="practice-progress-title">
-                        <span>Tiến độ</span>
-                        <span>1/4 Bài tập</span>
-
-                    </div>
-                    <progress value="25" max="100"></progress>
-                    <p>Hoàn thành thử thách để xây dựng chuỗi học tập của bạn!</p>
-                </div>
-            </div>
-            <div class="practice-item">
-                <div class="practice-item-content" id="cardbasic">
-                    <img src="./img/img/book-open-svgrepo-com.svg" alt="">
-                    <h5>Học từ mới</h5>
-                    <span>Nội dung bài học về từ vựng mới.</span>
-                    <button id="btnwhite">Thực hành ngay</button>
-                </div>
-                <div class="practice-item-content" id="cardbasic">
-                    <img src="./img/img/document-text-svgrepo-com.svg" alt="">
-                    <h5>Ngữ pháp</h5>
-                    <span>Kiểm tra kiến ​​thức ngữ pháp của bạn bằng các câu hỏi nhanh</span>
-                    <button id="btnwhite">Thực hành ngay</button>
-                </div>
-                <div class="practice-item-content" id="cardbasic">
-                    <img src="./img/img/document-text-svgrepo-com.svg" alt="">
-                    <h5>Luyện nghe</h5>
-                    <span></span>
-                    <button id="btnwhite">Thực hành ngay</button>
-                </div>
-                <div class="practice-item-content" id="cardbasic">
-                    <img src="./img/img/micro-svgrepo-com.svg" alt="">
-                    <h5>Luyện phát âm</h5>
-                    <span>Lặp lại các cụm từ và nhận phản hồi về cách phát âm</span>
-                    <button id="btnwhite">Thực hành ngay</button>
-                </div>
-            </div>
-        </div>
-        <div class="content">
-
-
-            <div class="hot-topic">
-                <h3>Bài Viết</h3>
-                
-
-            </div>
-
-        </div>
+      </div>
     </div>
 
-</body>
-<script src="./Assets/JS/chart.js"></script>
+    <div>
+      <div class="box">
+        <h3>Mục tiêu học tập</h3>
+        <ul>
+          <li>Hoàn thành 2 bài tập trong tuần này</li>
+          <li>Xem lại bài giảng JavaScript ES6</li>
+          <li>Đạt điểm kiểm tra ≥ 8.0</li>
+        </ul>
+      </div>
 
+      <div class="box">
+        <h3>Thống kê nhanh</h3>
+        <div class="stats">
+          <div class="stat">
+            <h4>12h</h4>
+            <p>Giờ học</p>
+          </div>
+          <div class="stat">
+            <h4>8</h4>
+            <p>Bài tập đã nộp</p>
+          </div>
+          <div class="stat">
+            <h4>8.5</h4>
+            <p>Điểm TB</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="box">
+        <h3>Thành tích</h3>
+        <div class="badges">
+          <div class="badge">🏅 HTML Master</div>
+          <div class="badge">⭐ Active Learner</div>
+          <div class="badge">📚 10 Bài tập</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
 </html>

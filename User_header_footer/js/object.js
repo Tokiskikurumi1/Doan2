@@ -1,4 +1,3 @@
-
 export class User {
   constructor({
     id = null,
@@ -41,21 +40,17 @@ export class UserManager {
   static getAllUsers() {
     return JSON.parse(localStorage.getItem("listusers")) || {};
   }
-
   static saveAllUsers(users) {
     localStorage.setItem("listusers", JSON.stringify(users));
   }
-
   static getCurrentUserData() {
     const raw = localStorage.getItem("currentUserData");
     return raw ? JSON.parse(raw) : null;
   }
-
   static setCurrentUserData(userObj) {
     localStorage.setItem("currentUserData", JSON.stringify(userObj));
   }
 }
-
 
 export class Course {
   constructor({
@@ -86,30 +81,27 @@ export class Course {
     this.videos = videos;
   }
 }
+
 export class CourseManager {
   static key = "courses";
-
   static getAll() {
     let raw = JSON.parse(localStorage.getItem(this.key));
-
     if (Array.isArray(raw)) {
       const obj = {};
       raw.forEach(c => obj[String(c.id)] = c);
       raw = obj;
       localStorage.setItem(this.key, JSON.stringify(obj));
     }
-
     return raw || {};
   }
-
   static saveAll(courses) {
     localStorage.setItem(this.key, JSON.stringify(courses));
   }
-
   static getById(id) {
     return this.getAll()[String(id)] || null;
   }
 }
+
 export class Video {
   constructor({ id = null, title, url, status = "Chưa hoàn thành", assignments = [] }) {
     this.id = id || Date.now().toString();
@@ -124,7 +116,6 @@ export class VideoManager {
   static addVideoToCourse(courseId, video) {
     const courses = CourseManager.getAll();
     if (!courses[courseId]) return;
-
     courses[courseId].videos.push(video);
     CourseManager.saveAll(courses);
   }
@@ -157,7 +148,22 @@ export class Assignment {
     this.deadline = deadline;
     this.type = type;
     this.status = status;
-    this.questions = questions;
+    this.questions = questions.map(q => {
+      if (type === "Rewrite") {
+        return { 
+          original: q.original || q.question, 
+          rewritten: q.rewritten || "", 
+          type: "Rewrite" 
+        };
+      } else {
+        return {
+          question: q.question,
+          answers: q.answers || [],
+          correct: q.correct ?? 0,
+          type: "Quizz"
+        };
+      }
+    });
     this.createdAt = createdAt;
   }
 }
@@ -167,10 +173,8 @@ export class AssignmentManager {
     const courses = CourseManager.getAll();
     const course = courses[courseId];
     if (!course) return;
-
     const video = course.videos.find(v => String(v.id) === String(videoId));
     if (!video) return;
-
     video.assignments.push(assignment);
     CourseManager.saveAll(courses);
   }
@@ -186,7 +190,7 @@ export class Comment {
     text,
     time = new Date().toLocaleString("vi-VN")
   }) {
-    this.id = id || Date.now();
+    this.id = id || Date.now().toString();
     this.videoId = String(videoId);
     this.userId = userId;
     this.name = name;
@@ -198,34 +202,26 @@ export class Comment {
 
 export class CommentManager {
   static key = "comments";
-
   static getAll() {
     return JSON.parse(localStorage.getItem(this.key)) || {};
   }
-
   static saveAll(comments) {
     localStorage.setItem(this.key, JSON.stringify(comments));
   }
-
   static getByVideo(videoId) {
     const all = this.getAll();
     return all[String(videoId)] || [];
   }
-
   static addComment(comment) {
     const all = this.getAll();
     const videoId = String(comment.videoId);
-
     if (!all[videoId]) all[videoId] = [];
     all[videoId].push(comment);
-
     this.saveAll(all);
   }
-
   static deleteComment(videoId, commentId) {
     const all = this.getAll();
     const list = all[String(videoId)] || [];
-
     all[String(videoId)] = list.filter(c => c.id !== commentId);
     this.saveAll(all);
   }

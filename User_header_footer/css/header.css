@@ -109,12 +109,7 @@
   height: 2rem;
   cursor: pointer;
 }
-/* Tìm kiếm */
-.header-search-icon img {
-  width: 2rem;
-  height: 2rem;
-}
-
+/* Search */
 .header-search {
   position: relative;
   display: flex;
@@ -123,14 +118,13 @@
   background-color: transparent;
   transition: all 0.4s ease;
   width: 2.5rem;
-  overflow: hidden;
 }
 
 .header-search.active {
-  border: 0.0625rem solid var(--gray-);
+  border: 1px solid #ccc;
   width: 15rem;
   background-color: #fff;
-  border-radius: 3.125rem;
+  border-radius: 3rem;
   padding-left: 0.75rem;
 }
 
@@ -160,7 +154,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-shrink: 0;
   position: absolute;
   right: 0;
   top: 0;
@@ -171,32 +164,54 @@
   position: absolute;
   top: 110%;
   left: 0;
-  background-color: #fff;
-  border-radius: 0.75rem;
-  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1);
-  padding: 0.75rem 1rem;
-  max-height: 18.75rem;
   width: 100%;
-  overflow-y: auto;
-  display: block;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: none;
   z-index: 10;
 }
+.header-search-results h2{
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 0.75rem;
+}
 
-.header-search-results-item {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
+.search-group {
+  margin-bottom: 1rem;
+}
+
+.search-group h3 {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.25rem;
+}
+
+.search-group ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-group li {
   padding: 0.5rem;
-  font-size: 1rem;
-  border-bottom: 0.0625rem solid var(--gray-);
-  color: #222;
+  font-size: 0.9rem;
+  color: #333;
+  border-bottom: 1px solid #eee;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
-.header-search-results-item:hover {
-  background-color: #f0f4ff;
+.search-group li:hover {
+  background-color: #f5f5f5;
 }
+
+
 /* chấm thông báo */
 .header-notification,
 .header-message {
@@ -278,6 +293,7 @@
   position: absolute;
   top: 44px;
   right: 0;
+  min-height: 60px;
   min-width: 180px;
   background-color: #fff;
   border: 1px solid #ddd;
@@ -304,7 +320,12 @@
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
-
+.header-notification-container .notification-menu p {
+  padding: 10px 16px;
+  color: #666;
+  font-size: 14px;
+  border-bottom: 1px solid #eee;
+}
 .dropdown-menu ul {
   list-style: none;
   margin: 0;
@@ -495,6 +516,8 @@
   border: none;
   border-radius: 8px;
 }
+
+
 
 /* Responsive hiển thị burger */
 @media (max-width: 768px) {

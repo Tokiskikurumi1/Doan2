@@ -1,48 +1,114 @@
-body{
-    padding: 0;
-    width: 100%;
-    background-color: var(--gray-);
+
+
+.welcome {
+    background: #3498db;
+    color: white;
+    padding: 30px;
+    text-align: center;
 }
-.suggested-courses{
-    display: flex;
-    gap:10px;
+
+.welcome h2 {
+    margin: 0;
+    font-size: 26px;
+}
+
+.welcome p {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    padding: 30px;
+}
+
+.box {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
 }
-.content{
-    display: flex;
-    width: 100%;
-    
-    padding: 0;
-    margin-top: 20px;
-    gap:20px
+
+.box h3 {
+    margin-top: 0;
+    color: #2c3e50;
 }
-.hot-topic{
+
+.progress-bar {
+    background: #eee;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    background: #3498db;
+    height: 20px;
+    width: 70%;
+}
+
+.course-card {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.course-card h4 {
+    margin: 0;
+    color: #2c3e50;
+}
+
+.course-card p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.course-card button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.course-card button:hover {
+    background: #2980b9;
+}
+
+.stats {
     display: flex;
-    flex-direction: column;
-    flex:1;
+    justify-content: space-around;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat h4 {
+    margin: 0;
+    font-size: 22px;
+    color: #3498db;
+}
+
+.stat p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.badges {
+    display: flex;
     gap: 10px;
 }
-.practice{
-    flex:1;
-}
-.hot-topic-item{
-    display: flex;
-    padding: 10px;
 
-    
-}
-.hot-topic-item-img{
-    border-radius: 4px;
-    height: 100px;
-    width: 100px;
-    background-image: url(../img/img_GUI/096dabbf-65c6-4096-bc72-ddc405f6b795.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.hot-topic-item-content{
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap:10px;
+.badge {
+    background: #f1c40f;
+    color: #2c3e50;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-weight: bold;
 }
