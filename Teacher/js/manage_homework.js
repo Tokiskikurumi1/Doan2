@@ -84,7 +84,7 @@ function createAssignmentCard(a) {
         </div>
       </div>
       <div class="assignment-body">
-        <div class="stats-grid">
+        <div class="stats-grid" style="opacity: 0;">
           <div class="stat-item">
             <div class="stat-value done">${submitted}</div>
             <div class="stat-label">Đã nộp</div>
