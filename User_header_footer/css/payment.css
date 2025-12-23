@@ -2,13 +2,24 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+    justify-content: center; /* căn giữa theo trục Y */
+  align-items: center;     /* căn giữa theo trục X */
 }
 
 .content {
-  flex: 1; /* chiếm toàn bộ phần còn lại giữa header và footer */
   display: flex;
   flex-direction: column;
   justify-content: center; /* căn giữa theo trục Y */
   align-items: center;     /* căn giữa theo trục X */
   text-align: center;
+  gap: 18px;
+  background-color: rgb(242, 239, 239,0.1);
+  border-radius: 20px;
+  border: 1px solid gray;
 }
+
+.content p{
+  font-size: 20px;
+  font-weight: 500;
+}
+

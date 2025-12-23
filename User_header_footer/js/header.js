@@ -14,7 +14,7 @@ class HeaderComponent extends HTMLElement {
           this.initLogout();
           this.initMessenger();
           this.initChatList();
-          this.initChatSend();
+          
         });
       })
       .catch(err => console.error("Lỗi load header.html:", err));
@@ -196,33 +196,7 @@ class HeaderComponent extends HTMLElement {
     });
   }
 
-  initChatSend() {
-    const input = this.querySelector("#chatInput");
-    const btn = this.querySelector("#sendChatBtn");
-    const chatBody = this.querySelector("#chatBody");
-    if (!input || !btn || !chatBody) return;
-    const send = () => {
-      const text = input.value.trim();
-      if (!text) return;
-      const msg = document.createElement("div");
-      msg.className = "message user";
-      msg.textContent = text;
-      chatBody.appendChild(msg);
-      input.value = "";
-      chatBody.scrollTop = chatBody.scrollHeight;
-      setTimeout(() => {
-        const reply = document.createElement("div");
-        reply.className = "message other";
-        reply.textContent = "Đã nhận tin nhắn!";
-        chatBody.appendChild(reply);
-        chatBody.scrollTop = chatBody.scrollHeight;
-      }, 500);
-    };
-    btn.addEventListener("click", send);
-    input.addEventListener("keypress", e => {
-      if (e.key === "Enter") send();
-    });
-  }
+  
 }
 
 customElements.define("app-header", HeaderComponent);

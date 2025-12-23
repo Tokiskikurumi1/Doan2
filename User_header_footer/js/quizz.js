@@ -46,8 +46,7 @@ function renderAllQuestions() {
         const originalText = q.original || q.question || "";
         return `
         <div class="question-box" id="qbox-${index}">
-            <h2>Câu ${index + 1}</h2>
-            <p><strong>Original:</strong> ${originalText}</p>
+            <p><strong>Câu ${index + 1}: </strong> ${originalText}</p>
             <div class="answers">
                 ${currentAssignment.type === "Rewrite"
                     ? `<input type="text" name="q${index}" class="answer-text"
@@ -173,9 +172,6 @@ function submitQuiz() {
 
     window.location.href = "result.html";
 }
-
-
-
 
 
 document.getElementById("submitQuizBtn").addEventListener("click", submitQuiz);

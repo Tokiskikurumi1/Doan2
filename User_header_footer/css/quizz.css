@@ -124,12 +124,7 @@ body {
 }
 
 /*Nội dung câu hỏi */
-.question-area {
-  background: #fff;
-  padding: 25px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-}
+
 
 .question-box h2 {
   margin-top: 0;
@@ -173,4 +168,30 @@ body {
 .answer-item:hover {
   background: #e0ecff;
   border-color: #2563eb;
+}
+.question-box .p .strong{
+  color: #111827;
+  font-size: medium;
+  font-weight: bold;
+  
+}
+.question-box {
+  color: #111827;
+  font-size: medium;
+  margin-top: 40px;
+  min-width: 68%;
+  
+}
+
+.submit-area{
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+.question-area{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
 }

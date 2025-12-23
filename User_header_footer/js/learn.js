@@ -215,7 +215,7 @@ function loadComments(videoId) {
 
 document.addEventListener("click", e => {
     if (e.target.classList.contains("delete-comment")) {
-        const id = Number(e.target.getAttribute("data-id"));
+        const id = e.target.getAttribute("data-id");
         if (!currentVideoId) return;
 
         CommentManager.deleteComment(currentVideoId, id);
@@ -226,6 +226,7 @@ document.addEventListener("click", e => {
         alert("Cảm ơn bạn! Bình luận đã được báo cáo.");
     }
 });
+
 
 if (commentSubmit) {
     commentSubmit.addEventListener("click", () => {
