@@ -38,10 +38,13 @@ function registerUser() {
     .value.trim();
   const agreeTerms = document.getElementById("checkbox1").checked;
 
-  if (!agreeTerms) return alert("Bạn phải đồng ý với điều khoản trước khi đăng ký.");
-  if (!usernameRegex.test(username)) return alert("Tên tài khoản không hợp lệ.");
+  if (!agreeTerms)
+    return alert("Bạn phải đồng ý với điều khoản trước khi đăng ký.");
+  if (!usernameRegex.test(username))
+    return alert("Tên tài khoản không hợp lệ.");
   if (!passwordRegex.test(password)) return alert("Mật khẩu không hợp lệ.");
-  if (password !== confirmPassword) return alert("Mật khẩu xác nhận không khớp.");
+  if (password !== confirmPassword)
+    return alert("Mật khẩu xác nhận không khớp.");
   if (!emailRegex.test(email)) return alert("Email không hợp lệ.");
 
   const users = UserManager.getAllUsers();
@@ -84,7 +87,6 @@ function loginUser() {
   if (user.password !== password) return alert("Mật khẩu không đúng.");
   if (user.role !== role) return alert("Vai trò không khớp với tài khoản.");
 
-
   // Lưu FULL user vào localStorage
   UserManager.setCurrentUserData(user);
 
@@ -99,6 +101,6 @@ function loginUser() {
   if (user.role === "teacher") {
     window.location.href = "../Teacher/teacher.html";
   } else if (user.role === "student") {
-    window.location.href = "./info.html";
+    window.location.href = "./home.html";
   }
 }
