@@ -52,9 +52,7 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
                         return list;
                     }
                 }
-            }
-               
-            
+            }     
         }
 
         public List<Assignment> getAllAssignment(int teacherID)

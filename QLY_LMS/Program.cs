@@ -50,6 +50,7 @@ namespace QLY_LMS
             builder.Services.AddScoped<I_BLL_ManageStudent, BLL_ManageStudent>();
             builder.Services.AddScoped<I_BLL_Question, BLL_Question>();
             builder.Services.AddScoped<I_BLL_Answer, BLL_Answer>();
+            builder.Services.AddScoped<I_BLL_Info, BLL_Info>();
             // DAL
             builder.Services.AddScoped<IUserDAL, UserDAL>();
             builder.Services.AddScoped<I_DAL_ManageCourse, DAL_ManageCourse>();
@@ -58,6 +59,7 @@ namespace QLY_LMS
             builder.Services.AddScoped<I_DAL_ManageStudent, DAL_ManageStudent>();
             builder.Services.AddScoped<I_DAL_Question, DAL_Question>();
             builder.Services.AddScoped<I_DAL_Answer, DAL_Answer>();
+            builder.Services.AddScoped<I_DAL_Info, DAL_Info>();
             // CONTROLLER + SWAGGER
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
