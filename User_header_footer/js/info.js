@@ -1,20 +1,19 @@
 import { UserManager, apiClient } from "./object.js";
 
-// Helper function to format date for input field (yyyy/mm/dd)
+
 function formatDateForInput(date) {
   if (!date) return "";
   console.log("Raw date from API:", date); // Debug log
 
-  // Handle different date formats from API
+  
   let dateStr;
   if (typeof date === 'string') {
-    // Remove time part if present (e.g., "1995-03-10T00:00:00" -> "1995-03-10")
+    
     dateStr = date.split('T')[0];
   } else {
     dateStr = date;
   }
-
-  // If already in yyyy-mm-dd format, convert to yyyy/mm/dd
+  
   if (dateStr && dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
     const parts = dateStr.split('-');
     const formatted = `${parts[0]}/${parts[1]}/${parts[2]}`;
@@ -22,7 +21,7 @@ function formatDateForInput(date) {
     return formatted;
   }
 
-  // Fallback to Date parsing
+  
   const d = new Date(dateStr);
   console.log("Parsed date:", d); // Debug log
   if (isNaN(d.getTime())) return "";
@@ -36,7 +35,7 @@ function formatDateForInput(date) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  // Check if user is logged in (has token)
+  // kiểm tra người dùng đăng nhập chưa
   if (!localStorage.getItem('token')) {
     alert("Vui lòng đăng nhập trước!");
     window.location.href = "./login.html";
@@ -69,14 +68,14 @@ async function loadUserInfo() {
     document.getElementById("yourname").value = profile.userName;
     document.getElementById("email").value = profile.email;
     document.getElementById("phone").value = profile.phoneNumber || "";
-    document.getElementById("username").value = profile.account || profile.userName; // Use account for login name
+    document.getElementById("username").value = profile.account || profile.userName; 
     document.getElementById("role").value = profile.roleName || "Student";
     document.getElementById("gender").value = profile.gender || "";
     document.getElementById("dob").value = profile.dateOfBirth ? formatDateForInput(profile.dateOfBirth) : "";
     document.getElementById("district").value = profile.district || "";
     document.getElementById("province").value = profile.province || "";
 
-    // Update local user data with API data
+    // Update local user data  API data
     user.username = profile.account || profile.userName;
     user.role = profile.roleName || "Student";
     user.dob = profile.dateOfBirth ? formatDateForInput(new Date(profile.dateOfBirth)) : "";
@@ -130,7 +129,6 @@ function setupSaveInfo() {
     const dobValue = document.getElementById("dob").value;
     const phoneValue = document.getElementById("phone").value;
 
-    // Validate phone number (must be exactly 10 digits if provided)
     if (phoneValue && (!/^\d{10}$/.test(phoneValue))) {
       alert("Số điện thoại phải có đúng 10 chữ số!");
       return;
