@@ -1,7 +1,10 @@
-﻿namespace QLY_LMS.Models.MTeacher
+﻿using System.Text.Json.Serialization;
+
+namespace QLY_LMS.Models.MTeacher
 {
     public class info_teacher
     {
+        [JsonIgnore]
         public int userID { get; set; }
         public string userName { get; set; } = null!;
         public DateOnly Date_of_Birth { get; set; }
