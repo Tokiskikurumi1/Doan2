@@ -1,10 +1,10 @@
-import { CourseManager, UserManager } from "./object.js";
+import { apiClient, UserManager } from "./object.js";
 
 // Lấy user hiện tại
 const currentUser = UserManager.getCurrentUserData();
 
-// Lấy toàn bộ khóa học
-let courses = Object.values(CourseManager.getAll()) || [];
+// Lấy danh sách khóa học chưa đăng ký từ API
+let courses = [];
 
 const productContainer = document.querySelector(".product");
 const pagination = document.querySelector(".pagination");
@@ -15,21 +15,30 @@ const itemsPerPage = 8;
 // Danh sách khóa học sau khi lọc
 let filteredCourses = [];
 
-// Kiểm tra user đã đăng ký khóa học chưa
-function isEnrolled(course) {
-  if (!currentUser) return false;
-  if (!course.students) return false;
-  return course.students.some(s => String(s.id) === String(currentUser.id));
-}
-
 // Lọc theo trạng thái đăng ký
-function filterByEnrollStatus(status) {
-  if (status === "Đã đăng kí") {
-    filteredCourses = courses.filter(c => isEnrolled(c));
-  } else if (status === "Chưa đăng kí") {
-    filteredCourses = courses.filter(c => !isEnrolled(c));
-  } else {
-    filteredCourses = courses;
+async function filterByEnrollStatus(status) {
+  try {
+    if (!currentUser) {
+      // Nếu chưa đăng nhập, hiển thị tất cả khóa học
+      const all = await apiClient.getAllCourses();
+      filteredCourses = all || [];
+      return;
+    }
+
+    if (status === "Đã đăng kí") {
+      const enrolled = await apiClient.getEnrolledCourses(currentUser.userID);
+      filteredCourses = enrolled || [];
+    } else if (status === "Chưa đăng kí") {
+      const unenrolled = await apiClient.getUnenrolledCourses(currentUser.userID);
+      filteredCourses = unenrolled || [];
+    } else {
+      // Tất cả khóa học
+      const all = await apiClient.getAllCourses();
+      filteredCourses = all || [];
+    }
+  } catch (error) {
+    console.error("Failed to load courses", error);
+    filteredCourses = [];
   }
 }
 
@@ -38,7 +47,7 @@ function filterByType(type) {
   if (type === "all") return;
 
   filteredCourses = filteredCourses.filter(c =>
-    (c.type || "").toLowerCase().includes(type.toLowerCase())
+    (c.courseType || "").toLowerCase().includes(type.toLowerCase())
   );
 }
 
@@ -63,18 +72,18 @@ function renderCourses(page) {
     card.innerHTML = `
       <div class="product-card-item">
         <div class="product-card-item-img"
-            style="background-image:url('${course.image || "./img/image_course/image-course.png"}');
+            style="background-image:url('${course.courseImage || "../img/image_course/image-course.png"}');
                    background-size:cover;
                    background-position:center;">
         </div>
 
-        <h3>${course.name}</h3>
+        <h3>${course.courseName}</h3>
         <span>Tác Giả: ${course.teacherName || "Không rõ"}</span>
-        <span>Loại: ${course.type}</span>
+        <span>Loại: ${course.courseType}</span>
 
         <div class="product-card-item-price">
-          <span class="price">${course.price} VND</span>
-          <button class="btn-detail btnwhite" data-id="${course.id}">Xem chi tiết</button>
+          <span class="price">${course.coursePrice} VND</span>
+          <button class="btn-detail btnwhite" data-id="${course.courseID}">Xem chi tiết</button>
         </div>
       </div>
     `;
@@ -140,13 +149,18 @@ function renderPagination() {
 
 // Gắn sự kiện lọc theo loại khóa học
 document.querySelectorAll('input[name="course-type"]').forEach(radio => {
-  radio.addEventListener("change", () => {
+  radio.addEventListener("change", async () => {
     const type = radio.value; // lấy từ value: TOEIC, IELTS,...
 
     const statusRadio = document.querySelector('input[name="enroll-status"]:checked');
     const status = statusRadio ? statusRadio.value : "Chưa đăng kí";
 
-    filterByEnrollStatus(status);
+    // Nếu chưa đăng nhập, chỉ hiển thị tất cả khóa học
+    if (!currentUser) {
+      await filterByEnrollStatus("all");
+    } else {
+      await filterByEnrollStatus(status);
+    }
     filterByType(type);
 
     currentPage = 1;
@@ -156,13 +170,18 @@ document.querySelectorAll('input[name="course-type"]').forEach(radio => {
 
 // Gắn sự kiện lọc theo trạng thái đăng ký
 document.querySelectorAll('input[name="enroll-status"]').forEach(radio => {
-  radio.addEventListener("change", () => {
+  radio.addEventListener("change", async () => {
     const status = radio.value; // Đã đăng kí / Chưa đăng kí
 
     const typeRadio = document.querySelector('input[name="course-type"]:checked');
     const type = typeRadio ? typeRadio.value : "all";
 
-    filterByEnrollStatus(status);
+    // Nếu chưa đăng nhập, chỉ hiển thị tất cả khóa học
+    if (!currentUser) {
+      await filterByEnrollStatus("all");
+    } else {
+      await filterByEnrollStatus(status);
+    }
     filterByType(type);
 
     currentPage = 1;
@@ -171,5 +190,10 @@ document.querySelectorAll('input[name="enroll-status"]').forEach(radio => {
 });
 
 // Khởi tạo mặc định: hiển thị khóa học chưa đăng ký
-filterByEnrollStatus("Chưa đăng kí");
-renderCourses(currentPage);
+(async () => {
+  console.log("Initializing shop.js...");
+  console.log("Current user:", currentUser);
+  await filterByEnrollStatus("Chưa đăng kí");
+  console.log("Filtered courses:", filteredCourses);
+  renderCourses(currentPage);
+})();

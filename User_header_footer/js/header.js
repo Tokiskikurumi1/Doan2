@@ -12,6 +12,7 @@ class HeaderComponent extends HTMLElement {
           this.initDropdowns();
           this.initBurgerMenu();
           this.initLogout();
+          this.initMyCourseLink();
           this.initMessenger();
           this.initChatList();
         });
@@ -23,9 +24,7 @@ class HeaderComponent extends HTMLElement {
     const user = UserManager.getCurrentUserData();
     if (!user) return;
     const name = this.querySelector(".user-name-popup p");
-    const avatar = this.querySelector(".header-user-icon img");
-    if (name) name.textContent = user.yourname || "User";
-    if (avatar) avatar.src = user.avatar || "./img/img_GUI/user.png";
+    if (name) name.textContent = user.userName || user.UserName || user.yourname || "User";
   }
 
   initSearch() {
@@ -160,8 +159,25 @@ class HeaderComponent extends HTMLElement {
     if (!btn) return;
     btn.addEventListener("click", (e) => {
       e.preventDefault();
-      localStorage.removeItem("currentUserData");
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
       window.location.href = "./login.html";
+    });
+  }
+
+  initMyCourseLink() {
+    const links = this.querySelectorAll(".mycourse-link");
+    if (!links.length) return;
+    links.forEach(link => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const user = UserManager.getCurrentUserData();
+        if (user && user.userID) {
+          window.location.href = `./mycourse.html?userId=${user.userID}`;
+        } else {
+          window.location.href = "./login.html";
+        }
+      });
     });
   }
 

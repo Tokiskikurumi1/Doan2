@@ -1,4 +1,4 @@
-import { User, UserManager } from "./object.js";
+import { apiClient } from "./object.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   showForm("Auth-Login");
@@ -27,7 +27,7 @@ const usernameRegex = /^[a-zA-Z0-9]{4,12}$/;
 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function registerUser() {
+async function registerUser() {
   const yourname = document.getElementById("signup-yourname").value.trim();
   const username = document.getElementById("signup-username").value.trim();
   const email = document.getElementById("signup-email").value.trim();
@@ -46,22 +46,16 @@ function registerUser() {
     return alert("Mật khẩu xác nhận không khớp.");
   if (!emailRegex.test(email)) return alert("Email không hợp lệ.");
 
-  const users = UserManager.getAllUsers();
-  const exists = Object.values(users).some((u) => u.username === username);
-  if (exists) return alert("Tên tài khoản đã tồn tại.");
-  // if (UserManager.isEmailTaken(email)) return alert("Email đã được sử dụng.");
-
   try {
-    const newUser = new User({
+    const userData = {
       username,
       yourname,
       email,
       password,
       role: "student",
-    });
+    };
 
-
-    UserManager.addUser(newUser);
+    await apiClient.register(userData);
 
     alert("Đăng ký thành công!");
     showForm("Auth-Login");
@@ -70,38 +64,42 @@ function registerUser() {
   }
 }
 
-function loginUser() {
+async function loginUser() {
   const username = document.getElementById("login-username").value.trim();
   const password = document.getElementById("login-password").value.trim();
-  const role = document.getElementById("login-role").value;
   const rememberMe = document.getElementById("checkbox").checked;
 
-  if (!username || !password || !role) {
-    alert("Vui lòng nhập đầy đủ thông tin và chọn vai trò.");
+  if (!username || !password) {
+    alert("Vui lòng nhập đầy đủ thông tin.");
     return;
   }
 
-  const users = UserManager.getAllUsers();
-  const user = Object.values(users).find((u) => u.username === username);
+  try {
+    const data = await apiClient.login(username, password);
 
-  if (!user) return alert("Tài khoản không tồn tại.");
-  if (user.password !== password) return alert("Mật khẩu không đúng.");
-  if (user.role !== role) return alert("Vai trò không khớp với tài khoản.");
+    // Lưu token và thông tin user
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data));
 
+    if (rememberMe) {
+      localStorage.setItem("rememberLogin", "true");
+    } else {
+      localStorage.removeItem("rememberLogin");
+    }
 
-  UserManager.setCurrentUserData(user);
+    alert("Đăng nhập thành công!");
 
-  if (rememberMe) {
-    localStorage.setItem("rememberLogin", "true");
-  } else {
-    localStorage.removeItem("rememberLogin");
-  }
-
-  alert("Đăng nhập thành công!");
-
-  if (user.role === "teacher") {
-    window.location.href = "../Teacher/teacher.html";
-  } else if (user.role === "student") {
-    window.location.href = "./home.html";
+    // Chuyển hướng dựa trên vai trò từ database
+    if (data.RoleID === 3) {
+      window.location.href = "./home.html";
+    } else if (data.RoleID === 2) {
+      window.location.href = "../Teacher/teacher.html";
+    } else {
+      // Default redirect if role not recognized
+      window.location.href = "./home.html";
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    alert("Có lỗi xảy ra khi đăng nhập. Vui lòng thử lại.");
   }
 }

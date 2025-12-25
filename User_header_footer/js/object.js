@@ -1,72 +1,134 @@
-export class User {
-  constructor({
-    id = null,
-    username,
-    yourname,
-    email,
-    phone = "",
-    dob = "",
-    province = "",
-    district = "",
-    gender = "",
-    password = "",
-    role = "",
-    joinDate = null,
-    avatar = ""
-  }) {
-    this.id = id || Date.now().toString();
-    this.username = username;
-    this.yourname = yourname;
-    this.email = email;
-    this.phone = phone;
-    this.dob = dob;
-    this.province = province;
-    this.district = district;
-    this.gender = gender;
-    this.password = password;
-    this.role = role;
-    this.joinDate = joinDate || Date.now();
-    this.avatar = avatar || "";
+export class ApiClient {
+  constructor(baseURL = 'http://localhost:5112') {
+    this.baseURL = baseURL;
   }
 
-  save() {
-    const users = UserManager.getAllUsers();
-    users[this.id] = this;
-    UserManager.saveAllUsers(users);
-  }
-}
+  async request(endpoint, options = {}) {
+    const url = `${this.baseURL}${endpoint}`;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+      ...options,
+    };
 
-export class UserManager {
-  static getAllUsers() {
-    const raw = localStorage.getItem("listusers");
+    // Add authorization header if token exists
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     try {
-      return raw ? JSON.parse(raw) : {};
-    } catch (e) {
-      console.error("Lỗi parse dữ liệu listusers:", e);
-      return {};
+      const response = await fetch(url, config);
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || `HTTP error! status: ${response.status}`);
+      }
+      return data;
+    } catch (error) {
+      console.error('API request failed:', error);
+      throw error;
     }
   }
 
-  static saveAllUsers(users) {
-    localStorage.setItem("listusers", JSON.stringify(users));
+  // Authentication methods
+  async login(account, password) {
+    return this.request('/api/student/login', {
+      method: 'POST',
+      body: JSON.stringify({ Account: account, Pass: password }),
+    });
   }
 
-  static getCurrentUserData() {
-    const raw = localStorage.getItem("currentUserData");
-    return raw ? JSON.parse(raw) : null;
+  async register(userData) {
+    return this.request('/api/student/register', {
+      method: 'POST',
+      body: JSON.stringify(userData),
+    });
   }
 
-  static setCurrentUserData(userObj) {
-    localStorage.setItem("currentUserData", JSON.stringify(userObj));
+  // User profile methods
+  async getUserProfile(userId) {
+    return this.request(`/api/student/profile/${userId}`);
   }
 
-  static isEmailTaken(email) {
-    const users = this.getAllUsers();
-    console.log("Users in storage:", users);
-    return Object.values(users).some((u) => u && u.email === email);
+  async updateUserProfile(userId, profileData) {
+    return this.request(`/api/student/profile/${userId}`, {
+      method: 'PUT',
+      body: JSON.stringify(profileData),
+    });
+  }
+
+  async changePassword(changePasswordData) {
+    return this.request('/api/student/change-password', {
+      method: 'PUT',
+      body: JSON.stringify(changePasswordData),
+    });
+  }
+
+  // Course methods
+  async getEnrolledCourses(userId) {
+    return this.request(`/api/student/enrolled-courses/${userId}`);
+  }
+
+  async getUnenrolledCourses(userId) {
+    return this.request(`/api/student/unenrolled-courses/${userId}`);
+  }
+
+  async getAllCourses() {
+    return this.request('/api/student/courses');
+  }
+
+  async enrollCourse(userId, courseId) {
+    return this.request(`/api/student/${userId}/enroll/${courseId}`, {
+      method: 'POST',
+    });
+  }
+
+  async getCourseDetails(courseId) {
+    return this.request(`/api/student/course/${courseId}`);
+  }
+
+  // Assignment and comment methods
+  async getAssignment(assignmentId) {
+    return this.request(`/api/student/assignment/${assignmentId}`);
+  }
+
+  async addComment(commentData) {
+    return this.request('/api/student/comment', {
+      method: 'POST',
+      body: JSON.stringify(commentData),
+    });
+  }
+
+  async updateComment(commentData) {
+    return this.request('/api/student/comment', {
+      method: 'PUT',
+      body: JSON.stringify(commentData),
+    });
+  }
+
+  async deleteComment(commentId, userId) {
+    return this.request(`/api/student/comment/${commentId}/${userId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // Score methods
+  async saveScore(scoreData) {
+    return this.request('/api/student/score/save', {
+      method: 'POST',
+      body: JSON.stringify(scoreData),
+    });
+  }
+
+  async getScores(studentId) {
+    return this.request(`/api/student/scores/${studentId}`);
   }
 }
 
+// Create a default instance
+export const apiClient = new ApiClient();
 
 
 export class Course {
@@ -249,5 +311,19 @@ export class CommentManager {
     const list = all[String(videoId)] || [];
     all[String(videoId)] = list.filter(c => c.id !== commentId);
     this.saveAll(all);
+  }
+}
+
+export class UserManager {
+  static key = "user";
+  static getCurrentUserData() {
+    const userData = localStorage.getItem(this.key);
+    return userData ? JSON.parse(userData) : null;
+  }
+  static setCurrentUserData(userData) {
+    localStorage.setItem(this.key, JSON.stringify(userData));
+  }
+  static clearCurrentUserData() {
+    localStorage.removeItem(this.key);
   }
 }

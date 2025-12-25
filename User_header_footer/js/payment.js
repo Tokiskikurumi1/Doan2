@@ -1,57 +1,31 @@
-import { UserManager, CourseManager } from "./object.js";
+import { apiClient } from "./object.js";
 
 //HIỂN THỊ GIÁ TIỀN
 const price = localStorage.getItem("paymentPrice") || "0";
 document.getElementById("payment-price").textContent = price + " VND";
 
 //TẠO MÃ GIAO DỊCH NGẪU NHIÊN
-
 function generateTransactionId() {
   return Date.now().toString() + Math.floor(Math.random() * 1000000);
 }
 document.getElementById("transaction-id").textContent = generateTransactionId();
 
-
 //XỬ LÝ THANH TOÁN
-document.querySelector("button").addEventListener("click", () => {
+document.querySelector("button").addEventListener("click", async () => {
+  const userId = localStorage.getItem("paymentUserId");
+  const courseId = localStorage.getItem("paymentCourseId");
 
-  //Lấy user từ currentUserData
-  const currentUser = UserManager.getCurrentUserData();
-  if (!currentUser) {
-    alert("Bạn cần đăng nhập trước khi thanh toán");
+  if (!userId || !courseId) {
+    alert("Thiếu thông tin thanh toán!");
     return;
   }
 
-  //Lấy danh sách khóa học từ CourseManager
-  const courses = CourseManager.getAll();
-  const courseId = localStorage.getItem("selectedCourseId");
-
-  if (!courses[courseId]) {
-    alert("Không tìm thấy khóa học!");
-    return;
+  try {
+    await apiClient.enrollCourse(userId, courseId);
+    alert("Thanh toán thành công! Bạn đã được đăng ký khóa học.");
+    window.location.href = "./mycourse.html";
+  } catch (error) {
+    console.error("Lỗi khi thanh toán:", error);
+    alert("Có lỗi xảy ra khi thanh toán. Vui lòng thử lại!");
   }
-
-  const course = courses[courseId];
-
-  if (!Array.isArray(course.students)) {
-    course.students = [];
-  }
-
-  // Kiểm tra user đã mua chưa
-  const alreadyBought = course.students.some(s => s.id === currentUser.id);
-
-  if (!alreadyBought) {
-    course.students.push({
-      id: currentUser.id,
-      name: currentUser.yourname,
-      date: new Date().toISOString()
-    });
-  }
-
-  // Lưu lại khóa học
-  courses[courseId] = course;
-  CourseManager.saveAll(courses);
-
-  alert("Thanh toán thành công!");
-  window.location.href = "./course-detail.html";
 });

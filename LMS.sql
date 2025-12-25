@@ -1653,7 +1653,23 @@ WHERE a.assignmentID = @assignmentID
   SELECT * from USER_TABLE
   SELECT * FROM STUDENT_COURSE
 
-  INSERT INTO STUDENT_COURSE
+-- Insert sample users with date of birth
+INSERT INTO USER_TABLE (userName, Date_of_Birth, gender, district, province, phoneNumber, Email, Account, Pass, roleID)
+VALUES
+('Nguyen Van A', '1990-05-15', N'Nam', N'Hanoi', N'Hanoi', '0123456789', 'nguyenvana@example.com', 'nguyenvana', '123456', 3),
+('Tran Thi B', '1992-08-20', N'Nữ', N'HCM', N'HCM', '0987654321', 'tranthib@example.com', 'tranthib', '123456', 3),
+('Le Van C', '1988-12-10', N'Nam', N'Danang', N'Danang', '0111111111', 'levanc@example.com', 'levanc', '123456', 3);
+
+-- Update existing users to have date of birth
+UPDATE USER_TABLE SET Date_of_Birth = '1995-03-10' WHERE userID = 1;
+UPDATE USER_TABLE SET Date_of_Birth = '1993-07-22' WHERE userID = 2;
+UPDATE USER_TABLE SET Date_of_Birth = '1991-11-05' WHERE userID = 3;
+UPDATE USER_TABLE SET Date_of_Birth = '1989-01-15' WHERE userID = 4;
+UPDATE USER_TABLE SET Date_of_Birth = '1997-09-30' WHERE userID = 5;
+UPDATE USER_TABLE SET Date_of_Birth = '1994-05-18' WHERE userID = 6;
+UPDATE USER_TABLE SET Date_of_Birth = '1992-12-08' WHERE userID = 7;
+
+INSERT INTO STUDENT_COURSE
 (userID, courseID, enrollDate, progressPercent, isComplete, completedDate)
 VALUES
 -- Course 1: mới học

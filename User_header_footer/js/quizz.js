@@ -1,67 +1,90 @@
-import { CourseManager } from "./object.js";
+import { apiClient, UserManager } from "./object.js";
 
 const assignmentId = localStorage.getItem("doingAssignmentId");
 if (!assignmentId) {
   alert("Không tìm thấy bài kiểm tra!");
   window.location.href = "learn.html";
 }
-const currentUser = JSON.parse(localStorage.getItem("currentUserData"));
-const courses = CourseManager.getAll();
+const currentUser = UserManager.getCurrentUserData();
+const courseId = localStorage.getItem("selectedCourseId");
 let currentAssignment = null;
-
-// Tìm assignment theo ID và loại bỏ bản nháp
-for (let cid in courses) {
-  const course = courses[cid];
-  if (!course.videos) continue;
-  course.videos.forEach((video) => {
-    if (!video.assignments) return;
-    video.assignments.forEach((a) => {
-      if (String(a.id) === String(assignmentId) && a.status !== "draft") {
-        currentAssignment = a;
-      }
-    });
-  });
-}
-
-if (!currentAssignment) {
-  alert("Bài kiểm tra không tồn tại hoặc chưa được phát hành!");
-  window.location.href = "learn.html";
-}
+let userAnswers = {};
+let currentIndex = 0;
+let menuButtons;
+let timeLeft;
+let isSubmitting = false;
 
 const questionArea = document.querySelector(".question-area");
 const menuContainer = document.getElementById("questionMenu");
-let userAnswers = {};
-let currentIndex = 0;
+const timeEl = document.getElementById("time");
 
-// Tạo menu câu hỏi
-menuContainer.innerHTML = currentAssignment.questions
-  .map((q, i) => `<button class="q-btn" data-id="${i}">${i + 1}</button>`)
-  .join("");
+// Lấy thông tin assignment từ API
+(async () => {
+  try {
+    currentAssignment = await apiClient.request(`/api/student/assignment/${assignmentId}`);
+    if (!currentAssignment) {
+      alert("Bài kiểm tra không tồn tại!");
+      window.location.href = "learn.html";
+      return;
+    }
+    initQuiz();
+  } catch (error) {
+    console.error("Failed to load assignment:", error);
+    alert("Lỗi khi tải bài kiểm tra!");
+    window.location.href = "learn.html";
+  }
+})();
 
-const menuButtons = document.querySelectorAll(".q-btn");
+function initQuiz() {
+  // Tạo menu câu hỏi
+  menuContainer.innerHTML = currentAssignment.questions
+    .map((q, i) => `<button class="q-btn" data-id="${i}">${i + 1}</button>`)
+    .join("");
+
+  menuButtons = document.querySelectorAll(".q-btn");
+
+  renderAllQuestions();
+
+  menuButtons[0].classList.add("active");
+
+  timeLeft = (currentAssignment.assignmentDuration || 20) * 60;
+  updateTimer();
+
+  // Sự kiện chuyển câu hỏi
+  menuButtons.forEach((btn, i) => {
+    btn.addEventListener("click", () => {
+      currentIndex = i;
+      menuButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      const box = document.getElementById(`qbox-${i}`);
+      if (box) box.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+}
 
 // Render toàn bộ câu hỏi
 function renderAllQuestions() {
   questionArea.innerHTML = currentAssignment.questions
     .map((q, index) => {
-      const originalText = q.original || q.question || "";
+      const originalText = q.original || q.content || "";
+      const answers = currentAssignment.answers.filter(a => a.questionID === q.questionID).sort((a, b) => a.answerIndex - b.answerIndex);
       return `
         <div class="question-box" id="qbox-${index}">
             <p><strong>Câu ${index + 1}: </strong> ${originalText}</p>
             <div class="answers">
                 ${
-                  currentAssignment.type === "Rewrite"
+                  currentAssignment.assignmentType === "Rewrite"
                     ? `<input type="text" name="q${index}" class="answer-text"
                               placeholder="Nhập câu viết lại..."
                               value="${userAnswers[index] || ""}"/>`
-                    : (q.answers || [])
+                    : answers
                         .map(
                           (opt, i) => `
                         <label class="answer-item">
                             <input type="radio" name="q${index}" value="${i}" ${
                             userAnswers[index] == i ? "checked" : ""
                           }>
-                            <span>${opt}</span>
+                            <span>${opt.answerText}</span>
                         </label>
                     `
                         )
@@ -75,7 +98,7 @@ function renderAllQuestions() {
 
   // Gắn sự kiện cho input hoặc radio
   currentAssignment.questions.forEach((q, index) => {
-    if (currentAssignment.type === "Rewrite") {
+    if (currentAssignment.assignmentType === "Rewrite") {
       const input = document.querySelector(`input[name="q${index}"]`);
       if (input) {
         input.addEventListener("input", () => {
@@ -94,25 +117,7 @@ function renderAllQuestions() {
   });
 }
 
-renderAllQuestions();
-
-// Sự kiện chuyển câu hỏi
-menuButtons.forEach((btn, i) => {
-  btn.addEventListener("click", () => {
-    currentIndex = i;
-    menuButtons.forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
-    const box = document.getElementById(`qbox-${i}`);
-    if (box) box.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-});
-
-menuButtons[0].classList.add("active");
-
 // Đồng hồ đếm ngược
-let timeLeft = (currentAssignment.duration || 20) * 60;
-const timeEl = document.getElementById("time");
-
 function updateTimer() {
   const m = Math.floor(timeLeft / 60);
   const s = timeLeft % 60;
@@ -124,15 +129,12 @@ function updateTimer() {
   }
 }
 
-updateTimer();
-
 // Nộp bài
-let isSubmitting = false;
-function submitQuiz() {
+async function submitQuiz() {
   isSubmitting = true;
   let correct = 0;
   currentAssignment.questions.forEach((q, i) => {
-    if (currentAssignment.type === "Rewrite") {
+    if (currentAssignment.assignmentType === "Rewrite") {
       if (
         userAnswers[i] &&
         q.rewritten &&
@@ -141,39 +143,41 @@ function submitQuiz() {
         correct++;
       }
     } else {
-      if (userAnswers[i] === q.correct) correct++;
+      const correctAnswer = currentAssignment.answers.find(a => a.questionID === q.questionID && a.isCorrect)?.answerIndex;
+      if (userAnswers[i] === correctAnswer) correct++;
     }
   });
   const total = currentAssignment.questions.length;
   const score = Math.round((correct / total) * 100);
 
-  // đổi trạng thái assStatus sang complete
-  currentAssignment.assStatus = "complete";
-  const courses = CourseManager.getAll();
-  for (let cid in courses) {
-    const course = courses[cid];
-    if (!course.videos) continue;
-    course.videos.forEach((video) => {
-      if (!video.assignments) return;
-      video.assignments.forEach((a) => {
-        if (String(a.id) === String(currentAssignment.id)) {
-          a.assStatus = "complete";
-        }
-      });
+  // Gửi kết quả lên API
+  try {
+    await apiClient.request('/api/student/score/save', {
+      method: 'POST',
+      body: JSON.stringify({
+        StudentID: currentUser.userID,
+        CourseID: courseId,
+        AssignmentID: currentAssignment.assignmentID,
+        Subject: currentAssignment.assignmentName,
+        Correct: correct,
+        Total: total,
+        Score: score
+      })
     });
+  } catch (error) {
+    console.error("Failed to save score:", error);
   }
-  CourseManager.saveAll(courses);
 
   //tạo object kết quả
   const resultObj = {
     score, // điểm %
     correct, // số câu đúng
     total, // tổng số câu
-    subject: currentAssignment.title || "Bài kiểm tra",
-    courseId: currentAssignment.courseId,
-    assignmentId: currentAssignment.id,
+    subject: currentAssignment.assignmentName,
+    courseId: courseId,
+    assignmentId: currentAssignment.assignmentID,
     date: new Date().toISOString(),
-    studentID: currentUser?.id || "guest",
+    studentID: currentUser.userID,
   };
 
   //lưu vào mảng examResults
@@ -186,7 +190,6 @@ function submitQuiz() {
 
   window.location.href = "result.html";
 }
-
 
 document.getElementById("submitQuizBtn").addEventListener("click", submitQuiz);
 

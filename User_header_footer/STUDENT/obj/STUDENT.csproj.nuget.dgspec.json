@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\HTML\\Do_an_2\\QLY_LMS_API\\STUDENT\\STUDENT.csproj": {}
+    "C:\\Users\\siinq\\Desktop\\API\\Doan2\\User_header_footer\\STUDENT\\STUDENT.csproj": {}
   },
   "projects": {
-    "C:\\HTML\\Do_an_2\\QLY_LMS_API\\STUDENT\\STUDENT.csproj": {
+    "C:\\Users\\siinq\\Desktop\\API\\Doan2\\User_header_footer\\STUDENT\\STUDENT.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\HTML\\Do_an_2\\QLY_LMS_API\\STUDENT\\STUDENT.csproj",
+        "projectUniqueName": "C:\\Users\\siinq\\Desktop\\API\\Doan2\\User_header_footer\\STUDENT\\STUDENT.csproj",
         "projectName": "STUDENT",
-        "projectPath": "C:\\HTML\\Do_an_2\\QLY_LMS_API\\STUDENT\\STUDENT.csproj",
-        "packagesPath": "C:\\Users\\minhn\\.nuget\\packages\\",
-        "outputPath": "C:\\HTML\\Do_an_2\\QLY_LMS_API\\STUDENT\\obj\\",
+        "projectPath": "C:\\Users\\siinq\\Desktop\\API\\Doan2\\User_header_footer\\STUDENT\\STUDENT.csproj",
+        "packagesPath": "C:\\Users\\siinq\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\siinq\\Desktop\\API\\Doan2\\User_header_footer\\STUDENT\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\minhn\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\siinq\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -50,9 +43,25 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.1.66, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[6.1.3, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.6.2, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.15.0, )"
             }
           },
           "imports": [
@@ -74,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.416/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

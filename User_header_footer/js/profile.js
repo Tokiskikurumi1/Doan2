@@ -42,34 +42,40 @@ function getAverageScore(courseId) {
 
 // RENDER PHẦN KHÓA HỌC ĐÃ ĐĂNG KÝ
 const sectionCourses = document.querySelectorAll(".section")[0];
-sectionCourses.innerHTML = "<h3>Các khóa học đã đăng ký</h3>";
+if (sectionCourses) {
+  sectionCourses.innerHTML = "<h3>Các khóa học đã đăng ký</h3>";
+}
 
-myCourses.forEach(course => {
-  const { percent, done, total, status } = getCourseProgress(course);
-  const card = document.createElement("div");
-  card.className = "course-card";
-  card.innerHTML = `
-    <h4>${course.name}</h4>
-    <p>Tiến độ: ${percent}% (${done}/${total} bài tập)</p>
-    <div class="progress-bar">
-      <div class="progress" style="width:${percent}%"></div>
-    </div>
-    <p>Giảng viên: ${course.teacherName}</p>
-    <p>Trạng thái: <strong>${status}</strong></p>
-  `;
-  sectionCourses.appendChild(card);
-});
+if (sectionCourses) {
+  myCourses.forEach(course => {
+    const { percent, done, total, status } = getCourseProgress(course);
+    const card = document.createElement("div");
+    card.className = "course-card";
+    card.innerHTML = `
+      <h4>${course.name}</h4>
+      <p>Tiến độ: ${percent}% (${done}/${total} bài tập)</p>
+      <div class="progress-bar">
+        <div class="progress" style="width:${percent}%"></div>
+      </div>
+      <p>Giảng viên: ${course.teacherName}</p>
+      <p>Trạng thái: <strong>${status}</strong></p>
+    `;
+    sectionCourses.appendChild(card);
+  });
+}
 
 // RENDER PHẦN ĐIỂM SỐ
 const scoreTable = document.querySelector(".score-table");
-scoreTable.innerHTML = `
-  <tr>
-    <th>Khóa học</th>
-    <th>Trạng thái</th>
-    <th>Bài tập đã làm</th>
-    <th>Điểm trung bình (thang 100)</th>
-  </tr>
-`;
+if (scoreTable) {
+  scoreTable.innerHTML = `
+    <tr>
+      <th>Khóa học</th>
+      <th>Trạng thái</th>
+      <th>Bài tập đã làm</th>
+      <th>Điểm trung bình (thang 100)</th>
+    </tr>
+  `;
+}
 
 myCourses.forEach(course => {
   const { status, done, total } = getCourseProgress(course);
