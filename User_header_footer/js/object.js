@@ -38,19 +38,36 @@ export class User {
 
 export class UserManager {
   static getAllUsers() {
-    return JSON.parse(localStorage.getItem("listusers")) || {};
+    const raw = localStorage.getItem("listusers");
+    try {
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      console.error("Lỗi parse dữ liệu listusers:", e);
+      return {};
+    }
   }
+
   static saveAllUsers(users) {
     localStorage.setItem("listusers", JSON.stringify(users));
   }
+
   static getCurrentUserData() {
     const raw = localStorage.getItem("currentUserData");
     return raw ? JSON.parse(raw) : null;
   }
+
   static setCurrentUserData(userObj) {
     localStorage.setItem("currentUserData", JSON.stringify(userObj));
   }
+
+  static isEmailTaken(email) {
+    const users = this.getAllUsers();
+    console.log("Users in storage:", users);
+    return Object.values(users).some((u) => u && u.email === email);
+  }
 }
+
+
 
 export class Course {
   constructor({

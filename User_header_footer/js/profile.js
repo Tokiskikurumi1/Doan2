@@ -67,7 +67,7 @@ scoreTable.innerHTML = `
     <th>Khóa học</th>
     <th>Trạng thái</th>
     <th>Bài tập đã làm</th>
-    <th>Điểm trung bình</th>
+    <th>Điểm trung bình (thang 100)</th>
   </tr>
 `;
 
@@ -79,7 +79,31 @@ myCourses.forEach(course => {
       <td>${course.name}</td>
       <td>${status}</td>
       <td>${done}/${total}</td>
-      <td>${avgScore ? (avgScore / 10).toFixed(1) : "-"}</td>
+      <td>${avgScore ? avgScore : "-"}</td>
     </tr>
   `;
 });
+
+// RENDER LỊCH SỬ ĐIỂM
+const submissionBody = document.getElementById("submissionBody");
+if (submissionBody) {
+  submissionBody.innerHTML = ""; // clear cũ
+  results.forEach((r, index) => {
+    // tìm tên khóa học từ courseId
+    const course = courses.find(c => c.id === r.courseId);
+    const courseName = course ? course.name : "N/A";
+
+    // format thời gian
+    const date = new Date(r.date);
+    const formattedDate = date.toLocaleString("vi-VN");
+
+    submissionBody.innerHTML += `
+      <tr>
+        <td>${String(index + 1).padStart(2, "0")}</td>
+        <td>${r.subject}</td>
+        <td>${formattedDate}</td>
+        <td><strong style="color:${r.score >= 50 ? "var(--green)" : "var(--orange)"}">${r.score}</strong></td>
+      </tr>
+    `;
+  });
+}

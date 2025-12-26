@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("signup-button").onclick = registerUser;
   document.getElementById("login-button").onclick = loginUser;
-  document.getElementById("reset-button").onclick = resetPassword;
 });
 
 function showForm(formClass) {
@@ -58,11 +57,13 @@ function registerUser() {
       role: "student",
     });
 
-    newUser.save();
+
+    UserManager.addUser(newUser);
+
     alert("Đăng ký thành công!");
     showForm("Auth-Login");
   } catch (err) {
-    alert(err.message);
+    alert("Có lỗi khi đăng ký: " + err.message);
   }
 }
 
@@ -84,8 +85,6 @@ function loginUser() {
   if (user.password !== password) return alert("Mật khẩu không đúng.");
   if (user.role !== role) return alert("Vai trò không khớp với tài khoản.");
 
-
-  // Lưu FULL user vào localStorage
   UserManager.setCurrentUserData(user);
 
   if (rememberMe) {
@@ -99,6 +98,6 @@ function loginUser() {
   if (user.role === "teacher") {
     window.location.href = "../Teacher/teacher.html";
   } else if (user.role === "student") {
-    window.location.href = "./info.html";
+    window.location.href = "./home.html";
   }
 }

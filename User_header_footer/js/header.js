@@ -14,7 +14,6 @@ class HeaderComponent extends HTMLElement {
           this.initLogout();
           this.initMessenger();
           this.initChatList();
-          
         });
       })
       .catch(err => console.error("Lỗi load header.html:", err));
