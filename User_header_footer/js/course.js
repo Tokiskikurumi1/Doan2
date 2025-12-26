@@ -142,3 +142,7 @@ btnSearch.addEventListener("click", () => {
 
 // ========================== LOAD LÚC ĐẦU ==========================
 updateCourse("ALL");
+# Performance optimization
+# Code optimization and refactoring
+# Performance optimization
+# Database optimization
