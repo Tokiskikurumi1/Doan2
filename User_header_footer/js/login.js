@@ -50,7 +50,7 @@ function registerUser() {
   const users = UserManager.getAllUsers();
   const exists = Object.values(users).some((u) => u.username === username);
   if (exists) return alert("Tên tài khoản đã tồn tại.");
-  if (UserManager.isEmailTaken(email)) return alert("Email đã được sử dụng.");
+  // if (UserManager.isEmailTaken(email)) return alert("Email đã được sử dụng.");
 
   try {
     const newUser = new User({
