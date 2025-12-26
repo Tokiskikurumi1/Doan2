@@ -65,6 +65,8 @@ function loadStudentData() {
     result = result.concat(mappedStudents);
   });
 
+  result.sort((a, b) => new Date(b.joined) - new Date(a.joined));
+
   allStudents = result;
 }
 

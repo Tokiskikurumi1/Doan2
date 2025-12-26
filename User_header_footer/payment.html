@@ -1,42 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/payment.css" />
+    <title>Xác nhận thanh toán</title>
+    <link rel="stylesheet" href="../Assets/CSS/Base/reset.css" />
+    <link rel="stylesheet" href="../Assets/CSS/Base/base.css" />
+    <link rel="stylesheet" href="../Assets/CSS/Base/card.css" />
+    <link rel="stylesheet" href="../Assets/CSS/Base/btn.css" />
+    <link rel="stylesheet" href="./css/header.css" />
+    <script type="module" src="./js/header.js"></script>
+    <link rel="stylesheet" href="./css/payment.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./css/payment.css" />
-  <title>Xác nhận thanh toán</title>
-  <link rel="stylesheet" href="../Assets/CSS/Base/reset.css">
-  <link rel="stylesheet" href="../Assets/CSS/Base/base.css">
-  <link rel="stylesheet" href="../Assets/CSS/Base/card.css">
-  <link rel="stylesheet" href="../Assets/CSS/Base/btn.css">
-  <link rel="stylesheet" href="./css/header.css">
-  <script type="module" src="./js/header.js"></script>
-  <link rel="stylesheet" href="./css/payment.css">
+  <body>
+    <app-header></app-header>
+    <div class="wrapper">
+      <div class="content">
+        <p>Quét mã QR bằng ứng dụng ZaloPay để thanh toán</p>
+        <p>Mã giao dịch: <span id="transaction-id"></span></p>
 
-  
-</head>
-
-<body>
-  <app-header></app-header>
-  <div class="wrapper">
-
-    <div class="content">
-      <p>Quét mã QR bằng ứng dụng ZaloPay để thanh toán</p>
-      <p>Mã giao dịch: <span id="transaction-id"></span></p>
-
-
-      <img src="../Assets/Images/OIP.webp" alt="QR Code" />
-      <p>Tổng tiền: <span id="payment-price"></span></p>
-      <button class="btnconfirm">Xác nhận thanh toán</button>
+        <img src="./img/OIP.webp" alt="QR Code" />
+        <p>Tổng tiền: <span id="payment-price"></span></p>
+        <button class="btnconfirm">Xác nhận thanh toán</button>
+      </div>
     </div>
+    <div id="main-footer"></div>
+    <script src="./js/footer.js"></script>
+  </body>
 
-
-  </div>
-  <div id="main-footer"></div>
-  <script src="./js/footer.js"></script>
-</body>
-
-<script type="module" src="./js/payment.js"></script>
-
+  <script type="module" src="./js/payment.js"></script>
 </html>

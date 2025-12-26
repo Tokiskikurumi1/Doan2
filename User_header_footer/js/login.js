@@ -37,16 +37,19 @@ function registerUser() {
     .value.trim();
   const agreeTerms = document.getElementById("checkbox1").checked;
 
-  if (!agreeTerms) return alert("Bạn phải đồng ý với điều khoản trước khi đăng ký.");
-  if (!usernameRegex.test(username)) return alert("Tên tài khoản không hợp lệ.");
+  if (!agreeTerms)
+    return alert("Bạn phải đồng ý với điều khoản trước khi đăng ký.");
+  if (!usernameRegex.test(username))
+    return alert("Tên tài khoản không hợp lệ.");
   if (!passwordRegex.test(password)) return alert("Mật khẩu không hợp lệ.");
-  if (password !== confirmPassword) return alert("Mật khẩu xác nhận không khớp.");
+  if (password !== confirmPassword)
+    return alert("Mật khẩu xác nhận không khớp.");
   if (!emailRegex.test(email)) return alert("Email không hợp lệ.");
 
   const users = UserManager.getAllUsers();
   const exists = Object.values(users).some((u) => u.username === username);
   if (exists) return alert("Tên tài khoản đã tồn tại.");
-  if (UserManager.isEmailTaken(email)) return alert("Email đã được sử dụng.");
+  // if (UserManager.isEmailTaken(email)) return alert("Email đã được sử dụng.");
 
   try {
     const newUser = new User({
@@ -84,6 +87,7 @@ function loginUser() {
   if (!user) return alert("Tài khoản không tồn tại.");
   if (user.password !== password) return alert("Mật khẩu không đúng.");
   if (user.role !== role) return alert("Vai trò không khớp với tài khoản.");
+
 
   UserManager.setCurrentUserData(user);
 

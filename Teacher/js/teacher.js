@@ -49,7 +49,7 @@ totalExercises.textContent = teacherAssignments.length;
 
 // ======================= TỔNG HỌC VIÊN CỦA GIẢNG VIÊN =======================
 
-let allStudents = []; // mỗi phần tử: { id, name, date, courseName, price }
+let allStudents = [];
 
 teacherCourses.forEach((course) => {
   if (Array.isArray(course.students)) {
@@ -57,7 +57,7 @@ teacherCourses.forEach((course) => {
       allStudents.push({
         id: s.id,
         name: s.name || s.yourname || "Không tên",
-        date: s.date, // đang lưu ISO string
+        date: s.date,
         courseName: course.name,
         price: course.price,
       });

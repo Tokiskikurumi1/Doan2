@@ -14,9 +14,8 @@ fetch("components/header.html")
   .then((html) => {
     document.getElementById("header-placeholder").innerHTML = html;
 
-    // GỌI SAU KHI HEADER ĐÃ ĐƯỢC CHÈN VÀO DOM
     updateLoginStatus();
-    MenuToggle(); // phải gọi ở đây, không gọi sớm quá!
+    MenuToggle();
   })
   .catch((err) => console.error("Lỗi load header:", err));
 
@@ -26,9 +25,8 @@ function MenuToggle() {
   const leftSlide = document.querySelector(".left-slide");
   const overlay = document.getElementById("overlay");
 
-  // Phải kiểm tra tồn tại (vì có thể đang ở trang không có header)
   if (!menuIcon || !leftSlide || !overlay) {
-    return; // thoát nếu không có phần tử (trang login chẳng hạn)
+    return;
   }
 
   menuIcon.onclick = () => {
@@ -57,7 +55,7 @@ function restoreActiveMenu() {
   const links = document.querySelectorAll(".nav-bar-title ul li a");
   const activeIndex = localStorage.getItem("activeMenu");
 
-  if (!links.length) return; // nếu chưa load sidebar thì thôi
+  if (!links.length) return;
 
   links.forEach((a) => a.classList.remove("active"));
   if (activeIndex !== null && links[activeIndex]) {
