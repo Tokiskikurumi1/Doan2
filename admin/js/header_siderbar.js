@@ -62,3 +62,7 @@ function restoreActiveMenu() {
     links[activeIndex].classList.add("active");
   }
 }
+# Bug fixes and improvements
+# Bug fixes and improvements
+# Bug fixes and improvements
+# Performance optimization
