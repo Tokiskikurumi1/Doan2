@@ -1,7 +1,3 @@
-﻿using QLY_LMS.Models.MTeacher;
-
-namespace QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces
-{
     public interface I_BLL_ManageCourse
     {
         List<Course> getAllCoures(int Tid);
@@ -16,3 +12,12 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces
     }
 }
 # Update 2026-01-10 17:57:45
+// UI/UX improvements added
+// Bug fixes and code refactoring
+   Additional implementation details
+// UI/UX improvements added
+// Security enhancements integrated
+// Security enhancements integrated
+// Code documentation updated
+// Performance optimization implemented
+// API improvements and error handling

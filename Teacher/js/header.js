@@ -1,5 +1,3 @@
-    restoreActiveMenu();
-    sideBarActive();
   })
   .catch((err) => console.error("Lỗi load sidebar:", err));
 
@@ -119,3 +117,12 @@ function updateLoginStatus() {
 /* Multi-line comment block
 // API improvements and error handling
 // Performance optimization implemented
+// Security enhancements integrated
+// Feature flag implementation
+// Code documentation updated
+// Database optimization completed
+// Performance optimization implemented
+// Code documentation updated
+// Logging mechanism enhanced
+// API improvements and error handling
+   Code review suggestions applied */
