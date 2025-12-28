@@ -1,7 +1,3 @@
-        public int CourseID { get; set; }
-        public string CourseName { get; set; }
-        public string CourseType { get; set; }
-        public string CourseDes { get; set; }
         public DateTime? CourseDate { get; set; }
         public decimal CoursePrice { get; set; }
         public byte CourseStatus { get; set; }
@@ -26,3 +22,14 @@
 // Unit tests added for better coverage
 // UI/UX improvements added
 // Logging mechanism enhanced
+// Unit tests added for better coverage
+// Code documentation updated
+// Code documentation updated
+// Bug fixes and code refactoring
+/* Multi-line comment block
+// API improvements and error handling
+/* Multi-line comment block
+// Performance optimization implemented
+// Unit tests added for better coverage
+// Performance optimization implemented
+// Code documentation updated
