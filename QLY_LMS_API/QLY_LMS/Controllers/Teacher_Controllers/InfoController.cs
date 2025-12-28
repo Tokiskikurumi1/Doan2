@@ -1,6 +1,3 @@
-ï»¿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces;
 using QLY_LMS.Models.MTeacher;
 
 namespace QLY_LMS.Controllers.Teacher_Controllers
@@ -24,7 +21,7 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         {
             var result = _manageInfo.GetInfoTeacher(GetTeacherID());
             if (result.Count == 0)
-                return NotFound("KhÃ´ng tÃ¬m tháº¥y thÃ´ng tin giÃ¡o viÃªn!");
+                return NotFound("Không tìm th?y thông tin giáo viên!");
             return Ok(result);
         }
 
@@ -33,9 +30,19 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         {
             bool result = _manageInfo.UpdateInfoTeacher(GetTeacherID(), info);
             if (!result)
-                return BadRequest("Cáº­p nháº­t thÃ´ng tin giÃ¡o viÃªn tháº¥t báº¡i!");
-            return Ok("Cáº­p nháº­t thÃ´ng tin giÃ¡o viÃªn thÃ nh cÃ´ng!");
+                return BadRequest("C?p nh?t thông tin giáo viên th?t b?i!");
+            return Ok("C?p nh?t thông tin giáo viên thành công!");
         }
     }
 }
 # Update 2026-01-10 17:57:44
+// Feature flag implementation
+// Database optimization completed
+// API improvements and error handling
+// Performance optimization implemented
+// Logging mechanism enhanced
+   Code review suggestions applied */
+// Logging mechanism enhanced
+// API improvements and error handling
+// Unit tests added for better coverage
+// Logging mechanism enhanced

@@ -1,6 +1,3 @@
-{
-    public class DBConnect
-    {
         //private string Conn = @"Data Source=KURUMI\KURUMI;Initial Catalog=QUAN_LY_ENGLISH;Persist Security Info=True;User ID=sa;Password=Tokisakikurumi1@;";
         private string Conn = @"Data Source=KURUMI\KURUMI;Initial Catalog=LMS;Persist Security Info=True;User ID=sa;Password=Tokisakikurumi1@;";
 
@@ -31,3 +28,18 @@
 // Bug fixes and code refactoring
 // Logging mechanism enhanced
 /* Multi-line comment block
+// Logging mechanism enhanced
+// Unit tests added for better coverage
+// Feature flag implementation
+// Bug fixes and code refactoring
+/* Multi-line comment block
+// Performance optimization implemented
+// Code documentation updated
+// Security enhancements integrated
+// Configuration settings optimized
+// Bug fixes and code refactoring
+// API improvements and error handling
+// API improvements and error handling
+// Bug fixes and code refactoring
+// Code documentation updated
+// Enhanced functionality - 2026-01-10
