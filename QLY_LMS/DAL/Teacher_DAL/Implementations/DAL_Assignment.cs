@@ -52,9 +52,84 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
                         return list;
                     }
                 }
+            }     
+        }
+
+        public List<Assignment> getAllAssignment(int teacherID)
+        {
+            var list = new List<Assignment>();
+
+            using (SqlConnection conn = _db.GetConnection())
+            {
+                using (SqlCommand cmd = new SqlCommand("tc_assignment_get_all_assignment", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@teacherID", teacherID);
+
+                    conn.Open();
+                    using (SqlDataReader rd = cmd.ExecuteReader())
+                    {
+                        while (rd.Read())
+                        {
+                            list.Add(new Assignment
+                            {
+                                assignmentID = (int)rd["assignmentID"],
+                                videoID = (int)rd["videoID"],
+                                teacherID = (int)rd["teacherID"],
+                                assignmentName = rd["assignmentName"].ToString(),
+                                assignmentCourse = rd["assignmentCourse"].ToString(),
+                                assignmentType = rd["assignmentType"].ToString(),
+                                assignmentDeadline = (DateTime)rd["assignmentDeadline"],
+                                assignmentDuration = (int)rd["assignmentDuration"],
+                                assignmentDes = rd["assignmentDes"].ToString(),
+                                assignmentStatus = rd["assignmentStatus"].ToString()
+                            });
+                        }
+
+                        return list;
+                    }
+                }
             }
-               
-            
+        }
+
+        public List<Assignment> getAssignmentById(int assignmentID, int teacherID)
+        {
+            var list = new List<Assignment>();
+
+            using (SqlConnection conn = _db.GetConnection())
+            {
+                using (SqlCommand cmd = new SqlCommand("tc_assignment_get_by_id", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
+                    cmd.Parameters.AddWithValue("@teacherID", teacherID);
+
+                    conn.Open();
+                    using (SqlDataReader rd = cmd.ExecuteReader())
+                    {
+                        while (rd.Read())
+                        {
+                            list.Add(new Assignment
+                            {
+                                assignmentID = (int)rd["assignmentID"],
+                                videoID = (int)rd["videoID"],
+                                teacherID = (int)rd["teacherID"],
+                                assignmentName = rd["assignmentName"].ToString(),
+                                assignmentCourse = rd["assignmentCourse"].ToString(),
+                                assignmentType = rd["assignmentType"].ToString(),
+                                assignmentDeadline = (DateTime)rd["assignmentDeadline"],
+                                assignmentDuration = (int)rd["assignmentDuration"],
+                                assignmentDes = rd["assignmentDes"].ToString(),
+                                assignmentStatus = rd["assignmentStatus"].ToString()
+                            });
+                        }
+
+                        return list;
+                    }
+                }
+            }
         }
 
         public bool CreateAssignment(AssignmentRequest req, int teacherID)

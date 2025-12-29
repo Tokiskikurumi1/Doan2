@@ -1,6 +1,6 @@
 ﻿using QLY_LMS.Modal;
 
-namespace QLY_LMS.DAL.Admin.Interfaces
+namespace ADMIN.DAL.Interfaces
 {
     public interface IUserDAL
     {

@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using QLY_LMS.BLL.Admin_BLL.BLL_Implementations;
-using QLY_LMS.BLL.Admin_BLL.BLL_Interfaces;
 using QLY_LMS.BLL.Teacher_BLL.BLL_Implementations;
 using QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces;
-using QLY_LMS.DAL.Admin.Implementations;
-using QLY_LMS.DAL.Admin.Interfaces;
 using QLY_LMS.DAL.Teacher_DAL.Implementations;
 using QLY_LMS.DAL.Teacher_DAL.Interfaces;
 using QLY_LMS.Data;
@@ -43,17 +39,23 @@ namespace QLY_LMS
             builder.Services.AddScoped<DBConnect>();
 
             // BLL
-            builder.Services.AddScoped<IUserBLL, UserBLL>();
             builder.Services.AddScoped<I_BLL_ManageCourse, BLL_ManageCourse>();
             builder.Services.AddScoped<I_BLL_ManageVideoCourse, BLL_ManageVideoCourse>();
             builder.Services.AddScoped<I_BLL_ManageAssignment, BLL_ManageAssignment>();
             builder.Services.AddScoped<I_BLL_ManageStudent, BLL_ManageStudent>();
+            builder.Services.AddScoped<I_BLL_Question, BLL_Question>();
+            builder.Services.AddScoped<I_BLL_Answer, BLL_Answer>();
+            builder.Services.AddScoped<I_BLL_Info, BLL_Info>();
+            builder.Services.AddScoped<I_BLL_UpdatePass, BLL_UpdatePass>();
             // DAL
-            builder.Services.AddScoped<IUserDAL, UserDAL>();
             builder.Services.AddScoped<I_DAL_ManageCourse, DAL_ManageCourse>();
             builder.Services.AddScoped<I_DAL_ManageVideoCourse, DAL_ManageVideoCourse>();
             builder.Services.AddScoped<I_DAL_Assignment, DAL_Assignment>();
             builder.Services.AddScoped<I_DAL_ManageStudent, DAL_ManageStudent>();
+            builder.Services.AddScoped<I_DAL_Question, DAL_Question>();
+            builder.Services.AddScoped<I_DAL_Answer, DAL_Answer>();
+            builder.Services.AddScoped<I_DAL_Info, DAL_Info>();
+            builder.Services.AddScoped<I_DAL_UpdatePass, DAL_UpdatePass>();
             // CONTROLLER + SWAGGER
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

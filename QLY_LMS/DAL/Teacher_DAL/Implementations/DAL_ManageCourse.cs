@@ -1,7 +1,6 @@
 ﻿using QLY_LMS.Data;
 using QLY_LMS.Models.MTeacher;
 using QLY_LMS.DAL.Teacher_DAL.Interfaces;
-using QLY_LMS.Modal;
 using System.Data.SqlClient;
 using System.Data;
 using QLY_LMS.Controllers.Teacher_Controllers;

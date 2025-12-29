@@ -1,5 +1,5 @@
-﻿using QLY_LMS.BLL.Admin_BLL.BLL_Interfaces;
-using QLY_LMS.DAL.Admin.Interfaces;
+﻿using ADMIN.DAL.Interfaces;
+using QLY_LMS.BLL.Admin_BLL.BLL_Interfaces;
 using QLY_LMS.Modal;
 
 namespace QLY_LMS.BLL.Admin_BLL.BLL_Implementations

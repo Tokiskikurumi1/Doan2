@@ -19,6 +19,16 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
             return _dal.GetAssignments(videoID, teacherID);
         }
 
+        public List<Assignment> getAllAssignment(int teacherID)
+        {
+            return _dal.getAllAssignment(teacherID);
+        }
+
+        public List<Assignment> getAssignmentById(int assignmentID, int teacherID)
+        {
+            return _dal.getAssignmentById(assignmentID, teacherID);
+        }
+
         public bool CreateAssignment(AssignmentRequest req, int teacherID)
         {
             return _dal.CreateAssignment(req, teacherID);

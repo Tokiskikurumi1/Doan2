@@ -1,4 +1,4 @@
-﻿namespace QLY_LMS.DAL.Admin.Interfaces
+﻿namespace ADMIN.DAL.Interfaces
 {
     public class ICourseDAL
     {

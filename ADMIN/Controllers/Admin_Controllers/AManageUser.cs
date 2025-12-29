@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using QLY_LMS.Modal;
 using System.Collections.Generic;
 using QLY_LMS.BLL.Admin_BLL.BLL_Interfaces;
-using QLY_LMS.DAL.Admin.Implementations;
+using ADMIN.DAL.Implementations;
 
 [Route("api/[controller]")]
 [ApiController]

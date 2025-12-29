@@ -1,6 +1,7 @@
 ﻿using QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces;
 using QLY_LMS.DAL.Teacher_DAL.Interfaces;
 using QLY_LMS.Models.MTeacher;
+using QLY_LMS.Models.MTeacher.Request;
 
 namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
 {
@@ -19,7 +20,7 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
 
         }
 
-        public bool CreateVideo(Video_course video, int teacherID)
+        public bool CreateVideo(create_video video, int teacherID)
         {
             return _ManageCourse.CreateVideo(video, teacherID);
         }

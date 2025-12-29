@@ -5,7 +5,7 @@ namespace QLY_LMS.Models.MTeacher
 {
     public class Video_course
     {
-        [JsonIgnore]
+        //[JsonIgnore]
         public int videoID { get; set; }
         [Required]
         public int courseID { get; set; }
