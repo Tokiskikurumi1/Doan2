@@ -14,3 +14,5 @@ namespace QLY_LMS.Models.MTeacher.Request
         public int questionIndex { get; set; }
     }
 }
+# Performance optimization
+# Performance optimization
