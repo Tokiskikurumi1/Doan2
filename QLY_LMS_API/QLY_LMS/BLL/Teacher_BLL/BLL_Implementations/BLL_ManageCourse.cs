@@ -16,21 +16,20 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
             _manageCourse = manageCourse;
         }
 
-        public bool createCourse(CourseRequest courses)
+        public bool createCourse(CourseRequest courses, out string Mess)
         {
-            //Mess = string.Empty;
-            //if (string.IsNullOrEmpty(courses.courseName) || string.IsNullOrEmpty(courses.courseType) || 
-            //    string.IsNullOrEmpty(courses.courseDes) || string.IsNullOrEmpty(courses.courseStatus))
-            //{
-            //    Mess = "Không được để trống dữ liệu!";
-            //    return false;
-            //}
-            //if (courses.coursePrice < 0)
-            //{
-            //    Mess = "Giá không được nhỏ hơn 0!";
-            //    return false;
-            //}
-            return _manageCourse.createCourse(courses);
+            Mess = string.Empty;
+            if(courses.coursePrice <= 0)
+            {
+                Mess = "Giá tiền khóa học không được nhỏ hơn 0!";
+                return false;
+            }
+            if (courses.courseStatus != "incomplete" && courses.courseStatus != "completed")
+            {
+                Mess = "Trạng thái khóa học chỉ được là completed hoặc incomplete!";
+                return false;
+            }
+            return _manageCourse.createCourse(courses, out Mess);
         }
 
         public List<Course> getAllCoures(int TId)
@@ -38,9 +37,9 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
             return _manageCourse.getAllCoures(TId);
         }
 
-        public bool updateCourse(int courseID, Course course)
+        public bool updateCourse(int courseID, Course course, out string Mess)
         {
-            return _manageCourse.updateCourse(courseID, course);
+            return _manageCourse.updateCourse(courseID, course, out Mess);
         }
 
         public bool deleteCourse(int courseID, int teacherID) 

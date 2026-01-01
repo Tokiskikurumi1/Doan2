@@ -17,14 +17,14 @@ namespace QLY_LMS.Models.MTeacher
         [StringLength(200)]
         public string courseDes { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = "Ngày tạo không được để trống hoặc có chữ cái!")]
         public DateOnly courseDate { get; set; }
 
         [Required]
         [Range(0, 9999999999.999)]
         public decimal coursePrice { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Trạng thái khóa học không được để trống!")]
         public string courseStatus { get; set; } = "incomplete";
 
         public string? courseImage { get; set; }

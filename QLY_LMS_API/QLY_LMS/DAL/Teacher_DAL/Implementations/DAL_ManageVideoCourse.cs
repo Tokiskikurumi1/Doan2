@@ -52,87 +52,96 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
         /* ==========================================================
            2. THÊM VIDEO 
         ========================================================== */
-        public bool CreateVideo(create_video video, int teacherID)
+        public bool CreateVideo(create_video video, int teacherID, out string Mess)
         {
-            using (var conn = _db.GetConnection())
-            using (var cmd = new SqlCommand("tc_video_create", conn))
+            Mess = string.Empty;
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@courseID", video.courseID);
-                cmd.Parameters.AddWithValue("@teacherID", teacherID);
-                cmd.Parameters.AddWithValue("@videoName", video.videoName);
-                cmd.Parameters.AddWithValue("@videoURL", video.videoURL);
-                cmd.Parameters.AddWithValue("@videoProgress", video.videoProgress);
-
-                conn.Open();
-
-                try
+                using (var conn = _db.GetConnection())
                 {
-                    cmd.ExecuteNonQuery();
-                    return true;
+                    using (var cmd = new SqlCommand("tc_video_create", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@courseID", video.courseID);
+                        cmd.Parameters.AddWithValue("@teacherID", teacherID);
+                        cmd.Parameters.AddWithValue("@videoName", video.videoName);
+                        cmd.Parameters.AddWithValue("@videoURL", video.videoURL);
+                        cmd.Parameters.AddWithValue("@videoProgress", video.videoProgress);
+
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
                 }
-                catch (SqlException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
+            }
+            catch (SqlException ex)
+            {
+                Mess = ex.Message;
+                return false;
             }
         }
 
         /* ==========================================================
            3. CẬP NHẬT VIDEO 
         ========================================================== */
-        public bool UpdateVideo(Video_courseRequest video, int teacherID)
+        public bool UpdateVideo(Video_courseRequest video, int teacherID, out string Mess)
         {
-            using (var conn = _db.GetConnection())
-            using (var cmd = new SqlCommand("tc_video_update", conn))
+            Mess = string.Empty;
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@videoID", video.videoID);
-                cmd.Parameters.AddWithValue("@teacherID", teacherID);
-                cmd.Parameters.AddWithValue("@videoName", video.videoName);
-                cmd.Parameters.AddWithValue("@videoURL", video.videoURL);
-                cmd.Parameters.AddWithValue("@videoProgress", video.videoProgress);
-
-                conn.Open();
-
-                try
+                using (var conn = _db.GetConnection())
                 {
-                    cmd.ExecuteNonQuery();
-                    return true;
+                    using (var cmd = new SqlCommand("tc_video_update", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@videoID", video.videoID);
+                        cmd.Parameters.AddWithValue("@teacherID", teacherID);
+                        cmd.Parameters.AddWithValue("@videoName", video.videoName);
+                        cmd.Parameters.AddWithValue("@videoURL", video.videoURL);
+                        cmd.Parameters.AddWithValue("@videoProgress", video.videoProgress);
+
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
                 }
-                catch (SqlException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
+            }
+            catch (SqlException ex)
+            {
+                Mess = ex.Message;
+                return false;
             }
         }
 
         /* ==========================================================
            4. XÓA VIDEO 
         ========================================================== */
-        public bool DeleteVideo(int videoID, int teacherID)
+        public bool DeleteVideo(int videoID, int teacherID, out string Mess)
         {
-            using (var conn = _db.GetConnection())
-            using (var cmd = new SqlCommand("tc_video_delete", conn))
+            Mess = string.Empty;
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.AddWithValue("@videoID", videoID);
-                cmd.Parameters.AddWithValue("@teacherID", teacherID);
-
-                conn.Open();
-
-                try
+                using (var conn = _db.GetConnection())
                 {
-                    cmd.ExecuteNonQuery();
-                    return true;
+                    using (var cmd = new SqlCommand("tc_video_delete", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@videoID", videoID);
+                        cmd.Parameters.AddWithValue("@teacherID", teacherID);
+
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
                 }
-                catch (SqlException ex)
-                {
-                    throw new Exception(ex.Message);
-                }
+            }
+            catch (SqlException ex)
+            {
+                Mess = ex.Message;
+                return false;
             }
         }
     }

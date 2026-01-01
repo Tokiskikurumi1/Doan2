@@ -20,19 +20,31 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
 
         }
 
-        public bool CreateVideo(create_video video, int teacherID)
+        public bool CreateVideo(create_video video, int teacherID, out string Mess)
         {
-            return _ManageCourse.CreateVideo(video, teacherID);
+
+            if (video.videoProgress != "incomplete" && video.videoProgress != "completed")
+            {
+                Mess = "Trạng thái video chỉ được là completed hoặc incomplete!";
+                return false;
+            }
+
+            return _ManageCourse.CreateVideo(video, teacherID, out Mess);
         }
 
-        public bool UpdateVideo(Video_courseRequest video, int teacherID)
+        public bool UpdateVideo(Video_courseRequest video, int teacherID, out string Mess)
         {
-            return _ManageCourse.UpdateVideo(video, teacherID);
+            if (video.videoProgress != "incomplete" && video.videoProgress != "completed")
+            {
+                Mess = "Trạng thái video chỉ được là completed hoặc incomplete!";
+                return false;
+            }
+            return _ManageCourse.UpdateVideo(video, teacherID, out Mess);
         }
 
-        public bool DeleteVideo(int videoID, int teacherID)
+        public bool DeleteVideo(int videoID, int teacherID, out string Mess)
         {
-            return _ManageCourse.DeleteVideo(videoID, teacherID);
+            return _ManageCourse.DeleteVideo(videoID, teacherID, out Mess);
         }
     }
 }

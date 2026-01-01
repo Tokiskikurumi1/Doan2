@@ -10,9 +10,9 @@ namespace QLY_LMS.Models.MTeacher
         [Required]
         public int courseID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Tên video không được để trống!")]
         public string videoName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Link video không được để trống!")]
         public string videoURL { get; set; }
         [Required]
         public string videoProgress { get; set; } = "incomplete";

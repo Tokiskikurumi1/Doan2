@@ -6,9 +6,9 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces
     public interface I_BLL_ManageVideoCourse
     {
         List<Video_course> GetAllVideo(int courseID, int teacherID);
-        bool CreateVideo(create_video video, int teacherID);
-        bool UpdateVideo(Video_courseRequest video, int teacherID);
-        bool DeleteVideo(int videoID, int teacherID);
+        bool CreateVideo(create_video video, int teacherID, out string Mess);
+        bool UpdateVideo(Video_courseRequest video, int teacherID, out string Mess);
+        bool DeleteVideo(int videoID, int teacherID, out string Mess);
 
     }
 }

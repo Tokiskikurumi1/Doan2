@@ -5,8 +5,8 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Interfaces
     public interface I_BLL_ManageCourse
     {
         List<Course> getAllCoures(int Tid);
-        bool createCourse(CourseRequest coures);
-        bool updateCourse(int courseID, Course course);
+        bool createCourse(CourseRequest coures, out string Mess);
+        bool updateCourse(int courseID, Course course, out string Mess);
 
         bool deleteCourse(int courseID, int teacherID);
         bool CheckCourseOfTeacher(int courseID, int teacherID);

@@ -43,8 +43,11 @@ public class VideoController : ControllerBase
     {
         int teacherID = GetTeacherID();
 
-        _service.CreateVideo(video, teacherID);
-
+        var result = _service.CreateVideo(video, teacherID, out string Mess);
+        if(!result)
+        {
+            return BadRequest(new { message = Mess });
+        }
         return Ok(new { message = "tạo mới video thành công!" });
     }
 
@@ -53,7 +56,11 @@ public class VideoController : ControllerBase
     {
         int teacherID = GetTeacherID();
 
-        _service.UpdateVideo(video, teacherID);
+        var result = _service.UpdateVideo(video, teacherID, out string Mess);
+        if (!result)
+        {
+            return BadRequest(new { message = Mess });
+        }
 
         return Ok(new { message = "sửa video thành công!" });
     }
@@ -63,7 +70,11 @@ public class VideoController : ControllerBase
     {
         int teacherID = GetTeacherID();
 
-        _service.DeleteVideo(videoID, teacherID);
+        var result = _service.DeleteVideo(videoID, teacherID, out string Mess);
+        if (!result)
+        {
+            return BadRequest(new { message = Mess });
+        }     
 
         return Ok(new { message = "xóa video thành công!" });
     }

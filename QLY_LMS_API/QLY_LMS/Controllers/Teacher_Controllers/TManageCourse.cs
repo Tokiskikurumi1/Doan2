@@ -44,8 +44,11 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
 
             model.teacherID = teacherId;  
 
-            var result = _ImanageCourse.createCourse(model);
-
+            var result = _ImanageCourse.createCourse(model, out string Mess);
+            if(!result)
+            {
+                return BadRequest(Mess);
+            }
             return Ok("Thêm khóa học thành công!");
         }
 
@@ -57,7 +60,11 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
 
             model.teacherID = teacherId;
 
-            var result = _ImanageCourse.updateCourse(courseID, model);
+            var result = _ImanageCourse.updateCourse(courseID, model, out string Mess);
+            if (!result)
+            {
+                return BadRequest(Mess);
+            }
             return Ok("Cập nhật thành công!");
         }
 
