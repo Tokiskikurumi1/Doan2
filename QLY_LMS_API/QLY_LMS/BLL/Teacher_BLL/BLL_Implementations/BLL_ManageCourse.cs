@@ -39,6 +39,16 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
 
         public bool updateCourse(int courseID, Course course, out string Mess)
         {
+            if (course.coursePrice <= 0)
+            {
+                Mess = "Giá tiền khóa học không được nhỏ hơn 0!";
+                return false;
+            }
+            if (course.courseStatus != "incomplete" && course.courseStatus != "completed")
+            {
+                Mess = "Trạng thái khóa học chỉ được là completed hoặc incomplete!";
+                return false;
+            }
             return _manageCourse.updateCourse(courseID, course, out Mess);
         }
 

@@ -36,6 +36,11 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
                 Mess = "Dạng bài tập chỉ được là Quizz, Reading, Rewrite!";
                 return false;
             }
+            if(req.assignmentStatus != "incomplete" && req.assignmentStatus != "completed")
+            {
+                Mess = "Trạng thái bài tập chỉ được là incomplete hoặc complete!";
+                return false;
+            }
             return _dal.CreateAssignment(req, teacherID, out Mess);
         }
 
@@ -44,6 +49,11 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
             if (req.assignmentType != "Quizz" && req.assignmentType != "Reading" && req.assignmentType != "Rewrite")
             {
                 Mess = "Dạng bài tập chỉ được là Quizz, Reading, Rewrite!";
+                return false;
+            }
+            if (req.assignmentStatus != "incomplete" && req.assignmentStatus != "completed")
+            {
+                Mess = "Trạng thái bài tập chỉ được là incomplete hoặc complete!";
                 return false;
             }
             return _dal.UpdateAssignment(req, teacherID, out Mess);
