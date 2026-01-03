@@ -16,43 +16,52 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
             _db = db;
         }
 
-        public List<Assignment> GetAssignments(int videoID, int teacherID)
+        public List<Assignment> GetAssignments(int videoID, int teacherID, out string Mess)
         {
+            Mess = string.Empty;
             var list = new List<Assignment>();
 
-            using (SqlConnection conn = _db.GetConnection())
+            try
             {
-                using (SqlCommand cmd = new SqlCommand("tc_assignment_get_by_video", conn))
+                using (SqlConnection conn = _db.GetConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@videoID", videoID);
-                    cmd.Parameters.AddWithValue("@teacherID", teacherID);
-
-                    conn.Open();
-                    using (SqlDataReader rd = cmd.ExecuteReader())
+                    using (SqlCommand cmd = new SqlCommand("tc_assignment_get_by_video", conn))
                     {
-                        while (rd.Read())
-                        {
-                            list.Add(new Assignment
-                            {
-                                assignmentID = (int)rd["assignmentID"],
-                                videoID = (int)rd["videoID"],
-                                teacherID = (int)rd["teacherID"],
-                                assignmentName = rd["assignmentName"].ToString(),
-                                assignmentCourse = rd["assignmentCourse"].ToString(),
-                                assignmentType = rd["assignmentType"].ToString(),
-                                assignmentDeadline = (DateTime)rd["assignmentDeadline"],
-                                assignmentDuration = (int)rd["assignmentDuration"],
-                                assignmentDes = rd["assignmentDes"].ToString(),
-                                assignmentStatus = rd["assignmentStatus"].ToString()
-                            });
-                        }
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                        return list;
+                        cmd.Parameters.AddWithValue("@videoID", videoID);
+                        cmd.Parameters.AddWithValue("@teacherID", teacherID);
+
+                        conn.Open();
+                        using (SqlDataReader rd = cmd.ExecuteReader())
+                        {
+                            while (rd.Read())
+                            {
+                                list.Add(new Assignment
+                                {
+                                    assignmentID = (int)rd["assignmentID"],
+                                    videoID = (int)rd["videoID"],
+                                    teacherID = (int)rd["teacherID"],
+                                    assignmentName = rd["assignmentName"].ToString(),
+                                    assignmentCourse = rd["assignmentCourse"].ToString(),
+                                    assignmentType = rd["assignmentType"].ToString(),
+                                    assignmentDeadline = (DateTime)rd["assignmentDeadline"],
+                                    assignmentDuration = (int)rd["assignmentDuration"],
+                                    assignmentDes = rd["assignmentDes"].ToString(),
+                                    assignmentStatus = rd["assignmentStatus"].ToString()
+                                });
+                            }
+
+                            return list;
+                        }
                     }
                 }
-            }     
+            }    
+            catch (SqlException ex)
+            {
+                Mess = ex.Message;
+                return list;
+            }
         }
 
         public List<Assignment> getAllAssignment(int teacherID)
@@ -93,109 +102,145 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
             }
         }
 
-        public List<Assignment> getAssignmentById(int assignmentID, int teacherID)
+        public List<Assignment> getAssignmentById(int assignmentID, int teacherID, out string Mess)
         {
+            Mess = string.Empty;
             var list = new List<Assignment>();
-
-            using (SqlConnection conn = _db.GetConnection())
+            try
             {
-                using (SqlCommand cmd = new SqlCommand("tc_assignment_get_by_id", conn))
+                using (SqlConnection conn = _db.GetConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
-                    cmd.Parameters.AddWithValue("@teacherID", teacherID);
-
-                    conn.Open();
-                    using (SqlDataReader rd = cmd.ExecuteReader())
+                    using (SqlCommand cmd = new SqlCommand("tc_assignment_get_by_id", conn))
                     {
-                        while (rd.Read())
-                        {
-                            list.Add(new Assignment
-                            {
-                                assignmentID = (int)rd["assignmentID"],
-                                videoID = (int)rd["videoID"],
-                                teacherID = (int)rd["teacherID"],
-                                assignmentName = rd["assignmentName"].ToString(),
-                                assignmentCourse = rd["assignmentCourse"].ToString(),
-                                assignmentType = rd["assignmentType"].ToString(),
-                                assignmentDeadline = (DateTime)rd["assignmentDeadline"],
-                                assignmentDuration = (int)rd["assignmentDuration"],
-                                assignmentDes = rd["assignmentDes"].ToString(),
-                                assignmentStatus = rd["assignmentStatus"].ToString()
-                            });
-                        }
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                        return list;
+                        cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
+                        cmd.Parameters.AddWithValue("@teacherID", teacherID);
+
+                        conn.Open();
+                        using (SqlDataReader rd = cmd.ExecuteReader())
+                        {
+                            while (rd.Read())
+                            {
+                                list.Add(new Assignment
+                                {
+                                    assignmentID = (int)rd["assignmentID"],
+                                    videoID = (int)rd["videoID"],
+                                    teacherID = (int)rd["teacherID"],
+                                    assignmentName = rd["assignmentName"].ToString(),
+                                    assignmentCourse = rd["assignmentCourse"].ToString(),
+                                    assignmentType = rd["assignmentType"].ToString(),
+                                    assignmentDeadline = (DateTime)rd["assignmentDeadline"],
+                                    assignmentDuration = (int)rd["assignmentDuration"],
+                                    assignmentDes = rd["assignmentDes"].ToString(),
+                                    assignmentStatus = rd["assignmentStatus"].ToString()
+                                });
+                            }
+
+                            return list;
+                        }
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                Mess = ex.Message;
+                return list;
+            }
+
         }
 
-        public bool CreateAssignment(AssignmentRequest req, int teacherID)
+        public bool CreateAssignment(AssignmentRequest req, int teacherID, out string Mess)
         {
-            using (SqlConnection conn = _db.GetConnection())
+            Mess = string.Empty;
+            try
             {
-                using (SqlCommand cmd = new SqlCommand("tc_assignment_create", conn))
+                using (SqlConnection conn = _db.GetConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlCommand cmd = new SqlCommand("tc_assignment_create", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@teacherID", teacherID);
-                    cmd.Parameters.AddWithValue("@videoID", req.videoID);
-                    cmd.Parameters.AddWithValue("@assignmentName", req.assignmentName);
-                    cmd.Parameters.AddWithValue("@assignmentCourse", req.assignmentCourse);
-                    cmd.Parameters.AddWithValue("@assignmentType", req.assignmentType);
-                    cmd.Parameters.AddWithValue("@assignmentDeadline", req.assignmentDeadline);
-                    cmd.Parameters.AddWithValue("@assignmentDuration", req.assignmentDuration);
-                    cmd.Parameters.AddWithValue("@assignmentDes", req.assginmentDes);
-                    cmd.Parameters.AddWithValue("@assignmentStatus", req.assignmentStatus?.ToLower() == "completed" ? "completed" : "incomplete");
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                    return true;
+                        cmd.Parameters.AddWithValue("@teacherID", teacherID);
+                        cmd.Parameters.AddWithValue("@videoID", req.videoID);
+                        cmd.Parameters.AddWithValue("@assignmentName", req.assignmentName);
+                        cmd.Parameters.AddWithValue("@assignmentCourse", req.assignmentCourse);
+                        cmd.Parameters.AddWithValue("@assignmentType", req.assignmentType);
+                        cmd.Parameters.AddWithValue("@assignmentDeadline", req.assignmentDeadline);
+                        cmd.Parameters.AddWithValue("@assignmentDuration", req.assignmentDuration);
+                        cmd.Parameters.AddWithValue("@assignmentDes", req.assginmentDes);
+                        cmd.Parameters.AddWithValue("@assignmentStatus", req.assignmentStatus?.ToLower() == "completed" ? "completed" : "incomplete");
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
                 }
             }
-        }
-        public bool UpdateAssignment(Assignment req, int teacherID)
-        {
-            using (SqlConnection conn = _db.GetConnection())
+            catch (SqlException ex)
             {
-                using (SqlCommand cmd = new SqlCommand("tc_assignment_update", conn))
+                Mess = ex.Message;
+                return false;
+            }
+        }
+        public bool UpdateAssignment(Assignment req, int teacherID, out string Mess)
+        {
+            Mess = string.Empty;
+            try
+            {
+                using (SqlConnection conn = _db.GetConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlCommand cmd = new SqlCommand("tc_assignment_update", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@assignmentID", req.assignmentID);
-                    cmd.Parameters.AddWithValue("@teacherID", teacherID);
-                    cmd.Parameters.AddWithValue("@assignmentName", req.assignmentName);
-                    cmd.Parameters.AddWithValue("@assignmentCourse", req.assignmentCourse);
-                    cmd.Parameters.AddWithValue("@assignmentType", req.assignmentType);
-                    cmd.Parameters.AddWithValue("@assignmentDeadline", req.assignmentDeadline);
-                    cmd.Parameters.AddWithValue("@assignmentDuration", req.assignmentDuration);
-                    cmd.Parameters.AddWithValue("@assignmentDes", req.assignmentDes);
-                    cmd.Parameters.AddWithValue("@assignmentStatus", req.assignmentStatus);
+                        cmd.Parameters.AddWithValue("@assignmentID", req.assignmentID);
+                        cmd.Parameters.AddWithValue("@teacherID", teacherID);
+                        cmd.Parameters.AddWithValue("@assignmentName", req.assignmentName);
+                        cmd.Parameters.AddWithValue("@assignmentCourse", req.assignmentCourse);
+                        cmd.Parameters.AddWithValue("@assignmentType", req.assignmentType);
+                        cmd.Parameters.AddWithValue("@assignmentDeadline", req.assignmentDeadline);
+                        cmd.Parameters.AddWithValue("@assignmentDuration", req.assignmentDuration);
+                        cmd.Parameters.AddWithValue("@assignmentDes", req.assignmentDes);
+                        cmd.Parameters.AddWithValue("@assignmentStatus", req.assignmentStatus);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                    return true;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
                 }
-            }            
+            }    
+            catch (SqlException ex)
+            {
+                Mess = ex.Message;
+                return false;
+            }
         }
 
-        public bool DeleteAssignment(int assignmentID, int teacherID)
+        public bool DeleteAssignment(int assignmentID, int teacherID, out string Mess)
         {
-            using (var conn = _db.GetConnection())
+            Mess = string.Empty;
+            try
             {
-                using (var cmd = new SqlCommand("tc_assignment_delete", conn))
+                using (var conn = _db.GetConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (var cmd = new SqlCommand("tc_assignment_delete", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
-                    cmd.Parameters.AddWithValue("@teacherID", teacherID);
+                        cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
+                        cmd.Parameters.AddWithValue("@teacherID", teacherID);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                    return true;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
                 }
-            }            
+            }
+            catch (SqlException ex)
+            {
+                Mess = ex.Message;
+                return false;
+            }
         }
     }
 }

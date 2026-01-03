@@ -17,7 +17,7 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
         }
         public bool UpdateInfoTeacher(int teacherID, info_teacher info_Teacher)
         {
-            return _dal.UpdateInfoTeacher(teacherID, info_Teacher);
+            return _dal.UpdateInfoTeacher(teacherID, info_Teacher, out string Mess);
         }
     }
 }

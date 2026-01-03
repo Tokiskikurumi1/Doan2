@@ -29,28 +29,42 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         {
             var result = _manageQuestion.GetAllQuestion(assignmentID, GetTeacherID());
             if (result.Count == 0)
+            {
                 return NotFound("Không tìm thấy câu hỏi trong bài tập này!");
+            }
             return Ok(result);
         }
 
         [HttpPost("create-new-question")]
         public IActionResult Create([FromBody] QuestionRequest req)
         {
-            _manageQuestion.CreateQuestion(req, GetTeacherID());
+            var result = _manageQuestion.CreateQuestion(req, GetTeacherID(), out string Mess);
+            if (!result)
+            {
+                return BadRequest(Mess);
+            }
             return Ok("Tạo câu hỏi thành công!");
         }
 
         [HttpPut("update-question")]
         public IActionResult Update([FromBody] Question req)
         {
-            _manageQuestion.UpdateQuestion(req, GetTeacherID());
+            var result = _manageQuestion.UpdateQuestion(req, GetTeacherID(), out string Mess);
+            if (!result)
+            {
+                return BadRequest(Mess);
+            }
             return Ok("Cập nhật câu hỏi thành công!");
         }
 
         [HttpDelete("delete-question/{questionID}")]
         public IActionResult Delete(int questionID)
         {
-            _manageQuestion.DeleteQuestion(questionID, GetTeacherID());
+            var result = _manageQuestion.DeleteQuestion(questionID, GetTeacherID(), out string Mess);
+            if (!result)
+            {
+                return BadRequest(Mess);
+            }
             return Ok("Xóa câu hỏi thành công!");
         }
     }

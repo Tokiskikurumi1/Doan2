@@ -37,8 +37,29 @@ public class TeacherCourseAuthorizationMiddleware
                 if (body.Contains("courseID"))
                 {
                     var obj = System.Text.Json.JsonSerializer.Deserialize<JsonElement>(body);
+
                     if (obj.TryGetProperty("courseID", out var cid))
                     {
+                        if (cid.ValueKind == JsonValueKind.Null)
+                        {
+                            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                            await context.Response.WriteAsJsonAsync(new
+                            {
+                                error = "courseID không được để trống"
+                            });
+                            return;
+                        }
+
+                        if (cid.ValueKind != JsonValueKind.Number)
+                        {
+                            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                            await context.Response.WriteAsJsonAsync(new
+                            {
+                                error = "courseID phải là số"
+                            });
+                            return;
+                        }
+
                         courseId = cid.GetInt32();
                     }
                 }

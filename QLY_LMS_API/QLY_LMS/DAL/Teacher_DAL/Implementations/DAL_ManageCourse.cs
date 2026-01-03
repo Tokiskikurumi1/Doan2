@@ -127,18 +127,25 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
 
         public bool deleteCourse(int courseID, int teacherID)
         {
-            using (SqlConnection conn = _db.GetConnection())
+            try
             {
-                using (SqlCommand cmd = new SqlCommand("tc_course_delete", conn))
+                using (SqlConnection conn = _db.GetConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@courseID", courseID);
-                    cmd.Parameters.AddWithValue("@teacherID", teacherID);
-                    conn.Open();
-                    var result = cmd.ExecuteNonQuery();
-                    return true;
+                    using (SqlCommand cmd = new SqlCommand("tc_course_delete", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@courseID", courseID);
+                        cmd.Parameters.AddWithValue("@teacherID", teacherID);
+                        conn.Open();
+                        var result = cmd.ExecuteNonQuery();
+                        return true;
+                    }
+
                 }
-                
+            }
+            catch (SqlException)
+            {
+                return false;
             }
         }
 

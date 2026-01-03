@@ -74,10 +74,6 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         {
             int teacherId = getTeacherID();
 
-            //bool allowed = _ImanageCourse.CheckCourseOfTeacher(courseID, teacherId);
-            //if (!allowed)
-            //    return BadRequest("Bạn không có quyền xóa khóa học này!");
-
             bool result = _ImanageCourse.deleteCourse(courseID, teacherId);
 
             return result

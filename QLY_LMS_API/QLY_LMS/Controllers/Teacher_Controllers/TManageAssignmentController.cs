@@ -27,8 +27,12 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         [HttpGet("get-all-assignment/{videoID}")]
         public IActionResult GetAssignments(int videoID)
         {
-            var result = _manageAssignment.GetAssignments(videoID, GetTeacherID());
-            if(result.Count == 0)
+            var result = _manageAssignment.GetAssignments(videoID, GetTeacherID(), out string Mess);
+            if(!string.IsNullOrEmpty(Mess))
+            {
+                return BadRequest(Mess);
+            }
+            if (result.Count == 0)
             {
                 return NotFound("Không tìm thấy bài tập trong video!");
             }
@@ -47,7 +51,11 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         [HttpGet("get-assignment-by-id/{assignmentID}")]
         public IActionResult GetAssignmentById(int assignmentID)
         {
-            var result = _manageAssignment.getAssignmentById(assignmentID, GetTeacherID());
+            var result = _manageAssignment.getAssignmentById(assignmentID, GetTeacherID(), out string Mess);
+            if (!string.IsNullOrEmpty(Mess))
+            {
+                return BadRequest(Mess);
+            }
             if (result.Count == 0)
             {
                 return NotFound("Không tìm thấy bài tập!");
@@ -58,21 +66,33 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         [HttpPost("create-assignment")]
         public IActionResult Create([FromBody] AssignmentRequest req)
         {
-            _manageAssignment.CreateAssignment(req, GetTeacherID());
+            var result = _manageAssignment.CreateAssignment(req, GetTeacherID(), out string Mess);
+            if (!result)
+            {
+                return BadRequest(Mess);
+            }
             return Ok("tạo bài tập thành công!");
         }
 
         [HttpPut("update-assignment")]
         public IActionResult Update([FromBody] Assignment req)
         {
-            _manageAssignment.UpdateAssignment(req, GetTeacherID());
+            var result = _manageAssignment.UpdateAssignment(req, GetTeacherID(), out string Mess);
+            if (!result)
+            {
+                return BadRequest(Mess);
+            }
             return Ok("cập nhật bài tập thành công!");
         }
 
         [HttpDelete("delete-assignment/{assignmentID}")]
         public IActionResult Delete(int assignmentID)
         {
-            _manageAssignment.DeleteAssignment(assignmentID, GetTeacherID());
+            var result = _manageAssignment.DeleteAssignment(assignmentID, GetTeacherID(), out string Mess);
+            if (!result)
+            {
+                return BadRequest(Mess);
+            }
             return Ok("xóa bài tập thành công!");
         }
     }

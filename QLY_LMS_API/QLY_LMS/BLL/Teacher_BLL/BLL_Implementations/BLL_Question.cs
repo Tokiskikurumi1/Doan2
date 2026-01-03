@@ -18,19 +18,19 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
             return _Question.GetAllQuestion(assignmentID, teacherID);
         }
 
-        public bool CreateQuestion(QuestionRequest question, int teacherID)
+        public bool CreateQuestion(QuestionRequest question, int teacherID, out string Mess)
         {
-            return _Question.CreateQuestion(question, teacherID);
+            return _Question.CreateQuestion(question, teacherID, out Mess);
         }
 
-        public bool UpdateQuestion(Question question, int teacherID)
+        public bool UpdateQuestion(Question question, int teacherID, out string Mess)
         {
-            return _Question.UpdateQuestion(question, teacherID);
+            return _Question.UpdateQuestion(question, teacherID, out Mess);
         }
 
-        public bool DeleteQuestion(int questionID, int teacherID)
+        public bool DeleteQuestion(int questionID, int teacherID, out string Mess)
         {
-            return _Question.DeleteQuestion(questionID, teacherID);
+            return _Question.DeleteQuestion(questionID, teacherID, out Mess);
         }
     }
 }

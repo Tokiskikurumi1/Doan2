@@ -49,27 +49,36 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
         }
 
         // CẬP NHẬT THÔNG TIN GIẢNG VIÊN
-        public bool UpdateInfoTeacher(int teacherID, info_teacher model)
+        public bool UpdateInfoTeacher(int teacherID, info_teacher model, out string Mess)
         {
-            using (SqlConnection conn = _db.GetConnection())
+            Mess = string.Empty;
+            try
             {
-                using (SqlCommand cmd = new SqlCommand("tc_update_info", conn))
+                using (SqlConnection conn = _db.GetConnection())
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlCommand cmd = new SqlCommand("tc_update_info", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@teacherID", teacherID);
-                    cmd.Parameters.AddWithValue("@userName", model.userName ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@Date_of_Birth",model.Date_of_Birth.ToDateTime(TimeOnly.MinValue));
-                    cmd.Parameters.AddWithValue("@gender", string.IsNullOrEmpty(model.gender) ? (object)DBNull.Value : model.gender);
-                    cmd.Parameters.AddWithValue("@district", string.IsNullOrEmpty(model.district) ? (object)DBNull.Value : model.district);
-                    cmd.Parameters.AddWithValue("@province", string.IsNullOrEmpty(model.province) ? (object)DBNull.Value : model.province);
-                    cmd.Parameters.AddWithValue("@phoneNumber", string.IsNullOrEmpty(model.phoneNumber) ? (object)DBNull.Value : model.phoneNumber);
-                    cmd.Parameters.AddWithValue("@Email", model.Email ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@teacherID", teacherID);
+                        cmd.Parameters.AddWithValue("@userName", model.userName ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@Date_of_Birth", model.Date_of_Birth.ToDateTime(TimeOnly.MinValue));
+                        cmd.Parameters.AddWithValue("@gender", string.IsNullOrEmpty(model.gender) ? (object)DBNull.Value : model.gender);
+                        cmd.Parameters.AddWithValue("@district", string.IsNullOrEmpty(model.district) ? (object)DBNull.Value : model.district);
+                        cmd.Parameters.AddWithValue("@province", string.IsNullOrEmpty(model.province) ? (object)DBNull.Value : model.province);
+                        cmd.Parameters.AddWithValue("@phoneNumber", string.IsNullOrEmpty(model.phoneNumber) ? (object)DBNull.Value : model.phoneNumber);
+                        cmd.Parameters.AddWithValue("@Email", model.Email ?? (object)DBNull.Value);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                    return true;
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
                 }
+            }
+            catch (SqlException ex)
+            {
+                Mess = ex.Message;
+                return false;
             }
         }
     }

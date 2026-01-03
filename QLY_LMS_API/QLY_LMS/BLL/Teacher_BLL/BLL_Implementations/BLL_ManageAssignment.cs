@@ -14,9 +14,9 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
             _dal = dal;
         }
 
-        public List<Assignment> GetAssignments(int videoID, int teacherID)
+        public List<Assignment> GetAssignments(int videoID, int teacherID, out string Mess)
         {
-            return _dal.GetAssignments(videoID, teacherID);
+            return _dal.GetAssignments(videoID, teacherID, out Mess);
         }
 
         public List<Assignment> getAllAssignment(int teacherID)
@@ -24,23 +24,33 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
             return _dal.getAllAssignment(teacherID);
         }
 
-        public List<Assignment> getAssignmentById(int assignmentID, int teacherID)
+        public List<Assignment> getAssignmentById(int assignmentID, int teacherID, out string Mess)
         {
-            return _dal.getAssignmentById(assignmentID, teacherID);
+            return _dal.getAssignmentById(assignmentID, teacherID, out Mess);
         }
 
-        public bool CreateAssignment(AssignmentRequest req, int teacherID)
+        public bool CreateAssignment(AssignmentRequest req, int teacherID, out string Mess)
         {
-            return _dal.CreateAssignment(req, teacherID);
+            if(req.assignmentType != "Quizz" && req.assignmentType != "Reading" && req.assignmentType != "Rewrite")
+            {
+                Mess = "Dạng bài tập chỉ được là Quizz, Reading, Rewrite!";
+                return false;
+            }
+            return _dal.CreateAssignment(req, teacherID, out Mess);
         }
 
-        public bool UpdateAssignment(Assignment req, int teacherID)
+        public bool UpdateAssignment(Assignment req, int teacherID, out string Mess)
         {
-            return _dal.UpdateAssignment(req, teacherID);
+            if (req.assignmentType != "Quizz" && req.assignmentType != "Reading" && req.assignmentType != "Rewrite")
+            {
+                Mess = "Dạng bài tập chỉ được là Quizz, Reading, Rewrite!";
+                return false;
+            }
+            return _dal.UpdateAssignment(req, teacherID, out Mess);
         }
-        public bool DeleteAssignment(int assignmentID, int teacherID)
+        public bool DeleteAssignment(int assignmentID, int teacherID, out string Mess)
         {
-            return _dal.DeleteAssignment(assignmentID, teacherID);
+            return _dal.DeleteAssignment(assignmentID, teacherID, out Mess);
         }
     }
 }

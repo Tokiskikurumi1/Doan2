@@ -26,30 +26,48 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         [HttpGet("get-all-answer/{questionID}")]
         public IActionResult GetAllAnswers(int questionID)
         {
-            var result = _manageAnswer.GetAllAnswer(questionID, GetTeacherID());
+            var result = _manageAnswer.GetAllAnswer(questionID, GetTeacherID(), out string Mess);
+            if (!string.IsNullOrEmpty(Mess))
+            {
+                return BadRequest(Mess);
+            }
             if (result.Count == 0)
+            {
                 return NotFound("Không tìm thấy đáp án cho câu hỏi này!");
+            }
             return Ok(result);
         }
 
         [HttpPost("create-answer")]
         public IActionResult Create([FromBody] AnswerRequest req)
         {
-            bool resutl = _manageAnswer.CreateAnswer(req, GetTeacherID());
+            var resutl = _manageAnswer.CreateAnswer(req, GetTeacherID(), out string Mess);
+            if (!resutl)
+            {
+                return BadRequest(Mess);
+            }
             return Ok("Tạo đáp án thành công!");
         }
 
         [HttpPut("update-answer")]
         public IActionResult Update([FromBody] Answer req)
         {
-            _manageAnswer.UpdateAnswer(req, GetTeacherID());
+            var result = _manageAnswer.UpdateAnswer(req, GetTeacherID(), out string Mess);
+            if (!result)
+            {
+                return BadRequest(Mess);
+            }
             return Ok("Cập nhật đáp án thành công!");
         }
 
         [HttpDelete("delete-answer/{answerID}")]
         public IActionResult Delete(int answerID)
         {
-            _manageAnswer.DeleteAnswer(answerID, GetTeacherID());
+            var result = _manageAnswer.DeleteAnswer(answerID, GetTeacherID(), out string Mess);
+            if (!result)
+            {
+                return BadRequest(Mess);
+            }
             return Ok("Xóa đáp án thành công!");
         }
     }

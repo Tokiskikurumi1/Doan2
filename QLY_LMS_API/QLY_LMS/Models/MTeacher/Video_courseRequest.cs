@@ -5,7 +5,7 @@ namespace QLY_LMS.Models.MTeacher
 {
     public class Video_courseRequest
     {
-        [Required]
+        [Required(ErrorMessage = "ID video không được để trống!")]
         public int videoID { get; set; }
         [Required]
         public int courseID { get; set; }

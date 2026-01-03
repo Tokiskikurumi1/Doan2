@@ -13,22 +13,22 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
         {
             _dal = dal;
         }
-        public List<Answer> GetAllAnswer(int questionID, int teacherID)
+        public List<Answer> GetAllAnswer(int questionID, int teacherID, out string Mess)
         {
-            return _dal.GetAllAnswer(questionID, teacherID);
+            return _dal.GetAllAnswer(questionID, teacherID, out Mess);
         }
-        public bool CreateAnswer(AnswerRequest answer, int teacherID)
+        public bool CreateAnswer(AnswerRequest answer, int teacherID, out string Mess)
         {
-            return _dal.CreateAnswer(answer, teacherID);
+            return _dal.CreateAnswer(answer, teacherID, out Mess);
         }
-        public bool UpdateAnswer(Answer answer, int teacherID)
+        public bool UpdateAnswer(Answer answer, int teacherID, out string Mess)
         {
-            return _dal.UpdateAnswer(answer, teacherID);
+            return _dal.UpdateAnswer(answer, teacherID, out Mess);
         }
 
-        public bool DeleteAnswer(int answerID, int teacherID)
+        public bool DeleteAnswer(int answerID, int teacherID, out string Mess)
         {
-            return _dal.DeleteAnswer(answerID, teacherID);
+            return _dal.DeleteAnswer(answerID, teacherID, out Mess);
         }
     }
 }

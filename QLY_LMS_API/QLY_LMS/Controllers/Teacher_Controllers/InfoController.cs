@@ -24,7 +24,9 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         {
             var result = _manageInfo.GetInfoTeacher(GetTeacherID());
             if (result.Count == 0)
+            {
                 return NotFound("Không tìm thấy thông tin giáo viên!");
+            }
             return Ok(result);
         }
 

@@ -46,63 +46,94 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
             return list;
         }
 
-        public bool CreateQuestion(QuestionRequest question, int teacherID)
+        public bool CreateQuestion(QuestionRequest question, int teacherID, out string Mess)
         {
-            using (var conn = _db.GetConnection())
-            using (var cmd = new SqlCommand("tc_question_create", conn))
+            Mess = string.Empty;
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@assignmentID", question.assignmentID);
-                cmd.Parameters.AddWithValue("@teacherID", teacherID);
-                cmd.Parameters.AddWithValue("@questionType", question.questionType);
-                cmd.Parameters.AddWithValue("@content", question.content ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@original", question.original ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@rewritten", question.rewritten ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@questionIndex", question.questionIndex);
-
-                conn.Open();
-                try
+                using (var conn = _db.GetConnection())
                 {
-                    cmd.ExecuteNonQuery();
-                    return true;
+                    using (var cmd = new SqlCommand("tc_question_create", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@assignmentID", question.assignmentID);
+                        cmd.Parameters.AddWithValue("@teacherID", teacherID);
+                        cmd.Parameters.AddWithValue("@questionType", question.questionType);
+                        cmd.Parameters.AddWithValue("@content", question.content ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@original", question.original ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@rewritten", question.rewritten ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@questionIndex", question.questionIndex);
+
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
                 }
-                catch (SqlException ex) { throw new Exception(ex.Message); }
+            }
+            catch (SqlException ex)
+            {
+                Mess = ex.Message;
+                return false;
             }
         }
 
-        public bool UpdateQuestion(Question question, int teacherID)
+        public bool UpdateQuestion(Question question, int teacherID, out string Mess)
         {
-            using (var conn = _db.GetConnection())
-            using (var cmd = new SqlCommand("tc_question_update", conn))
+            Mess = string.Empty;
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@questionID", question.questionID);
-                cmd.Parameters.AddWithValue("@teacherID", teacherID);
-                cmd.Parameters.AddWithValue("@questionType", question.questionType);
-                cmd.Parameters.AddWithValue("@content", question.content ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@original", question.original ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@rewritten", question.rewritten ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@questionIndex", question.questionIndex);
+                using (var conn = _db.GetConnection())
+                {
+                    using (var cmd = new SqlCommand("tc_question_update", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@questionID", question.questionID);
+                        cmd.Parameters.AddWithValue("@teacherID", teacherID);
+                        cmd.Parameters.AddWithValue("@questionType", question.questionType);
+                        cmd.Parameters.AddWithValue("@content", question.content ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@original", question.original ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@rewritten", question.rewritten ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@questionIndex", question.questionIndex);
 
-                conn.Open();
-                try { cmd.ExecuteNonQuery(); return true; }
-                catch (SqlException ex) { throw new Exception(ex.Message); }
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                }
             }
+            catch (SqlException ex)
+            {
+                Mess = ex.Message;
+                return false;
+            }
+            
         }
 
-        public bool DeleteQuestion(int questionID, int teacherID)
+        public bool DeleteQuestion(int questionID, int teacherID, out string Mess)
         {
-            using (var conn = _db.GetConnection())
-            using (var cmd = new SqlCommand("tc_question_delete", conn))
+            Mess = string.Empty;
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@questionID", questionID);
-                cmd.Parameters.AddWithValue("@teacherID", teacherID);
+                using (var conn = _db.GetConnection())
+                {
+                    using (var cmd = new SqlCommand("tc_question_delete", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@questionID", questionID);
+                        cmd.Parameters.AddWithValue("@teacherID", teacherID);
 
-                conn.Open();
-                try { cmd.ExecuteNonQuery(); return true; }
-                catch (SqlException ex) { throw new Exception(ex.Message); }
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                }
             }
+            catch (SqlException ex)
+            {
+                Mess = ex.Message;
+                return false;
+            }
+
         }
     }
 }
