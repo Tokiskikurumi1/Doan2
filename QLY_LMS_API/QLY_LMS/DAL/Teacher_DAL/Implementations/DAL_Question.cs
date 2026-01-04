@@ -15,35 +15,47 @@ namespace QLY_LMS.DAL.Teacher_DAL.Implementations
         {
             _db = db;
         }
-        public List<Question> GetAllQuestion(int assignmentID, int teacherID)
+        public List<Question> GetAllQuestion(int assignmentID, int teacherID, out string Mess)
         {
+            Mess = string.Empty;
             var list = new List<Question>();
-            using (var conn = _db.GetConnection())
-            using (var cmd = new SqlCommand("tc_question_get_assignment", conn))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
-                cmd.Parameters.AddWithValue("@teacherID", teacherID);
-
-                conn.Open();
-                using (var reader = cmd.ExecuteReader())
+                using (var conn = _db.GetConnection())
                 {
-                    while (reader.Read())
+                    using (var cmd = new SqlCommand("tc_question_get_assignment", conn))
                     {
-                        list.Add(new Question
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@assignmentID", assignmentID);
+                        cmd.Parameters.AddWithValue("@teacherID", teacherID);
+
+                        conn.Open();
+                        using (var reader = cmd.ExecuteReader())
                         {
-                            questionID = reader.GetInt32(reader.GetOrdinal("questionID")),
-                            assignmentID = assignmentID,
-                            questionType = reader.GetString(reader.GetOrdinal("questionType")),
-                            content = reader["content"]?.ToString(),
-                            original = reader["original"]?.ToString(),
-                            rewritten = reader["rewritten"]?.ToString(),
-                            questionIndex = reader.GetInt32(reader.GetOrdinal("questionIndex"))
-                        });
+                            while (reader.Read())
+                            {
+                                list.Add(new Question
+                                {
+                                    questionID = reader.GetInt32(reader.GetOrdinal("questionID")),
+                                    assignmentID = assignmentID,
+                                    questionType = reader.GetString(reader.GetOrdinal("questionType")),
+                                    content = reader["content"]?.ToString(),
+                                    original = reader["original"]?.ToString(),
+                                    rewritten = reader["rewritten"]?.ToString(),
+                                    questionIndex = reader.GetInt32(reader.GetOrdinal("questionIndex"))
+                                });
+                            }
+                        }
                     }
+                    return list;
                 }
             }
-            return list;
+            catch (SqlException ex)
+            {
+                Mess = ex.Message;
+                return list;
+            }
+
         }
 
         public bool CreateQuestion(QuestionRequest question, int teacherID, out string Mess)

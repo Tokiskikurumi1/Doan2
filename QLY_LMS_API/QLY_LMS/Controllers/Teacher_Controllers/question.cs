@@ -27,7 +27,11 @@ namespace QLY_LMS.Controllers.Teacher_Controllers
         [HttpGet("get-question/{assignmentID}")]
         public IActionResult GetAllQuestions(int assignmentID)
         {
-            var result = _manageQuestion.GetAllQuestion(assignmentID, GetTeacherID());
+            var result = _manageQuestion.GetAllQuestion(assignmentID, GetTeacherID(), out string Mess);
+            if (!string.IsNullOrEmpty(Mess))
+            {
+                return BadRequest(Mess);
+            }
             if (result.Count == 0)
             {
                 return NotFound("Không tìm thấy câu hỏi trong bài tập này!");

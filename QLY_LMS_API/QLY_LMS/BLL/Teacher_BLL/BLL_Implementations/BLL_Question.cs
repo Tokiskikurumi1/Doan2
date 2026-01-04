@@ -13,9 +13,9 @@ namespace QLY_LMS.BLL.Teacher_BLL.BLL_Implementations
             _Question = question;
         }
 
-        public List<Question> GetAllQuestion(int assignmentID, int teacherID)
+        public List<Question> GetAllQuestion(int assignmentID, int teacherID, out string Mess)
         {
-            return _Question.GetAllQuestion(assignmentID, teacherID);
+            return _Question.GetAllQuestion(assignmentID, teacherID, out Mess);
         }
 
         public bool CreateQuestion(QuestionRequest question, int teacherID, out string Mess)
